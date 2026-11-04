@@ -1,0 +1,26 @@
+# TEST CASES: 7. SIGNATURE PAD (BẢNG KÝ TÊN)
+
+- **Mục đích:** Vùng khung Canvas cho phép người dùng vẽ chữ ký tay trực tiếp bằng chuột, ngón tay hoặc bút cảm ứng
+- **Tổng số Test Case:** **6** (`High`: 5 | `Medium`: 1 | `Low`: 0)
+
+## 1. Checklist Kiểm Thử Nhanh (Quick QA Checklist)
+
+- [ ] **`TC_SIG_001`** (High): Kiểm tra giao diện mặc định của vùng Bảng ký tên (Signature Pad), dòng kẻ hướng dẫn và con trỏ bút vẽ
+- [ ] **`TC_SIG_002`** (High): Kiểm tra thao tác vẽ chữ ký tay bằng chuột trên Desktop và bằng cảm ứng / bút Stylus trên Mobile, Tablet
+- [ ] **`TC_SIG_003`** (High): Kiểm tra chức năng `Xóa / Ký lại (Clear)` và `Hoàn tác nét vừa vẽ (Undo)`
+- [ ] **`TC_SIG_004`** (High): Kiểm tra chặn gửi khi Bảng ký tên đang trống hoặc chỉ có 1 chấm nhỏ vô tình chạm vào
+- [ ] **`TC_SIG_005`** (High): Kiểm tra xuất dữ liệu chữ ký thành ảnh (`PNG` nền trong suốt / `SVG`) và hiển thị trên tài liệu PDF/Hợp đồng
+- [ ] **`TC_SIG_006`** (Medium): Kiểm tra khóa cuộn trang cảm ứng (`touch-action: none`) trong lúc đang ký trên Mobile và khi xoay màn hình
+
+---
+
+## 2. Bảng Chi Tiết Test Cases
+
+| Mã TC | Phân loại | Độ ưu tiên | Tên kịch bản (Title) | Điều kiện tiên quyết | Các bước thực hiện (Test Steps) | Dữ liệu kiểm thử (Test Data) | Kết quả mong đợi (Expected Result) | Trạng thái |
+| :--- | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :-: |
+| `TC_SIG_001` | UI / Giao diện | **High** | **Kiểm tra giao diện mặc định của vùng Bảng ký tên (Signature Pad), dòng kẻ hướng dẫn và con trỏ bút vẽ** | Màn hình xác nhận hợp đồng điện tử / phiếu thu có vùng Bảng ký tên. | 1. Quan sát khung vẽ chữ ký (Canvas), dòng chữ mờ hướng dẫn (`'Vui lòng ký tên vào khung này'`), đường kẻ ngang căn chữ ký và các nút công cụ (`Xóa ký lại`, `Hoàn tác`).<br>2. Di chuột vào bên trong vùng bảng ký. | Giao diện Signature Pad | - Khung bảng ký có viền rõ ràng, nền sáng tương phản tốt với nét mực (đen hoặc xanh mực).<br>- Khi di chuột vào trong vùng bảng ký, con trỏ chuột chuyển thành biểu tượng đầu bút hoặc dấu cộng tâm ngắm (`crosshair`). | `Not Run` |
+| `TC_SIG_002` | Functional / Chức năng | **High** | **Kiểm tra thao tác vẽ chữ ký tay bằng chuột trên Desktop và bằng cảm ứng / bút Stylus trên Mobile, Tablet** | Bảng ký tên đang sẵn sàng. | 1. Trên Desktop: Nhấn giữ chuột trái và di chuyển vẽ chữ ký gồm nhiều nét liền, nét đứt và dấu chấm.<br>2. Trên Mobile / iPad: Dùng ngón tay hoặc bút cảm ứng ký nhanh chữ ký. | Ký bằng Chuột & Cảm ứng (Nhiều nét + Dấu chấm) | - Nét mực xuất hiện tức thời theo đúng quỹ đạo di chuyển, đường cong mượt mà (không bị gãy khúc răng cưa khi ký nhanh và không bị trễ nét).<br>- Khi nhấc chuột/ngón tay lên và đặt xuống vị trí khác để viết nét tiếp theo, 2 nét tách rời độc lập (không bị nối vạch thẳng thừa giữa 2 nét).<br>- Chấm nhẹ 1 điểm cũng hiển thị được dấu chấm. | `Not Run` |
+| `TC_SIG_003` | Functional / Chức năng | **High** | **Kiểm tra chức năng `Xóa / Ký lại (Clear)` và `Hoàn tác nét vừa vẽ (Undo)`** | Người dùng đã vẽ một chữ ký gồm 3 nét rời nhau trên bảng ký. | 1. Click nút `Hoàn tác (Undo)` 1 lần.<br>2. Click nút `Xóa / Ký lại (Clear)`. | Vẽ 3 nét -> Click `Undo` -> Click `Clear` | - Bước 1: Khi bấm `Undo`, chỉ có nét vẽ thứ 3 (nét cuối cùng) bị xóa đi, nét 1 và nét 2 vẫn giữ nguyên.<br>- Bước 2: Khi bấm `Clear`, toàn bộ khung bảng ký được xóa trắng hoàn toàn để người dùng ký lại từ đầu. | `Not Run` |
+| `TC_SIG_004` | Validation & Negative | **High** | **Kiểm tra chặn gửi khi Bảng ký tên đang trống hoặc chỉ có 1 chấm nhỏ vô tình chạm vào** | Trường Chữ ký là bắt buộc để hoàn tất hợp đồng. | 1. Để trống hoàn toàn bảng ký -> Click nút `Xác nhận ký`.<br>2. Xóa bảng ký -> Chỉ chấm nhẹ 1 chấm duy nhất (dưới ngưỡng pixel quy định) -> Click nút `Xác nhận ký`. | Bảng ký trống & Chấm 1 điểm nhỏ | - Hệ thống không cho phép gửi và hiển thị thông báo lỗi `'Vui lòng ký tên xác nhận trước khi tiếp tục'` (tránh trường hợp người dùng chạm nhầm 1 chấm làm chữ ký rỗng trên hợp đồng). | `Not Run` |
+| `TC_SIG_005` | Functional / Chức năng | **High** | **Kiểm tra xuất dữ liệu chữ ký thành ảnh (`PNG` nền trong suốt / `SVG`) và hiển thị trên tài liệu PDF/Hợp đồng** | Người dùng đã ký tên hợp lệ và bấm `Xác nhận`. | 1. Lưu chữ ký và mở xem bản xem trước Hợp đồng / Phiếu thu có gắn chữ ký vừa tạo. | Lưu chữ ký -> Xem trên Hợp đồng/PDF | - Chữ ký được xuất dưới định dạng ảnh `PNG` nền trong suốt (hoặc `SVG` sắc nét), tự động cắt gọn khoảng trắng thừa xung quanh và đặt đúng vào ô 'Chữ ký khách hàng' mà không che lấp văn bản hợp đồng. | `Not Run` |
+| `TC_SIG_006` | UI & Boundary | **Medium** | **Kiểm tra khóa cuộn trang cảm ứng (`touch-action: none`) trong lúc đang ký trên Mobile và khi xoay màn hình** | Mở màn hình ký tên trên điện thoại Mobile. | 1. Dùng ngón tay kéo nét chữ ký theo chiều dọc từ trên xuống dưới bên trong khung ký.<br>2. Ký xong chữ ký rồi xoay ngang màn hình điện thoại (hoặc resize cửa sổ trình duyệt). | Ký dọc trên Mobile & Xoay màn hình | - Bước 1: Trong khi ngón tay đang vẽ bên trong khung Canvas, màn hình trang web **bị khóa cuộn dọc** (`touch-action: none`), giúp người dùng ký thoải mái mà không làm trang web bị cuộn trôi đi.<br>- Bước 2: Khi xoay màn hình hoặc thay đổi kích thước cửa sổ, chữ ký đã vẽ trên Canvas không bị xóa mất hay biến dạng. | `Not Run` |

@@ -1,0 +1,26 @@
+# TEST CASES: 6. IMAGE CROPPER / EDITOR
+
+- **Mục đích:** Khung cắt ảnh, xoay ảnh, phóng to/thu nhỏ khi người dùng tải ảnh đại diện (Avatar) hoặc ảnh bìa lên
+- **Tổng số Test Case:** **6** (`High`: 4 | `Medium`: 2 | `Low`: 0)
+
+## 1. Checklist Kiểm Thử Nhanh (Quick QA Checklist)
+
+- [ ] **`TC_CRP_001`** (High): Kiểm tra giao diện khung cắt ảnh (Crop Box), lưới căn chỉnh (Grid) và khung xem trước trực tiếp (Live Preview)
+- [ ] **`TC_CRP_002`** (High): Kiểm tra kéo di chuyển vị trí vùng cắt (Pan / Drag) và thay đổi kích thước khung cắt theo tỷ lệ cố định
+- [ ] **`TC_CRP_003`** (High): Kiểm tra thanh trượt Phóng to / Thu nhỏ (`Zoom Slider`) và các nút Xoay ảnh (`Rotate 90°`) / Lật ảnh (`Flip`)
+- [ ] **`TC_CRP_004`** (High): Kiểm tra độ chính xác của bức ảnh kết quả sau khi bấm `Lưu / Áp dụng cắt ảnh`
+- [ ] **`TC_CRP_005`** (Medium): Kiểm tra chặn kéo ảnh tuột khỏi biên khung cắt và nút `Đặt lại (Reset)` ảnh về ban đầu
+- [ ] **`TC_CRP_006`** (Medium): Kiểm tra xử lý ảnh chụp từ điện thoại có thông tin xoay EXIF và ảnh có kích thước quá nhỏ
+
+---
+
+## 2. Bảng Chi Tiết Test Cases
+
+| Mã TC | Phân loại | Độ ưu tiên | Tên kịch bản (Title) | Điều kiện tiên quyết | Các bước thực hiện (Test Steps) | Dữ liệu kiểm thử (Test Data) | Kết quả mong đợi (Expected Result) | Trạng thái |
+| :--- | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :-: |
+| `TC_CRP_001` | UI / Giao diện | **High** | **Kiểm tra giao diện khung cắt ảnh (Crop Box), lưới căn chỉnh (Grid) và khung xem trước trực tiếp (Live Preview)** | Người dùng chọn 1 file ảnh hợp lệ từ máy tính để mở hộp thoại Image Cropper. | 1. Quan sát bức ảnh được tải vào vùng làm việc, khung sáng chọn vùng cắt (Crop Box), vùng tối mờ xung quanh, lưới chia bố cục 3x3 và khung xem trước Avatar tròn bên cạnh. | Tải ảnh lên Image Cropper | - Bức ảnh hiển thị rõ nét ở chính giữa vùng làm việc.<br>- Khung cắt (Crop Box) hiển thị đúng hình dáng yêu cầu (Hình tròn/vuông tỷ lệ `1:1` cho Avatar hoặc chữ nhật `16:9` cho Ảnh bìa).<br>- Khung xem trước (Live Preview) phản ánh chính xác vùng ảnh nằm bên trong khung cắt. | `Not Run` |
+| `TC_CRP_002` | Functional / Chức năng | **High** | **Kiểm tra kéo di chuyển vị trí vùng cắt (Pan / Drag) và thay đổi kích thước khung cắt theo tỷ lệ cố định** | Hộp thoại Image Cropper đang mở. | 1. Dùng chuột (hoặc ngón tay trên Mobile) kéo di chuyển bức ảnh/khung cắt sang trái, phải, lên, xuống.<br>2. Kéo 4 góc của khung cắt để thu nhỏ hoặc mở rộng vùng chọn. | Kéo di chuyển & Kéo 4 góc khung cắt | - Thao tác kéo mượt mà, khung Live Preview cập nhật theo thời gian thực.<br>- Khi kéo góc khung cắt Avatar: Khung cắt luôn **giữ khóa đúng tỷ lệ `1:1` (Hình vuông/tròn)**, không bị biến dạng thành hình chữ nhật. | `Not Run` |
+| `TC_CRP_003` | Functional / Chức năng | **High** | **Kiểm tra thanh trượt Phóng to / Thu nhỏ (`Zoom Slider`) và các nút Xoay ảnh (`Rotate 90°`) / Lật ảnh (`Flip`)** | Hộp thoại Image Cropper đang mở. | 1. Kéo thanh trượt `Zoom` sang phải (Phóng to) và sang trái (Thu nhỏ), hoặc lăn con lăn chuột trên ảnh.<br>2. Click nút `Xoay trái 90° (↺)` và `Xoay phải 90° (↻)` liên tiếp 4 lần.<br>3. Click nút `Lật ngang (↔)` và `Lật dọc (↕)`. | Zoom In/Out, Rotate 90° & Flip | - Bước 1: Ảnh phóng to/thu nhỏ mượt mà lấy tâm khung cắt làm chuẩn.<br>- Bước 2: Mỗi lần bấm xoay đúng góc 90 độ; bấm đủ 4 lần (360 độ) ảnh trở về đúng chiều ban đầu.<br>- Bước 3: Ảnh lật đối xứng ngang/dọc chính xác. | `Not Run` |
+| `TC_CRP_004` | Functional / Chức năng | **High** | **Kiểm tra độ chính xác của bức ảnh kết quả sau khi bấm `Lưu / Áp dụng cắt ảnh`** | Người dùng đã phóng to 150%, xoay ngang 90° và căn chỉnh khuôn mặt vào giữa khung cắt. | 1. Click nút `Lưu / Cắt ảnh`.<br>2. Quan sát ảnh Avatar hiển thị trên trang thông tin cá nhân sau khi lưu xong. | Zoom 150% + Rotate 90° -> Bấm `Lưu` | - Ảnh xuất ra và tải lên Server trùng khớp 100% với vùng hiển thị trong khung Live Preview (đúng góc xoay, đúng mức phóng to và đúng tọa độ cắt), ảnh sắc nét không bị méo. | `Not Run` |
+| `TC_CRP_005` | Boundary / Giá trị biên | **Medium** | **Kiểm tra chặn kéo ảnh tuột khỏi biên khung cắt và nút `Đặt lại (Reset)` ảnh về ban đầu** | Đang thao tác trong Image Cropper. | 1. Cố gắng kéo bức ảnh lệch hẳn ra ngoài khung cắt hoặc thu nhỏ ảnh bé hơn khung cắt.<br>2. Click nút `Đặt lại (Reset)`. | Kéo quá biên khung cắt & Click `Reset` | - Bước 1: Hệ thống tự động giới hạn biên kéo (Boundary Restriction), đảm bảo bức ảnh luôn phủ kín khung cắt, không tạo ra khoảng đen trống rỗng bên trong Avatar.<br>- Bước 2: Nút `Reset` khôi phục góc xoay `0°`, mức Zoom `100%` và vị trí căn giữa ban đầu. | `Not Run` |
+| `TC_CRP_006` | Validation & Negative | **Medium** | **Kiểm tra xử lý ảnh chụp từ điện thoại có thông tin xoay EXIF và ảnh có kích thước quá nhỏ** | - TH1: Ảnh chụp dọc bằng điện thoại có gắn thẻ EXIF Orientation.<br>- TH2: Ảnh có kích thước quá nhỏ (`50x50px` nhỏ hơn chuẩn tối thiểu `200x200px`). | 1. Tải ảnh chụp từ điện thoại (TH1) vào bộ cắt ảnh.<br>2. Tải ảnh `50x50px` (TH2) vào bộ cắt ảnh. | Ảnh EXIF Mobile & Ảnh nhỏ `50x50px` | - Bước 1: Hệ thống tự động đọc thẻ EXIF để hiển thị ảnh đúng chiều thẳng đứng, không bị tự ý nằm ngang.<br>- Bước 2: Hiển thị cảnh báo `'Kích thước ảnh tối thiểu phải từ 200x200px để đảm bảo độ nét'`. | `Not Run` |

@@ -1,0 +1,33 @@
+# TEST CASE: 6. DROPDOWN / SELECT BOX
+
+- **Mô tả chức năng:** Menu thả xuống để chọn giá trị từ danh sách có sẵn
+- **Tổng số Test Case:** **8** (`High: 4` | `Medium: 4` | `Low: 0`)
+- **Phân bổ theo loại kiểm thử:** UI / Giao diện: **1**, Functional / Chức năng: **4**, Boundary / Giá trị biên: **1**, Validation & Negative: **1**, Usability & Accessibility: **1**
+
+---
+
+## 1. Checklist Kiểm Thử Nhanh (Quick QA Checklist)
+
+- [ ] **`TC_DRP_001`** [High] _UI / Giao diện_ — Kiểm tra giao diện hiển thị mặc định của Dropdown / Select Box
+- [ ] **`TC_DRP_002`** [High] _Functional / Chức năng_ — Kiểm tra thao tác mở/đóng danh sách và chọn một giá trị trong Dropdown
+- [ ] **`TC_DRP_003`** [Medium] _Functional / Chức năng_ — Kiểm tra đóng menu Dropdown khi click ra ngoài (Click Outside) hoặc nhấn phím Esc
+- [ ] **`TC_DRP_004`** [High] _Functional / Chức năng_ — Kiểm tra Dropdown phụ thuộc phân cấp (Cascading Dropdown: Tỉnh/Thành -> Quận/Huyện -> Phường/Xã)
+- [ ] **`TC_DRP_005`** [Medium] _Boundary / Giá trị biên_ — Kiểm tra thứ tự sắp xếp dữ liệu, thanh cuộn khi danh sách dài và tên Option quá dài
+- [ ] **`TC_DRP_006`** [High] _Validation & Negative_ — Kiểm tra bỏ trống Dropdown bắt buộc và trường hợp Dropdown không có dữ liệu (Empty State)
+- [ ] **`TC_DRP_007`** [Medium] _Functional / Chức năng_ — Kiểm tra Multi-select Dropdown (Chọn nhiều giá trị trong Dropdown - nếu có)
+- [ ] **`TC_DRP_008`** [Medium] _Usability & Accessibility_ — Kiểm tra điều khiển Dropdown bằng bàn phím và trạng thái Disabled
+
+---
+
+## 2. Bảng Chi Tiết Test Cases
+
+| Mã TC | Phân loại | Độ ưu tiên | Tên kịch bản (Title) | Điều kiện tiên quyết | Các bước thực hiện (Test Steps) | Dữ liệu kiểm thử (Test Data) | Kết quả mong đợi (Expected Result) | Trạng thái |
+| :--- | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :-: |
+| `TC_DRP_001` | UI / Giao diện | **High** | **Kiểm tra giao diện hiển thị mặc định của Dropdown / Select Box** | Màn hình chứa Dropdown đã tải xong. | 1. Quan sát ô Dropdown khi chưa mở.<br>2. Kiểm tra Label, giá trị mặc định / Placeholder (VD: `-- Chọn Tỉnh/Thành phố --`) và icon mũi tên trỏ xuống (`v`). | N/A | - Hiển thị đúng kích thước, viền, font chữ và icon mũi tên ở góc phải.<br>- Hiển thị đúng giá trị mặc định hoặc Placeholder theo yêu cầu. | `Not Run` |
+| `TC_DRP_002` | Functional / Chức năng | **High** | **Kiểm tra thao tác mở/đóng danh sách và chọn một giá trị trong Dropdown** | Dropdown đang ở trạng thái Enabled và có dữ liệu. | 1. Click vào ô Dropdown để mở danh sách tùy chọn (Options).<br>2. Di chuột qua các dòng tùy chọn (Hover).<br>3. Click chọn một giá trị bất kỳ.<br>4. Mở lại Dropdown để quan sát dòng đang được chọn. | Chọn: "Thành phố Hà Nội" | - Bước 1: Danh sách xổ xuống ngay bên dưới (hoặc bật lên trên nếu sát đáy màn hình), không bị che khuất bởi phần tử khác (z-index chuẩn).<br>- Bước 2: Dòng được Hover đổi màu nền highlight rõ ràng.<br>- Bước 3: Danh sách tự động đóng lại, ô Dropdown hiển thị giá trị "Thành phố Hà Nội".<br>- Bước 4: Khi mở lại, dòng "Thành phố Hà Nội" được đánh dấu (active/checked). | `Not Run` |
+| `TC_DRP_003` | Functional / Chức năng | **Medium** | **Kiểm tra đóng menu Dropdown khi click ra ngoài (Click Outside) hoặc nhấn phím Esc** | Menu Dropdown đang được mở. | 1. Click vào vùng trống bất kỳ bên ngoài Dropdown.<br>2. Mở lại Dropdown rồi nhấn phím `Esc` trên bàn phím. | Click outside / Phím Esc | - Cả hai trường hợp menu Dropdown đều đóng lại gọn gàng và giữ nguyên giá trị đã chọn trước đó. | `Not Run` |
+| `TC_DRP_004` | Functional / Chức năng | **High** | **Kiểm tra Dropdown phụ thuộc phân cấp (Cascading Dropdown: Tỉnh/Thành -> Quận/Huyện -> Phường/Xã)** | Form có 3 Dropdown phụ thuộc nhau: Tỉnh/Thành phố, Quận/Huyện, Phường/Xã. | 1. Chọn Tỉnh/Thành phố = "Hà Nội" -> Chọn Quận/Huyện = "Quận Cầu Giấy" -> Chọn Phường/Xã = "Phường Dịch Vọng".<br>2. Quay lại đổi Tỉnh/Thành phố sang "TP. Hồ Chí Minh".<br>3. Kiểm tra giá trị và danh sách của Quận/Huyện và Phường/Xã. | Đổi Tỉnh từ "Hà Nội" sang "TP. Hồ Chí Minh" | - Khi đổi Tỉnh/Thành phố, 2 ô Quận/Huyện và Phường/Xã phải tự động **reset** về trạng thái mặc định (`-- Chọn --`).<br>- Danh sách Quận/Huyện được tải lại đúng các quận thuộc TP. Hồ Chí Minh (không còn giữ dữ liệu cũ của Hà Nội). | `Not Run` |
+| `TC_DRP_005` | Boundary / Giá trị biên | **Medium** | **Kiểm tra thứ tự sắp xếp dữ liệu, thanh cuộn khi danh sách dài và tên Option quá dài** | Dropdown chứa danh sách lớn (> 50 mục) và có mục tên rất dài. | 1. Mở Dropdown và kiểm tra thứ tự sắp xếp các mục (theo bảng chữ cái A-Z hoặc theo thứ tự ưu tiên).<br>2. Cuộn thanh Scrollbar từ đầu đến cuối danh sách.<br>3. Chọn một Option có độ dài văn bản > 100 ký tự. | Danh sách 63 Tỉnh/Thành hoặc danh sách dài | - Thứ tự các mục sắp xếp đúng quy tắc nghiệp vụ, không có bản ghi trùng lặp.<br>- Danh sách giới hạn chiều cao tối đa (max-height) và có thanh cuộn dọc mượt mà.<br>- Với Option tên quá dài: Hiển thị dấu `...` (text-overflow: ellipsis) kèm tooltip hoặc tự xuống dòng gọn gàng, không làm vỡ chiều ngang của ô Dropdown. | `Not Run` |
+| `TC_DRP_006` | Validation & Negative | **High** | **Kiểm tra bỏ trống Dropdown bắt buộc và trường hợp Dropdown không có dữ liệu (Empty State)** | TH1: Dropdown bắt buộc đang ở giá trị `-- Chọn --`.<br>TH2: API trả về danh sách rỗng `[]`. | 1. Giữ nguyên giá trị mặc định `-- Chọn --` và nhấn Submit.<br>2. Mở một Dropdown chưa có dữ liệu nguồn. | N/A | - TH1: Báo lỗi validation "Vui lòng chọn [Tên trường]".<br>- TH2: Hiển thị thông báo thân thiện "Không có dữ liệu" (No options available), không bị lỗi trắng trang hay đơ giao diện. | `Not Run` |
+| `TC_DRP_007` | Functional / Chức năng | **Medium** | **Kiểm tra Multi-select Dropdown (Chọn nhiều giá trị trong Dropdown - nếu có)** | Dropdown hỗ trợ chọn nhiều giá trị. | 1. Mở Dropdown và chọn liên tiếp 3 giá trị.<br>2. Nhấn nút `x` trên từng Tag giá trị để xóa bớt 1 mục.<br>3. Nhấn nút `Clear All` để xóa toàn bộ. | Chọn 3 mục -> Xóa 1 mục -> Xóa hết | - Các mục đã chọn hiển thị dưới dạng Tag/Chip bên trong ô (hoặc hiển thị `Đã chọn (3)`).<br>- Xóa từng Tag hoặc Clear All cập nhật lại trạng thái tích chọn trong danh sách chính xác. | `Not Run` |
+| `TC_DRP_008` | Usability & Accessibility | **Medium** | **Kiểm tra điều khiển Dropdown bằng bàn phím và trạng thái Disabled** | Dropdown đang ở trạng thái Enabled / Disabled. | 1. Nhấn Tab tới Dropdown, nhấn `Enter` hoặc `Space` (hoặc `Alt + Down`) để mở danh sách.<br>2. Dùng phím mũi tên `Up`/`Down` để di chuyển và nhấn `Enter` để chọn.<br>3. Kiểm tra khi Dropdown ở trạng thái Disabled. | Keyboard Navigation | - Thao tác mở, di chuyển và chọn bằng bàn phím hoạt động đầy đủ.<br>- Khi Disabled: Ô có màu xám mờ, không thể mở danh sách bằng chuột hay bàn phím. | `Not Run` |

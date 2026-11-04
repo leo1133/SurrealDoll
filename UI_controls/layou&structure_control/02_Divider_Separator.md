@@ -1,0 +1,26 @@
+# TEST CASES: 2. DIVIDER / SEPARATOR
+
+- **Mục đích:** Đường kẻ ngang hoặc dọc để chia tách các khối nội dung, danh sách hoặc nhóm công cụ
+- **Tổng số Test Case:** **6** (`High`: 3 | `Medium`: 1 | `Low`: 2)
+
+## 1. Checklist Kiểm Thử Nhanh (Quick QA Checklist)
+
+- [ ] **`TC_DIV_001`** (High): Kiểm tra giao diện hiển thị của Đường kẻ phân cách ngang (Horizontal Divider) và dọc (Vertical Divider)
+- [ ] **`TC_DIV_002`** (Medium): Kiểm tra hiển thị của Divider có kèm chữ hoặc biểu tượng ở giữa (Text / Icon Divider)
+- [ ] **`TC_DIV_003`** (High): Kiểm tra tự động ẩn hoặc xoay hướng đường phân cách dọc (Vertical Divider) khi chuyển sang màn hình Mobile
+- [ ] **`TC_DIV_004`** (High): Kiểm tra không hiển thị đường kẻ phân cách thừa (Orphan / Double Divider) khi khối nội dung liền kề bị ẩn
+- [ ] **`TC_DIV_005`** (Low): Kiểm tra độ tương phản của đường kẻ Divider khi chuyển đổi Light Mode và Dark Mode
+- [ ] **`TC_DIV_006`** (Low): Kiểm tra thuộc tính ngữ nghĩa HTML (`<hr>` / `role="separator"`) cho trình đọc màn hình
+
+---
+
+## 2. Bảng Chi Tiết Test Cases
+
+| Mã TC | Phân loại | Độ ưu tiên | Tên kịch bản (Title) | Điều kiện tiên quyết | Các bước thực hiện (Test Steps) | Dữ liệu kiểm thử (Test Data) | Kết quả mong đợi (Expected Result) | Trạng thái |
+| :--- | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :-: |
+| `TC_DIV_001` | UI / Giao diện | **High** | **Kiểm tra giao diện hiển thị của Đường kẻ phân cách ngang (Horizontal Divider) và dọc (Vertical Divider)** | Màn hình có sử dụng đường kẻ ngang (giữa các mục/khối) và đường kẻ dọc (trên thanh công cụ hoặc cạnh Avatar). | 1. Quan sát độ dày nét kẻ (`1px`), kiểu đường kẻ (`solid`, `dashed`, `dotted`) và màu sắc.<br>2. Đo khoảng cách từ đường kẻ Divider đến khối nội dung phía trên/bên dưới (hoặc bên trái/bên phải). | Horizontal & Vertical Divider | - Đường kẻ sắc nét, độ dày đồng nhất (`1px`), màu sắc trung tính nhẹ nhàng (không quá đậm gây rối mắt).<br>- Khoảng cách lề hai phía của đường kẻ (`margin-top`/`margin-bottom` hoặc `margin-left`/`margin-right`) bằng nhau và đối xứng.<br>- Đường kẻ dọc (`Vertical Divider`) có chiều cao cân đối với các phần tử đứng cạnh và căn giữa theo trục dọc. | `Not Run` |
+| `TC_DIV_002` | UI / Giao diện | **Medium** | **Kiểm tra hiển thị của Divider có kèm chữ hoặc biểu tượng ở giữa (Text / Icon Divider)** | Màn hình Đăng nhập hoặc trang nội dung có đường kẻ ngang kèm chữ (VD: `──────── HOẶC ────────`). | 1. Quan sát vị trí của chữ/icon nằm trên đường kẻ Divider.<br>2. Thay đổi độ rộng màn hình hoặc đổi ngôn ngữ sang tiếng Anh (`OR CONTINUE WITH`). | Text Divider: `HOẶC` / `OR CONTINUE WITH` | - Chữ nằm chính giữa đường kẻ ngang, có khoảng đệm (`padding`) hai bên chữ hợp lý.<br>- Đường kẻ hai bên tự động co giãn cân đối và **không đâm xuyên qua chữ** (kể cả khi nền phía sau là nền màu hoặc ảnh chuyển sắc). | `Not Run` |
+| `TC_DIV_003` | UI / Giao diện | **High** | **Kiểm tra tự động ẩn hoặc xoay hướng đường phân cách dọc (Vertical Divider) khi chuyển sang màn hình Mobile** | Trên Desktop, 2 hoặc 3 khối thông tin đặt cạnh nhau theo hàng ngang và ngăn cách bởi đường kẻ dọc (`\|`). | 1. Thu nhỏ màn hình về kích thước Mobile (`375px`) khi các khối thông tin tự động rớt xuống xếp chồng theo chiều dọc. | Responsive Desktop -> Mobile 375px | - Khi các khối chuyển sang xếp chồng dọc trên Mobile: Đường kẻ dọc (`Vertical Divider`) phải **tự động ẩn đi** hoặc **chuyển thành đường kẻ ngang (`Horizontal Divider`)** ngăn cách giữa 2 khối trên-dưới, tuyệt đối không để sót vạch dọc đứng trơ trọi lệch lạc. | `Not Run` |
+| `TC_DIV_004` | Validation & Negative | **High** | **Kiểm tra không hiển thị đường kẻ phân cách thừa (Orphan / Double Divider) khi khối nội dung liền kề bị ẩn** | Menu Dropdown hoặc trang chi tiết có các nhóm mục ngăn cách nhau bằng đường kẻ Divider, trong đó một số nhóm bị ẩn theo quyền người dùng (`Role Permission`) hoặc do không có dữ liệu. | 1. Đăng nhập tài khoản bị ẩn nhóm mục ở giữa hoặc nhóm mục cuối cùng.<br>2. Quan sát các đường kẻ Divider trong Menu / Panel. | Ẩn 1 nhóm mục theo phân quyền | - Hệ thống tự động ẩn đường kẻ Divider đi kèm nhóm đó:<br>  + Không xuất hiện **2 đường kẻ Divider nằm sát cạnh nhau** (`Double Divider`).<br>  + Không xuất hiện đường kẻ Divider nằm ở **vị trí đầu tiên** hoặc **vị trí cuối cùng** của danh sách (`Orphan Divider`). | `Not Run` |
+| `TC_DIV_005` | UI / Giao diện | **Low** | **Kiểm tra độ tương phản của đường kẻ Divider khi chuyển đổi Light Mode và Dark Mode** | Hệ thống hỗ trợ Light Mode và Dark Mode. | 1. Quan sát các đường kẻ Divider ở chế độ Light Mode và Dark Mode. | Light Mode vs Dark Mode | - Ở Light Mode: Đường kẻ có màu xám sáng (VD: `#E5E7EB`).<br>- Ở Dark Mode: Đường kẻ tự động đổi sang màu xám tối/mờ (`#374151` hoặc `rgba(255,255,255,0.12)`), không bị chói trắng trên nền tối. | `Not Run` |
+| `TC_DIV_006` | Usability & Accessibility | **Low** | **Kiểm tra thuộc tính ngữ nghĩa HTML (`<hr>` / `role="separator"`) cho trình đọc màn hình** | Mở trang và kiểm tra DOM của phần tử Divider. | 1. Inspect thẻ HTML của đường phân cách ngang và dọc. | Inspect DOM Divider | - Sử dụng thẻ `<hr>` hoặc phần tử có `role="separator"` (kèm `aria-orientation="vertical"` đối với đường kẻ dọc). | `Not Run` |

@@ -1,0 +1,28 @@
+# TEST CASE: 3. FLOATING TOOLBAR (THANH CÔNG CỤ NỔI KHI BÔI ĐEN CHỮ)
+
+- **Mục đích:** Thanh công cụ nhỏ nổi lên ngay phía trên đoạn văn bản khi người dùng bôi đen (Select/Highlight) chữ
+- **Tổng số kịch bản:** **6 Test Cases** (`High: 3`, `Medium: 3`, `Low: 0`)
+
+---
+
+## I. Checklist Kiểm Thử Nhanh (Quick QA Checklist)
+
+- [ ] **`TC_FTB_001`** ([High] - *UI & Functional*): Kiểm tra thanh Floating Toolbar tự động xuất hiện ngay phía trên đoạn văn bản khi bôi đen chữ
+- [ ] **`TC_FTB_002`** ([High] - *Functional / Chức năng*): Kiểm tra áp dụng định dạng trên Floating Toolbar và hiển thị trạng thái nút đang bật (Active State)
+- [ ] **`TC_FTB_003`** ([High] - *Functional / Chức năng*): Kiểm tra tự động ẩn Floating Toolbar ngay khi bỏ chọn văn bản (Deselect) hoặc nhấn phím Esc
+- [ ] **`TC_FTB_004`** ([Medium] - *Boundary / Giá trị biên*): Kiểm tra định vị Floating Toolbar khi bôi đen dòng đầu tiên sát mép trên hoặc bôi đen đoạn dài nhiều dòng
+- [ ] **`TC_FTB_005`** ([Medium] - *Functional / Chức năng*): Kiểm tra kích hoạt Floating Toolbar khi chọn văn bản bằng bàn phím (Shift + Mũi tên / Ctrl + A)
+- [ ] **`TC_FTB_006`** ([Medium] - *Validation & Negative*): Kiểm tra không hiển thị nhầm Floating Toolbar khi chỉ Click đơn hoặc bôi đen vùng chỉ chứa khoảng trắng
+
+---
+
+## II. Bảng Chi Tiết Kịch Bản Kiểm Thử
+
+| Mã TC | Phân loại | Độ ưu tiên | Tên kịch bản (Title) | Điều kiện tiên quyết | Các bước thực hiện (Test Steps) | Dữ liệu kiểm thử (Test Data) | Kết quả mong đợi (Expected Result) | Trạng thái |
+| :--- | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :-: |
+| `TC_FTB_001` | UI & Functional | **High** | **Kiểm tra thanh Floating Toolbar tự động xuất hiện ngay phía trên đoạn văn bản khi bôi đen chữ** | Màn hình trình soạn thảo văn bản (Rich Text Editor / Notion / Medium) hoặc trang đọc bài viết có hỗ trợ Floating Toolbar. | 1. Dùng chuột nhấn giữ và kéo bôi đen một cụm từ trên đoạn văn bản rồi thả chuột ra.<br>2. Nhấp đúp chuột (Double-click) vào một từ bất kỳ để chọn từ đó. | Kéo bôi đen văn bản & Double-click chọn từ | - Ngay khi thả chuột kết thúc chọn chữ, thanh Floating Toolbar xuất hiện mượt mà ngay phía trên (căn giữa theo chiều ngang của vùng văn bản được bôi đen, cách khoảng 8px-10px).<br>- Hiển thị rõ các nút công cụ ngữ cảnh (VD: B - In đậm, I - In nghiêng, U - Gạch chân, Gắn Link 🔗, Đánh dấu màu, Bình luận 💬). | `Not Run` |
+| `TC_FTB_002` | Functional / Chức năng | **High** | **Kiểm tra áp dụng định dạng trên Floating Toolbar và hiển thị trạng thái nút đang bật (Active State)** | Thanh Floating Toolbar đang hiển thị trên đoạn chữ vừa bôi đen. | 1. Click vào nút [B - In đậm] trên Floating Toolbar.<br>2. Click tiếp vào nút [I - In nghiêng] và nút [Highlight màu vàng].<br>3. Bỏ chọn chữ, sau đó bôi đen lại đúng đoạn chữ vừa được In đậm đó. | Click Bold, Italic, Highlight & Bôi đen lại chữ đã Bold | - Bước 1-2: Đoạn văn bản áp dụng ngay định dạng In đậm, In nghiêng và tô nền vàng; vùng bôi đen vẫn được giữ nguyên (không bị mất Selection) để người dùng có thể bấm liên tiếp nhiều nút định dạng.<br>- Bước 3: Khi bôi đen đoạn chữ đã có sẵn định dạng In đậm, nút [B] trên Floating Toolbar phải sáng màu nổi bật (Active state) để báo hiệu định dạng đó đang bật. | `Not Run` |
+| `TC_FTB_003` | Functional / Chức năng | **High** | **Kiểm tra tự động ẩn Floating Toolbar ngay khi bỏ chọn văn bản (Deselect) hoặc nhấn phím Esc** | Floating Toolbar đang hiển thị trên đoạn văn bản bôi đen. | 1. Click chuột trái một lần vào vùng trống hoặc vị trí bất kỳ để bỏ bôi đen văn bản.<br>2. Bôi đen lại chữ để hiện Toolbar -> Nhấn phím Esc (hoặc gõ phím chữ mới đè lên đoạn bôi đen). | Click bỏ chọn chữ, Nhấn Esc & Gõ chữ mới | - Ở tất cả các trường hợp khi vùng bôi đen biến mất (`window.getSelection().isCollapsed === true`), thanh Floating Toolbar phải tự động ẩn đi ngay lập tức, không còn treo lơ lửng trên màn hình. | `Not Run` |
+| `TC_FTB_004` | Boundary / Giá trị biên | **Medium** | **Kiểm tra định vị Floating Toolbar khi bôi đen dòng đầu tiên sát mép trên hoặc bôi đen đoạn dài nhiều dòng** | Văn bản nằm ở sát mép trên cùng của khung nhìn (hoặc sát mép trái/phải). | 1. Bôi đen dòng văn bản đầu tiên nằm sát mép trên cùng của màn hình.<br>2. Bôi đen một đoạn văn bản dài kéo dài qua 5 dòng. | Bôi đen dòng sát mép trên & Bôi đen 5 dòng | - Bước 1: Do phía trên không đủ chỗ, Floating Toolbar tự động lật xuống hiển thị ở ngay phía dưới dòng chữ được chọn (không bị thanh Header che khuất).<br>- Bước 2: Khi chọn nhiều dòng, Toolbar định vị ổn định ở chính giữa phía trên dòng đầu tiên (hoặc dòng cuối cùng) của khối văn bản mà không che mất phần chữ đang đọc. | `Not Run` |
+| `TC_FTB_005` | Functional / Chức năng | **Medium** | **Kiểm tra kích hoạt Floating Toolbar khi chọn văn bản bằng bàn phím (Shift + Mũi tên / Ctrl + A)** | Đặt con trỏ nháy văn bản bên trong vùng soạn thảo. | 1. Nhấn giữ phím Shift kết hợp phím mũi tên Sang phải (→) để bôi đen 10 ký tự rồi nhả phím.<br>2. Nhấn tổ hợp phím Ctrl + A (hoặc Cmd + A) để chọn toàn bộ văn bản. | Shift + Arrow Right & Ctrl + A | - Sau khi nhả phím kết thúc chọn văn bản bằng bàn phím, thanh Floating Toolbar vẫn được kích hoạt hiển thị đầy đủ như khi dùng chuột. | `Not Run` |
+| `TC_FTB_006` | Validation & Negative | **Medium** | **Kiểm tra không hiển thị nhầm Floating Toolbar khi chỉ Click đơn hoặc bôi đen vùng chỉ chứa khoảng trắng** | Vùng văn bản có các đoạn chữ và khoảng trắng. | 1. Click đơn chuột trái vào giữa một từ để đặt con trỏ nháy (không kéo bôi đen).<br>2. Kéo bôi đen một khoảng chỉ toàn dấu cách trống (`   `). | Click đơn & Bôi đen khoảng trắng rỗng | - Tuyệt đối không bật Floating Toolbar khi không có ký tự nội dung thực sự nào được chọn. | `Not Run` |

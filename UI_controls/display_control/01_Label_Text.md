@@ -1,0 +1,31 @@
+# TEST CASE: 1. LABEL / TEXT
+
+- **Mô tả chức năng:** Nhãn hiển thị tiêu đề, tên trường nhập liệu, mô tả tĩnh hoặc văn bản dữ liệu định dạng
+- **Tổng số Test Case:** **7** (`High: 5` | `Medium: 1` | `Low: 1`)
+- **Phân bổ theo loại kiểm thử:** UI / Giao diện: **2**, Functional / Chức năng: **2**, Boundary / Giá trị biên: **1**, Security / Bảo mật: **1**, Usability & Accessibility: **1**
+
+---
+
+## 1. Checklist Kiểm Thử Nhanh (Quick QA Checklist)
+
+- [ ] **`TC_LBL_001`** [High] _UI / Giao diện_ — Kiểm tra giao diện hiển thị mặc định của Label và văn bản tĩnh (Typography)
+- [ ] **`TC_LBL_002`** [High] _UI / Giao diện_ — Kiểm tra chính tả, ngữ pháp, lỗi font tiếng Việt và đồng bộ đa ngôn ngữ (Localization)
+- [ ] **`TC_LBL_003`** [High] _Functional / Chức năng_ — Kiểm tra hiển thị dấu sao bắt buộc (*) và liên kết Focus giữa Label với ô Input (`for`/`id`)
+- [ ] **`TC_LBL_004`** [High] _Functional / Chức năng_ — Kiểm tra định dạng dữ liệu động (Tiền tệ, Số lượng, Ngày giờ) và xử lý giá trị rỗng (`null`/`undefined`)
+- [ ] **`TC_LBL_005`** [Medium] _Boundary / Giá trị biên_ — Kiểm tra xử lý tràn văn bản (Text Overflow / Ellipsis) khi nội dung quá dài hoặc không có khoảng trắng
+- [ ] **`TC_LBL_006`** [High] _Security / Bảo mật_ — Kiểm tra bảo mật HTML Encoding - Chống thực thi mã độc Stored XSS khi hiển thị Text
+- [ ] **`TC_LBL_007`** [Low] _Usability & Accessibility_ — Kiểm tra bôi đen sao chép văn bản (Copy Text) và phóng to trình duyệt (Zoom 200%)
+
+---
+
+## 2. Bảng Chi Tiết Test Cases
+
+| Mã TC | Phân loại | Độ ưu tiên | Tên kịch bản (Title) | Điều kiện tiên quyết | Các bước thực hiện (Test Steps) | Dữ liệu kiểm thử (Test Data) | Kết quả mong đợi (Expected Result) | Trạng thái |
+| :--- | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :-: |
+| `TC_LBL_001` | UI / Giao diện | **High** | **Kiểm tra giao diện hiển thị mặc định của Label và văn bản tĩnh (Typography)** | Màn hình chức năng đã tải thành công. | 1. Quan sát các tiêu đề (Heading), nhãn trường (Field Label) và văn bản mô tả trên màn hình.<br>2. Kiểm tra kiểu chữ (font-family), cỡ chữ (font-size), độ đậm (font-weight), chiều cao dòng (line-height), màu sắc và căn lề. | N/A | - Hiển thị đúng quy chuẩn thiết kế (Design System / Figma).<br>- Độ tương phản giữa màu chữ và màu nền đạt chuẩn dễ đọc (WCAG >= 4.5:1).<br>- Các nhãn cùng cấp có kiểu dáng và khoảng cách tới ô nhập liệu đồng nhất. | `Not Run` |
+| `TC_LBL_002` | UI / Giao diện | **High** | **Kiểm tra chính tả, ngữ pháp, lỗi font tiếng Việt và đồng bộ đa ngôn ngữ (Localization)** | Hệ thống hiển thị văn bản tiếng Việt (và tiếng Anh nếu hỗ trợ đa ngôn ngữ). | 1. Đọc rà soát toàn bộ các nhãn tiêu đề, mô tả, ghi chú trên màn hình.<br>2. Chuyển đổi ngôn ngữ hệ thống (VD: Tiếng Việt <-> Tiếng Anh). | Ngôn ngữ: VI / EN | - Không có lỗi chính tả, câu từ rõ nghĩa, thống nhất thuật ngữ trong toàn hệ thống.<br>- Không bị lỗi font tiếng Việt có dấu.<br>- Khi đổi ngôn ngữ: Toàn bộ Label chuyển sang ngôn ngữ mới, không bị sót chuỗi khóa dịch thô (VD: `common.label.user_name`). | `Not Run` |
+| `TC_LBL_003` | Functional / Chức năng | **High** | **Kiểm tra hiển thị dấu sao bắt buộc (*) và liên kết Focus giữa Label với ô Input (`for`/`id`)** | Biểu mẫu có các trường bắt buộc và trường không bắt buộc. | 1. Quan sát các trường bắt buộc nhập trên form.<br>2. Click chuột trực tiếp vào chữ của Label (VD: click vào chữ 'Họ và tên' hoặc nhãn Checkbox). | Click vào Label của trường Input | - Tất cả các trường bắt buộc đều có dấu sao (`*`) màu đỏ thống nhất.<br>- Khi click vào chữ Label, con trỏ tự động Focus vào đúng ô Input (hoặc tích chọn Checkbox/Radio) tương ứng nhờ thuộc tính `<label for="...">`. | `Not Run` |
+| `TC_LBL_004` | Functional / Chức năng | **High** | **Kiểm tra định dạng dữ liệu động (Tiền tệ, Số lượng, Ngày giờ) và xử lý giá trị rỗng (`null`/`undefined`)** | Màn hình chi tiết hiển thị thông tin lấy từ API. | 1. Kiểm tra định dạng hiển thị của các trường Tiền tệ, Phần trăm, Ngày giờ, Số điện thoại.<br>2. Kiểm tra bản ghi có một số trường dữ liệu trống (`null` hoặc `""`) từ Backend trả về. | - Tiền: `1500000` -> `1.500.000 ₫`<br>- Giá trị rỗng: `null`, `undefined` | - Tiền tệ và con số có dấu phân cách hàng nghìn rõ ràng (VD: `1.500.000 ₫`), ngày giờ đúng định dạng `DD/MM/YYYY HH:mm`.<br>- Khi dữ liệu trả về là `null` hoặc `undefined`: Giao diện hiển thị ký hiệu mặc định như `"-"` hoặc `"Chưa cập nhật"`, tuyệt đối **không** in chữ `null`, `undefined`, `NaN` hoặc `[object Object]` lên màn hình. | `Not Run` |
+| `TC_LBL_005` | Boundary / Giá trị biên | **Medium** | **Kiểm tra xử lý tràn văn bản (Text Overflow / Ellipsis) khi nội dung quá dài hoặc không có khoảng trắng** | Dữ liệu văn bản hiển thị có độ dài lớn (200-500 ký tự) hoặc chuỗi viết liền không dấu cách. | 1. Quan sát vùng hiển thị văn bản trên màn hình Desktop và Mobile.<br>2. Di chuột vào phần văn bản bị rút gọn bằng dấu `...`. | Chuỗi dài 300 ký tự | - Văn bản tự động ngắt xuống dòng (`word-break: break-word`) hoặc rút gọn bằng dấu ba chấm `...` (`text-overflow: ellipsis` / `line-clamp`), tuyệt đối không tràn ra ngoài khung chứa hay đè lên phần tử bên cạnh.<br>- Nếu bị cắt bằng dấu `...`, khi Hover sẽ hiển thị Tooltip đầy đủ nội dung. | `Not Run` |
+| `TC_LBL_006` | Security / Bảo mật | **High** | **Kiểm tra bảo mật HTML Encoding - Chống thực thi mã độc Stored XSS khi hiển thị Text** | Bản ghi có trường Tên hoặc Mô tả chứa chuỗi `<script>alert('XSS')</script>` hoặc `<img src=x onerror=alert(1)>`. | 1. Mở màn hình hiển thị thông tin của bản ghi đó. | Text: `<script>alert('XSS')</script>` | - Hệ thống thực hiện HTML Escape, chỉ hiển thị nguyên văn chuỗi ký tự trên màn hình dưới dạng văn bản thuần, không thực thi JavaScript. | `Not Run` |
+| `TC_LBL_007` | Usability & Accessibility | **Low** | **Kiểm tra bôi đen sao chép văn bản (Copy Text) và phóng to trình duyệt (Zoom 200%)** | Màn hình hiển thị các thông tin như Mã đơn hàng, Email, Địa chỉ. | 1. Dùng chuột bôi đen văn bản thông tin và nhấn `Ctrl+C`.<br>2. Phóng to trình duyệt lên 150% và 200%. | Copy Text & Browser Zoom 200% | - Cho phép người dùng bôi đen và copy dễ dàng các thông tin văn bản hiển thị (không bị khóa `user-select: none` nhầm lẫn).<br>- Khi Zoom 200%, văn bản phóng to rõ nét và bố cục không bị chồng chéo. | `Not Run` |

@@ -1,0 +1,33 @@
+# TEST CASE: 10. FILE UPLOAD
+
+- **Mô tả chức năng:** Nút hoặc vùng kéo/thả để tải file, ảnh, tài liệu lên
+- **Tổng số Test Case:** **8** (`High: 6` | `Medium: 2` | `Low: 0`)
+- **Phân bổ theo loại kiểm thử:** UI / Giao diện: **1**, Functional / Chức năng: **3**, Boundary / Giá trị biên: **1**, Validation & Negative: **2**, Security / Bảo mật: **1**
+
+---
+
+## 1. Checklist Kiểm Thử Nhanh (Quick QA Checklist)
+
+- [ ] **`TC_UPL_001`** [High] _UI / Giao diện_ — Kiểm tra giao diện nút Upload và vùng Kéo thả (Drag & Drop Zone)
+- [ ] **`TC_UPL_002`** [High] _Functional / Chức năng_ — Kiểm tra tải lên 1 file hợp lệ bằng cách Click chọn file và bằng cách Kéo thả (Drag & Drop)
+- [ ] **`TC_UPL_003`** [High] _Functional / Chức năng_ — Kiểm tra xóa file đã chọn và tải lại chính file vừa xóa
+- [ ] **`TC_UPL_004`** [Medium] _Functional / Chức năng_ — Kiểm tra mở hộp thoại chọn file nhưng nhấn 'Cancel' (Hủy)
+- [ ] **`TC_UPL_005`** [High] _Boundary / Giá trị biên_ — Kiểm tra dung lượng file tại các giá trị biên: File rỗng (0 Byte), đúng Max Size và vượt quá Max Size
+- [ ] **`TC_UPL_006`** [High] _Validation & Negative_ — Kiểm tra tải lên file sai định dạng và số lượng file vượt quá giới hạn (Multiple Upload)
+- [ ] **`TC_UPL_007`** [High] _Security / Bảo mật_ — Kiểm tra bảo mật giả mạo đuôi file (Extension Spoofing / Magic Bytes) và tên file đặc biệt
+- [ ] **`TC_UPL_008`** [Medium] _Validation & Negative_ — Kiểm tra hủy tải lên giữa chừng (Cancel in-progress) hoặc mất kết nối mạng khi đang Upload
+
+---
+
+## 2. Bảng Chi Tiết Test Cases
+
+| Mã TC | Phân loại | Độ ưu tiên | Tên kịch bản (Title) | Điều kiện tiên quyết | Các bước thực hiện (Test Steps) | Dữ liệu kiểm thử (Test Data) | Kết quả mong đợi (Expected Result) | Trạng thái |
+| :--- | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :-: |
+| `TC_UPL_001` | UI / Giao diện | **High** | **Kiểm tra giao diện nút Upload và vùng Kéo thả (Drag & Drop Zone)** | Màn hình chứa chức năng File Upload đã tải xong. | 1. Quan sát vùng Upload file.<br>2. Kéo một file từ máy tính di chuột vào vùng Drag & Drop (chưa thả chuột). | N/A | - Hiển thị rõ nút bấm / vùng khung nét đứt kèm ghi chú định dạng và dung lượng tối đa cho phép (VD: "Hỗ trợ định dạng .JPG, .PNG, .PDF - Tối đa 5MB").<br>- Khi kéo file vào vùng thả (Drag over), khung viền đổi màu highlight để báo hiệu sẵn sàng nhận file. | `Not Run` |
+| `TC_UPL_002` | Functional / Chức năng | **High** | **Kiểm tra tải lên 1 file hợp lệ bằng cách Click chọn file và bằng cách Kéo thả (Drag & Drop)** | Chuẩn bị sẵn file hợp lệ (VD: `tailieu.pdf` hoặc `anh_dai_dien.png` dung lượng 1MB). | 1. Click vào nút Upload -> Chọn file hợp lệ từ hộp thoại máy tính -> Nhấn Open.<br>2. Kéo trực tiếp file hợp lệ từ thư mục máy tính thả vào vùng Drag & Drop. | File: `anh_dai_dien.png` (1MB) | - Cả hai cách đều tải file lên thành công.<br>- Hiển thị thanh tiến trình tải (`Progress bar` từ 0% -> 100%).<br>- Sau khi tải xong: Hiển thị tên file, dung lượng file, ảnh xem trước (Thumbnail nếu là file ảnh) và nút Xóa (`Remove / Delete`). | `Not Run` |
+| `TC_UPL_003` | Functional / Chức năng | **High** | **Kiểm tra xóa file đã chọn và tải lại chính file vừa xóa** | Đã tải lên 1 file `report.pdf`. | 1. Nhấn vào icon Xóa (`x` / Trash) bên cạnh file `report.pdf`.<br>2. Click lại nút Upload và chọn lại chính file `report.pdf` vừa xóa. | File: `report.pdf` | - Bước 1: File `report.pdf` bị gỡ khỏi danh sách.<br>- Bước 2: Chọn lại chính file `report.pdf` vẫn kích hoạt sự kiện `onChange` và tải lên thành công (đảm bảo input file đã được reset `value = ''` sau khi xóa). | `Not Run` |
+| `TC_UPL_004` | Functional / Chức năng | **Medium** | **Kiểm tra mở hộp thoại chọn file nhưng nhấn 'Cancel' (Hủy)** | Ô Upload đã có sẵn 1 file `file_A.pdf`. | 1. Click nút Upload để mở hộp thoại chọn file của hệ điều hành.<br>2. Không chọn thêm file nào mà nhấn nút `Cancel`. | Nhấn Cancel trên OS File Dialog | - Hệ thống giữ nguyên `file_A.pdf` đã tải trước đó, không làm mất file cũ và không hiển thị thông báo lỗi. | `Not Run` |
+| `TC_UPL_005` | Boundary / Giá trị biên | **High** | **Kiểm tra dung lượng file tại các giá trị biên: File rỗng (0 Byte), đúng Max Size và vượt quá Max Size** | Giả sử hệ thống quy định dung lượng tối đa Max Size = 5MB. | 1. Tải lên file rỗng có dung lượng `0 KB` (0 byte).<br>2. Tải lên file có dung lượng đúng bằng `5.0 MB`.<br>3. Tải lên file có dung lượng `5.1 MB` (vượt biên) và `50 MB`. | - `empty.pdf` (0 Byte)<br>- `valid_max.pdf` (5.0 MB)<br>- `over_limit.pdf` (5.1 MB) | - File 0 Byte: Chặn và báo lỗi "File tải lên rỗng hoặc không hợp lệ".<br>- File 5.0 MB: Tải lên thành công.<br>- File 5.1 MB: Chặn ngay tại Client (trước khi đẩy lên Server) và báo lỗi "Dung lượng file vượt quá giới hạn tối đa 5MB". | `Not Run` |
+| `TC_UPL_006` | Validation & Negative | **High** | **Kiểm tra tải lên file sai định dạng và số lượng file vượt quá giới hạn (Multiple Upload)** | Hệ thống chỉ cho phép tải tối đa 3 file định dạng ảnh (`.jpg`, `.png`). | 1. Thử tải lên các file không thuộc danh sách cho phép (`.exe`, `.sh`, `.bat`, `.mp4`, `.zip`).<br>2. Chọn cùng lúc 4 file ảnh hợp lệ để tải lên. | - Sai định dạng: `setup.exe`, `video.mp4`<br>- Quá số lượng: 4 file `.jpg` | - Sai định dạng: Báo lỗi "Định dạng file không được hỗ trợ. Chỉ chấp nhận .JPG, .PNG".<br>- Quá số lượng: Báo lỗi "Chỉ được phép tải lên tối đa 3 file". | `Not Run` |
+| `TC_UPL_007` | Security / Bảo mật | **High** | **Kiểm tra bảo mật giả mạo đuôi file (Extension Spoofing / Magic Bytes) và tên file đặc biệt** | Chuẩn bị file thực thi hoặc script độc hại. | 1. Đổi tên file `malware.exe` hoặc `shell.php` thành `avatar.jpg` rồi tải lên.<br>2. Tải lên file có tên chứa ký tự đặc biệt, tiếng Việt có dấu hoặc đường dẫn traversal (`../../etc/passwd.jpg`) hoặc tên dài 255 ký tự. | - `shell.php` đổi tên thành `avatar.jpg`<br>- Tên file: `Báo cáo tài chính @2026 #1 (Final).pdf` | - Bước 1: Hệ thống kiểm tra MIME type thực tế / File Signature (Magic Bytes) và từ chối file giả mạo đuôi `.jpg`.<br>- Bước 2: File tiếng Việt có dấu tải lên bình thường; tên file chứa ký tự nguy hiểm được chuẩn hóa (Sanitize) an toàn trên Server. | `Not Run` |
+| `TC_UPL_008` | Validation & Negative | **Medium** | **Kiểm tra hủy tải lên giữa chừng (Cancel in-progress) hoặc mất kết nối mạng khi đang Upload** | Đang tải lên một file dung lượng lớn (4.5MB) với tốc độ mạng chậm (Slow 3G). | 1. Khi thanh tiến trình đang ở 40%, nhấn nút hủy (`Cancel`) hoặc ngắt kết nối mạng.<br>2. Kiểm tra thông báo và thử tải lại khi có mạng. | Slow 3G -> Disconnect tại 40% | - Khi hủy: Dừng request upload ngay lập tức, giải phóng bộ nhớ.<br>- Khi mất mạng: Hiển thị thông báo "Tải file thất bại do lỗi kết nối" và cho phép nhấn Retry (Thử lại). | `Not Run` |

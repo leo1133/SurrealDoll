@@ -1,0 +1,33 @@
+# TEST CASE: 2. SIDEBAR / NAVIGATION DRAWER
+
+- **Mô tả chức năng:** Thanh menu dọc bên trái/phải màn hình (Hỗ trợ đóng/mở, thu gọn Collapse/Expand, Sub-menu)
+- **Tổng số Test Case:** **8** (`High: 5` | `Medium: 3` | `Low: 0`)
+- **Phân bổ theo loại kiểm thử:** UI / Giao diện: **2**, Functional / Chức năng: **4**, Boundary / Giá trị biên: **1**, Security / Bảo mật: **1**
+
+---
+
+## 1. Checklist Kiểm Thử Nhanh (Quick QA Checklist)
+
+- [ ] **`TC_SDB_001`** [High] _UI / Giao diện_ — Kiểm tra giao diện hiển thị mặc định của thanh menu dọc Sidebar
+- [ ] **`TC_SDB_002`** [High] _Functional / Chức năng_ — Kiểm tra chức năng Thu gọn (Collapse) và Mở rộng (Expand) Sidebar trên Desktop
+- [ ] **`TC_SDB_003`** [High] _Functional / Chức năng_ — Kiểm tra đóng/mở menu đa cấp (Accordion Sub-menu) và giữ trạng thái khi tải lại trang (F5)
+- [ ] **`TC_SDB_004`** [Medium] _UI / Giao diện_ — Kiểm tra thanh cuộn dọc độc lập (Independent Scroll) khi Sidebar có nhiều mục menu
+- [ ] **`TC_SDB_005`** [High] _Functional / Chức năng_ — Kiểm tra hoạt động của Navigation Drawer (Off-canvas Sidebar) trên Mobile / Tablet
+- [ ] **`TC_SDB_006`** [Medium] _Functional / Chức năng_ — Kiểm tra ghi nhớ trạng thái Thu gọn / Mở rộng của Sidebar khi chuyển trang
+- [ ] **`TC_SDB_007`** [Medium] _Boundary / Giá trị biên_ — Kiểm tra hiển thị khi tên mục Menu trên Sidebar quá dài hoặc có Badge số lượng lớn
+- [ ] **`TC_SDB_008`** [High] _Security / Bảo mật_ — Kiểm tra phân quyền hiển thị menu trên Sidebar và chặn truy cập URL trực tiếp
+
+---
+
+## 2. Bảng Chi Tiết Test Cases
+
+| Mã TC | Phân loại | Độ ưu tiên | Tên kịch bản (Title) | Điều kiện tiên quyết | Các bước thực hiện (Test Steps) | Dữ liệu kiểm thử (Test Data) | Kết quả mong đợi (Expected Result) | Trạng thái |
+| :--- | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :-: |
+| `TC_SDB_001` | UI / Giao diện | **High** | **Kiểm tra giao diện hiển thị mặc định của thanh menu dọc Sidebar** | Màn hình quản trị / ứng dụng có Sidebar bên trái (hoặc bên phải). | 1. Quan sát chiều rộng, màu nền, danh sách các mục menu, icon đầu dòng và nút thu gọn/mở rộng Sidebar. | N/A | - Sidebar hiển thị rõ ràng, các icon và nhãn văn bản (Label) căn thẳng hàng dọc đều đặn.<br>- Mục menu tương ứng với màn hình hiện tại được tô sáng (Active highlight). | `Not Run` |
+| `TC_SDB_002` | Functional / Chức năng | **High** | **Kiểm tra chức năng Thu gọn (Collapse) và Mở rộng (Expand) Sidebar trên Desktop** | Sidebar đang ở trạng thái mở rộng đầy đủ (Expanded). | 1. Click vào nút Thu gọn (Collapse `«` / `☰`).<br>2. Di chuột (Hover) vào các icon trên Sidebar khi đang thu gọn.<br>3. Click lại vào nút Mở rộng (Expand `»`). | Expanded <-> Collapsed | - Khi Thu gọn: Sidebar thu nhỏ chiều ngang chỉ còn hiển thị cột Icon (ẩn chữ), vùng nội dung chính (Main Content) tự động giãn rộng ra mượt mà.<br>- Khi Hover vào từng Icon lúc thu gọn: Hiển thị Tooltip tên chức năng rõ ràng.<br>- Khi Mở rộng: Sidebar trở lại kích thước ban đầu, hiển thị đầy đủ cả Icon và chữ. | `Not Run` |
+| `TC_SDB_003` | Functional / Chức năng | **High** | **Kiểm tra đóng/mở menu đa cấp (Accordion Sub-menu) và giữ trạng thái khi tải lại trang (F5)** | Sidebar có mục menu Cha (VD: 'Quản lý sản phẩm') chứa các mục menu Con ('Danh sách', 'Danh mục', 'Kho hàng'). | 1. Click vào mục Cha 'Quản lý sản phẩm' để mở danh sách mục Con.<br>2. Click chọn mục Con 'Danh mục'.<br>3. Nhấn F5 tải lại trang trình duyệt. | Menu Cha -> Menu Con -> F5 Reload | - Bước 1: Mũi tên bên cạnh mục Cha xoay xuống (`▾`) và xổ ra danh sách các mục Con.<br>- Bước 2: Chuyển đến trang 'Danh mục', mục Con 'Danh mục' được highlight Active.<br>- Bước 3: Sau khi F5, nhánh menu Cha 'Quản lý sản phẩm' vẫn tự động mở sẵn và giữ nguyên trạng thái Active ở mục Con 'Danh mục'. | `Not Run` |
+| `TC_SDB_004` | UI / Giao diện | **Medium** | **Kiểm tra thanh cuộn dọc độc lập (Independent Scroll) khi Sidebar có nhiều mục menu** | Danh sách menu trên Sidebar dài vượt quá chiều cao màn hình (hoặc khi mở tất cả các nhánh con). | 1. Đặt con trỏ chuột vào vùng Sidebar và lăn chuột cuộn lên/xuống.<br>2. Đặt con trỏ chuột sang vùng nội dung chính (Main Content) và lăn chuột. | Sidebar dài > Chiều cao màn hình | - Sidebar xuất hiện thanh cuộn dọc riêng biệt, cho phép cuộn xem hết mục cuối cùng.<br>- Việc cuộn bên trong Sidebar hoàn toàn độc lập, không làm trôi nội dung của màn hình chính bên cạnh. | `Not Run` |
+| `TC_SDB_005` | Functional / Chức năng | **High** | **Kiểm tra hoạt động của Navigation Drawer (Off-canvas Sidebar) trên Mobile / Tablet** | Mở ứng dụng trên màn hình Mobile (375px). | 1. Kiểm tra trạng thái mặc định của Sidebar khi mới vào trang trên Mobile.<br>2. Bấm nút Menu (`☰`) để mở Navigation Drawer.<br>3. Chạm vào vùng nền tối bên ngoài (Backdrop) hoặc chọn 1 mục menu. | Mobile Viewport (375x812) | - Mặc định trên Mobile: Sidebar được ẩn đi để nhường 100% diện tích cho nội dung chính.<br>- Khi bấm `☰`: Drawer trượt mượt từ cạnh màn hình ra kèm lớp phủ mờ (Backdrop) và khóa cuộn trang nền (`body overflow: hidden`).<br>- Khi chọn 1 mục menu hoặc chạm vào Backdrop: Drawer tự động đóng lại. | `Not Run` |
+| `TC_SDB_006` | Functional / Chức năng | **Medium** | **Kiểm tra ghi nhớ trạng thái Thu gọn / Mở rộng của Sidebar khi chuyển trang** | Người dùng chủ động thu gọn (Collapse) Sidebar. | 1. Thu gọn Sidebar.<br>2. Click chuyển sang một trang chức năng khác trong hệ thống. | Collapse Sidebar -> Chuyển trang | - Hệ thống ghi nhớ tùy chọn của người dùng (qua `localStorage` / Cookie), giữ nguyên trạng thái Sidebar thu gọn khi chuyển sang trang mới thay vì tự bung rộng lại. | `Not Run` |
+| `TC_SDB_007` | Boundary / Giá trị biên | **Medium** | **Kiểm tra hiển thị khi tên mục Menu trên Sidebar quá dài hoặc có Badge số lượng lớn** | Mục menu có tên dài và kèm Badge thông báo (VD: `99+`). | 1. Quan sát mục menu có tên dài hơn chiều rộng của Sidebar. | Tên menu dài + Badge `99+` | - Tên menu tự động xuống dòng gọn gàng hoặc cắt chữ có dấu `...` (`text-overflow: ellipsis`) kèm Tooltip, không đè lên Badge số lượng hay mũi tên đóng/mở. | `Not Run` |
+| `TC_SDB_008` | Security / Bảo mật | **High** | **Kiểm tra phân quyền hiển thị menu trên Sidebar và chặn truy cập URL trực tiếp** | Tài khoản đăng nhập không có quyền truy cập module 'Cấu hình hệ thống'. | 1. Quan sát danh sách menu trên Sidebar.<br>2. Thử gõ trực tiếp đường dẫn `/system-settings` lên thanh địa chỉ trình duyệt. | User không có quyền Admin | - Mục 'Cấu hình hệ thống' bị ẩn hoàn toàn khỏi Sidebar.<br>- Khi cố tình truy cập qua URL trực tiếp, hệ thống chặn lại và chuyển hướng sang trang `403 Access Denied / Không có quyền truy cập`. | `Not Run` |

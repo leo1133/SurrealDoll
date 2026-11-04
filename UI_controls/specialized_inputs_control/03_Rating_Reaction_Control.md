@@ -1,0 +1,26 @@
+# TEST CASES: 3. RATING / REACTION CONTROL
+
+- **Mục đích:** Chọn số ngôi sao (1–5 sao), thả biểu tượng cảm xúc (Like, Heart...) hoặc thanh chấm điểm hài lòng
+- **Tổng số Test Case:** **6** (`High`: 3 | `Medium`: 3 | `Low`: 0)
+
+## 1. Checklist Kiểm Thử Nhanh (Quick QA Checklist)
+
+- [ ] **`TC_RAT_001`** (High): Kiểm tra giao diện mặc định của dãy ngôi sao đánh giá (1–5 sao) và hiệu ứng sáng màu khi di chuột (Hover)
+- [ ] **`TC_RAT_002`** (High): Kiểm tra click chọn mức sao (1–5 sao), thay đổi mức sao đã chọn và hiển thị nhãn mô tả tương ứng
+- [ ] **`TC_RAT_003`** (Medium): Kiểm tra đánh giá nửa sao (`Half-star Rating: 0.5 -> 5.0`) hoặc hủy chọn về 0 sao
+- [ ] **`TC_RAT_004`** (High): Kiểm tra thả biểu tượng cảm xúc (Reaction: Like 👍, Love ❤️, Haha 😆...), đổi cảm xúc và cập nhật số đếm
+- [ ] **`TC_RAT_005`** (Medium): Kiểm tra chế độ chỉ đọc (`Read-only Rating`) hiển thị điểm trung bình lẻ trên danh sách sản phẩm
+- [ ] **`TC_RAT_006`** (Medium): Kiểm tra chống spam click liên tục vào nút Reaction và điều khiển chọn sao bằng bàn phím
+
+---
+
+## 2. Bảng Chi Tiết Test Cases
+
+| Mã TC | Phân loại | Độ ưu tiên | Tên kịch bản (Title) | Điều kiện tiên quyết | Các bước thực hiện (Test Steps) | Dữ liệu kiểm thử (Test Data) | Kết quả mong đợi (Expected Result) | Trạng thái |
+| :--- | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :-: |
+| `TC_RAT_001` | UI / Giao diện | **High** | **Kiểm tra giao diện mặc định của dãy ngôi sao đánh giá (1–5 sao) và hiệu ứng sáng màu khi di chuột (Hover)** | Màn hình đánh giá có dãy 5 ngôi sao đang ở trạng thái chưa chọn (màu xám viền rỗng). | 1. Di chuột (Hover) lần lượt từ ngôi sao thứ 1 đến ngôi sao thứ 4.<br>2. Di chuột ra ngoài vùng ngôi sao khi chưa click chọn. | Hover sao 1 -> sao 4 -> Mouse Leave | - Bước 1: Khi di chuột đến ngôi sao thứ 4, cả 4 ngôi sao từ 1 đến 4 đều sáng màu vàng nổi bật kèm nhãn mô tả (VD: `'Hài lòng'`).<br>- Bước 2: Khi di chuột ra ngoài mà chưa click, cả 5 ngôi sao trở về trạng thái xám mặc định ban đầu. | `Not Run` |
+| `TC_RAT_002` | Functional / Chức năng | **High** | **Kiểm tra click chọn mức sao (1–5 sao), thay đổi mức sao đã chọn và hiển thị nhãn mô tả tương ứng** | Màn hình đánh giá sản phẩm / dịch vụ. | 1. Click chọn vào ngôi sao thứ 5.<br>2. Sau đó click đổi sang ngôi sao thứ 3.<br>3. Kiểm tra nhãn chữ hiển thị bên cạnh dãy sao ở từng mức từ 1 đến 5 sao. | Click 5 sao -> Đổi sang 3 sao | - Bước 1: Cả 5 ngôi sao được tô màu vàng cố định.<br>- Bước 2: Đổi sang tô vàng 3 ngôi sao đầu, ngôi sao 4 và 5 tắt về màu xám.<br>- Bước 3: Nhãn cảm xúc cập nhật đúng theo từng mức (`1: Rất tệ`, `2: Không hài lòng`, `3: Bình thường`, `4: Hài lòng`, `5: Tuyệt vời`). | `Not Run` |
+| `TC_RAT_003` | Functional / Chức năng | **Medium** | **Kiểm tra đánh giá nửa sao (`Half-star Rating: 0.5 -> 5.0`) hoặc hủy chọn về 0 sao** | Control Rating có cấu hình cho phép chọn nửa sao hoặc cho phép bỏ chọn (Clearable). | 1. Di chuột và click vào nửa bên trái của ngôi sao thứ 4.<br>2. Click lại một lần nữa vào chính mức sao đang chọn (nếu hỗ trợ bỏ chọn). | Chọn `3.5 sao` & Click lại để bỏ chọn | - Bước 1: Hiển thị 3 ngôi sao đầu sáng hoàn toàn và ngôi sao thứ 4 sáng một nửa bên trái (`3.5 sao`).<br>- Bước 2: Nếu trường không bắt buộc và cho phép Clear, click lại vào mức sao hiện tại sẽ đặt lại về `0 sao`. | `Not Run` |
+| `TC_RAT_004` | Functional / Chức năng | **High** | **Kiểm tra thả biểu tượng cảm xúc (Reaction: Like 👍, Love ❤️, Haha 😆...), đổi cảm xúc và cập nhật số đếm** | Bài viết hoặc bình luận có nút thả cảm xúc (Reaction Control). | 1. Click nhanh vào nút `Thích 👍`.<br>2. Di chuột giữ (Hover) trên nút cảm xúc để mở thanh Reaction Bar -> Chọn biểu tượng `Yêu thích ❤️`.<br>3. Click lại vào nút `Yêu thích ❤️` một lần nữa để bỏ thả cảm xúc. | Like 👍 -> Đổi sang Love ❤️ -> Bỏ Reaction | - Bước 1: Nút chuyển sang trạng thái Active `Đã thích 👍`, bộ đếm số lượng tăng thêm `+1` ngay lập tức.<br>- Bước 2: Đổi biểu tượng từ `👍` sang `❤️`, tổng số lượng giữ nguyên không bị cộng dồn thành 2 lần.<br>- Bước 3: Hủy trạng thái cảm xúc của người dùng và giảm bộ đếm đi `-1`. | `Not Run` |
+| `TC_RAT_005` | UI / Giao diện | **Medium** | **Kiểm tra chế độ chỉ đọc (`Read-only Rating`) hiển thị điểm trung bình lẻ trên danh sách sản phẩm** | Sản phẩm có điểm đánh giá trung bình là `4.3 / 5.0` (từ 128 đánh giá). | 1. Quan sát dãy ngôi sao của sản phẩm trên thẻ Card hoặc trang Chi tiết.<br>2. Thử click chuột vào các ngôi sao ở chế độ Read-only. | Điểm trung bình: `4.3 / 5` (128 đánh giá) | - Hiển thị 4 ngôi sao vàng đầy, ngôi sao thứ 5 được tô vàng một phần tương ứng (hoặc nửa sao) kèm con số `4.3 (128)`.<br>- Ở chế độ Read-only, di chuột hoặc click vào ngôi sao không làm thay đổi số sao hiển thị. | `Not Run` |
+| `TC_RAT_006` | Validation & Negative | **Medium** | **Kiểm tra chống spam click liên tục vào nút Reaction và điều khiển chọn sao bằng bàn phím** | Đang ở màn hình có nút Reaction và thanh Rating. | 1. Click liên tục 20 lần thật nhanh vào nút `Thích 👍`.<br>2. Dùng phím `Tab` focus vào thanh Rating và nhấn phím mũi tên `Left (←)` / `Right (→)`. | Spam click 20 lần & Bàn phím `←` / `→` | - Bước 1: Hệ thống xử lý Debounce / khóa Request đang chạy, đảm bảo số đếm không bị nhảy loạn hoặc cộng âm (`-1`).<br>- Bước 2: Cho phép tăng/giảm số sao bằng phím mũi tên trên bàn phím. | `Not Run` |

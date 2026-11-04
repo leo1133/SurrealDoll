@@ -1,0 +1,33 @@
+# TEST CASE: 2. SECONDARY / GHOST BUTTON
+
+- **Mô tả chức năng:** Nút hành động phụ hoặc bổ trợ (Hủy, Quay lại, Đặt lại, Xem thêm...)
+- **Tổng số Test Case:** **8** (`High: 5` | `Medium: 3` | `Low: 0`)
+- **Phân bổ theo loại kiểm thử:** UI / Giao diện: **2**, Functional / Chức năng: **4**, Validation & Negative: **1**, Usability & Accessibility: **1**
+
+---
+
+## 1. Checklist Kiểm Thử Nhanh (Quick QA Checklist)
+
+- [ ] **`TC_SEC_001`** [High] _UI / Giao diện_ — Kiểm tra phân cấp thị giác (Visual Hierarchy) giữa Secondary/Ghost Button và Primary Button
+- [ ] **`TC_SEC_002`** [Medium] _UI / Giao diện_ — Kiểm tra hiệu ứng Hover, Active, Focus và Disabled của Secondary / Ghost Button
+- [ ] **`TC_SEC_003`** [High] _Functional / Chức năng_ — Kiểm tra chức năng nút 'Hủy' / 'Quay lại' khi người dùng CHƯA thay đổi dữ liệu trên form
+- [ ] **`TC_SEC_004`** [High] _Functional / Chức năng_ — Kiểm tra cảnh báo dữ liệu chưa lưu (Unsaved Changes) khi đã nhập liệu rồi bấm 'Hủy' / 'Quay lại'
+- [ ] **`TC_SEC_005`** [High] _Functional / Chức năng_ — Kiểm tra chức năng nút 'Đặt lại' / 'Xóa bộ lọc' (Reset / Clear Filter Button)
+- [ ] **`TC_SEC_006`** [High] _Validation & Negative_ — Kiểm tra nút Secondary/Ghost đặt trong thẻ `<form>` không gây Submit nhầm biểu mẫu
+- [ ] **`TC_SEC_007`** [Medium] _Functional / Chức năng_ — Kiểm tra bấm nút 'Hủy' trong lúc hệ thống đang xử lý lưu dữ liệu (In-progress Request)
+- [ ] **`TC_SEC_008`** [Medium] _Usability & Accessibility_ — Kiểm tra điều hướng bàn phím (Tab, Shift+Tab, Enter/Space) và phím tắt Esc
+
+---
+
+## 2. Bảng Chi Tiết Test Cases
+
+| Mã TC | Phân loại | Độ ưu tiên | Tên kịch bản (Title) | Điều kiện tiên quyết | Các bước thực hiện (Test Steps) | Dữ liệu kiểm thử (Test Data) | Kết quả mong đợi (Expected Result) | Trạng thái |
+| :--- | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :-: |
+| `TC_SEC_001` | UI / Giao diện | **High** | **Kiểm tra phân cấp thị giác (Visual Hierarchy) giữa Secondary/Ghost Button và Primary Button** | Màn hình có cả Primary Button (VD: 'Lưu') và Secondary/Ghost Button (VD: 'Hủy', 'Quay lại'). | 1. Quan sát kiểu dáng, màu nền, viền và vị trí của nút Secondary / Ghost so với nút Primary. | N/A | - Secondary Button có viền mảnh (Outline) hoặc nền màu trung tính nhạt; Ghost Button có nền trong suốt (`transparent`) không viền.<br>- Độ nổi bật thị giác thấp hơn rõ rệt so với Primary Button để người dùng không bấm nhầm.<br>- Khoảng cách giữa nút Phụ và nút Chính tối thiểu `8px - 16px`. | `Not Run` |
+| `TC_SEC_002` | UI / Giao diện | **Medium** | **Kiểm tra hiệu ứng Hover, Active, Focus và Disabled của Secondary / Ghost Button** | Secondary / Ghost Button đang hiển thị trên màn hình. | 1. Di chuột (Hover) vào nút Secondary / Ghost.<br>2. Nhấn giữ chuột (Active) và dùng phím Tab để Focus.<br>3. Kiểm tra khi nút ở trạng thái Disabled. | N/A | - Khi Hover: Ghost Button và Secondary Button xuất hiện màu nền mờ nhẹ để báo hiệu vùng có thể bấm được.<br>- Khi Disabled: Chữ và viền mờ đi, không hiện nền khi Hover và không thể click. | `Not Run` |
+| `TC_SEC_003` | Functional / Chức năng | **High** | **Kiểm tra chức năng nút 'Hủy' / 'Quay lại' khi người dùng CHƯA thay đổi dữ liệu trên form** | Mở màn hình Thêm mới / Chỉnh sửa hoặc Popup Modal nhưng chưa nhập hay sửa bất kỳ trường nào. | 1. Click vào nút Secondary / Ghost ('Hủy' hoặc 'Quay lại'). | Form chưa có thay đổi (Clean state) | - Nếu là Popup/Modal: Đóng Modal ngay lập tức mà không hỏi xác nhận.<br>- Nếu là trang độc lập: Điều hướng quay về trang danh sách trước đó ngay lập tức.<br>- Không gửi bất kỳ request lưu dữ liệu nào lên Server. | `Not Run` |
+| `TC_SEC_004` | Functional / Chức năng | **High** | **Kiểm tra cảnh báo dữ liệu chưa lưu (Unsaved Changes) khi đã nhập liệu rồi bấm 'Hủy' / 'Quay lại'** | Người dùng đã nhập hoặc chỉnh sửa dữ liệu trên các trường của biểu mẫu (Dirty state). | 1. Nhập dữ liệu vào form.<br>2. Click vào nút 'Hủy' hoặc 'Quay lại'.<br>3. Tại hộp thoại cảnh báo: Thử chọn 'Ở lại' (Cancel), sau đó bấm lại 'Hủy' và chọn 'Rời đi / Đồng ý' (Discard). | Form đã có dữ liệu thay đổi | - Hệ thống hiển thị hộp thoại xác nhận: "Bạn có thay đổi chưa được lưu. Bạn có chắc chắn muốn hủy bỏ không?".<br>- Chọn 'Ở lại': Đóng cảnh báo, giữ nguyên toàn bộ dữ liệu đang nhập dở trên form.<br>- Chọn 'Rời đi': Hủy bỏ các thay đổi tạm thời và đóng form / quay về trang trước. | `Not Run` |
+| `TC_SEC_005` | Functional / Chức năng | **High** | **Kiểm tra chức năng nút 'Đặt lại' / 'Xóa bộ lọc' (Reset / Clear Filter Button)** | Người dùng đã nhập nhiều điều kiện tìm kiếm hoặc đang có thông báo lỗi validation trên form. | 1. Nhập từ khóa, chọn Dropdown, chọn Ngày tháng và gây ra 1 lỗi validation.<br>2. Click vào nút Secondary 'Đặt lại' (Reset) hoặc 'Xóa bộ lọc'. | Form có dữ liệu + lỗi validation | - Tất cả các trường nhập liệu và bộ lọc quay trở về giá trị mặc định ban đầu.<br>- Toàn bộ các viền đỏ và thông báo lỗi validation đang hiển thị được xóa sạch.<br>- Danh sách dữ liệu được tải lại theo trạng thái mặc định. | `Not Run` |
+| `TC_SEC_006` | Validation & Negative | **High** | **Kiểm tra nút Secondary/Ghost đặt trong thẻ `<form>` không gây Submit nhầm biểu mẫu** | Nút Secondary / Ghost nằm bên trong thẻ `<form>`. | 1. Kiểm tra thuộc tính HTML `type` của nút Secondary / Ghost.<br>2. Click vào nút Secondary hoặc nhấn phím Enter khi đang ở ô Textbox trên form. | Kiểm tra `type="button"` | - Nút Secondary / Ghost bắt buộc phải có thuộc tính `type="button"` (không để trống vì mặc định trình duyệt sẽ hiểu là `type="submit"`).<br>- Click nút Phụ không bao giờ kích hoạt sự kiện Submit form của nút Chính. | `Not Run` |
+| `TC_SEC_007` | Functional / Chức năng | **Medium** | **Kiểm tra bấm nút 'Hủy' trong lúc hệ thống đang xử lý lưu dữ liệu (In-progress Request)** | Người dùng vừa bấm nút 'Lưu' (Primary) và API đang xử lý. | 1. Ngay khi nút 'Lưu' đang quay Loading, click vào nút 'Hủy' (Secondary). | Click 'Hủy' khi đang Saving | - Hệ thống xử lý nhất quán theo thiết kế: Hoặc khóa (Disable) nút 'Hủy' trong lúc đang lưu để tránh sai lệch trạng thái, hoặc nếu cho phép bấm 'Hủy' thì phải thực hiện hủy request (`AbortController`) an toàn. | `Not Run` |
+| `TC_SEC_008` | Usability & Accessibility | **Medium** | **Kiểm tra điều hướng bàn phím (Tab, Shift+Tab, Enter/Space) và phím tắt Esc** | Popup Modal có nút 'Lưu' (Primary) và nút 'Hủy' (Secondary). | 1. Dùng phím `Tab` / `Shift+Tab` di chuyển đến nút 'Hủy' và nhấn `Enter` hoặc `Space`.<br>2. Mở lại Modal và nhấn phím `Esc` trên bàn phím. | Phím Tab, Enter, Space, Esc | - Thứ tự Tab hợp lý.<br>- Nhấn `Esc` trên Modal thực hiện hành vi đóng/hủy tương đương với khi click nút 'Hủy'. | `Not Run` |
