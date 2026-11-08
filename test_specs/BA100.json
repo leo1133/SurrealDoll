@@ -1,0 +1,778 @@
+[
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Result",
+    "Bug ID",
+    "Tester",
+    "Test Date",
+    "Note",
+    "Result",
+    "Bug ID",
+    "Tester",
+    "Test Date",
+    "Note"
+  ],
+  [],
+  [
+    "[BA100-1]",
+    "[0] Kiểm tra truy cập màn hình",
+    "Check truy cập qua URL login agency",
+    "1. Mở trình duyệt web\n2. Truy cập URL: https://admin-dev.surrealdolls.com/sign-in/agency",
+    "User là Agency chưa đăng nhập",
+    "1. \n- Hệ thống hiển thị màn hình BA100 ログイン\n- Hiển thị UI giống với Figma\n- Header hiển thị Logo, text 「事務所管理画面」 và button 「マスター管理画面へ」\n- Card giữa màn hình hiển thị tiêu đề 「ログイン」, không có side menu",
+    "High"
+  ],
+  [
+    "[BA100-2]",
+    "",
+    "Check truy cập từ mail PEM3",
+    "1. Click ログインURL trong email PEM3",
+    "",
+    "1. Di chuyển đến màn BA100 ログイン",
+    "High"
+  ],
+  [
+    "[BA100-3]",
+    "",
+    "Check auto-focus ô nhập liệu",
+    "1. Kiểm tra vị trí con trỏ khi màn hình tải xong",
+    "",
+    "1. Con trỏ tự động focus vào ô textbox [メール/ID]",
+    "Medium"
+  ],
+  [
+    "[BA100-4]",
+    "",
+    "Check truy cập khi đang có phiên đăng nhập",
+    "1. Nhập URL https://admin-dev.surrealdolls.com/sign-in/agency khi đang đăng nhập",
+    "User đang đăng nhập tài khoản Agency",
+    "1. Tự động chuyển hướng vào màn đầu tiên trong side menu BB101 事務所情報",
+    "High"
+  ],
+  [
+    "[BA100-5]",
+    "",
+    "Check mở URL nội bộ khi chưa đăng nhập",
+    "1. Nhập URL màn hình BB101 khi chưa đăng nhập",
+    "",
+    "1. Hệ thống điều hướng về màn BA100 (không về login master)",
+    "High"
+  ],
+  [
+    "[BA100-6]",
+    "",
+    "Check tự động đăng xuất khi Agency bị 停止中",
+    "1. Thao tác tiếp theo trên giao diện sau khi Agency bị chuyển 停止中 tại AD301",
+    "Master chuyển trạng thái Agency sang 停止中",
+    "1. \n- Hệ thống tự động đăng xuất\n- Di chuyển về màn BA100",
+    "High"
+  ],
+  [
+    "[BA100-7]",
+    "",
+    "Check tự động đăng xuất khi Admin con bị 停止中",
+    "1. Thao tác tiếp theo trên giao diện sau khi tài khoản admin bị chuyển 停止中 tại BB300",
+    "Owner chuyển trạng thái Admin con sang 停止中",
+    "1. \n- Hệ thống tự động đăng xuất\n- Di chuyển về màn BA100",
+    "High"
+  ],
+  [
+    "[BA100-8]",
+    "",
+    "Check tự động đăng xuất khi Agency bị xóa",
+    "1. Thao tác tiếp theo trên giao diện sau khi Agency bị xóa tại AD301",
+    "Master thực hiện xóa Agency",
+    "1. \n- Hệ thống tự động đăng xuất\n- Di chuyển về màn BA100",
+    "High"
+  ],
+  [
+    "[BA100-9]",
+    "",
+    "Check tự động đăng xuất khi Admin con bị xóa",
+    "1. Thao tác tiếp theo trên giao diện sau khi tài khoản admin bị xóa tại BB300",
+    "Owner thực hiện xóa Admin con",
+    "1. \n- Hệ thống tự động đăng xuất\n- Di chuyển về màn BA100",
+    "High"
+  ],
+  [
+    "[BA100-10]",
+    "[1] Label メール/ID",
+    "Kiểm tra label",
+    "1. Thực hiện kiểm tra hiển thị label",
+    "",
+    "1. \n- Label hiển thị đúng text theo đặc tả (font, size, color, style) design\n- Không bị tràn, cắt chữ, xuống dòng sai",
+    "High"
+  ],
+  [
+    "[BA100-11]",
+    "",
+    "Kiểm tra nội dung trên label",
+    "1. Thực hiện kiểm tra nội dung trên label",
+    "",
+    "1. Hiển thị text メール/ID",
+    "High"
+  ],
+  [
+    "[BA100-12]",
+    "",
+    "Kiểm tra khi di chuyển chuột vào label",
+    "1. Thực hiện di chuyển chuột vào label",
+    "",
+    "1. \n- Hiển thị con trỏ chuột\n- Không thay đổi màu sắc của label",
+    "Medium"
+  ],
+  [
+    "[BA100-13]",
+    "",
+    "Kiểm tra khi click vào label",
+    "1. Thực hiện click vào label",
+    "",
+    "1. Con trỏ tự động focus vào ô textbox [メール/ID]",
+    "Medium"
+  ],
+  [
+    "[BA100-14]",
+    "[1] Textbox メール/ID",
+    "Kiểm tra hiển thị tại ô nhập",
+    "1. Thực hiện kiểm tra hiển thị ô textbox\n2. Click vào ô textbox",
+    "",
+    "1. \n- Hiển thị dưới dạng textbox\n- Hiển thị placeholder メールアドレス・ID入力\n2. \n- Con trỏ chuột hiển thị dạng Text (I-beam)\n- Cho phép nhập dữ liệu từ bàn phím",
+    "High"
+  ],
+  [
+    "[BA100-15]",
+    "",
+    "Kiểm tra khi thực hiện input data",
+    "1. Thực hiện nhập ký tự là chữ\n( chữ hoa, chữ thường )",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA100-16]",
+    "",
+    "",
+    "1. Thực hiện nhập ký tự là số",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA100-17]",
+    "",
+    "",
+    "1. Thực hiện nhập ký tự là ký tự đặc biệt\n\"@#$%^\u0026*()\"",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA100-18]",
+    "",
+    "",
+    "1. Thực hiện nhập data có chứa space ở đầu",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA100-19]",
+    "",
+    "",
+    "1. Thực hiện nhập data có chứa space ở cuối",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA100-20]",
+    "",
+    "",
+    "1. Thực hiện nhập data có chứa space ở giữa các ký tự",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA100-21]",
+    "",
+    "Kiểm tra khi paste data",
+    "1. Thực hiện paste chuỗi ký tự gồm chữ, số, ký tự đặc biệt",
+    "",
+    "1. Hệ thống nhận chuỗi ký tự vừa paste vào ô textbox",
+    "Medium"
+  ],
+  [
+    "[BA100-22]",
+    "",
+    "Kiểm tra khi nhập dữ liệu sau đó xóa toàn bộ data",
+    "1. Thực hiện nhập dữ liệu\n2. Xóa toàn bộ dữ liệu đã nhập",
+    "",
+    "2. \n- Clear toàn bộ dữ liệu ở ô textbox\n- Hiển thị lại placeholder メールアドレス・ID入力\n- Không báo lỗi",
+    "Medium"
+  ],
+  [
+    "[BA100-23]",
+    "",
+    "Kiểm tra nhập 事務所ID của Owner",
+    "1. Nhập 事務所ID hợp lệ của Owner\n2. Nhập đúng password\n3. Click button ログイン",
+    "Tài khoản Owner đang 利用中",
+    "3. Đăng nhập thành công, di chuyển đến màn BB101",
+    "High"
+  ],
+  [
+    "[BA100-24]",
+    "",
+    "Kiểm tra nhập Email của Owner",
+    "1. Nhập Email hợp lệ của Owner\n2. Nhập đúng password\n3. Click button ログイン",
+    "Tài khoản Owner đang 利用中",
+    "3. Đăng nhập thành công, di chuyển đến màn BB101",
+    "High"
+  ],
+  [
+    "[BA100-25]",
+    "",
+    "Kiểm tra nhập 事務所管理者ID của Admin con",
+    "1. Nhập 事務所管理者ID của Admin tạo ở BB200\n2. Nhập đúng password\n3. Click button ログイン",
+    "Tài khoản Admin con đang 利用中",
+    "3. Đăng nhập thành công, di chuyển đến màn BB101",
+    "High"
+  ],
+  [
+    "[BA100-26]",
+    "",
+    "Kiểm tra nhập Email của Admin con",
+    "1. Nhập Email của Admin con tạo ở BB200\n2. Nhập đúng password\n3. Click button ログイン",
+    "Tài khoản Admin con đang 利用中",
+    "3. Đăng nhập thành công, di chuyển đến màn BB101",
+    "High"
+  ],
+  [
+    "[BA100-27]",
+    "",
+    "Kiểm tra không phân biệt hoa thường",
+    "1. Nhập email/ID dạng chữ IN HOA\n2. Nhập đúng password và click ログイン",
+    "Tài khoản đăng ký bằng chữ thường",
+    "2. Hệ thống xử lý không phân biệt hoa thường, đăng nhập thành công vào BB101",
+    "High"
+  ],
+  [
+    "[BA100-28]",
+    "",
+    "Kiểm tra tự động trim space",
+    "1. Nhập email/ID có chứa khoảng trắng ở đầu và cuối\n2. Nhập đúng password và click ログイン",
+    "",
+    "2. Hệ thống tự động trim khoảng trắng đầu/cuối, đăng nhập thành công vào BB101",
+    "High"
+  ],
+  [
+    "[BA100-29]",
+    "",
+    "Kiểm tra không validate định dạng email",
+    "1. Nhập chuỗi ID không có ký tự @\n2. Nhập password và click ログイン",
+    "",
+    "2. Hệ thống không chặn validate email, gửi request bình thường",
+    "Medium"
+  ],
+  [
+    "[BA100-30]",
+    "",
+    "Kiểm tra khi để trống",
+    "1. Để trống ô メール/ID\n2. Nhập password bất kỳ\n3. Click button ログイン",
+    "",
+    "3. \n- Viền ô chuyển màu đỏ\n- Hiển thị thông báo lỗi dưới ô: メール/IDは空欄にできません。",
+    "High"
+  ],
+  [
+    "[BA100-31]",
+    "",
+    "Kiểm tra nhập toàn ký tự space",
+    "1. Nhập toàn ký tự khoảng trắng vào ô メール/ID\n2. Click button ログイン",
+    "",
+    "2. \n- Viền ô chuyển màu đỏ\n- Hiển thị thông báo lỗi: メール/IDは空欄にできません。",
+    "High"
+  ],
+  [
+    "[BA100-32]",
+    "",
+    "Kiểm tra tự động xóa lỗi khi gõ lại",
+    "1. Để trống bấm ログイン để hiện lỗi\n2. Focus vào ô và gõ 1 ký tự",
+    "",
+    "2. Viền đỏ và thông báo lỗi lập tức biến mất",
+    "Medium"
+  ],
+  [
+    "[BA100-33]",
+    "",
+    "Kiểm tra đồng bộ khi Master đổi 事務所ID",
+    "1. Đăng nhập bằng 事務所ID mới vừa đổi tại AD301\n2. Đăng nhập bằng 事務所ID cũ",
+    "Master đổi 事務所ID tại AD301",
+    "1. ID mới đăng nhập thành công vào BB101\n2. ID cũ báo lỗi: メールアドレス・IDまたはパスワードが一致しません。もう一度入力してください。",
+    "High"
+  ],
+  [
+    "[BA100-34]",
+    "",
+    "Kiểm tra đồng bộ khi đổi 事務所管理者ID",
+    "1. Đăng nhập bằng 事務所管理者ID mới đổi tại BB300\n2. Đăng nhập bằng 事務所管理者ID cũ",
+    "Admin đổi 事務所管理者ID tại BB300",
+    "1. ID mới đăng nhập thành công vào BB101\n2. ID cũ báo lỗi: メールアドレス・IDまたはパスワードが一致しません。もう一度入力してください。",
+    "High"
+  ],
+  [
+    "[BA100-35]",
+    "",
+    "Kiểm tra đăng nhập khi đổi Email chưa xác thực PEM4",
+    "1. Đăng nhập bằng email mới vừa đổi\n2. Đăng nhập bằng email cũ",
+    "User đổi email tại BB101/BB300 nhưng chưa click link trong mail PEM4",
+    "1. Email mới báo lỗi: メールアドレス・IDまたはパスワードが一致しません。もう一度入力してください。\n2. Email cũ đăng nhập thành công vào BB101",
+    "High"
+  ],
+  [
+    "[BA100-36]",
+    "",
+    "Kiểm tra đăng nhập khi đã xác thực Email mới PEM4",
+    "1. Đăng nhập bằng email mới đã xác thực PEM4\n2. Đăng nhập bằng email cũ",
+    "User đã click xác thực email PEM4 thành công",
+    "1. Email mới đăng nhập thành công vào BB101\n2. Email cũ báo lỗi: メールアドレス・IDまたはパスワードが一致しません。もう一度入力してください。",
+    "High"
+  ],
+  [
+    "[BA100-37]",
+    "",
+    "Kiểm tra bảo mật XSS",
+    "1. Nhập chuỗi \u003cscript\u003ealert('XSS')\u003c/script\u003e\n2. Click button ログイン",
+    "",
+    "2. Hệ thống encode an toàn, không thực thi mã độc JavaScript",
+    "High"
+  ],
+  [
+    "[BA100-38]",
+    "",
+    "Kiểm tra bảo mật SQL Injection",
+    "1. Nhập chuỗi ' OR '1'='1\n2. Click button ログイン",
+    "",
+    "2. Hệ thống xử lý an toàn, không phát sinh lỗi 500, báo lỗi tài khoản không hợp lệ",
+    "High"
+  ],
+  [
+    "[BA100-39]",
+    "[2] Label パスワード",
+    "Kiểm tra label",
+    "1. Thực hiện kiểm tra hiển thị label",
+    "",
+    "1. \n- Label hiển thị đúng text theo đặc tả design\n- Không bị tràn, cắt chữ, xuống dòng sai",
+    "High"
+  ],
+  [
+    "[BA100-40]",
+    "",
+    "Kiểm tra nội dung trên label",
+    "1. Thực hiện kiểm tra nội dung trên label",
+    "",
+    "1. Hiển thị text パスワード",
+    "High"
+  ],
+  [
+    "[BA100-41]",
+    "",
+    "Kiểm tra khi di chuyển chuột vào label",
+    "1. Thực hiện di chuyển chuột vào label",
+    "",
+    "1. \n- Hiển thị con trỏ chuột\n- Không thay đổi màu sắc của label",
+    "Medium"
+  ],
+  [
+    "[BA100-42]",
+    "",
+    "Kiểm tra khi click vào label",
+    "1. Thực hiện click vào label",
+    "",
+    "1. Con trỏ tự động focus vào ô textbox [パスワード]",
+    "Medium"
+  ],
+  [
+    "[BA100-43]",
+    "[2] Textbox パスワード",
+    "Kiểm tra hiển thị tại ô nhập",
+    "1. Thực hiện kiểm tra hiển thị ô textbox\n2. Click vào ô textbox",
+    "",
+    "1. \n- Hiển thị dưới dạng textbox password\n- Hiển thị placeholder パスワード入力\n2. Con trỏ chuột hiển thị dạng Text (I-beam)",
+    "High"
+  ],
+  [
+    "[BA100-44]",
+    "",
+    "Kiểm tra ẩn ký tự khi nhập",
+    "1. Thực hiện nhập ký tự vào ô password",
+    "",
+    "1. Toàn bộ ký tự bị ẩn ngay lập tức dưới dạng dấu chấm tròn ●●●",
+    "High"
+  ],
+  [
+    "[BA100-45]",
+    "",
+    "Kiểm tra không validate rule độ phức tạp",
+    "1. Nhập password đơn giản '123' (không đủ 8 ký tự)\n2. Click button ログイン",
+    "",
+    "2. Màn hình không validate độ mạnh password, gửi request bình thường",
+    "Medium"
+  ],
+  [
+    "[BA100-46]",
+    "",
+    "Kiểm tra khi để trống",
+    "1. Nhập email/ID hợp lệ\n2. Để trống ô パスワード\n3. Click button ログイン",
+    "",
+    "3. \n- Viền ô chuyển màu đỏ\n- Hiển thị thông báo lỗi dưới ô: パスワードは空欄にできません。",
+    "High"
+  ],
+  [
+    "[BA100-47]",
+    "",
+    "Kiểm tra nhập toàn ký tự space",
+    "1. Nhập toàn ký tự khoảng trắng vào ô パスワード\n2. Click button ログイン",
+    "",
+    "2. \n- Viền ô chuyển màu đỏ\n- Hiển thị thông báo lỗi: パスワードは空欄にできません。",
+    "High"
+  ],
+  [
+    "[BA100-48]",
+    "",
+    "Kiểm tra tự động xóa lỗi khi gõ lại",
+    "1. Để trống bấm ログイン để hiện lỗi\n2. Focus vào ô và gõ 1 ký tự",
+    "",
+    "2. Viền đỏ và thông báo lỗi lập tức biến mất",
+    "Medium"
+  ],
+  [
+    "[BA100-49]",
+    "",
+    "Kiểm tra đồng bộ khi Master reset password",
+    "1. Đăng nhập bằng password mới do Master vừa đặt tại AD301\n2. Đăng nhập lại bằng password cũ",
+    "Master vừa reset password tại AD301",
+    "1. Password mới đăng nhập thành công vào BB101\n2. Password cũ bị từ chối ngay lập tức, báo lỗi: メールアドレス・IDまたはパスワードが一致しません。もう一度入力してください。",
+    "High"
+  ],
+  [
+    "[BA100-50]",
+    "",
+    "Kiểm tra chặn copy cut mật khẩu",
+    "1. Bôi đen nội dung trong ô password đang ẩn\n2. Thực hiện phím tắt Ctrl+C / Ctrl+X",
+    "",
+    "2. Không cho phép copy hoặc cut mật khẩu ra clipboard",
+    "High"
+  ],
+  [
+    "[BA100-51]",
+    "[3] Button (icon 👁)",
+    "Kiểm tra hiển thị icon mặc định",
+    "1. Quan sát icon ở góc phải ô password",
+    "",
+    "1. Hiển thị icon con mắt gạch chéo (mật khẩu đang ẩn)",
+    "High"
+  ],
+  [
+    "[BA100-52]",
+    "",
+    "Kiểm tra khi click hiển thị mật khẩu",
+    "1. Nhập password\n2. Click icon con mắt",
+    "",
+    "2. \n- Thuộc tính chuyển thành type=text\n- Hiển thị text password rõ ràng\n- Icon chuyển thành mắt mở (không gạch chéo)",
+    "High"
+  ],
+  [
+    "[BA100-53]",
+    "",
+    "Kiểm tra khi click ẩn lại mật khẩu",
+    "1. Click lại icon con mắt khi đang hiển thị text rõ",
+    "",
+    "1. \n- Thuộc tính chuyển lại type=password\n- Mật khẩu ẩn lại thành ●●●\n- Icon chuyển lại mắt gạch chéo\n- Không làm thay đổi ký tự đã nhập",
+    "High"
+  ],
+  [
+    "[BA100-54]",
+    "[4] Tabable text パスワードを忘れた方",
+    "Kiểm tra hiển thị",
+    "1. Quan sát vị trí link bên phải nhãn パスワード\n2. Di chuyển chuột vào link",
+    "",
+    "1. Hiển thị text パスワードを忘れた方 bên phải nhãn パスワード\n2. Con trỏ chuột hiển thị hình bàn tay",
+    "High"
+  ],
+  [
+    "[BA100-55]",
+    "",
+    "Kiểm tra khi click link",
+    "1. Click link パスワードを忘れた方",
+    "",
+    "1. Di chuyển đến màn BA1001 (bản Agency, có header 事務所管理画面, không mở màn master)",
+    "High"
+  ],
+  [
+    "[BA100-56]",
+    "",
+    "Kiểm tra mở tab mới với Ctrl+Click",
+    "1. Giữ phím Ctrl và click link パスワードを忘れた方",
+    "",
+    "1. Mở màn hình BA1001 trong tab mới của trình duyệt",
+    "Medium"
+  ],
+  [
+    "[BA100-57]",
+    "[5] Button ログイン",
+    "Kiểm tra hiển thị button",
+    "1. Quan sát button ログイン",
+    "",
+    "1. \n- Button ở trạng thái Primary\n- Text căn giữa ログイン\n- Đúng màu sắc, kích thước theo Figma",
+    "High"
+  ],
+  [
+    "[BA100-58]",
+    "",
+    "Kiểm tra khi di chuyển con trỏ chuột vào button",
+    "1. Thực hiện di chuyển chuột vào button ログイン",
+    "",
+    "1. \n- Con trỏ chuột hiển thị hình bàn tay\n- Màu sắc button có sự thay đổi (hover state)",
+    "Medium"
+  ],
+  [
+    "[BA100-59]",
+    "",
+    "Kiểm tra khi không nhập cả 2 trường",
+    "1. Không nhập dữ liệu cho cả ô メール/ID và ô パスワード\n2. Click button ログイン",
+    "",
+    "2. \n- Viền đỏ đồng thời cả 2 ô\n- Dưới ô メール/ID hiển thị: メール/IDは空欄にできません。\n- Dưới ô パスワード hiển thị: パスワードは空欄にできません。",
+    "High"
+  ],
+  [
+    "[BA100-60]",
+    "",
+    "Kiểm tra chống double click",
+    "1. Nhập thông tin đăng nhập hợp lệ\n2. Click liên tục nhiều lần thật nhanh vào button ログイン",
+    "",
+    "2. \n- Button lập tức disable và hiển thị icon loading\n- Chỉ gửi duy nhất 1 request HTTP lên server",
+    "High"
+  ],
+  [
+    "[BA100-61]",
+    "",
+    "Kiểm tra sai thông tin đăng nhập",
+    "1. Nhập sai email/ID hoặc sai password\n2. Click button ログイン",
+    "",
+    "2. \n- Hiển thị thông báo lỗi ở đầu Card: メールアドレス・IDまたはパスワードが一致しません。もう一度入力してください。\n- Không chỉ rõ ô nào sai\n- Giữ nguyên giá trị ô メール/ID",
+    "High"
+  ],
+  [
+    "[BA100-62]",
+    "",
+    "Kiểm tra đăng nhập khi Agency đang 停止中",
+    "1. Nhập đúng tài khoản của Agency đang 停止中\n2. Click button ログイン",
+    "Agency đang 停止中 tại AD301",
+    "2. Từ chối đăng nhập, hiển thị thông báo lỗi: メールアドレス・IDまたはパスワードが一致しません。もう一度入力してください。",
+    "High"
+  ],
+  [
+    "[BA100-63]",
+    "",
+    "Kiểm tra đăng nhập khi Admin con đang 停止中",
+    "1. Nhập đúng tài khoản của Admin con đang 停止中\n2. Click button ログイン",
+    "Admin con đang 停止中 tại BB300",
+    "2. Từ chối đăng nhập, hiển thị thông báo lỗi: メールアドレス・IDまたはパスワードが一致しません。もう一度入力してください。",
+    "High"
+  ],
+  [
+    "[BA100-64]",
+    "",
+    "Kiểm tra đăng nhập bằng tài khoản Master",
+    "1. Nhập tài khoản cấp Master (Master / Quản trị viên / Giám sát viên)\n2. Click button ログイン",
+    "",
+    "2. Từ chối đăng nhập, hiển thị thông báo lỗi: メールアドレス・IDまたはパスワードが一致しません。もう一度入力してください。",
+    "High"
+  ],
+  [
+    "[BA100-65]",
+    "",
+    "Kiểm tra đăng nhập lại khi Agency chuyển 利用中",
+    "1. Nhập thông tin đăng nhập sau khi Agency được chuyển lại 利用中\n2. Click button ログイン",
+    "Agency chuyển từ 停止中 sang 利用中 tại AD301",
+    "2. Đăng nhập thành công, di chuyển đến màn BB101",
+    "High"
+  ],
+  [
+    "[BA100-66]",
+    "",
+    "Kiểm tra đăng nhập thành công",
+    "1. Nhập đúng email/ID và password của tài khoản đang 利用中\n2. Click button ログイン",
+    "Tài khoản Agency đang 利用中",
+    "2. \n- Đăng nhập thành công\n- Lưu session token\n- Di chuyển đến màn BB101 事務所情報",
+    "High"
+  ],
+  [
+    "[BA100-67]",
+    "",
+    "Kiểm tra kích hoạt bằng phím Enter",
+    "1. Nhập đầy đủ thông tin, nhấn phím Enter tại ô password",
+    "",
+    "1. Kích hoạt submit button ログイン, gửi request đăng nhập thành công",
+    "Medium"
+  ],
+  [
+    "[BA100-68]",
+    "",
+    "Kiểm tra phục hồi button khi mất mạng",
+    "1. Ngắt kết nối mạng hoặc server lỗi 500, click button ログイン",
+    "",
+    "1. Button tắt loading và trở lại enable để user bấm thử lại, không mất dữ liệu đã nhập",
+    "High"
+  ],
+  [
+    "[BA100-69]",
+    "[6] Button マスター管理画面へ",
+    "Kiểm tra hiển thị button",
+    "1. Quan sát góc phải Header",
+    "",
+    "1. Hiển thị button có icon vương miện kèm text マスター管理画面へ",
+    "High"
+  ],
+  [
+    "[BA100-70]",
+    "",
+    "Kiểm tra khi click button",
+    "1. Click button マスター管理画面へ",
+    "",
+    "1. Di chuyển đến màn login master AA000",
+    "High"
+  ],
+  [
+    "[BA100-71]",
+    "[5] Button ログイン",
+    "Kiểm tra đăng nhập mật khẩu còn hạn (\u003c 30 ngày)",
+    "1. Thực hiện nhập email/ID và password của tài khoản còn hạn\n2. Click button ログイン",
+    "Tài khoản Agency còn hạn mật khẩu",
+    "1. Hệ thống cho phép đăng nhập\n2. Lưu session token\n3. Di chuyển về màn BB101 事務所情報\n4. Không hiển thị thông báo MSG260",
+    "High",
+    "",
+    "",
+    "",
+    "",
+    "[CR 21/10/2026 - GMO Sec-12] Bổ sung rule hết hạn 30 ngày (CMR68)"
+  ],
+  [
+    "[BA100-72]",
+    "",
+    "Kiểm tra đăng nhập mật khẩu quá 30 ngày (CMR68)",
+    "1. Thực hiện nhập email/ID và password của tài khoản quá 30 ngày\n2. Click button ログイン",
+    "Tài khoản Agency quá hạn 30 ngày",
+    "1. Không cho phép đăng nhập\n2. Ở nguyên màn BA100 ログイン\n3. Không lưu session token\n4. Hiển thị thông báo lỗi MSG260 ở đầu form: パスワードの有効期限（30日）が切れています。パスワードの再設定を行ってください。",
+    "High",
+    "",
+    "",
+    "",
+    "",
+    "[CR 21/10/2026 - GMO Sec-12] Bổ sung rule hết hạn 30 ngày (CMR68)"
+  ],
+  [
+    "[BA100-73]",
+    "",
+    "Kiểm tra tài khoản quá hạn nhập sai thông tin",
+    "1. Thực hiện nhập sai password của tài khoản quá 30 ngày\n2. Click button ログイン",
+    "Tài khoản Agency quá hạn 30 ngày",
+    "1. Không cho phép đăng nhập\n2. Hiển thị thông báo lỗi MSG10: メールアドレス・IDまたはパスワードが一致しません。もう一度入力してください。\n3. Không hiển thị thông báo MSG260",
+    "High",
+    "",
+    "",
+    "",
+    "",
+    "[CR 21/10/2026 - GMO Sec-12] Bổ sung rule hết hạn 30 ngày (CMR68)"
+  ],
+  [
+    "[BA100-74]",
+    "",
+    "",
+    "1. Thực hiện nhập sai email/ID\n2. Click button ログイン",
+    "",
+    "1. Không cho phép đăng nhập\n2. Hiển thị thông báo lỗi MSG10: メールアドレス・IDまたはパスワードが一致しません。もう一度入力してください。\n3. Không hiển thị thông báo MSG260",
+    "High",
+    "",
+    "",
+    "",
+    "",
+    "[CR 21/10/2026 - GMO Sec-12] Bổ sung rule hết hạn 30 ngày (CMR68)"
+  ],
+  [
+    "[BA100-75]",
+    "",
+    "Kiểm tra dán URL màn bên trong khi mật khẩu hết hạn",
+    "1. Thực hiện dán trực tiếp URL màn nội bộ vào thanh địa chỉ\n2. Nhấn phím Enter",
+    "Tài khoản đã hết hạn mật khẩu",
+    "1. Hệ thống từ chối truy cập\n2. Di chuyển về màn BA100 ログイン\n3. Không hiển thị dữ liệu màn hình nội bộ",
+    "High",
+    "",
+    "",
+    "",
+    "",
+    "[CR 21/10/2026 - GMO Sec-12] Bổ sung rule hết hạn 30 ngày (CMR68)"
+  ],
+  [
+    "[BA100-76]",
+    "",
+    "Kiểm tra không cấp token tại F12 khi mật khẩu hết hạn",
+    "1. Mở F12 tab Network\n2. Click button ログイン với tài khoản quá hạn",
+    "Tài khoản Agency quá hạn 30 ngày",
+    "1. BE trả về HTTP 401 kèm mã lỗi hết hạn\n2. Không lưu access token hay refresh token trong storage / cookies",
+    "High",
+    "",
+    "",
+    "",
+    "",
+    "[CR 21/10/2026 - GMO Sec-12] Bổ sung rule hết hạn 30 ngày (CMR68)"
+  ],
+  [
+    "[BA100-77]",
+    "",
+    "Kiểm tra đăng nhập sau khi reset mật khẩu hết hạn",
+    "1. Thực hiện đặt lại mật khẩu mới thành công qua link email\n2. Nhập email và mật khẩu mới\n3. Click button ログイン",
+    "User vừa hoàn thành reset mật khẩu hết hạn",
+    "1. Hệ thống cho phép đăng nhập\n2. Lưu session token\n3. Di chuyển về màn BB101 事務所情報\n4. Thời hạn 30 ngày bắt đầu tính lại từ thời điểm đặt lại mật khẩu mới",
+    "High",
+    "",
+    "",
+    "",
+    "",
+    "[CR 21/10/2026 - GMO Sec-12] Bổ sung rule hết hạn 30 ngày (CMR68)"
+  ],
+  [
+    "[BA100-78]",
+    "",
+    "Kiểm tra hết hạn 30 ngày đối với tài khoản Admin con",
+    "1. Thực hiện nhập tài khoản Admin con quá 30 ngày\n2. Click button ログイン",
+    "Tài khoản Admin con quá hạn 30 ngày",
+    "1. Không cho phép đăng nhập\n2. Ở nguyên màn BA100 ログイン\n3. Hiển thị thông báo lỗi MSG260 ở đầu form: パスワードの有効期限（30日）が切れています。パスワードの再設定を行ってください。",
+    "High",
+    "",
+    "",
+    "",
+    "",
+    "[CR 21/10/2026 - GMO Sec-12] Bổ sung rule hết hạn 30 ngày (CMR68)"
+  ],
+  [
+    "[BA100-79]",
+    "",
+    "Kiểm tra tài khoản tạo mới đặt mật khẩu lần đầu",
+    "1. Thực hiện nhập tài khoản vừa kích hoạt lần đầu qua link PEM3 / PEM7\n2. Click button ログイン",
+    "Tài khoản vừa kích hoạt lần đầu",
+    "1. Hệ thống cho phép đăng nhập\n2. Di chuyển về màn BB101 事務所情報\n3. Thời hạn 30 ngày tính từ thời điểm đặt mật khẩu lần đầu",
+    "High",
+    "",
+    "",
+    "",
+    "",
+    "[CR 21/10/2026 - GMO Sec-12] Bổ sung rule hết hạn 30 ngày (CMR68)"
+  ]
+]

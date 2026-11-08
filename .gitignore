@@ -16,3 +16,6 @@ Thumbs.db
 
 # Logs and temporary files
 *.log
+
+#CONFIG
+TEST_CONFIG.md

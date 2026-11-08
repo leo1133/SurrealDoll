@@ -271,7 +271,7 @@ Mỗi sheet test case chuẩn bao gồm 17 cột (từ cột A đến cột Q):
 | 9 | **Bug ID (R1)** | Cột I | Link hoặc mã Bug phát sinh ở Round 1. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
 | 10 | **Status (R1)** | Cột J | Trạng thái xử lý lỗi (`Open`, `Fixed`, `Closed`, `Reopen`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
 | 11 | **Comment (R1)** | Cột K | Ghi chú thực thi, lý do fail ở Round 1. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
-| 12 | **Note (R1)** | Cột L | Ghi chú nghiệp vụ / Cờ câu hỏi Q&A (`[Pending Q&A #1]` $\rightarrow$ `=> Confirmed: ...`). |
+| 12 | **Note (R1)** | Cột L | Ghi chú nghiệp vụ / Cờ câu hỏi Q&A (`[Pending Q&A #1]` $\rightarrow$ `=> Confirmed: ...`) / Cờ khả năng tự động hóa (`[Auto]` \| `[Manual Only]`) để bàn giao cho Trụ cột 5 ([05_automation_test_rule.md](05_automation_test_rule.md)). |
 | 13 | **Round 2 (Result)** | Cột M | Kết quả thực thi Round 2 (`Pass`, `Fail`, `Impact`, `Not run`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
 | 14 | **Bug ID (R2)** | Cột N | Link hoặc mã Bug phát sinh ở Round 2. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
 | 15 | **Status (R2)** | Cột O | Trạng thái xử lý lỗi Round 2. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |

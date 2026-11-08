@@ -3,7 +3,7 @@
 
 > [!IMPORTANT]
 > **Mục tiêu:** Cung cấp quy chuẩn chuyên biệt cho việc đọc hiểu, bóc tách tài liệu đặc tả (Spec / PRD / Requirement Sheet) cho bất kỳ hệ thống phần mềm nào; tự động truy xuất và đối chiếu 1:1 với nguồn thiết kế (Figma / HTML Prototype); trích xuất ma trận logic nghiệp vụ cốt lõi; xác định phạm vi API; và thiết lập bảng câu hỏi Q&A trực quan có cấu trúc lựa chọn (Option A / Option B).
-> - **Độc lập dự án (Project-Agnostic):** Áp dụng nhất quán cho mọi loại dự án và ngôn ngữ, tham số hóa toàn bộ qua bảng biến cấu hình `{{PROJECT_PROFILE}}`.
+> - **Độc lập dự án (Project-Agnostic):** Áp dụng nhất quán cho mọi loại dự án và ngôn ngữ, tham số hóa toàn bộ qua bảng biến cấu hình `{{PROJECT_PROFILE}}` và file cấu hình kiểm thử tập trung [TEST_CONFIG.md](TEST_CONFIG.md).
 > - **Cổng vào đầu tiên (Entry Gate):** Cung cấp toàn bộ dữ liệu đầu vào cho Trụ cột 2 (Manual UI Testing) và Trụ cột 3 (Backend API Testing).
 
 ---

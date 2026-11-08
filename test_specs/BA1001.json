@@ -1,0 +1,409 @@
+[
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Result",
+    "Bug ID",
+    "Tester",
+    "Test Date",
+    "Note",
+    "Result",
+    "Bug ID",
+    "Tester",
+    "Test Date",
+    "Note"
+  ],
+  [],
+  [
+    "[BA1001-1]",
+    "[0] Kiểm tra truy cập màn hình",
+    "Check truy cập từ màn BA100",
+    "1. Tại BA100, click link パスワードを忘れた方",
+    "User là Agency chưa đăng nhập",
+    "1. \n- Di chuyển đến màn BA1001 パスワードを忘れた方\n- Hiển thị UI giống với Figma\n- Header có logo, text 「事務所管理画面」 và KHÔNG có nút 「マスター管理画面へ」",
+    "High"
+  ],
+  [
+    "[BA1001-2]",
+    "",
+    "Check auto-focus ô email",
+    "1. Kiểm tra vị trí con trỏ khi màn hình tải xong",
+    "",
+    "1. Con trỏ tự động focus vào ô textbox [メールアドレス]",
+    "Medium"
+  ],
+  [
+    "[BA1001-3]",
+    "",
+    "Check không hiển thị nút về Master",
+    "1. Quan sát toàn bộ thanh Header",
+    "",
+    "1. Không hiển thị nút マスター管理画面へ trên Header",
+    "High"
+  ],
+  [
+    "[BA1001-4]",
+    "[1] Label メールアドレス",
+    "Kiểm tra label",
+    "1. Thực hiện kiểm tra hiển thị label",
+    "",
+    "1. \n- Label hiển thị đúng text theo đặc tả design\n- Không bị tràn, cắt chữ, xuống dòng sai",
+    "High"
+  ],
+  [
+    "[BA1001-5]",
+    "",
+    "Kiểm tra nội dung trên label",
+    "1. Thực hiện kiểm tra nội dung trên label",
+    "",
+    "1. Hiển thị text メールアドレス",
+    "High"
+  ],
+  [
+    "[BA1001-6]",
+    "",
+    "Kiểm tra khi di chuyển chuột vào label",
+    "1. Thực hiện di chuyển chuột vào label",
+    "",
+    "1. \n- Hiển thị con trỏ chuột\n- Không thay đổi màu sắc của label",
+    "Medium"
+  ],
+  [
+    "[BA1001-7]",
+    "",
+    "Kiểm tra khi click vào label",
+    "1. Thực hiện click vào label",
+    "",
+    "1. Con trỏ tự động focus vào ô textbox [メールアドレス]",
+    "Medium"
+  ],
+  [
+    "[BA1001-8]",
+    "[1] Textbox メールアドレス",
+    "Kiểm tra hiển thị tại ô nhập",
+    "1. Thực hiện kiểm tra hiển thị ô textbox\n2. Click vào ô textbox",
+    "",
+    "1. \n- Hiển thị dưới dạng textbox\n- Hiển thị placeholder メールアドレス入力\n2. Con trỏ chuột hiển thị dạng Text (I-beam)",
+    "High"
+  ],
+  [
+    "[BA1001-9]",
+    "",
+    "Kiểm tra khi thực hiện input data",
+    "1. Thực hiện nhập ký tự là chữ\n( chữ hoa, chữ thường )",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA1001-10]",
+    "",
+    "",
+    "1. Thực hiện nhập ký tự là số",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA1001-11]",
+    "",
+    "",
+    "1. Thực hiện nhập ký tự là ký tự đặc biệt\n\"@#$%^\u0026*()\"",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA1001-12]",
+    "",
+    "",
+    "1. Thực hiện nhập data có chứa space ở đầu",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA1001-13]",
+    "",
+    "",
+    "1. Thực hiện nhập data có chứa space ở cuối",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA1001-14]",
+    "",
+    "",
+    "1. Thực hiện nhập data có chứa space ở giữa các ký tự",
+    "",
+    "1. Hệ thống cho phép nhập",
+    "High"
+  ],
+  [
+    "[BA1001-15]",
+    "",
+    "Kiểm tra khi paste data",
+    "1. Thực hiện paste chuỗi ký tự gồm chữ, số, ký tự đặc biệt",
+    "",
+    "1. Hệ thống nhận chuỗi ký tự vừa paste vào ô textbox",
+    "Medium"
+  ],
+  [
+    "[BA1001-16]",
+    "",
+    "Kiểm tra khi nhập dữ liệu sau đó xóa toàn bộ data",
+    "1. Thực hiện nhập dữ liệu\n2. Xóa toàn bộ dữ liệu đã nhập",
+    "",
+    "2. \n- Clear toàn bộ dữ liệu ở ô textbox\n- Hiển thị lại placeholder メールアドレス入力\n- Không báo lỗi",
+    "Medium"
+  ],
+  [
+    "[BA1001-17]",
+    "",
+    "Kiểm tra nhập Email hợp lệ của Owner",
+    "1. Nhập email hợp lệ của Owner\n2. Click button 送信",
+    "Tài khoản Owner đang 利用中",
+    "2. Gửi yêu cầu thành công, di chuyển đến màn BA1002",
+    "High"
+  ],
+  [
+    "[BA1001-18]",
+    "",
+    "Kiểm tra nhập Email hợp lệ của Admin con",
+    "1. Nhập email hợp lệ của Admin con tạo ở BB200\n2. Click button 送信",
+    "Tài khoản Admin con đang 利用中",
+    "2. Gửi yêu cầu thành công, di chuyển đến màn BA1002",
+    "High"
+  ],
+  [
+    "[BA1001-19]",
+    "",
+    "Kiểm tra tự động trim space",
+    "1. Nhập email có khoảng trắng ở đầu và cuối\n2. Click button 送信",
+    "",
+    "2. Tự động trim khoảng trắng, gửi yêu cầu thành công sang BA1002",
+    "High"
+  ],
+  [
+    "[BA1001-20]",
+    "",
+    "Kiểm tra không phân biệt hoa thường",
+    "1. Nhập email dạng chữ IN HOA\n2. Click button 送信",
+    "",
+    "2. Xử lý không phân biệt hoa thường, gửi yêu cầu thành công sang BA1002",
+    "High"
+  ],
+  [
+    "[BA1001-21]",
+    "",
+    "Kiểm tra khi để trống",
+    "1. Để trống ô メールアドレス\n2. Click button 送信",
+    "",
+    "2. \n- Viền ô chuyển màu đỏ\n- Hiển thị thông báo lỗi dưới ô: メールアドレスは空欄にできません。",
+    "High"
+  ],
+  [
+    "[BA1001-22]",
+    "",
+    "Kiểm tra nhập toàn ký tự space",
+    "1. Nhập toàn ký tự khoảng trắng\n2. Click button 送信",
+    "",
+    "2. \n- Viền ô chuyển màu đỏ\n- Hiển thị thông báo lỗi: メールアドレスは空欄にできません。",
+    "High"
+  ],
+  [
+    "[BA1001-23]",
+    "",
+    "Kiểm tra tự động xóa lỗi khi gõ lại",
+    "1. Để trống bấm 送信 để hiện lỗi\n2. Focus vào ô và gõ 1 ký tự",
+    "",
+    "2. Viền đỏ và thông báo lỗi lập tức biến mất",
+    "Medium"
+  ],
+  [
+    "[BA1001-24]",
+    "",
+    "Kiểm tra sai định dạng thiếu @",
+    "1. Nhập userexample.com (không có @)\n2. Click button 送信",
+    "",
+    "2. \n- Viền ô chuyển màu đỏ\n- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。",
+    "High"
+  ],
+  [
+    "[BA1001-25]",
+    "",
+    "Kiểm tra sai định dạng thiếu domain",
+    "1. Nhập user@\n2. Click button 送信",
+    "",
+    "2. \n- Viền ô chuyển màu đỏ\n- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。",
+    "High"
+  ],
+  [
+    "[BA1001-26]",
+    "",
+    "Kiểm tra sai định dạng thiếu local-part",
+    "1. Nhập @example.com\n2. Click button 送信",
+    "",
+    "2. \n- Viền ô chuyển màu đỏ\n- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。",
+    "High"
+  ],
+  [
+    "[BA1001-27]",
+    "",
+    "Kiểm tra sai định dạng có space ở giữa",
+    "1. Nhập user name@example.com\n2. Click button 送信",
+    "",
+    "2. \n- Viền ô chuyển màu đỏ\n- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。",
+    "High"
+  ],
+  [
+    "[BA1001-28]",
+    "",
+    "Kiểm tra bảo mật XSS",
+    "1. Nhập chuỗi \u003cscript\u003ealert(1)\u003c/script\u003e@test.jp\n2. Click button 送信",
+    "",
+    "2. Hệ thống encode an toàn, không thực thi mã độc JavaScript",
+    "High"
+  ],
+  [
+    "[BA1001-29]",
+    "",
+    "Kiểm tra bảo mật SQL Injection",
+    "1. Nhập chuỗi ' OR '1'='1'@test.jp\n2. Click button 送信",
+    "",
+    "2. Hệ thống xử lý an toàn, không phát sinh lỗi 500",
+    "High"
+  ],
+  [
+    "[BA1001-30]",
+    "[2] Link アカウントをお持ちですか？ ログイン",
+    "Kiểm tra hiển thị",
+    "1. Quan sát đoạn text bên dưới ô email",
+    "",
+    "1. \n- Hiển thị text アカウントをお持ちですか？ ログイン căn phải\n- Chỉ từ ログイン là link có thể click",
+    "High"
+  ],
+  [
+    "[BA1001-31]",
+    "",
+    "Kiểm tra khi click link ログイン",
+    "1. Click vào chữ ログイン",
+    "",
+    "1. Di chuyển về màn đăng nhập Agency BA100 (không về login master)",
+    "High"
+  ],
+  [
+    "[BA1001-32]",
+    "",
+    "Kiểm tra mở tab mới với Ctrl+Click",
+    "1. Giữ Ctrl và click vào chữ ログイン",
+    "",
+    "1. Mở màn hình BA100 trong tab mới",
+    "Medium"
+  ],
+  [
+    "[BA1001-33]",
+    "[3] Button 送信",
+    "Kiểm tra hiển thị button",
+    "1. Quan sát button 送信",
+    "",
+    "1. \n- Button ở trạng thái Primary\n- Text căn giữa 送信",
+    "High"
+  ],
+  [
+    "[BA1001-34]",
+    "",
+    "Kiểm tra khi di chuyển con trỏ chuột vào button",
+    "1. Thực hiện di chuyển chuột vào button 送信",
+    "",
+    "1. \n- Con trỏ chuột hiển thị hình bàn tay\n- Màu sắc button có sự thay đổi",
+    "Medium"
+  ],
+  [
+    "[BA1001-35]",
+    "",
+    "Kiểm tra chống double click",
+    "1. Nhập email hợp lệ\n2. Click liên tục nhiều lần thật nhanh vào button 送信",
+    "",
+    "2. \n- Button disable và hiển thị icon loading\n- Chỉ gửi duy nhất 1 request và gửi 1 email",
+    "High"
+  ],
+  [
+    "[BA1001-36]",
+    "",
+    "Kiểm tra chặn gửi khi trường email có lỗi",
+    "1. Để trống hoặc nhập sai định dạng email\n2. Click button 送信",
+    "",
+    "2. Hệ thống chặn gửi, ở nguyên màn hình BA1001",
+    "High"
+  ],
+  [
+    "[BA1001-37]",
+    "",
+    "Kiểm tra gửi email cho tài khoản hợp lệ",
+    "1. Nhập email của tài khoản Agency đang 利用中\n2. Click button 送信\n3. Kiểm tra hộp thư đến",
+    "Tài khoản Agency đang 利用中",
+    "2. Di chuyển sang màn BA1002\n3. Hộp thư nhận được 1 email reset mật khẩu",
+    "High"
+  ],
+  [
+    "[BA1001-38]",
+    "",
+    "Kiểm tra anti-enumeration email chưa đăng ký",
+    "1. Nhập email chưa từng đăng ký trong hệ thống\n2. Click button 送信\n3. Kiểm tra hộp thư đến",
+    "",
+    "2. Hệ thống VẪN di chuyển sang màn BA1002\n3. Không gửi bất kỳ email nào (chống lộ thông tin)",
+    "High"
+  ],
+  [
+    "[BA1001-39]",
+    "",
+    "Kiểm tra anti-enumeration Agency đang 停止中",
+    "1. Nhập email của Agency đang 停止中\n2. Click button 送信",
+    "Agency đang 停止中",
+    "2. Di chuyển sang màn BA1002, KHÔNG gửi email reset mật khẩu",
+    "High"
+  ],
+  [
+    "[BA1001-40]",
+    "",
+    "Kiểm tra anti-enumeration Admin con đang 停止中",
+    "1. Nhập email của Admin con đang 停止中\n2. Click button 送信",
+    "Admin con đang 停止中",
+    "2. Di chuyển sang màn BA1002, KHÔNG gửi email reset mật khẩu",
+    "High"
+  ],
+  [
+    "[BA1001-41]",
+    "",
+    "Kiểm tra anti-enumeration tài khoản Master",
+    "1. Nhập email của tài khoản Master\n2. Click button 送信",
+    "",
+    "2. Di chuyển sang màn BA1002, KHÔNG gửi email reset mật khẩu",
+    "High"
+  ],
+  [
+    "[BA1001-42]",
+    "",
+    "Kiểm tra kích hoạt bằng phím Enter",
+    "1. Nhập email hợp lệ, nhấn phím Enter tại ô email",
+    "",
+    "1. Kích hoạt submit button 送信, di chuyển sang màn BA1002",
+    "Medium"
+  ],
+  [
+    "[BA1001-43]",
+    "",
+    "Kiểm tra phục hồi button khi mất mạng",
+    "1. Ngắt kết nối mạng, click button 送信",
+    "",
+    "1. Button tắt loading và trở lại enable, không mất email đã nhập",
+    "High"
+  ]
+]
