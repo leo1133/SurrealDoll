@@ -150,3 +150,17 @@ Theo quy chuẩn [06_bug_reporting_rule.md](Universal_Rules/06_bug_reporting_rul
 | `[BA200-8]` | Nút tài khoản side menu | 1. Đăng nhập Agency<br>2. Quan sát nút tài khoản cuối side menu | Hiển thị avatar tròn, Tên, Email và icon tam giác ▲ ở mép phải | Không có icon tam giác ▲ ở mép phải | Minor | `evidence/evidence_BA200_TC08_missing_triangle_icon.png`<br>`DOM: button[data-sidebar="menu-button"] lacks triangle/chevron SVG` | *(Để trống)* |
 | `[BA200-14]` | Header Menu tài khoản | 1. Click mở menu tài khoản ở cuối side menu<br>2. Quan sát phần header menu | Hiển thị đầy đủ: Tên, Email, Tên 事務所, Tag role 「オーナー」 | Chỉ hiển thị Tên và Email; thiếu Tên 事務所 và Tag role 「オーナー」 | Major | `evidence/evidence_BA200_TC14_missing_agency_name_and_role_tag.png`<br>`DOM: div[data-slot="dropdown-menu-label"] lacks agency_name & role tag` | *(Để trống)* |
 | `[BA200-15]` | Tag Role 事務所管理者 | 1. Mở menu tài khoản<br>2. Quan sát vị trí role tag | Hiển thị tag role 「事務所管理者」 đúng style thiết kế | Component menu header hoàn toàn không có logic/container render role tag | Major | `evidence/evidence_BA200_TC15_missing_subadmin_role_tag.png`<br>`DOM: No role badge element rendered` | *(Để trống)* |
+
+---
+
+## 3. KẾT QUẢ KIỂM THỬ LẠI ROUND 2 (ROUND 2 RETEST RESULTS - 11/11/2026)
+
+Theo quy chuẩn [04_manual_test_execution_rule.md](Universal_Rules/04_manual_test_execution_rule.md) Section 5:
+
+| TC ID | Trạng thái R1 | Kết quả Retest R2 | Mô tả chi tiết kết quả Retest | File Evidence mới (Round 2) | Trạng thái Bug |
+| :---: | :---: | :---: | :--- | :--- | :---: |
+| `[BA200-6]` | **Fail** | **PASS** | Modal đóng bình thường, an toàn và xóa sạch nội dung khi click chuột vào vùng nền tối (Backdrop) bên ngoài modal dialog. | *(Đã xác minh video & live)* | **Closed** |
+| `[BA200-8]` | **Fail** | **FAIL** | Dev chưa sửa: Nút tài khoản ở đáy side menu vẫn chỉ có Avatar, Tên và Email; **hoàn toàn thiếu icon tam giác ▲** ở mép phải. | `evidence/evidence_BA200_TC08_R2_missing_triangle_icon.png` | **Reopen** |
+| `[BA200-14]` | **Fail** | **FAIL** | Dev chưa sửa: Header menu popup chỉ hiển thị Avatar, Tên và Email; **vẫn thiếu Tên 事務所 và thiếu Tag role 「オーナー」**. | `evidence/evidence_BA200_TC14_R2_missing_agency_name_and_role_tag.png` | **Reopen** |
+| `[BA200-15]` | **Fail** | **FAIL** | Dev chưa sửa: Component menu header hoàn toàn chưa có container/logic render Tag role cho Sub-admin (`事務所管理者`). | `evidence/evidence_BA200_TC14_R2_missing_agency_name_and_role_tag.png` | **Reopen** |
+
