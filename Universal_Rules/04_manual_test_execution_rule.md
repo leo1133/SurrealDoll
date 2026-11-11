@@ -71,6 +71,30 @@ Khi chạy từng dòng testcase trong bảng kiểm thử:
 
 ---
 
+### 3.1. NGUYÊN TẮC BẤT DI BẤT DỊCH: KHÔNG SUY ĐOÁN - KHÔNG GHI NHẬN KHỐNG (ZERO-ASSUMPTION & ANTI-FALSE REPORTING)
+
+> [!CAUTION]
+> **QUY CHUẨN ĐỎ ÁP DỤNG ĐỒNG BỘ CHO MỌI MÀN HÌNH & CHỨC NĂNG TRONG DỰ ÁN:**
+> 1. **CẤM LẤY KẾT QUẢ ROUND 1 ĐỂ BÁO CÁO CHO ROUND 2:** Khi được yêu cầu kiểm thử Round 2 (hoặc Retest bất kỳ màn hình nào), Tester/AI bắt buộc phải thực thi lại từng bước trên môi trường live. Tuyệt đối không được lấy kết quả cũ từ cột Round 1 (Cột H:L) để báo `Pass` cho Round 2.
+> 2. **CẤM ĐIỀN PASS KHI CHƯA CHẠY THỰC TẾ (NO EXECUTION = NO PASS):** Tuyệt đối không được đọc code Frontend/Backend, đọc file bundle JavaScript, hoặc suy đoán logic code để tuyên bố ca test đã `Pass`. Kết quả Mocking chỉ dùng để debug nội bộ, không được công nhận là kết quả của Manual Test Execution trên môi trường thật.
+> 3. **BẮT BUỘC CÓ BẰNG CHỨNG (EVIDENCE ENFORCEMENT):** Bất kỳ ca kiểm thử nào báo `Pass` hoặc `Fail` ở bất kỳ màn hình nào đều phải có bằng chứng thực tế (ảnh chụp màn hình trong `evidence/` hoặc log request/response HTTP mạng live). Không có bằng chứng $\rightarrow$ Không được công nhận kết quả.
+
+---
+
+### 3.2. QUY ĐỊNH KHI THIẾU TIỀN ĐỀ / TÀI KHOẢN / DỮ LIỆU KIỂM THỬ (TEST DATA BLOCKER)
+
+Quy định bắt buộc áp dụng chung cho tất cả các màn hình, chức năng và module trong toàn bộ hệ thống:
+
+1. **Kiểm tra Pre-condition trước khi thao tác:** Nếu môi trường chưa có tài khoản thuộc đúng vai trò phân quyền (Role Matrix), hoặc cơ sở dữ liệu chưa có dữ liệu mẫu thỏa mãn điều kiện tiên quyết của ca test (ví dụ: trạng thái bản ghi, ràng buộc số dư, quyền hạn đặc thù, mốc thời gian, liên kết nghiệp vụ):
+   - **BẮT BUỘC DỪNG LẠI NGAY LẬP TỨC:** Đánh dấu trạng thái ca test là **`Blocked`** hoặc **`Pending`** tại cột Result/Comment.
+   - **LẬP DANH SÁCH YÊU CẦU DATA (Test Data Seeding Requirements):** Nêu rõ thông tin cần chuẩn bị:
+     + Danh sách tài khoản người dùng cần có (Email/ID, Role, Trạng thái kích hoạt).
+     + Dữ liệu cần tạo mới hoặc cập nhật trong Database (tên bảng, trường dữ liệu, điều kiện truy vấn).
+     + Các bước chuẩn bị trước từ màn hình khác (nếu phụ thuộc luồng liên kết).
+   - **CẤM TUYỆT ĐỐI HÀNH VI TỰ ĐIỀN `Pass`:** Nghiêm cấm mọi hành vi "tự đánh Pass trước khi có dữ liệu để chạy thử".
+
+---
+
 ## 4. QUY CHUẨN GHI NHẬN KẾT QUẢ TRÊN BẢNG TÍNH 17 CỘT (GOOGLE SHEETS / EXCEL)
 
 Theo quy chuẩn cấu trúc 17 cột tại [02_manual_ui_test_case_rule.md](02_manual_ui_test_case_rule.md):
@@ -82,10 +106,10 @@ Theo quy chuẩn cấu trúc 17 cột tại [02_manual_ui_test_case_rule.md](02_
 | | **J** | **Status (R1)** | Trạng thái xử lý: `Open` (Mới phát hiện lỗi), `Fixing` (Đang sửa), `Closed` (Đã sửa). |
 | | **K** | **Comment (R1)** | Ghi nhận chi tiết kết quả thực tế nếu có sai lệch, hoặc lý do bị Blocked / Impact. |
 | | **L** | **Note (R1)** | Ghi chú nghiệp vụ / Trạng thái Q&A liên quan. |
-| **Round 2** | **M** | **Round 2 (Result)** | • Dành riêng cho Retest sau khi Dev báo đã sửa xong bug.<br>• Nếu ca đó ở Round 1 là `Pass` $\rightarrow$ Để trống cột M.<br>• Nếu ca đó ở Round 1 là `Fail` $\rightarrow$ Sau khi test lại: điền `Pass` (nếu đã fix) hoặc `Fail` (nếu vẫn lỗi) hoặc `Not run`. |
+| **Round 2** | **M** | **Round 2 (Result)** | • Dành riêng cho Retest sau khi Dev báo đã sửa xong bug hoặc khi User yêu cầu chạy lại Round 2.<br>• Bắt buộc thực thi lại thực tế trên live environment.<br>• Tuyệt đối không copy cột H sang cột M.<br>• Điền: `Pass` (nếu đã fix/pass) hoặc `Fail` (nếu vẫn lỗi) hoặc `Blocked`. |
 | | **N** | **Bug ID (R2)** | Link hoặc mã Bug phát sinh thêm hoặc ticket liên quan ở Round 2. |
 | | **O** | **Status (R2)** | Trạng thái xử lý lỗi Round 2: `Reopen`, `Closed`, v.v. |
-| | **P** | **Comment (R2)** | Ghi nhận chi tiết kết quả thực tế khi retest Round 2. |
+| | **P** | **Comment (R2)** | Ghi nhận chi tiết kết quả thực tế khi retest Round 2 kèm bằng chứng. |
 | | **Q** | **Note (R2)** | Ghi chú bổ sung Round 2. |
 
 ---

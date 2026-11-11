@@ -53,9 +53,13 @@ Mọi ca kiểm thử bị đánh giá là **FAIL** bắt buộc phải có bằ
   - Hình ảnh phải thể hiện rõ:
     + Dữ liệu vừa nhập vào control (Input Value).
     + Hoặc thông báo lỗi/trạng thái không mong muốn của control đó.
-- **Quy chuẩn định danh file ảnh (Unique Filename):**
-  - Định dạng bắt buộc: `evidence_{{MODULE_PREFIX}}_{{TC_ID}}_{{Timestamp/Mô_tả_ngắn}}.png`
-  - Ví dụ: `evidence_AE800_TC05_duplicate_name_error.png`, `evidence_AP330_TC12_boundary_maxlength.png`.
+- **Quy chuẩn định danh và cấu trúc thư mục lưu ảnh (Unique Filename & Folder Structure):**
+  - Thư mục lưu ảnh bắt buộc tạo riêng theo từng màn hình: `evidence/[Tên_màn_hình]/` (trong đó `[Tên_màn_hình]` là mã màn hình, ví dụ: `BA100`, `BA1003`, `AA003`).
+  - Định dạng đường dẫn file ảnh bắt buộc: `evidence/[Tên_màn_hình]/evidence_{{MODULE_PREFIX}}_{{TC_ID}}_{{Timestamp/Mô_tả_ngắn}}.png`
+  - Ví dụ: 
+    + `evidence/AE800/evidence_AE800_TC05_duplicate_name_error.png`
+    + `evidence/BA1003/evidence_BA1003_TC02_500_server_error_PEM3.png`
+    + `evidence/AA003/evidence_AA003_TC08_missing_triangle_icon.png`
   - Nếu hai ca test khác nhau có cùng một file ảnh evidence thì báo cáo đó bị coi là **KHÔNG HỢP LỆ**.
 - **Chế độ chụp tập trung (Element-Level / Highlight):**
   - Ưu tiên chụp crop hoặc scroll màn hình đến đúng phần tử (element) bị fail.
@@ -86,7 +90,7 @@ Khi log từng bug lên hệ thống quản lý lỗi (Jira / GitHub Issues / Ma
 - **Kết quả kỳ vọng (Expected Result):** `{{EXPECTED_BEHAVIOR_PER_SPEC}}`
 - **Kết quả thực tế (Actual Result):** `{{ACTUAL_BEHAVIOR_OBSERVED}}`
 - **Bằng chứng đính kèm (Evidence):**
-  - File ảnh chụp lỗi: `evidence/evidence_{{MODULE_PREFIX}}_{{TC_ID}}_{{Mô_tả}}.png`
+  - File ảnh chụp lỗi: `evidence/[Tên_màn_hình]/evidence_{{MODULE_PREFIX}}_{{TC_ID}}_{{Timestamp/Mô_tả_ngắn}}.png`
   - Bằng chứng DOM HTML:
     ```html
     <input name="user_name" value="Test12345678901" maxlength="10">
@@ -102,16 +106,34 @@ Tại mục danh sách lỗi phát hiện trong phiên kiểm thử, xuất theo
 
 | TC ID | Control / Chức năng | Các bước tái hiện (Steps) | Expected Result | Actual Result | Mức độ | File Evidence (Unique) & DOM Log | Bug ID |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `[{{MODULE_PREFIX}}-5]` | Textbox Tên | 1. Vào màn hình<br>2. Nhập trùng tên 'Body Tracking'<br>3. Bấm Save | Hiển thị thông báo lỗi trùng tên | Cho phép lưu thành công, không báo lỗi | Major | `evidence_{{MODULE_PREFIX}}_TC05_dup_name.png`<br>`Value: "Body Tracking"` | *(Để trống)* |
-| `[{{MODULE_PREFIX}}-12]` | Input Giới hạn ký tự | 1. Vào màn hình<br>2. Nhập 256 ký tự vào ô Textbox<br>3. Bấm Save | Giới hạn tối đa 255 ký tự | Nhận đủ 256 ký tự và lưu thành công | Minor | `evidence_{{MODULE_PREFIX}}_TC12_maxlength.png`<br>`DOM length: 256` | *(Để trống)* |
+| `[{{MODULE_PREFIX}}-5]` | Textbox Tên | 1. Vào màn hình<br>2. Nhập trùng tên 'Body Tracking'<br>3. Bấm Save | Hiển thị thông báo lỗi trùng tên | Cho phép lưu thành công, không báo lỗi | Major | `evidence/{{MODULE_PREFIX}}/evidence_{{MODULE_PREFIX}}_TC05_dup_name.png`<br>`Value: "Body Tracking"` | *(Để trống)* |
+| `[{{MODULE_PREFIX}}-12]` | Input Giới hạn ký tự | 1. Vào màn hình<br>2. Nhập 256 ký tự vào ô Textbox<br>3. Bấm Save | Giới hạn tối đa 255 ký tự | Nhận đủ 256 ký tự và lưu thành công | Minor | `evidence/{{MODULE_PREFIX}}/evidence_{{MODULE_PREFIX}}_TC12_maxlength.png`<br>`DOM length: 256` | *(Để trống)* |
 
 ---
 
-## 4. QUY CHUẨN THƯ MỤC & TÊN FILE LƯU TRỮ (STORAGE & FILE NAMING)
+## 4. QUY CHUẨN THƯ MỤC & TÊN FILE LƯU TRỮ (STORAGE & FOLDER STRUCTURE)
 
-- **Thư mục lưu báo cáo bug:** `bugs/`
-- **Định dạng tên file báo cáo bug:** `bugs/[Tên màn hình]_bugs.md` *(hoặc `bugs/{{MODULE_PREFIX}}_bugs.md`)*
-  - Ví dụ thực tế: `bugs/AE800_bugs.md`, `bugs/AP213_bugs.md`, `bugs/AP330_bugs.md`.
-- **Thư mục lưu ảnh bằng chứng lỗi:** `evidence/`
-  - Tên file ảnh bắt buộc: `evidence/evidence_{{MODULE_PREFIX}}_{{TC_ID}}_{{Timestamp/Mô_tả_ngắn}}.png`.
-- **Nghiêm cấm:** Tuyệt đối không lưu file báo cáo bug hoặc file ảnh screenshot tự do ở thư mục gốc của dự án.
+Mọi báo cáo lỗi và file bằng chứng bắt buộc phải được phân nhóm theo thư mục riêng của từng màn hình (`[Tên_màn_hình]` là thư mục con):
+
+### 4.1. Cấu Trúc Thư Mục Báo Cáo Bug (Bug Reports):
+- **Định dạng đường dẫn:** `bugs/[Tên_màn_hình]/[Tên_màn_hình]_bugs.md`
+- Trong đó `[Tên_màn_hình]` là thư mục riêng biệt cho màn hình đó bên trong `bugs/`.
+- **Ví dụ thực tế:**
+  + `bugs/BA100/BA100_bugs.md`
+  + `bugs/BA1001/BA1001_bugs.md`
+  + `bugs/BA1003/BA1003_bugs.md`
+  + `bugs/BA200/BA200_bugs.md`
+  + `bugs/AA003/AA003_bugs.md`
+  + `bugs/AE800/AE800_bugs.md`
+
+### 4.2. Cấu Trúc Thư Mục Lưu Evidence (Screenshots):
+- **Định dạng đường dẫn:** `evidence/[Tên_màn_hình]/evidence_{{MODULE_PREFIX}}_{{TC_ID}}_{{Timestamp/Mô_tả_ngắn}}.png`
+- Trong đó `[Tên_màn_hình]` là thư mục riêng biệt cho màn hình đó bên trong `evidence/`.
+- **Ví dụ thực tế:**
+  + `evidence/BA1003/evidence_BA1003_TC02_500_server_error_PEM3.png`
+  + `evidence/BA1001/evidence_BA1001_TC26_500_server_error.png`
+  + `evidence/BA200/evidence_BA200_TC08_missing_triangle_icon.png`
+  + `evidence/AA003/evidence_AA003_TC08_missing_triangle_icon.png`
+
+> [!WARNING]
+> **Quy định nghiêm ngặt:** Tuyệt đối không lưu file báo cáo bug hoặc file ảnh screenshot tự do ở thư mục gốc của dự án hoặc lưu ngang cấp ở thư mục cha `bugs/`, `evidence/` mà không phân vào thư mục con `[Tên_màn_hình]`. AI khi tạo báo cáo hoặc chụp ảnh bắt buộc phải tự động tạo thư mục con tương ứng nếu chưa tồn tại.

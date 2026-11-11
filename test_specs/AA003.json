@@ -1,0 +1,689 @@
+[
+  [
+    "ID",
+    "Title",
+    "Big item",
+    "Steps",
+    "Pre-condition ",
+    "Expected",
+    "Priority",
+    "Round 1"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Result"
+  ],
+  [],
+  [
+    "[AA003-1]",
+    "[0] Kiểm tra truy cập màn hình",
+    "Check mở modal từ khu tài khoản cuối side menu",
+    "1. Mở bất kỳ màn hình nào có side menu (VD: ユーザー一覧, 管理者一覧)\n2. Bấm vào khu tài khoản ở cuối side menu\n3. Bấm 「パスワード変更」",
+    "User là Admin (マスター / 管理者 / 監視員) đang đăng nhập",
+    "1. Đóng menu tài khoản\n2. Hiển thị modal パスワード変更 giữa màn hình\n3. Có lớp nền mờ (Backdrop) che phủ phía sau",
+    "High"
+  ],
+  [
+    "[AA003-2]",
+    "",
+    "Check trạng thái khởi tạo modal",
+    "1. Mở modal パスワード変更\n2. Quan sát 3 ô input và vị trí con trỏ chuột",
+    "",
+    "1. 3 ô input (現在のパスワード, 新しいパスワード, 新しいパスワード確認) đều trống\n2. Ký tự ở trạng thái ẩn mặc định\n3. Con trỏ tự động focus vào ô [現在のパスワード]",
+    "High"
+  ],
+  [
+    "[AA003-3]",
+    "",
+    "Check đóng modal",
+    "1. Nhập dữ liệu vào các ô trong modal\n2. Click icon nút × ở góc trên bên phải modal",
+    "",
+    "1. Modal lập tức đóng lại, không hiển thị popup hỏi xác nhận\n2. Giữ nguyên màn hình đang mở\n3. Toàn bộ dữ liệu vừa nhập bị xóa sạch",
+    "High"
+  ],
+  [
+    "[AA003-4]",
+    "",
+    "",
+    "1. Nhập dữ liệu vào các ô trong modal\n2. Click nút キャンセル ở chân modal",
+    "",
+    "1. Modal lập tức đóng lại, không hỏi xác nhận\n2. Giữ nguyên màn hình đang mở, xóa sạch dữ liệu vừa nhập",
+    "High"
+  ],
+  [
+    "[AA003-5]",
+    "",
+    "",
+    "1. Nhập dữ liệu vào các ô trong modal\n2. Nhấn phím Esc trên bàn phím",
+    "",
+    "1. Modal lập tức đóng lại, không hỏi xác nhận\n2. Toàn bộ dữ liệu vừa nhập bị xóa sạch",
+    "Medium"
+  ],
+  [
+    "[AA003-6]",
+    "",
+    "",
+    "1. Nhập dữ liệu vào các ô trong modal\n2. Click chuột vào vùng nền tối mờ (Backdrop) bên ngoài modal",
+    "",
+    "1. Modal lập tức đóng lại an toàn\n2. Toàn bộ dữ liệu vừa nhập bị xóa sạch",
+    "Medium"
+  ],
+  [
+    "[AA003-7]",
+    "",
+    "Check mở lại modal sau khi vừa đóng",
+    "1. Nhập dữ liệu dở dang và đóng modal\n2. Thực hiện mở lại modal パスワード変更",
+    "",
+    "1. Cả 3 ô input đều rỗng, không lưu lại dữ liệu đã nhập trước đó\n2. Các thông báo lỗi (nếu có trước đó) đều biến mất",
+    "High"
+  ],
+  [
+    "[AA003-8]",
+    "[1] Khu tài khoản cuối side menu",
+    "Check hiển thị",
+    "1. Quan sát khu vực cuối side menu",
+    "",
+    "1. Hiển thị ô tròn chứa chữ cái đầu của 名前\n2. Hiển thị 名前 và メールアドレス của tài khoản đang đăng nhập\n3. Hiển thị icon tam giác ▲ ở mép phải",
+    "High"
+  ],
+  [
+    "[AA003-9]",
+    "",
+    "Check vị trí cố định khi cuộn side menu",
+    "1. Thu nhỏ chiều cao cửa sổ trình duyệt để side menu xuất hiện thanh cuộn\n2. Cuộn thanh cuộn của side menu lên / xuống",
+    "",
+    "1. Khu tài khoản luôn cố định nằm ở đáy side menu, không bị cuộn trôi hay che khuất",
+    "High"
+  ],
+  [
+    "[AA003-10]",
+    "",
+    "Check xử lý văn bản quá dài",
+    "1. Đăng nhập bằng tài khoản có 名前 hoặc email dài (≥ 40 ký tự)\n2. Quan sát khu tài khoản cuối side menu",
+    "",
+    "1. Văn bản quá dài được tự động rút gọn bằng dấu ba chấm … gọn gàng, không tràn vỡ layout",
+    "Medium"
+  ],
+  [
+    "[AA003-11]",
+    "",
+    "Check hover chuột",
+    "1. Di chuyển chuột vào khu tài khoản cuối side menu",
+    "",
+    "1. Con trỏ chuột chuyển dạng bàn tay (pointer)\n2. Background khu tài khoản đổi màu nhẹ theo style hover",
+    "Medium"
+  ],
+  [
+    "[AA003-12]",
+    "",
+    "Check click mở / đóng menu tài khoản",
+    "1. Click vào khu tài khoản\n2. Click lại vào khu tài khoản",
+    "",
+    "1. Click lần 1: Mở menu popup tài khoản ngay phía trên\n2. Click lần 2: Đóng menu popup tài khoản",
+    "High"
+  ],
+  [
+    "[AA003-13]",
+    "",
+    "Check đóng menu khi click ra ngoài hoặc bấm Esc",
+    "1. Mở menu tài khoản\n2. Click chuột ra vùng nội dung bên ngoài menu (hoặc nhấn phím Esc)",
+    "",
+    "1. Menu tài khoản tự động đóng lại",
+    "Medium"
+  ],
+  [
+    "[AA003-14]",
+    "[2] Menu tài khoản",
+    "Check hiển thị header menu",
+    "1. Click mở menu tài khoản",
+    "Tài khoản role マスター",
+    "1. Đầu menu hiển thị đầy đủ: 名前, メールアドレス\n2. Hiển thị tag role 「マスター」",
+    "High"
+  ],
+  [
+    "[AA003-15]",
+    "",
+    "Check hiển thị tag role",
+    "1. Đăng nhập tài khoản có role 管理者\n2. Click mở menu tài khoản",
+    "Tài khoản role 管理者",
+    "1. Hiển thị tag role 「管理者」 đúng màu sắc thiết kế",
+    "High"
+  ],
+  [
+    "[AA003-16]",
+    "",
+    "",
+    "1. Đăng nhập tài khoản có role 監視員\n2. Click mở menu tài khoản",
+    "Tài khoản role 監視員",
+    "1. Hiển thị tag role 「監視員」 đúng màu sắc thiết kế",
+    "High"
+  ],
+  [
+    "[AA003-17]",
+    "[2.1] Nút パスワード変更",
+    "Check hiển thị",
+    "1. Quan sát item パスワード変更 trong menu tài khoản",
+    "",
+    "1. Hiển thị icon chiếc chìa khóa kèm text 「パスワード変更」\n2. Con trỏ chuột dạng pointer khi hover",
+    "High"
+  ],
+  [
+    "[AA003-18]",
+    "",
+    "Check click mở modal",
+    "1. Click chọn 「パスワード変更」",
+    "",
+    "1. Menu tài khoản đóng lại\n2. Mở modal パスワード変更 với 3 ô nhập trống, focus ô 現在のパスワード",
+    "High"
+  ],
+  [
+    "[AA003-19]",
+    "[2.2] Nút ログアウト",
+    "Check hiển thị",
+    "1. Quan sát item ログアウト trong menu tài khoản",
+    "",
+    "1. Hiển thị chữ 「ログアウト」 màu đỏ cảnh báo\n2. Con trỏ chuột dạng pointer khi hover",
+    "High"
+  ],
+  [
+    "[AA003-20]",
+    "",
+    "Check click đăng xuất",
+    "1. Click chọn 「ログアウト」",
+    "",
+    "1. Hệ thống thực hiện đăng xuất tài khoản\n2. Xóa session token\n3. Chuyển hướng về màn login AA000",
+    "High"
+  ],
+  [
+    "[AA003-21]",
+    "[3] Modal パスワード変更",
+    "Check hiển thị tiêu đề và dòng ghi chú 30 ngày",
+    "1. Quan sát phần đầu của modal パスワード変更",
+    "",
+    "1. Tiêu đề hiển thị: 「パスワード変更」\n2. Phía dưới hiển thị dòng ghi chú thời hạn: 「変更後のパスワードの有効期限は、変更した日から30日間です。」",
+    "High"
+  ],
+  [
+    "[AA003-22]",
+    "[4] Textbox 現在のパスワード",
+    "Check hiển thị label và placeholder",
+    "1. Quan sát ô nhập 現在のパスワード",
+    "",
+    "1. Label hiển thị: 「現在のパスワード」\n2. Placeholder hiển thị: 「現在のパスワードを入力」\n3. Đuôi ô input có icon con mắt 👁 riêng",
+    "High"
+  ],
+  [
+    "[AA003-23]",
+    "",
+    "Check ẩn ký tự khi nhập",
+    "1. Nhập ký tự vào ô 現在のパスワード",
+    "",
+    "1. Ký tự lập tức bị che khuất dưới dạng dấu chấm tròn ●●●",
+    "High"
+  ],
+  [
+    "[AA003-24]",
+    "",
+    "Check khi để trống ô nhập",
+    "1. Để trống ô 現在のパスワード\n2. Nhập 2 ô còn lại hợp lệ\n3. Click button 変更する",
+    "",
+    "1. Viền ô chuyển màu đỏ\n2. Dưới ô hiển thị lỗi CMMSG29: 「現在のパスワードは空欄にできません。」\n3. Không gửi request API lên server",
+    "High"
+  ],
+  [
+    "[AA003-25]",
+    "",
+    "Check tự động xóa lỗi khi gõ lại",
+    "1. Để ô có lỗi CMMSG29\n2. Focus vào ô và gõ 1 ký tự bất kỳ",
+    "",
+    "1. Viền đỏ và thông báo lỗi CMMSG29 lập tức biến mất",
+    "Medium"
+  ],
+  [
+    "[AA003-26]",
+    "",
+    "Check chặn copy cut khi mật khẩu đang ẩn",
+    "1. Nhập mật khẩu vào ô\n2. Bôi đen mật khẩu dạng ●●● và nhấn Ctrl+C / Ctrl+X",
+    "",
+    "1. Hệ thống không cho phép copy hoặc cut mật khẩu ra clipboard",
+    "High"
+  ],
+  [
+    "[AA003-27]",
+    "",
+    "Check nhập sai mật khẩu hiện tại (BE)",
+    "1. Nhập sai mật khẩu hiện tại\n2. Nhập 2 ô mật khẩu mới hợp lệ\n3. Click button 変更する",
+    "",
+    "1. BE trả mã lỗi riêng cho trường hợp sai mật khẩu hiện tại\n2. Viền ô chuyển màu đỏ\n3. Dưới ô hiển thị thông báo lỗi MSG24: 「パスワードが間違っています。」",
+    "High"
+  ],
+  [
+    "[AA003-28]",
+    "",
+    "Check ký tự đặc biệt và SQL injection",
+    "1. Nhập chuỗi ký tự dạng SQL injection (VD: ' OR '1'='1)\n2. Nhập 2 ô còn lại hợp lệ và click 変更する",
+    "",
+    "1. Hệ thống xử lý an toàn, báo lỗi MSG24 dưới ô\n2. Không xảy ra lỗi 500 hay lỗ hổng injection",
+    "Medium"
+  ],
+  [
+    "[AA003-29]",
+    "[5] Textbox 新しいパスワード",
+    "Check hiển thị label và placeholder",
+    "1. Quan sát ô nhập 新しいパスワード",
+    "",
+    "1. Label hiển thị: 「新しいパスワード」\n2. Placeholder hiển thị: 「新しいパスワードを入力」",
+    "High"
+  ],
+  [
+    "[AA003-30]",
+    "",
+    "Check hiển thị dòng hướng dẫn rule mật khẩu",
+    "1. Quan sát khu vực phía dưới ô 新しいパスワード",
+    "",
+    "1. Luôn hiển thị tĩnh dòng text hướng dẫn:\n・8文字以上\n・英大文字・英小文字・数字・記号をそれぞれ1文字以上\n・過去2回以内に使用したパスワードは使用不可\n2. Không bị biến mất khi focus hay khi có thông báo lỗi",
+    "High"
+  ],
+  [
+    "[AA003-31]",
+    "",
+    "Check ẩn ký tự khi nhập",
+    "1. Nhập ký tự vào ô 新しいパスワード",
+    "",
+    "1. Ký tự hiển thị dưới dạng dấu chấm tròn ●●●",
+    "High"
+  ],
+  [
+    "[AA003-32]",
+    "",
+    "Check khi để trống ô nhập",
+    "1. Nhập ô hiện tại hợp lệ\n2. Để trống ô 新しいパスワード\n3. Click button 変更する",
+    "",
+    "1. Viền ô chuyển màu đỏ\n2. Dưới ô hiển thị lỗi CMMSG29: 「新しいパスワードは空欄にできません。」\n3. Ưu tiên báo lỗi để trống trước lỗi rule CMR43",
+    "High"
+  ],
+  [
+    "[AA003-33]",
+    "",
+    "Check rule mật khẩu",
+    "1. Nhập mật khẩu mới 7 ký tự đủ 4 nhóm: Aa1!aaa\n2. Nhập ô xác nhận khớp và click 変更する",
+    "",
+    "1. Viền ô chuyển màu đỏ\n2. Dưới ô hiển thị thông báo lỗi MSG13\n3. Không gửi API lên server",
+    "High"
+  ],
+  [
+    "[AA003-34]",
+    "",
+    "",
+    "1. Nhập mật khẩu mới 8 ký tự thiếu chữ hoa: aa1!aaaa\n2. Nhập ô xác nhận khớp và click 変更する",
+    "",
+    "1. Viền đỏ, hiển thị thông báo lỗi MSG13 dưới ô\n2. Không gửi API",
+    "High"
+  ],
+  [
+    "[AA003-35]",
+    "",
+    "",
+    "1. Nhập mật khẩu mới 8 ký tự thiếu chữ thường: AA1!AAAA\n2. Nhập ô xác nhận khớp và click 変更する",
+    "",
+    "1. Viền đỏ, hiển thị thông báo lỗi MSG13 dưới ô\n2. Không gửi API",
+    "High"
+  ],
+  [
+    "[AA003-36]",
+    "",
+    "",
+    "1. Nhập mật khẩu mới 8 ký tự thiếu số: Aa!aaaaa\n2. Nhập ô xác nhận khớp và click 変更する",
+    "",
+    "1. Viền đỏ, hiển thị thông báo lỗi MSG13 dưới ô\n2. Không gửi API",
+    "High"
+  ],
+  [
+    "[AA003-37]",
+    "",
+    "",
+    "1. Nhập mật khẩu mới 8 ký tự thiếu ký hiệu: Aa12aaaa\n2. Nhập ô xác nhận khớp và click 変更する",
+    "",
+    "1. Viền đỏ, hiển thị thông báo lỗi MSG13 dưới ô\n2. Không gửi API",
+    "High"
+  ],
+  [
+    "[AA003-38]",
+    "",
+    "",
+    "1. Nhập mật khẩu đúng 8 ký tự đủ hoa, thường, số, ký hiệu: Aa1!aaaa\n2. Nhập ô xác nhận khớp và click 変更する",
+    "",
+    "1. Hệ thống chấp nhận mật khẩu hợp lệ, không báo lỗi định dạng MSG13",
+    "High"
+  ],
+  [
+    "[AA003-39]",
+    "",
+    "Check các loại ký hiệu hợp lệ theo CMR43",
+    "1. Nhập mật khẩu chứa các ký hiệu: ! \" # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ ` { | } ~\n2. Kiểm tra tính hợp lệ",
+    "",
+    "1. Toàn bộ các ký hiệu trên đều được chấp nhận hợp lệ theo CMR43",
+    "Medium"
+  ],
+  [
+    "[AA003-40]",
+    "",
+    "Check tự động xóa lỗi khi gõ lại",
+    "1. Để ô có lỗi MSG13\n2. Focus vào ô và gõ tiếp ký tự",
+    "",
+    "1. Viền đỏ và thông báo lỗi MSG13 lập tức biến mất",
+    "Medium"
+  ],
+  [
+    "[AA003-41]",
+    "",
+    "Check trùng mật khẩu cũ (CMR43)",
+    "1. Nhập ô 新しいパスワード trùng với mật khẩu hiện tại (PW-H0)\n2. Nhập xác nhận khớp và click 変更する",
+    "",
+    "1. BE trả về HTTP 400\n2. Viền ô chuyển màu đỏ\n3. Dưới ô hiển thị thông báo lỗi MSG261: 「過去2回以内に使用したパスワードは再利用できません。」",
+    "High"
+  ],
+  [
+    "[AA003-42]",
+    "",
+    "",
+    "1. Nhập ô 新しいパスワード trùng với mật khẩu của lần đổi trước đó 1 lần (PW-H1)\n2. Nhập xác nhận khớp và click 変更する",
+    "",
+    "1. BE trả về HTTP 400\n2. Viền đỏ, hiển thị lỗi MSG261 dưới ô",
+    "High"
+  ],
+  [
+    "[AA003-43]",
+    "",
+    "",
+    "1. Nhập ô 新しいパスワード trùng với mật khẩu của lần đổi trước đó 2 lần (PW-H2)\n2. Nhập xác nhận khớp và click 変更する",
+    "",
+    "1. BE trả về HTTP 400\n2. Viền đỏ, hiển thị lỗi MSG261 dưới ô",
+    "High"
+  ],
+  [
+    "[AA003-44]",
+    "",
+    "",
+    "1. Nhập ô 新しいパスワード trùng với mật khẩu của lần đổi từ 3 lần trước (PW-H3)\n2. Nhập xác nhận khớp và click 変更する",
+    "",
+    "1. Hệ thống chấp nhận hợp lệ (đã ra khỏi danh sách 3 mật khẩu gần nhất)\n2. Đổi mật khẩu thành công, không báo MSG261",
+    "High"
+  ],
+  [
+    "[AA003-45]",
+    "",
+    "Check sửa mật khẩu mới sau khi bị báo MSG261",
+    "1. Sau khi bị báo lỗi MSG261, nhập lại mật khẩu mới khác hoàn toàn hợp lệ\n2. Click button 変更する",
+    "",
+    "1. Đổi mật khẩu thành công, hiển thị Toast MSG33",
+    "High"
+  ],
+  [
+    "[AA003-46]",
+    "",
+    "Check lịch sử trượt mật khẩu (Sliding Window)",
+    "1. Thực hiện đổi mật khẩu nhiều lần liên tiếp để mật khẩu cũ trượt qua mốc 3 lần gần nhất\n2. Thử đặt lại mật khẩu đã ra khỏi lịch sử",
+    "",
+    "1. Hệ thống cho phép tái sử dụng mật khẩu đã trượt ra khỏi lịch sử 3 lần",
+    "Medium"
+  ],
+  [
+    "[AA003-47]",
+    "",
+    "Check lỗi rule trả về từ BE (HTTP 422)",
+    "1. Giả lập hoặc bypass FE gửi mật khẩu mới sai rule lên server\n2. Quan sát hiển thị FE",
+    "",
+    "1. BE trả về HTTP 422\n2. FE cắt bỏ tiền tố 「Value error, 」 và hiển thị đúng thông báo lỗi MSG13 dưới ô",
+    "Medium"
+  ],
+  [
+    "[AA003-48]",
+    "[6] Textbox 新しいパスワード確認",
+    "Check hiển thị label và placeholder",
+    "1. Quan sát ô nhập 新しいパスワード確認",
+    "",
+    "1. Label hiển thị: 「新しいパスワード確認」\n2. Placeholder hiển thị: 「新しいパスワードを再入力」",
+    "High"
+  ],
+  [
+    "[AA003-49]",
+    "",
+    "Check ẩn ký tự khi nhập",
+    "1. Nhập ký tự vào ô 新しいパスワード確認",
+    "",
+    "1. Ký tự hiển thị dưới dạng dấu chấm tròn ●●●",
+    "High"
+  ],
+  [
+    "[AA003-50]",
+    "",
+    "Check khi để trống ô nhập",
+    "1. Nhập ô hiện tại và ô mới hợp lệ\n2. Để trống ô xác nhận và click 変更する",
+    "",
+    "1. Viền ô chuyển màu đỏ\n2. Dưới ô hiển thị lỗi CMMSG29: 「新しいパスワード確認は空欄にできません。」",
+    "High"
+  ],
+  [
+    "[AA003-51]",
+    "",
+    "Check xác nhận mật khẩu",
+    "1. Nhập ô mới: Pass@1234\n2. Nhập ô xác nhận: Diff@9999\n3. Click button 変更する",
+    "",
+    "1. Viền ô chuyển màu đỏ\n2. Dưới ô hiển thị lỗi MSG25: 「パスワードと確認用のパスワードが一致しません。」",
+    "High"
+  ],
+  [
+    "[AA003-52]",
+    "",
+    "",
+    "1. Nhập ô mới: Pass@1234\n2. Nhập ô xác nhận: pass@1234\n3. Click button 変更する",
+    "",
+    "1. Viền đỏ, hiển thị lỗi MSG25 dưới ô xác nhận",
+    "High"
+  ],
+  [
+    "[AA003-53]",
+    "",
+    "",
+    "1. Nhập ô mới: Pass@1234\n2. Nhập ô xác nhận: Pass@1234\n3. Click button 変更する",
+    "",
+    "1. Hai ô trùng khớp, hệ thống không báo lỗi MSG25",
+    "High"
+  ],
+  [
+    "[AA003-54]",
+    "",
+    "Check tự động xóa lỗi khi gõ lại",
+    "1. Để ô xác nhận có lỗi MSG25\n2. Focus vào ô và gõ lại ký tự",
+    "",
+    "1. Viền đỏ và lỗi MSG25 lập tức biến mất",
+    "Medium"
+  ],
+  [
+    "[AA003-55]",
+    "[7] Icon 👁",
+    "Check hiển thị icon tại 3 ô",
+    "1. Quan sát mép phải của cả 3 ô input trong modal",
+    "",
+    "1. Cả 3 ô đều có icon mắt riêng biệt\n2. Mặc định là icon mắt gạch chéo (trạng thái ẩn mật khẩu)",
+    "High"
+  ],
+  [
+    "[AA003-56]",
+    "",
+    "Check bật tắt hiển thị mật khẩu độc lập",
+    "1. Nhập text vào cả 3 ô\n2. Click icon mắt ở ô 現在のパスワード",
+    "",
+    "1. Ô 現在のパスワード chuyển sang hiện text rõ, icon chuyển thành con mắt mở\n2. Hai ô còn lại VẪN GIỮ NGUYÊN trạng thái ẩn ●●●",
+    "High"
+  ],
+  [
+    "[AA003-57]",
+    "",
+    "",
+    "1. Click icon mắt ở ô 新しいパスワード",
+    "",
+    "1. Chỉ ô 新しいパスワード chuyển sang hiện text rõ\n2. Hai ô còn lại giữ nguyên trạng thái",
+    "High"
+  ],
+  [
+    "[AA003-58]",
+    "",
+    "",
+    "1. Click icon mắt ở ô 新しいパスワード確認",
+    "",
+    "1. Chỉ ô 新しいパスワード確認 chuyển sang hiện text rõ\n2. Hai ô còn lại giữ nguyên trạng thái",
+    "High"
+  ],
+  [
+    "[AA003-59]",
+    "[8] Button キャンセル",
+    "Check hiển thị button",
+    "1. Quan sát button キャンセル ở góc dưới bên trái modal",
+    "",
+    "1. Button ở trạng thái Secondary/Outline, text 「キャンセル」\n2. Con trỏ chuột dạng pointer khi hover",
+    "Medium"
+  ],
+  [
+    "[AA003-60]",
+    "",
+    "Check click hủy và đóng modal",
+    "1. Nhập dữ liệu vào các ô\n2. Click button キャンセル",
+    "",
+    "1. Modal đóng lại ngay lập tức\n2. Không gửi API, giữ nguyên trang hiện tại, xóa sạch dữ liệu đã nhập",
+    "High"
+  ],
+  [
+    "[AA003-61]",
+    "[9] Button 変更する",
+    "Check hiển thị button",
+    "1. Quan sát button 変更する ở góc dưới bên phải modal",
+    "",
+    "1. Button ở trạng thái Primary, text 「変更する」\n2. Con trỏ chuột dạng pointer khi hover",
+    "High"
+  ],
+  [
+    "[AA003-62]",
+    "",
+    "Check báo lỗi đồng thời cả 3 ô khi để trống",
+    "1. Để trống cả 3 ô input\n2. Click button 変更する",
+    "",
+    "1. Viền đỏ đồng thời cả 3 ô\n2. Dưới cả 3 ô cùng hiển thị lỗi CMMSG29\n3. Không gửi API lên server",
+    "High"
+  ],
+  [
+    "[AA003-63]",
+    "",
+    "Check kích hoạt bằng phím Enter",
+    "1. Nhập đầy đủ thông tin hợp lệ ở 3 ô\n2. Đang focus tại bất kỳ ô nào, nhấn phím Enter",
+    "",
+    "1. Kích hoạt submit tương đương thao tác click button 変更する",
+    "Medium"
+  ],
+  [
+    "[AA003-64]",
+    "",
+    "Check chống double click (CMR15)",
+    "1. Nhập thông tin hợp lệ ở 3 ô\n2. Click liên tục nhiều lần thật nhanh vào button 変更する",
+    "",
+    "1. Button lập tức bị vô hiệu hóa (disabled) + đổi text thành 「変更中…」\n2. Chỉ gửi duy nhất 1 request API lên server",
+    "High"
+  ],
+  [
+    "[AA003-65]",
+    "",
+    "Check đổi mật khẩu thành công",
+    "1. Nhập đúng mật khẩu hiện tại\n2. Nhập mật khẩu mới hợp lệ và xác nhận trùng khớp\n3. Click button 変更する",
+    "",
+    "1. Đóng modal\n2. Hiển thị Toast notification MSG33: 「パスワードが正常に変更されました。」\n3. Ở lại màn hình đang mở",
+    "High"
+  ],
+  [
+    "[AA003-66]",
+    "",
+    "Check duy trì phiên đăng nhập hiện tại",
+    "1. Đổi mật khẩu thành công tại modal\n2. Tiếp tục click các menu và thao tác trên giao diện",
+    "",
+    "1. Phiên đăng nhập hiện tại VẪN ĐƯỢC GIỮ NGUYÊN (không bị logout)\n2. Thao tác và gọi API bình thường",
+    "High"
+  ],
+  [
+    "[AA003-67]",
+    "",
+    "Check thu hồi token mọi phiên khác (CMR43)",
+    "1. Đăng nhập cùng tài khoản Admin trên Trình duyệt A và Trình duyệt B\n2. Tại Trình duyệt A: Đổi mật khẩu thành công\n3. Tại Trình duyệt B: Thực hiện bất kỳ thao tác click menu hoặc gọi API",
+    "Tài khoản đăng nhập trên 2 trình duyệt",
+    "1. Lần gọi API tiếp theo tại Trình duyệt B nhận HTTP 401 do token đã bị BE thu hồi\n2. Hệ thống tự động chuyển hướng Trình duyệt B về màn login AA000",
+    "High"
+  ],
+  [
+    "[AA003-68]",
+    "",
+    "Check đăng nhập bằng mật khẩu mới sau khi đổi",
+    "1. Đổi mật khẩu thành công\n2. Đăng xuất tài khoản\n3. Thử đăng nhập lại bằng mật khẩu cũ\n4. Đăng nhập lại bằng mật khẩu mới vừa đổi",
+    "",
+    "1. Bước 3: Đăng nhập mật khẩu cũ bị từ chối, báo MSG10\n2. Bước 4: Đăng nhập mật khẩu mới thành công",
+    "High"
+  ],
+  [
+    "[AA003-69]",
+    "",
+    "Check role tự đổi mật khẩu",
+    "1. Đăng nhập tài khoản role 管理者\n2. Thực hiện đổi mật khẩu tại modal",
+    "User role 管理者",
+    "1. Hệ thống cho phép đổi mật khẩu thành công\n2. Hiển thị Toast thông báo MSG33: パスワードが正常に変更されました。",
+    "High"
+  ],
+  [
+    "[AA003-70]",
+    "",
+    "",
+    "1. Đăng nhập tài khoản role 監視員\n2. Thực hiện đổi mật khẩu tại modal",
+    "User role 監視員",
+    "1. Hệ thống cho phép đổi mật khẩu thành công\n2. Hiển thị Toast thông báo MSG33: パスワードが正常に変更されました。",
+    "High"
+  ],
+  [
+    "[AA003-71]",
+    "",
+    "Check thời hạn 30 ngày tính lại từ ngày đổi (CMR68)",
+    "1. Thực hiện đổi mật khẩu thành công\n2. Kiểm tra trường password_updated_at trong DB",
+    "",
+    "1. Cập nhật thời điểm đặt mật khẩu là thời điểm hiện tại\n2. Thời hạn 30 ngày bắt đầu tính lại từ thời điểm này",
+    "High"
+  ],
+  [
+    "[AA003-72]",
+    "",
+    "Check lỗi mạng hoặc server 500",
+    "1. Ngắt kết nối mạng\n2. Click button 変更する",
+    "",
+    "1. Hiển thị Toast thông báo lỗi CMMSG1: 予期しないサーバーエラーが発生しました。\n2. Ở nguyên modal パスワード変更\n3. Giữ nguyên toàn bộ dữ liệu đang nhập",
+    "High"
+  ],
+  [
+    "[AA003-73]",
+    "",
+    "Check phiên đăng nhập hết hạn khi đang mở modal",
+    "1. Click button 変更する khi session đã hết hạn",
+    "Phiên đăng nhập đã hết hạn",
+    "1. Hệ thống tự động chuyển hướng về màn login AA000",
+    "Medium"
+  ],
+  [
+    "[AA003-74]",
+    "",
+    "Check đổi mật khẩu đồng thời ở 2 tab",
+    "1. Tại Tab 1: Thực hiện đổi mật khẩu thành công\n2. Tại Tab 2: Click button 変更する với mật khẩu hiện tại cũ",
+    "Mở 2 tab trên cùng 1 trình duyệt",
+    "1. Không cho phép đổi mật khẩu tại Tab 2\n2. Hiển thị thông báo lỗi MSG24 dưới ô 現在のパスワード",
+    "Medium"
+  ]
+]

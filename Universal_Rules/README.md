@@ -14,8 +14,8 @@ Thư mục này chứa trọn vẹn bộ **6 Quy chuẩn Kiểm thử Phần m�
 ├── 📁 testcase_ui/   -> [Tên màn hình]_testcase.md   (Rule 02 & 04: Kịch bản & Kết quả kiểm thử giao diện thủ công)
 ├── 📁 testcase_api/  -> [Tên màn hình]_api.md        (Rule 03: Kịch bản kiểm thử backend API)
 ├── 📁 automation/    -> [Tên màn hình]_readme.md     (Rule 05: Theo dõi kịch bản manual -> auto & script)
-├── 📁 bugs/          -> [Tên màn hình]_bugs.md       (Rule 06: Báo cáo danh sách lỗi & chi tiết bug)
-└── 📁 evidence/      -> evidence_{{MÃ_MÀN}}_{{TC_ID}}_{{Timestamp}}.png (Rule 06: Ảnh chụp bằng chứng lỗi)
+├── 📁 bugs/          -> [Tên màn hình]/[Tên màn hình]_bugs.md       (Rule 06: Báo cáo danh sách lỗi & chi tiết bug theo thư mục màn hình)
+└── 📁 evidence/      -> [Tên màn hình]/evidence_{{MÃ_MÀN}}_{{TC_ID}}_{{Mô_tả/Timestamp}}.png (Rule 06: Ảnh chụp bằng chứng theo thư mục màn hình)
 ```
 
 | Thư mục Lưu Trữ | Định Dạng File Bắt Buộc | Quy Định Trong Rule | Ví Dụ Màn Hình `AE800` |
@@ -24,8 +24,8 @@ Thư mục này chứa trọn vẹn bộ **6 Quy chuẩn Kiểm thử Phần m�
 | **`testcase_ui/`** | `[Tên màn hình]_testcase.md` | Rule 02, 04 | `testcase_ui/AE800_testcase.md` |
 | **`testcase_api/`** | `[Tên màn hình]_api.md` | Rule 03 | `testcase_api/AE800_api.md` |
 | **`automation/`** | `[Tên màn hình]_readme.md` | Rule 05 | `automation/AE800_readme.md` |
-| **`bugs/`** | `[Tên màn hình]_bugs.md` | Rule 06 | `bugs/AE800_bugs.md` |
-| **`evidence/`** | `evidence_{{MÃ}}_{{TC_ID}}.png` | Rule 06 | `evidence/evidence_AE800_TC05.png` |
+| **`bugs/`** | `[Tên màn hình]/[Tên màn hình]_bugs.md` | Rule 06 | `bugs/AE800/AE800_bugs.md` |
+| **`evidence/`** | `[Tên màn hình]/evidence_{{MÃ}}_{{TC_ID}}_{{Mô_tả}}.png` | Rule 06 | `evidence/AE800/evidence_AE800_TC05_dup_name.png` |
 
 > [!WARNING]
 > **Quy định nghiêm ngặt:** Tuyệt đối không lưu file kết quả hoặc ảnh chụp màn hình tự do ở thư mục gốc của dự án. AI khi nhận lệnh xuất file bắt buộc phải tự động kiểm tra/tạo thư mục tương ứng và lưu đúng đường dẫn quy chuẩn ở trên.
