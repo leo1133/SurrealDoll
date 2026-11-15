@@ -195,4 +195,4 @@
   - **Boundary:** 28 test cases.
   - **Security:** 8 test cases.
   - **Performance:** 3 test cases.
-- **Khối thực thi Round 1 & Round 2:** Để trống 100% khi bàn giao thiết kế theo đúng Quy chuẩn Trụ cột 3 ([Universal_Rules/03_api_test_case_rule.md](Universal_Rules/03_api_test_case_rule.md)).
+- **Khối thực thi Round 1 & Round 2:** Để trống 100% khi bàn giao thiết kế theo đúng Quy chuẩn Trụ cột 3 ([Universal_Rules/03_api_test_case_rule.md](../Universal_Rules/03_api_test_case_rule.md)).

@@ -2,7 +2,7 @@
 ## Màn hình: AD100_Agency List / Search (事務所一覧・検索)
 ### Phân hệ: Master Admin Web Portal (`AA000`) / Quản lý Agency (`AD` Module)
 ### Target Repository: `../live2d` (`/Users/ngaphuong/projects/live2d`)
-### Áp dụng: Quy chuẩn Trụ cột 5 (`Universal_Rules/05_automation_test_rule.md`) & Framework Playwright (JavaScript ES Module)
+### Áp dụng: Quy chuẩn Trụ cột 5 (`../Universal_Rules/05_automation_test_rule.md`) & Framework Playwright (JavaScript ES Module)
 
 ---
 
@@ -12,13 +12,13 @@
 | :--- | :--- |
 | **Mã màn hình** | `AD100` |
 | **Tên màn hình** | `AD100 Agency Manage - Agency List & Search` (事務所一覧・検索) |
-| **Target Project Path** | `/Users/ngaphuong/projects/live2d` (đường dẫn tương đối: `../live2d`) |
+| **Target Project Path** | `../live2d` |
 | **Framework kiểm thử** | [Playwright Test](https://playwright.dev/) v1.63+ (Ngôn ngữ: JavaScript ES Module `"type": "module"`) |
 | **Kiến trúc mã nguồn** | Page Object Model (POM) + Resilient Locators + Custom Resilient API Client |
 | **Cơ chế xác thực** | Session Caching qua `storageState` (`tests/auth/admin.setup.js`) & `api_token_dev.json` |
-| **Môi trường cấu hình** | `Dev-Admin` / `STG-Admin` (Tham số hóa 100% qua `../live2d/.env.dev` & `TEST_CONFIG.md`) |
-| **Nguồn Test Case Manual** | [AD100_testcase.md](file:///Users/ngaphuong/projects/SurrealDoll/testcase_ui/AD100_testcase.md) (78 TCs Manual UI) |
-| **Nguồn Test Case API** | [AD100_api.md](file:///Users/ngaphuong/projects/SurrealDoll/testcase_api/AD100_api.md) (178 TCs Backend API) |
+| **Môi trường cấu hình** | `Dev-Admin` / `STG-Admin` (Tham số hóa 100% qua `../live2d/.env.dev` & `../TEST_CONFIG.md`) |
+| **Nguồn Test Case Manual** | [AD100_testcase.md](../testcase_ui/AD100_testcase.md) (78 TCs Manual UI) |
+| **Nguồn Test Case API** | [AD100_api.md](../testcase_api/AD100_api.md) (178 TCs Backend API) |
 
 ---
 
