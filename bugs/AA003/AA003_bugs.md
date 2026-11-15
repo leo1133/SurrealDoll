@@ -1,7 +1,7 @@
 # BÁO CÁO LỖI KIỂM THỬ THỦ CÔNG - MÀN HÌNH AA003 (PASSWORD CHANGE MODAL - ADMIN WEB)
 
-Theo quy chuẩn [06_bug_reporting_rule.md](Universal_Rules/06_bug_reporting_rule.md).
-Môi trường kiểm thử: **Dev-Admin** (`https://admin-dev.surrealdolls.com/`) theo cấu hình tại [TEST_CONFIG.md](TEST_CONFIG.md).
+Theo quy chuẩn [06_bug_reporting_rule.md](../../Universal_Rules/06_bug_reporting_rule.md).
+Môi trường kiểm thử: **Dev-Admin** (`https://admin-dev.surrealdolls.com/`) theo cấu hình tại [TEST_CONFIG.md](../../TEST_CONFIG.md).
 
 ---
 
@@ -26,7 +26,7 @@ Môi trường kiểm thử: **Dev-Admin** (`https://admin-dev.surrealdolls.com/
   - Khu vực tài khoản chỉ hiển thị Avatar tròn chứa ký tự đầu, Tên và Email.
   - Hoàn toàn KHÔNG có icon tam giác ▲ hay bất kỳ icon mũi tên/chevron nào ở mép phải nút.
 - **Bằng chứng đính kèm (Evidence):**
-  - File ảnh chụp lỗi: `evidence/evidence_AA003_TC08_missing_triangle_icon.png`
+  - File ảnh chụp lỗi: [evidence_AA003_TC08_missing_triangle_icon.png](../../evidence/AA003/evidence_AA003_TC08_missing_triangle_icon.png)
   - Bằng chứng DOM HTML:
     ```html
     <button data-slot="dropdown-menu-trigger" data-sidebar="menu-button" data-size="lg" ...>
@@ -62,7 +62,7 @@ Môi trường kiểm thử: **Dev-Admin** (`https://admin-dev.surrealdolls.com/
   - Header popup menu chỉ hiển thị: Avatar tròn, 名前 (`Surreal Dolls Admin`), và メールアドレス (`admin@admin.com`).
   - Hoàn toàn KHÔNG có Tag Role 「マスター」 (cùng thiếu container/logic render role badge như ở Agency Web).
 - **Bằng chứng đính kèm (Evidence):**
-  - File ảnh chụp lỗi: `evidence/evidence_AA003_TC14_missing_role_tag.png`
+  - File ảnh chụp lỗi: [evidence_AA003_TC14_missing_role_tag.png](../../evidence/AA003/evidence_AA003_TC14_missing_role_tag.png)
   - Bằng chứng DOM HTML:
     ```html
     <div data-slot="dropdown-menu-label" class="text-sm data-[inset]:pl-8 p-0 font-light">
@@ -83,10 +83,10 @@ Môi trường kiểm thử: **Dev-Admin** (`https://admin-dev.surrealdolls.com/
 
 | TC ID | Control / Chức năng | Các bước tái hiện (Steps) | Expected Result | Actual Result | Mức độ | File Evidence (Unique) & DOM Log | Bug ID |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `[AA003-8]` | Nút tài khoản side menu | 1. Đăng nhập Admin<br>2. Quan sát nút tài khoản cuối side menu | Hiển thị avatar tròn, Tên, Email và icon tam giác ▲ ở mép phải | Không có icon tam giác ▲ ở mép phải | Minor | `evidence/evidence_AA003_TC08_missing_triangle_icon.png`<br>`DOM: button[data-sidebar="menu-button"] lacks triangle/chevron SVG` | *(Để trống)* |
-| `[AA003-14]` | Header Menu tài khoản | 1. Click mở menu tài khoản ở cuối side menu<br>2. Quan sát phần header menu | Hiển thị đầy đủ: Tên, Email, Tag role 「マスター」 | Chỉ hiển thị Tên và Email; thiếu Tag role 「マスター」 | Major | `evidence/evidence_AA003_TC14_missing_role_tag.png`<br>`DOM: div[data-slot="dropdown-menu-label"] lacks role tag` | *(Để trống)* |
-| `[AA003-15]` | Tag Role 管理者 | 1. Mở menu tài khoản với role 管理者<br>2. Quan sát vị trí role tag | Hiển thị tag role 「管理者」 đúng style thiết kế | Component menu header hoàn toàn không có logic/container render role tag | Major | `evidence/evidence_AA003_TC14_missing_role_tag.png`<br>`DOM: No role badge element rendered` | *(Để trống)* |
-| `[AA003-16]` | Tag Role 監視員 | 1. Mở menu tài khoản với role 監視員<br>2. Quan sát vị trí role tag | Hiển thị tag role 「監視員」 đúng style thiết kế | Component menu header hoàn toàn không có logic/container render role tag | Major | `evidence/evidence_AA003_TC14_missing_role_tag.png`<br>`DOM: No role badge element rendered` | *(Để trống)* |
+| `[AA003-8]` | Nút tài khoản side menu | 1. Đăng nhập Admin<br>2. Quan sát nút tài khoản cuối side menu | Hiển thị avatar tròn, Tên, Email và icon tam giác ▲ ở mép phải | Không có icon tam giác ▲ ở mép phải | Minor | [evidence_AA003_TC08_missing_triangle_icon.png](../../evidence/AA003/evidence_AA003_TC08_missing_triangle_icon.png)<br>`DOM: button[data-sidebar="menu-button"] lacks triangle/chevron SVG` | *(Để trống)* |
+| `[AA003-14]` | Header Menu tài khoản | 1. Click mở menu tài khoản ở cuối side menu<br>2. Quan sát phần header menu | Hiển thị đầy đủ: Tên, Email, Tag role 「マスター」 | Chỉ hiển thị Tên và Email; thiếu Tag role 「マスター」 | Major | [evidence_AA003_TC14_missing_role_tag.png](../../evidence/AA003/evidence_AA003_TC14_missing_role_tag.png)<br>`DOM: div[data-slot="dropdown-menu-label"] lacks role tag` | *(Để trống)* |
+| `[AA003-15]` | Tag Role 管理者 | 1. Mở menu tài khoản với role 管理者<br>2. Quan sát vị trí role tag | Hiển thị tag role 「管理者」 đúng style thiết kế | Component menu header hoàn toàn không có logic/container render role tag | Major | [evidence_AA003_TC14_missing_role_tag.png](../../evidence/AA003/evidence_AA003_TC14_missing_role_tag.png)<br>`DOM: No role badge element rendered` | *(Để trống)* |
+| `[AA003-16]` | Tag Role 監視員 | 1. Mở menu tài khoản với role 監視員<br>2. Quan sát vị trí role tag | Hiển thị tag role 「監視員」 đúng style thiết kế | Component menu header hoàn toàn không có logic/container render role tag | Major | [evidence_AA003_TC14_missing_role_tag.png](../../evidence/AA003/evidence_AA003_TC14_missing_role_tag.png)<br>`DOM: No role badge element rendered` | *(Để trống)* |
 
 > [!NOTE]
 > **Về ca kiểm thử `[AA003-6]` (Click Backdrop đóng modal):**
