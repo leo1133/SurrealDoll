@@ -1,0 +1,32 @@
+{
+  "name": "surrealdoll-automation",
+  "version": "1.0.0",
+  "description": "SurrealDoll Universal Automation Testing Suite - Pillar 5 (Playwright TypeScript)",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui-mode": "playwright test --ui",
+    "test:ad100:ui": "playwright test tests/ui/ad100.ui.spec.ts --project=chromium",
+    "test:ad100:api": "playwright test tests/api/ad100.api.spec.ts --project=api",
+    "test:ad100:e2e": "playwright test tests/e2e/ad100.e2e.spec.ts --project=chromium",
+    "test:ad100:all": "playwright test tests/ -g \"AD100\"",
+    "report": "playwright show-report",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "surrealdoll",
+    "automation",
+    "testing"
+  ],
+  "author": "Antigravity QA Team",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.10.1",
+    "dotenv": "^16.4.7",
+    "typescript": "^5.7.2"
+  }
+}

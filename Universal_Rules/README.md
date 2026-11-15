@@ -36,26 +36,30 @@ Thư mục này chứa trọn vẹn bộ **6 Quy chuẩn Kiểm thử Phần m�
 
 | File Quy Chuẩn | Phạm Vi & Vai Trò | Thư Mục Đầu Ra Tương Ứng |
 | :--- | :--- | :--- |
-| [01_core_spec_analysis_rule.md](file:///home/nga/Documents/SurrealDoll/Universal_Rules/01_core_spec_analysis_rule.md) | **Trụ cột 1:** Phân tích Spec 2-Pass, đối chiếu Figma 1:1 & Lập Q&A (Option A/B) | Lưu vào `Q&A/[Tên màn hình]_Q&A.md` |
-| [02_manual_ui_test_case_rule.md](file:///home/nga/Documents/SurrealDoll/Universal_Rules/02_manual_ui_test_case_rule.md) | **Trụ cột 2 (Manual Design):** Thiết kế Test Case Giao diện (Đối chiếu bộ ba sheet `CommonSpec`, `Common MSG`, `MSG`; Checklist Common Controls & CMR bắt buộc; Header 1 TC/cột; 8 viewpoints KPI; Nạp thông điệp nguyên văn) | Lưu vào `testcase_ui/[Tên màn hình]_testcase.md` |
-| [03_api_test_case_rule.md](file:///home/nga/Documents/SurrealDoll/Universal_Rules/03_api_test_case_rule.md) | **Trụ cột 3 (API Design):** Thiết kế Test Case Backend API (419 viewpoints, toàn vẹn DB, A1-A14) | Lưu vào `testcase_api/[Tên màn hình]_api.md` |
-| [04_manual_test_execution_rule.md](file:///home/nga/Documents/SurrealDoll/Universal_Rules/04_manual_test_execution_rule.md) | **Trụ cột 4 (Manual Execution):** Thực Thi Kiểm Thử Thủ Công (Role matrix, Round 1/2 trên Sheet, Retest & Sign-off) | Cập nhật vào `testcase_ui/` & Google Sheets |
-| [05_automation_test_rule.md](file:///home/nga/Documents/SurrealDoll/Universal_Rules/05_automation_test_rule.md) | **Trụ cột 5 (Automation):** Kiểm Thử Tự Động Hóa (Sinh code Playwright POM, Resilient Locators, Smart Waiting) | Lưu vào `automation/[Tên màn hình]_readme.md` |
-| [06_bug_reporting_rule.md](file:///home/nga/Documents/SurrealDoll/Universal_Rules/06_bug_reporting_rule.md) | **Trụ cột 6 (Bug & Evidence):** Quản Lý Báo Cáo Lỗi & Bằng Chứng (Atomic Screenshot, Bug Template, Fail Table) | Lưu vào `bugs/[Tên màn hình]_bugs.md` & `evidence/` |
+| [01_core_spec_analysis_rule.md](01_core_spec_analysis_rule.md) | **Trụ cột 1:** Phân tích Spec 2-Pass, đối chiếu Figma 1:1 & Lập Q&A (Option A/B) | Lưu vào `Q&A/[Tên màn hình]_Q&A.md` |
+| [02_manual_ui_test_case_rule.md](02_manual_ui_test_case_rule.md) | **Trụ cột 2 (Manual Design):** Thiết kế Test Case Giao diện (Đối chiếu bộ ba sheet `CommonSpec`, `Common MSG`, `MSG`; Checklist Common Controls & CMR bắt buộc; Header 1 TC/cột; 8 viewpoints KPI; Nạp thông điệp nguyên văn; **Cột Automation Feasibility định danh ~80% Auto / ~20% Manual**) | Lưu vào `testcase_ui/[Tên màn hình]_testcase.md` |
+| [03_api_test_case_rule.md](03_api_test_case_rule.md) | **Trụ cột 3 (API Design):** Thiết kế Test Case Backend API (419 viewpoints, toàn vẹn DB, A1-A14) | Lưu vào `testcase_api/[Tên màn hình]_api.md` |
+| [04_manual_test_execution_rule.md](04_manual_test_execution_rule.md) | **Trụ cột 4 (Manual Execution):** Thực Thi Kiểm Thử Thủ Công (Role matrix, Round 1/2 trên Sheet, Retest & Sign-off) | Cập nhật vào `testcase_ui/` & Google Sheets |
+| [05_automation_test_rule.md](05_automation_test_rule.md) | **Trụ cột 5 (Automation):** Kiểm Thử Tự Động Hóa (Sinh code Playwright POM, Resilient Locators, Smart Waiting; **Chống sinh mã minh họa & Cam kết độ phủ $\ge 80\%$ bằng Data-Driven Loop**) | Lưu vào `automation/[Tên màn hình]_readme.md` & target repo |
+| [06_bug_reporting_rule.md](06_bug_reporting_rule.md) | **Trụ cột 6 (Bug & Evidence):** Quản Lý Báo Cáo Lỗi & Bằng Chứng (Atomic Screenshot, Bug Template, Fail Table) | Lưu vào `bugs/[Tên màn hình]/[Tên màn hình]_bugs.md` & `evidence/` |
 
 ---
 
-## III. CÚ PHÁP RA LỆNH MẪU CHO AI THEO TỪNG GIAI ĐOẠN:
+## III. CÚ PHÁP RA LỆNH TỐI GIẢN (AUTO-DISCOVERY COMMANDS)
+
+Nhờ **Giao thức tự động nhận diện file (Auto-Discovery Protocol)** quy định tại [GEMINI.md](../GEMINI.md), bạn chỉ cần ra lệnh ngắn gọn; Agent sẽ tự động nạp Rule, tìm Spec và xuất đúng thư mục:
 
 1. **Phân tích Spec & Lập Q&A:**
-   > *"Áp dụng rule @01_core_spec_analysis_rule.md để bóc tách Spec màn hình AE800 và lưu kết quả vào thư mục Q&A/."*
+   > `phân tích spec [MÃ_MÀN]` *(Ví dụ: `phân tích spec BA100`)*
 2. **Thiết kế Testcase UI Thủ công:**
-   > *"Dựa trên Q&A đã chốt, áp dụng rule @02_manual_ui_test_case_rule.md để viết bộ testcase UI màn hình AE800 và lưu vào testcase_ui/."*
-3. **Thiết kế Testcase API:**
-   > *"Áp dụng rule @03_api_test_case_rule.md để thiết kế bộ testcase API và lưu vào testcase_api/."*
-4. **Thực thi Kiểm thử Thủ công & Ghi nhận Kết quả:**
-   > *"Áp dụng rule @04_manual_test_execution_rule.md để thực thi kiểm thử thủ công trên môi trường Staging, đánh dấu Pass/Fail/Impact vào cột Round 1 và chuẩn bị quy trình Retest Round 2."*
-5. **Sinh Mã Automation & Chạy Tự Động:**
-   > *"Áp dụng rule @05_automation_test_rule.md để sinh mã Playwright TypeScript theo chuẩn Page Object Model và lưu file theo dõi vào automation/."*
-6. **Báo cáo Lỗi & Thu thập Bằng chứng:**
-   > *"Áp dụng rule @06_bug_reporting_rule.md để thu thập ảnh bằng chứng độc lập vào evidence/ và xuất báo cáo lỗi chi tiết vào bugs/."*
+   > `gen testcase [MÃ_MÀN]` *(Ví dụ: `gen testcase BA100`)*
+3. **Thiết kế Testcase Backend API:**
+   > `gen testcase API [MÃ_MÀN]` *(Ví dụ: `gen testcase API BA100`)*
+4. **Thực thi Kiểm thử Thủ công (Manual Test):**
+   > `run test [MÃ_MÀN]` hoặc `retest round 2 [MÃ_MÀN]`
+5. **Sinh Mã Automation Playwright:**
+   > `gen script auto [MÃ_MÀN]` *(Ví dụ: `gen script auto BA100` - Tự động nạp đồng thời cả `testcase_ui` và `testcase_api` để sinh trọn bộ POM UI, API Client và E2E vào project `live2d`)*
+6. **Báo cáo Lỗi & Bằng chứng (Log Bug):**
+   > `log bug [MÃ_MÀN]` *(Ví dụ: `log bug BA100`)*
+
+*(Lưu ý: Nếu bạn chỉ gõ lệnh không kèm mã màn như `gen testcase`, AI sẽ tự động lấy mã màn từ ngữ cảnh trao đổi gần nhất).*
