@@ -9,10 +9,10 @@
 | Thuộc tính | Giá trị | Thuộc tính | Giá trị | Round 1 Metric | Kết quả | Round 2 Metric | Kết quả |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Module Code** | `AD303` | **Environment** | `PC` | **Pass** | 0 | **Pass** | 0 |
-| **Total Testcases** | **203** | **% Executed** | 0% | **Fail** | 0 | **Fail** | 0 |
-| **Plan to Execute** | **203** | **Creator** | `NgaDTP` | **Impact** | 0 | **Impact** | 0 |
-| **Spec Source** | `Surreal SPEC` | **Google Sheet Tab** | `AD303` | **Not Run** | 203 | **Not Run** | 0 |
-| | | | | **Total** | 203 | **Total** | 0 |
+| **Total Testcases** | **228** | **% Executed** | 0% | **Fail** | 0 | **Fail** | 0 |
+| **Plan to Execute** | **228** | **Creator** | `NgaDTP` | **Impact** | 0 | **Impact** | 0 |
+| **Spec Source** | `Surreal SPEC` | **Google Sheet Tab** | `AD303` | **Not Run** | 228 | **Not Run** | 0 |
+| | | | | **Total** | 228 | **Total** | 0 |
 
 ---
 
@@ -226,3 +226,28 @@
 | `[AD303-201]` | [-] Error Handling & RBAC | Check lỗi máy chủ 500 khi submit | 1. Giả lập API server trả về mã lỗi HTTP 500 khi lưu hoặc xóa bản ghi. | - | 1. Hiển thị thông báo lỗi CMMSG1: 予期しないサーバーエラーが発生しました。 kèm nút 再試行. | **Medium** |
 | `[AD303-202]` | [-] Error Handling & RBAC | Check phân quyền Master Admin & Admin | 1. Đăng nhập với tài khoản Master Admin hoặc Admin và thao tác trên AD303. | - | 1. Cho phép thực hiện đầy đủ các quyền: xem, tìm kiếm, xuất CSV, tạo mới, chỉnh sửa và xóa bản ghi chuyển thưởng. | **High** |
 | `[AD303-203]` | [-] Error Handling & RBAC | Check phân quyền Monitor / Giám sát viên | 1. Đăng nhập với tài khoản role Monitor/Staff và truy cập AD303. | - | 1. Cho phép xem số liệu và tìm kiếm; các nút [報酬記録追加], [CSV出力], icon Sửa và Xóa bị vô hiệu hóa (disabled) hoặc ẩn. | **High** |
+| `[AD303-204]` | [39] Nút 支払明細書 | Check mở modal AD3033 | 1. Tại một dòng bất kỳ trên Bảng 1 (報酬履歴), click vào icon/nút phiếu chi trả (Item [39]). | - | 1. Mở Modal AD3033 (支払明細書ダウンロード) đúng thiết kế Figma 11519-11957. | **High** |
+| `[AD303-205]` | [62] 法人 / 個人 | Check hiển thị và mặc định radio | 1. Quan sát khối chọn loại hình tổ chức Agency trên Modal AD3033. | - | 1. Hiển thị 2 radio button '法人' và '個人'; giá trị mặc định là '法人'. | **Medium** |
+| `[AD303-206]` | [62] 法人 / 個人 | Check tính thuế khi chọn 法人 | 1. Chọn radio button '法人' 2. Quan sát ô [74] 源泉徴収額 và [65] 支払い金額. | - | 1. Tiền thuế [74] hiển thị: '￥0'; số tiền thực nhận [65] 支払い金額 bằng đúng tổng tiền thưởng [73] 合計. | **High** |
+| `[AD303-207]` | [62] 法人 / 個人 | Check tính thuế 個人 khi Tổng < 1,000,000 | 1. Bản ghi có Tổng thưởng = 500,000 Yên 2. Chọn radio '個人' 3. Quan sát ô [74] và [65]. | - | 1. Thuế [74] = Math.floor(500,000 * 10.21%) = 51,050 Yên; Thực nhận [65] = 500,000 - 51,050 = 448,950 Yên. | **High** |
+| `[AD303-208]` | [62] 法人 / 個人 | Check tính thuế 個人 tại biên 1,000,000 Yên | 1. Bản ghi có Tổng thưởng đúng 1,000,000 Yên 2. Chọn radio '個人'. | - | 1. Thuế [74] = 102,100 Yên; Thực nhận [65] = 897,900 Yên. | **High** |
+| `[AD303-209]` | [62] 法人 / 個人 | Check tính thuế 個人 khi Tổng > 1,000,000 | 1. Bản ghi có Tổng thưởng = 2,500,000 Yên 2. Chọn radio '個人'. | - | 1. Thuế [74] = Math.floor((2,500,000 - 1,000,000) * 20.42% + 102,100) = 408,400 Yên; Thực nhận [65] = 2,091,600 Yên. | **High** |
+| `[AD303-210]` | [62] 法人 / 個人 | Check Real-time Recalculation | 1. Đổi qua lại giữa '法人' và '個人' nhiều lần trên Modal AD3033. | - | 1. Thuế [74] và Số tiền thực nhận [65] tự động cập nhật ngay lập tức theo thời gian thực (Real-time). | **High** |
+| `[AD303-211]` | [63] 明細書番号 | Check hiển thị mã ID giao dịch | 1. Quan sát trường [63] 明細書番号 trên modal. | - | 1. Hiển thị chính xác mã ID của bản ghi chuyển tiền thưởng tương ứng. | **Medium** |
+| `[AD303-212]` | [64] 支払日 | Check định dạng ngày thanh toán | 1. Quan sát trường [64] 支払日 trên modal. | - | 1. Hiển thị đúng định dạng: '{year}年{month}月{date}日' lấy từ ngày chuyển tiền 振込日 [48]. | **Medium** |
+| `[AD303-213]` | [65] 支払い金額 | Check hiển thị số tiền thực nhận | 1. Quan sát trường [65] 支払い金額 nổi bật trên modal. | - | 1. Hiển thị số tiền thực nhận dạng '￥{amount}' với dấu phẩy phân cách hàng nghìn. | **High** |
+| `[AD303-214]` | [66] 事務所名 | Check hiển thị tên Agency thụ hưởng | 1. Quan sát trường [66] 事務所名 trên modal. | - | 1. Hiển thị chính xác tên của Agency hiện tại. | **Medium** |
+| `[AD303-215]` | [67] オーナー名 | Check hiển thị tên Owner | 1. Quan sát trường [67] オーナー名 trên modal. | - | 1. Hiển thị chính xác tên người đại diện / Owner của Agency. | **Medium** |
+| `[AD303-216]` | [68] 事務所ID | Check hiển thị mã Agency ID | 1. Quan sát trường [68] 事務所ID trên modal. | - | 1. Hiển thị chính xác mã Agency Code của Agency. | **Medium** |
+| `[AD303-217]` | [69] 会社名 (支払元) | Check hiển thị đơn vị chi trả | 1. Quan sát khối 支払元 trên modal. | - | 1. Hiển thị cố định tên công ty: 'サリアル合同会社'. | **Low** |
+| `[AD303-218]` | [70] カラオケ以外報酬 | Check hiển thị tiền thưởng Non-Karaoke | 1. Quan sát trường [70] カラオケ以外報酬 trên modal. | - | 1. Hiển thị chính xác số tiền thưởng non-karaoke dạng '￥{amount}'. | **Medium** |
+| `[AD303-219]` | [71] カラオケ報酬 | Check hiển thị tiền thưởng Karaoke | 1. Quan sát trường [71] カラオケ報酬 trên modal. | - | 1. Hiển thị chính xác số tiền thưởng karaoke dạng '￥{amount}'. | **Medium** |
+| `[AD303-220]` | [72] ファミリア報酬 | Check hiển thị tiền thưởng Familia | 1. Quan sát trường [72] ファミリア報酬 trên modal. | - | 1. Hiển thị chính xác số tiền thưởng familia dạng '￥{amount}'. | **Medium** |
+| `[AD303-221]` | [73] 合計 | Check hiển thị tổng tiền thưởng | 1. Quan sát trường [73] 合計 trên modal. | - | 1. Hiển thị chính xác tổng số tiền thưởng trước thuế = [70] + [71] + [72]. | **High** |
+| `[AD303-222]` | [74] 源泉徴収額 | Check hiển thị số tiền thuế | 1. Quan sát trường [74] 源泉徴収額 trên modal. | - | 1. Hiển thị chính xác số tiền thuế đã khấu trừ dạng '￥{amount}'. | **High** |
+| `[AD303-223]` | [75] Button キャンセル | Check đóng modal AD3033 | 1. Click nút [キャンセル] trên modal AD3033. | - | 1. Modal AD3033 tự động đóng lại, quay về giao diện bảng 1 màn AD303. | **Low** |
+| `[AD303-224]` | [76] Button ダウンロード | Check tải file PDF chứng từ chi trả | 1. Click nút [ダウンロード] trên modal AD3033. | - | 1. Hệ thống xuất và tải xuống file PDF chứng từ chi trả 支払明細書 thành công. | **High** |
+| `[AD303-225]` | [76] Button ダウンロード | Check quy tắc đặt tên file PDF | 1. Kiểm tra tên file PDF vừa tải về máy. | - | 1. Tên file khớp chính xác chuẩn Spec: `ID-{agencyID}_{tháng tương ứng}_支払明細書.pdf` (VD: `ID-AG001_202610_支払明細書.pdf`). | **High** |
+| `[AD303-226]` | [76] Button ダウンロード | Check nội dung trong file PDF | 1. Mở file PDF vừa tải về và đối chiếu nội dung. | - | 1. Toàn bộ các thông tin: Tên Agency, Owner, Số ID, Chi tiết các khoản thưởng, Thuế khấu trừ và Số tiền thực nhận khớp 100% với dữ liệu hiển thị trên modal. | **High** |
+| `[AD303-227]` | Modal AD3033 | Check đóng bằng phím Esc | 1. Đang mở modal AD3033 2. Nhấn phím Esc trên bàn phím. | - | 1. Modal AD3033 đóng lại an toàn. | **Low** |
+| `[AD303-228]` | Modal AD3033 | Check xử lý lỗi mạng khi tải PDF | 1. Ngắt kết nối mạng Internet 2. Click nút [ダウンロード]. | - | 1. Hiển thị thông báo lỗi mạng chuẩn CMMSG8: ネットワークエラー。接続を確認してください。. | **Medium** |
