@@ -255,8 +255,8 @@ Mọi thẻ tổng hợp số liệu động (Tổng tiền, Coin, Lượt xem..
   + Dòng phân nhóm lớn (VD: `I. COMMON & NAVIGATION`, `II. MAIN CONTROLS`, `III. SUB-LAYOUTS / MODALS`) được merge từ **Cột B đến Cột Q** (hoặc B đến L), viết in hoa, bôi đậm, tô màu xám nhạt (`#F3F3F3` hoặc `#EFEFEF`).
   + **Cột A của dòng tiêu đề nhóm BẮT BUỘC ĐỂ TRỐNG** để không làm nhảy cóc bộ đếm ID tự động.
 
-### 5.2. Cấu Trúc Bảng 17 Cột Chuẩn Trên Google Sheets / Excel:
-Mỗi sheet test case chuẩn bao gồm 17 cột (từ cột A đến cột Q):
+### 5.2. Cấu Trúc Bảng 18 Cột Chuẩn Trên Google Sheets / Excel:
+Mỗi sheet test case chuẩn bao gồm 18 cột (từ cột A đến cột R), phân định rõ ràng giữa Khối Thiết Kế (Cột A:H) và Khối Thực Thi (Round 1 Cột I:M, Round 2 Cột N:R):
 
 | STT | Tên cột | Ký hiệu | Ý nghĩa & Quy chuẩn điền khi Thiết Kế Test Case |
 | :---: | :--- | :---: | :--- |
@@ -267,18 +267,35 @@ Mỗi sheet test case chuẩn bao gồm 17 cột (từ cột A đến cột Q):
 | 5 | **Pre-condition** | Cột E | Điều kiện tiên quyết (chỉ ghi ở ca đầu tiên, dưới để `-`). |
 | 6 | **Expected** | Cột F | Kết quả mong đợi chi tiết (mã lỗi, chuỗi text, phản hồi). |
 | 7 | **Priority** | Cột G | Mức độ ưu tiên: `High` \| `Medium` \| `Low`. |
-| 8 | **Round 1 (Result)** | Cột H | Kết quả thực thi Round 1 (`Pass`, `Fail`, `Impact`, rỗng = `Not Run`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
-| 9 | **Bug ID (R1)** | Cột I | Link hoặc mã Bug phát sinh ở Round 1. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
-| 10 | **Status (R1)** | Cột J | Trạng thái xử lý lỗi (`Open`, `Fixed`, `Closed`, `Reopen`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
-| 11 | **Comment (R1)** | Cột K | Ghi chú thực thi, lý do fail ở Round 1. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
-| 12 | **Note (R1)** | Cột L | Ghi chú nghiệp vụ / Cờ câu hỏi Q&A (`[Pending Q&A #1]` $\rightarrow$ `=> Confirmed: ...`) / Cờ khả năng tự động hóa (`[Auto]` \| `[Manual Only]`) để bàn giao cho Trụ cột 5 ([05_automation_test_rule.md](05_automation_test_rule.md)). |
-| 13 | **Round 2 (Result)** | Cột M | Kết quả thực thi Round 2 (`Pass`, `Fail`, `Impact`, `Not run`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
-| 14 | **Bug ID (R2)** | Cột N | Link hoặc mã Bug phát sinh ở Round 2. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
-| 15 | **Status (R2)** | Cột O | Trạng thái xử lý lỗi Round 2. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
-| 16 | **Comment (R2)** | Cột P | Ghi chú thực thi Round 2. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
-| 17 | **Note (R2)** | Cột Q | Ghi chú bổ sung Round 2. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
+| 8 | **Automation Feasibility** | Cột H | **Khả năng tự động hóa (BẮT BUỘC ĐIỀN KHI THIẾT KẾ):** Phân loại kịch bản để sàng lọc bàn giao cho project automation `live2d` (Rule 05). Điền 1 trong 4 giá trị chuẩn hóa tại Mục 5.3. |
+| 9 | **Round 1 (Result)** | Cột I | Kết quả thực thi Round 1 (`Pass`, `Fail`, `Impact`, rỗng = `Not Run`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
+| 10 | **Bug ID (R1)** | Cột J | Link hoặc mã Bug phát sinh ở Round 1. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
+| 11 | **Status (R1)** | Cột K | Trạng thái xử lý lỗi (`Open`, `Fixed`, `Closed`, `Reopen`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
+| 12 | **Comment (R1)** | Cột L | Ghi chú thực thi, lý do fail ở Round 1. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
+| 13 | **Note (R1)** | Cột M | Ghi chú nghiệp vụ / Cờ câu hỏi Q&A (`[Pending Q&A #1]` $\rightarrow$ `=> Confirmed: ...`). |
+| 14 | **Round 2 (Result)** | Cột N | Kết quả thực thi Round 2 (`Pass`, `Fail`, `Impact`, `Not run`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
+| 15 | **Bug ID (R2)** | Cột O | Link hoặc mã Bug phát sinh ở Round 2. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
+| 16 | **Status (R2)** | Cột P | Trạng thái xử lý lỗi Round 2. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
+| 17 | **Comment (R2)** | Cột Q | Ghi chú thực thi Round 2. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
+| 18 | **Note (R2)** | Cột R | Ghi chú bổ sung Round 2. **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
 
-### 5.3. Cấu Trúc Header Dashboard 7 Dòng & Công Thức Tính Tự Động:
+### 5.3. Quy Chuẩn Giá Trị & Tỷ Lệ Vàng Của Cột `Automation Feasibility`:
+Cột `Automation Feasibility` (Cột H) được thiết lập nhằm xóa bỏ hoàn toàn việc "đoán mò" khi chuyển giao sang Automation. Bắt buộc áp dụng 4 giá trị định danh chuẩn:
+
+1. **`Auto-UI` (~40-50%):** Kịch bản luồng thao tác người dùng, navigation điều hướng, tương tác form, submit button, dialog/modal popup, thanh phân trang $\rightarrow$ Bàn giao để viết Page Object (`live2d/src/pages/`) và UI Spec (`live2d/tests/ui/`).
+2. **`Auto-API` (~20-30%):** Kịch bản kiểm tra logic nghiệp vụ backend, HTTP status codes (200, 400, 401, 403, 404, 422), format dữ liệu JSON response, negative error responses $\rightarrow$ Bàn giao để viết API Client (`live2d/src/api/`) và API Spec (`live2d/tests/api/`).
+3. **`Auto-Data` (~10%):** Kịch bản kiểm tra dữ liệu vi mô (min/max length, ký tự đặc biệt, trim space đầu/cuối, boundary số liệu) $\rightarrow$ Không viết test riêng lẻ mà gom thành mảng Data-Driven Testing (`live2d/src/test-data/` hoặc CSV).
+4. **`Manual-Only` (~20%):** Kịch bản giữ nguyên kiểm thử thủ công, **BẮT BUỘC ghi rõ nguyên nhân trong ngoặc đơn**:
+   - `Manual-Only (Visual)`: Thẩm mỹ vi mô, màu sắc, font, cỡ chữ, đổ bóng, pixel-perfect, animation chuyển cảnh.
+   - `Manual-Only (Complex DB)`: Yêu cầu tiền đề can thiệp trực tiếp Database hoặc thay đổi trạng thái ngầm khi đang thao tác.
+   - `Manual-Only (3rd-party)`: Rào cản bảo mật bên thứ 3 (CAPTCHA, Cloudflare Turnstile, OTP qua SMS điện thoại thực, 3D-Secure).
+   - `Manual-Only (UX)`: Độ thuận tiện thao tác, cảm nhận trải nghiệm người dùng.
+
+> [!IMPORTANT]
+> **Quy Tắc Tỷ Lệ Vàng (Golden Ratio ~80/20):**
+> Tổng số ca thuộc nhóm Automation (`Auto-UI` + `Auto-API` + `Auto-Data`) bắt buộc đạt khoảng **70% - 80%**, nhóm `Manual-Only` chiếm khoảng **20% - 30%**. Nghiêm cấm gán cứng 100% testcase là Auto hoặc 100% Manual.
+
+### 5.4. Cấu Trúc Header Dashboard 7 Dòng & Công Thức Tính Tự Động:
 Bố cục 7 dòng đầu trên Google Sheets được thiết kế cố định (Freeze rows 1-7) làm bảng thông số điều khiển (Dashboard):
 
 ```
@@ -328,13 +345,17 @@ Row 8+: [Dữ liệu test cases bắt đầu từ Row 8]
      + Mã tiền tố lấy động theo ô `$B$1` (Module Code).
      + Số thứ tự tự động tăng tuần tự từ 1 và tự động trừ đi các dòng rỗng/merge ở cột Expected (`COUNTBLANK($F$8:F8)`) để đảm bảo số luôn liên tục không bị nhảy cóc: `[<Module_Code>-1]`, `[<Module_Code>-2]`, `[<Module_Code>-3]`,...
 
-### 5.4. Quy Chuẩn Bảng Xuất Markdown (.md) 7 Cột Chuẩn:
+### 5.5. Quy Chuẩn Bảng Xuất Markdown (.md) Kèm Cột `Automation Feasibility`:
 Khi xuất ra file tài liệu Markdown (`.md`) lưu tại thư mục `testcase_ui/`:
-- Cấu trúc bắt buộc gồm **7 cột**:
+- **Cấu trúc bảng thiết kế bắt buộc gồm 8 cột:**
   ```markdown
-  | ID | Title | Big item | Steps | Pre-condition | Expected | Priority |
+  | ID | Title | Big item | Steps | Pre-condition | Expected | Priority | Automation Feasibility |
   ```
-- **Quy tắc lặp lại thông tin:** Toàn bộ cột `Title` và `Big item` trên mọi dòng phải được điền đầy đủ text nguyên vẹn (không để trống, không merge, không viết tắt).
+- **Cấu trúc bảng thực thi đầy đủ (khi có Round 1 / Round 2) gồm 18 cột:**
+  ```markdown
+  | ID | Title | Big item | Steps | Pre-condition | Expected | Priority | Automation Feasibility | R1 Result | Bug ID (R1) | Tester (R1) | Test Date (R1) | Note (R1) | R2 Result | Bug ID (R2) | Tester (R2) | Comment / Note (R2) | Evidence (R2) |
+  ```
+- **Quy tắc lặp lại thông tin:** Toàn bộ cột `Title`, `Big item` và `Automation Feasibility` trên mọi dòng phải được điền đầy đủ text nguyên vẹn (không để trống, không merge, không viết tắt).
 - **Mã ID:** Hiển thị dưới dạng text tĩnh chính xác theo kết quả đã sinh (VD: `[AE800-1]`, `[AE800-2]`).
 
 ---
@@ -363,8 +384,9 @@ Trước khi bàn giao bảng test case, AI bắt buộc tự đối soát:
    - [ ] **KPI Thẻ số liệu:** Đã phủ đủ 8 viewpoints (UI, format dấu phẩy, công thức, boundary 0, reactivity, role) chưa?
    - [ ] **Bảng & Empty State:** Đã có Data Mapping từng dòng (`<td>`), target `_blank`, và Empty state CMMSG47 khi 0 bản ghi chưa?
    - [ ] **Message Injection:** Toàn bộ cột Expected của các ca validation, popup xác nhận, thông báo thành công/thất bại, empty state và lỗi hệ thống đã nạp chính xác mã định danh kèm chuỗi văn bản tiếng Nhật nguyên văn từ `Common MSG` / `MSG` chưa? **TUYỆT ĐỐI CẤM dùng văn mẫu chung chung.**
-3. **Chốt 3 (Execution Hygiene & Data Integrity):**
-   - Toàn bộ cột từ H đến Q (Round 1 & Round 2) đã để trống 100% khi thiết kế chưa?
-   - Cột A của các dòng header nhóm có để trống để tránh nhảy cóc ID không?
-   - Cột `Title` và `Big item` đã được merge chuẩn theo phạm vi control trên Sheets, hoặc lặp lại đầy đủ giá trị (no blank, không viết tắt) trên Markdown chưa?
-   - Đã cài đặt chính xác các công thức Dashboard (B2, B3, D2, H3:L3, M3:Q3) và công thức động cột ID tại A8 chưa?
+3. **Chốt 3 (Execution Hygiene & Data Integrity & Automation Feasibility):**
+   - [ ] **Automation Feasibility:** Đã phân loại 100% dòng testcase theo 4 giá trị chuẩn (`Auto-UI`, `Auto-API`, `Auto-Data`, `Manual-Only` kèm lý do: Visual, Complex DB, 3rd-party, UX)? Đã tuân thủ tỷ lệ vàng ~70-80% Auto và ~20-30% Manual chưa?
+   - [ ] Toàn bộ các cột thực thi Round 1 & Round 2 đã để trống 100% khi thiết kế chưa?
+   - [ ] Cột A của các dòng header nhóm có để trống để tránh nhảy cóc ID không?
+   - [ ] Cột `Title` và `Big item` đã được merge chuẩn theo phạm vi control trên Sheets, hoặc lặp lại đầy đủ giá trị (no blank, không viết tắt) trên Markdown chưa?
+   - [ ] Đã cài đặt chính xác các công thức Dashboard (B2, B3, D2, H3:L3, M3:Q3) và công thức động cột ID tại A8 chưa?

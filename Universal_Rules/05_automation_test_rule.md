@@ -263,6 +263,26 @@ test('TC_MODULE_01: Verify search returns matching results', async ({ page }) =>
 });
 ```
 
+### 5.5. Quy chuẩn Triển khai Data-Driven Testing & Chống Sinh Mã Minh Họa (Anti-Scaffolding Standard):
+- **Nguyên tắc Zero-Scaffolding (Cấm sinh code khung / làm mẫu):**
+  Nghiêm cấm tuyệt đối việc AI chỉ chọn lọc một vài ca đơn lẻ để viết test "làm mẫu" rồi bỏ qua hàng chục hoặc hàng trăm ca kiểm thử khác đã được thiết kế trong `testcase_ui/` và `testcase_api/`.
+- **Cơ chế chuyển đổi Data-Driven bắt buộc:**
+  Đối với các nhóm kiểm thử có số lượng ca lớn (hàng chục đến hàng trăm ca API viewpoints, boundary values, negative validation, security payloads):
+  1. **Đóng gói ma trận ca kiểm thử:** Toàn bộ danh mục test case được đưa vào mảng dữ liệu tập trung tại thư mục `src/test-data/` (Ví dụ: `api[Module]Data.js` hoặc `[module]Data.js`). Mỗi phần tử định nghĩa rõ: `{ id, title, method, payload, expectedStatus, expectedError }`.
+  2. **Thực thi lặp tuần tự bằng Playwright Runner:** Trong file test spec (`tests/api/` hoặc `tests/ui/`), bắt buộc sử dụng vòng lặp để sinh ra từng ca test độc lập:
+     ```javascript
+     for (const tc of testMatrix) {
+       test(`[${tc.id}] ${tc.title}`, async () => {
+         const response = await client.sendRequest({ method: tc.method, data: tc.payload });
+         expect(response.status()).toBe(tc.expectedStatus);
+         if (tc.expectedError) {
+           expect(await response.json()).toMatchObject(tc.expectedError);
+         }
+       });
+     }
+     ```
+  $\rightarrow$ Đảm bảo toàn bộ 100% các ca kiểm thử thuộc nhóm `Auto-API` và `Auto-Data` được chạy độc lập, có báo cáo kết quả chi tiết từng ca mà mã nguồn vẫn gọn gàng, có tính bảo trì cao.
+
 ---
 
 ## GIAI ĐOẠN 6: ĐIỀU PHỐI THỰC THI & KHỬ FLAKY (FLAKY TEST TRIAGE)
@@ -277,14 +297,22 @@ test('TC_MODULE_01: Verify search returns matching results', async ({ page }) =>
 
 ---
 
-## GIAI ĐOẠN 7: BÀN GIAO, TRACKING & QUY CHUẨN THƯ MỤC LƯU TRỮ
+## GIAI ĐOẠN 7: BÀN GIAO, TRACKING & BẢNG ĐỐI SOÁT ĐỘ PHỦ ĐỊNH LƯỢNG
 
 - **Thư mục lưu trữ tài liệu theo dõi:** `automation/`
-- **Định dạng file theo dõi kịch bản chuyển đổi:** `automation/[Tên_Module]_readme.md` *(Ví dụ: `automation/GachaLimited_readme.md`, `automation/UserManagement_readme.md`)*.
-- **Nội dung file readme:**
-  1. **Danh mục Automated:** Danh sách các mã test case manual (TC ID) đã được tự động hóa kèm đường dẫn file spec tương ứng.
-  2. **Danh mục Manual Only:** Danh sách các ca không thể tự động hóa kèm lý do rõ ràng (CAPTCHA, OTP SMS qua điện thoại vật lý, phần cứng 3rd party, biometric...).
-  3. **Lệnh chạy nhanh (Quick Run Commands):**
+- **Định dạng file theo dõi kịch bản chuyển đổi:** `automation/[Tên_Module]_readme.md` *(Ví dụ: `automation/GachaLimited_readme.md`, `automation/UserManagement_readme.md`, `automation/AD100_readme.md`)*.
+- **Nội dung bắt buộc trong file readme:**
+  1. **Bảng Thống kê Tỷ lệ Chuyển đổi Định lượng (Quantitative Coverage Audit):**
+     Bắt buộc thống kê rõ ràng số liệu toán học:
+     | Tiêu chí | Số lượng | Tỷ lệ chuyển đổi |
+     | :--- | :---: | :---: |
+     | **Tổng số ca kiểm thử UI nguồn** (`testcase_ui/`) | $N_{\text{UI}}$ | - |
+     | **Tổng số ca kiểm thử Backend API nguồn** (`testcase_api/`) | $N_{\text{API}}$ | - |
+     | **Số ca phân loại Manual-Only** (kèm lý do chuẩn) | $N_{\text{Manual}}$ | - |
+     | **Tổng số ca Playwright Auto thực tế sinh ra** | $N_{\text{Auto}}$ | **$\frac{N_{\text{Auto}}}{N_{\text{UI}} + N_{\text{API}} - N_{\text{Manual}}} \ge 80\%$** |
+  2. **Danh mục Automated:** Danh sách các mã test case manual (TC ID) đã được tự động hóa kèm đường dẫn file spec tương ứng.
+  3. **Danh mục Manual Only:** Danh sách các ca không thể tự động hóa kèm lý do rõ ràng (CAPTCHA, OTP SMS qua điện thoại vật lý, phần cứng 3rd party, visual UX...).
+  4. **Lệnh chạy nhanh (Quick Run Commands):**
      ```bash
      npm run test:[module]:ui
      npm run test:[module]:api
@@ -296,7 +324,7 @@ test('TC_MODULE_01: Verify search returns matching results', async ({ page }) =>
 
 ## GIAI ĐOẠN 8: CỔNG KIỂM DUYỆT CHẤT LƯỢNG CỦA AI (PRE-FLIGHT GATEKEEPER)
 
-Trước khi kết thúc lượt sinh mã, AI bắt buộc phải tự quét lại toàn bộ file sinh ra theo bảng 7 tiêu chí kiểm duyệt:
+Trước khi kết thúc lượt sinh mã, AI bắt buộc phải tự quét lại toàn bộ file sinh ra theo bảng 8 tiêu chí kiểm duyệt:
 
 | Tiêu chí kiểm duyệt | Dấu hiệu vi phạm (NGHIÊM CẤM) | Cách khắc phục chuẩn |
 | :--- | :--- | :--- |
@@ -307,3 +335,4 @@ Trước khi kết thúc lượt sinh mã, AI bắt buộc phải tự quét l�
 | **5. Thời gian & Ngày tháng** | Điền chuỗi ngày cố định dạng `YYYY-MM-DD` | Sử dụng helper động `getToday()`, `getFutureDate()`, `getDateRange()`. |
 | **6. Timeouts** | Gán số thời gian chờ tự do (`{ timeout: 5000 }`) | Tham chiếu từ `data.timeouts.modal`. |
 | **7. Asset Upload Path** | Viết đường dẫn file trực tiếp trong test spec | Định nghĩa tập trung trong `test-data/assets`. |
+| **8. Quantitative Coverage Audit** | Sinh code "làm mẫu" (Scaffold/Skeleton), tỷ lệ ca auto < 70% tổng testcase | Tự động đếm số block `test(` thực tế trong các file spec (`tests/ui/`, `tests/api/`, `tests/e2e/`). Bắt buộc đạt tỷ lệ chuyển đổi $\ge 70\% - 80\%$. Nếu chưa đạt, tiếp tục bổ sung các ca kiểm thử còn thiếu trước khi bàn giao. |

@@ -8,15 +8,15 @@
 
 | Thuộc tính | Chi tiết |
 | :--- | :--- |
-| **Mã màn hình** | `AD303` (kèm 2 modal con: `AD3031` và `AD3032`) |
+| **Mã màn hình** | `AD303` (kèm 3 modal con: `AD3031`, `AD3032` và `AD3033`) |
 | **Tên màn hình** | `AD303_Revenue Analysis` (事務所管理_事務所詳細_売上分析 - Phân tích doanh thu & quản lý trả thưởng Agency) |
-| **Modal con trực thuộc** | • `AD3031_Create Agency Reward Record` (Tạo bản ghi chuyển tiền thưởng cho Agency)<br>• `AD3032_Edit Agency Reward Record` (Chỉnh sửa bản ghi chuyển tiền thưởng cho Agency) |
+| **Modal con trực thuộc** | • `AD3031_Create Agency Reward Record` (Tạo bản ghi chuyển tiền thưởng cho Agency)<br>• `AD3032_Edit Agency Reward Record` (Chỉnh sửa bản ghi chuyển tiền thưởng cho Agency)<br>• `AD3033_Payment Statement Download` (Xem và tải phiếu chi trả 支払明細書 PDF) |
 | **Phân hệ / Module** | Quản trị Web Admin (`AA000` Master Admin Portal) / Phân hệ Quản lý Agency (`AD` Module - 事務所管理) |
 | **Người tạo Spec (Created by)** | `Ly` |
-| **Ngày tạo (Created Date)** | 02/11/2026 |
+| **Ngày tạo (Created Date)** | 02/11/2026 (Cập nhật: 11/11/2026 bổ sung AD3033) |
 | **Nguồn Spec Google Sheets** | [Google Spreadsheet - Tab AD303 (gid=2071307331)](https://docs.google.com/spreadsheets/d/1pxox5GcjOXwKadMnzOa765ptG2huPJSxCiWsrH0_h7Y/edit?gid=2071307331#gid=2071307331) |
 | **Nguồn Tham chiếu Nghiệp vụ** | • Tab `Input + Công thức doanh thu` (gid=974356085)<br>• Tab `AS100` (gid=1263482685) - Dashboard doanh thu toàn hệ thống<br>• Tab `CommonSpec` (gid=170791648) & `Common MSG` (gid=1080253487) |
-| **Nguồn Thiết kế Figma** | • **AD303 Screen:** [Figma Node: AD303_Revenue Analysis (node-id=11205-14224)](https://www.figma.com/design/r5RjkwIfMhChaq83OsBkf8/Admin-Layout---Spec-PDF?node-id=11205-14224&t=mbSUOB2QPRctcTJ7-0)<br>• **AD3031 Modal:** [Figma Node: AD3031_Create Agency Reward Record (node-id=11209-15126)](https://www.figma.com/design/r5RjkwIfMhChaq83OsBkf8/Admin-Layout---Spec-PDF?node-id=11209-15126&t=mbSUOB2QPRctcTJ7-0)<br>• **AD3032 Modal:** [Figma Node: AD3032_Edit Agency Reward Record (node-id=11359-12514)](https://www.figma.com/design/r5RjkwIfMhChaq83OsBkf8/Admin-Layout---Spec-PDF?node-id=11359-12514&t=mbSUOB2QPRctcTJ7-0) |
+| **Nguồn Thiết kế Figma** | • **AD303 Screen:** [Figma Node: AD303_Revenue Analysis (node-id=11205-14224)](https://www.figma.com/design/r5RjkwIfMhChaq83OsBkf8/Admin-Layout---Spec-PDF?node-id=11205-14224&t=mbSUOB2QPRctcTJ7-0)<br>• **AD3031 Modal:** [Figma Node: AD3031_Create Agency Reward Record (node-id=11209-15126)](https://www.figma.com/design/r5RjkwIfMhChaq83OsBkf8/Admin-Layout---Spec-PDF?node-id=11209-15126&t=mbSUOB2QPRctcTJ7-0)<br>• **AD3032 Modal:** [Figma Node: AD3032_Edit Agency Reward Record (node-id=11359-12514)](https://www.figma.com/design/r5RjkwIfMhChaq83OsBkf8/Admin-Layout---Spec-PDF?node-id=11359-12514&t=mbSUOB2QPRctcTJ7-0)<br>• **AD3033 Modal:** [Figma Node: AD3033_Payment Statement Download (node-id=11519-11957)](https://www.figma.com/design/r5RjkwIfMhChaq83OsBkf8/Admin-Layout---Spec-PDF?node-id=11519-11957&t=Y0zvbMqmXmpYlXyf-0) |
 | **Thư viện UI chuẩn** | Shadcn UI Data Table (`https://ui.shadcn.com/docs/components/data-table`) |
 | **Luồng Điều hướng Vào (Inbound Flow)** | Từ danh sách Agency `AD100` $\rightarrow$ Chọn một Agency để vào `AD301` (Agency Info) / `AD302` (Streamer List) $\rightarrow$ Click chọn Tab `売上` (hoặc `売上分析`) để mở `AD303` |
 | **Ngôn ngữ hiển thị chính (Primary Language)** | Tiếng Nhật (Japanese - JA) |
@@ -167,6 +167,34 @@ flowchart TD
 | `[56]` | `完了` (Hoàn tất tạo mới) | `button` (Primary) | - | • **Áp dụng:** Màn hình `AD3031`.<br>• **Điều kiện Enable:** Bắt buộc nhập đúng/đủ tất cả các field required VÀ đã click button `計算` thành công.<br>• **Hành động:** Tạo record chuyển thưởng, khấu trừ số dư của Agency, **phản ánh đồng bộ sang màn `AS100`**, đóng modal. |
 | `[57]` | `削除` (Xóa bản ghi) | `button` (Danger) | - | • **Áp dụng:** Màn hình `AD3032`.<br>• Click mở popup xác nhận xóa với thông báo **`CMMSG28`**.<br>• Xác nhận: Xóa record, hoàn lại điểm cho số dư của Agency, **phản ánh xóa tương ứng trên màn `AS100`**, đóng modal. |
 | `[58]` | `保存` (Lưu chỉnh sửa) | `button` (Primary) | - | • **Áp dụng:** Màn hình `AD3032`.<br>• **Điều kiện Enable:** Bắt buộc nhập đúng/đủ các field required VÀ đã click button `計算` thành công.<br>• **Hành động:** Lưu cập nhật, điều chỉnh lại số dư Point của Agency theo chênh lệch, **phản ánh cập nhật lên màn `AS100`**, đóng modal. |
+
+---
+
+#### F. Khối Modal 3: Tải Phiếu Chi Trả Cho Agency (`AD3033_Payment Statement Download` - 支払明細書)
+> [!NOTE]
+> Modal mở ra khi Admin click vào nút / icon phiếu chi trả (`Item [39]`) tại từng dòng trong Bảng 1 (`報酬履歴`). Cung cấp tính năng xem trước và tải xuống file PDF chứng từ chi trả tiền thưởng (`支払明細書`) có khấu trừ thuế thu nhập cá nhân tại nguồn theo quy định của Nhật Bản (Cập nhật CR 11/11/2026).
+
+| No. | Tên Phần Tử (Value JP) | Loại UI Control | Giá Trị Mặc Định | Ràng Buộc & Chi Tiết Kỹ Thuật / Nghiệp Vụ (Details) |
+| :---: | :--- | :--- | :--- | :--- |
+| `[62]` | `法人` / `個人` | `radio button` group | `法人` (Mặc định) | • Chọn loại hình tổ chức của Agency thụ hưởng: `法人` (Pháp nhân) hoặc `個人` (Cá nhân).<br>• **Bắt buộc chọn 1 trong 2.** Khi thay đổi lựa chọn, hệ thống tự động tính toán lại và hiển thị số tiền thuế khấu trừ tại nguồn (`[74]`) và số tiền thực nhận (`[65]`) theo thời gian thực (Real-time). |
+| `[-]` | `支払明細書` | `label` (CMR03) | - | Tiêu đề khối thông tin phiếu chi trả tiền thưởng. |
+| `[63]` | `明細書番号` | `label` + Value | ID giao dịch | Hiển thị mã ID định danh của giao dịch chuyển tiền thưởng tương ứng. |
+| `[64]` | `支払日` | `label` + Value | `{year}年{month}月{date}日` | Thời gian chuyển tiền do Admin nhập tại trường `振込日` (`[48]`) ở màn hình `AD3031`. |
+| `[65]` | `支払い金額` | `label` (Highlight) | `￥{amount}` | **Số tiền thực tế thanh toán cho Agency:**<br>$$\text{支払い金額} = \text{合計} ([73]) - \text{源泉徴収額} ([74])$$ |
+| `[-]` | `支払先` | `label` (CMR03) | - | Tiêu đề khối thông tin đơn vị thụ hưởng (Agency). |
+| `[66]` | `事務所名` | `label` + Value | Tên Agency | Hiển thị tên Agency thụ hưởng. |
+| `[67]` | `オーナー名` | `label` + Value | Tên Owner | Hiển thị tên người đại diện / Owner của Agency. |
+| `[68]` | `事務所ID` | `label` + Value | Mã Agency | Hiển thị mã định danh `agency_code` của Agency. |
+| `[-]` | `支払元` | `label` (CMR03) | - | Tiêu đề khối đơn vị chi trả. |
+| `[69]` | `会社名` | `label` (Cố định) | `サリアル合同会社` | Tên công ty chi trả (Cố định hệ thống): `サリアル合同会社` (Surreal LLC). |
+| `[-]` | `支払内容` | `label` (CMR03) | - | Tiêu đề khối nội dung chi trả tiền thưởng. |
+| `[70]` | `カラオケ以外報酬` | `label` + Value | `￥{amount}` | Tổng tiền thưởng Non-Karaoke đã chuyển cho Agency (format `￥{amount}`). |
+| `[71]` | `カラオケ報酬` | `label` + Value | `￥{amount}` | Tổng tiền thưởng Karaoke đã chuyển cho Agency (format `￥{amount}`). |
+| `[72]` | `ファミリア報酬` | `label` + Value | `￥{amount}` | Tổng tiền thưởng Familia đã chuyển cho Agency (format `￥{amount}`). |
+| `[73]` | `合計` | `label` + Value | `￥{amount}` | Tổng số tiền thưởng trước thuế = `[70] + [71] + [72]`. |
+| `[74]` | `源泉徴収額` | `label` + Value | `￥{amount}` | **Tiền thuế khấu trừ tại nguồn:**<br>• Nếu chọn `法人` (`[62]`): Thuế = `0 円`.<br>• Nếu chọn `個人` (`[62]`):<br>  + Nếu `合計` ($[73]$) $< 1,000,000$ Yên: $\text{Thuế} = \lfloor [73] \times 10.21\% \rfloor$.<br>  + Nếu `合計` ($[73]$) $\ge 1,000,000$ Yên: $\text{Thuế} = \lfloor ([73] - 1,000,000) \times 20.42\% + 102,100 \rfloor$. |
+| `[75]` | `キャンセル` | `button` (Secondary) | - | Hủy thao tác, đóng modal AD3033. |
+| `[76]` | `ダウンロード` | `button` (Primary) | - | • Tải toàn bộ thông tin trên thành file chứng từ định dạng **PDF**.<br>• Quy tắc đặt tên file PDF: `ID-{agencyID}_{tháng tương ứng}_支払明細書.pdf` (Ví dụ: `ID-AG001_202610_支払明細書.pdf`). |
 
 ---
 
