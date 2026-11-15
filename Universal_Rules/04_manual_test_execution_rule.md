@@ -81,36 +81,118 @@ Khi chạy từng dòng testcase trong bảng kiểm thử:
 
 ---
 
-### 3.2. QUY ĐỊNH KHI THIẾU TIỀN ĐỀ / TÀI KHOẢN / DỮ LIỆU KIỂM THỬ (TEST DATA BLOCKER)
+### 3.2. QUY CHUẨN THIẾT LẬP TIỀN ĐỀ & TỰ SINH DỮ LIỆU KIỂM THỬ (PROACTIVE TEST DATA & PRECONDITION PROTOCOL)
 
-Quy định bắt buộc áp dụng chung cho tất cả các màn hình, chức năng và module trong toàn bộ hệ thống:
+Nhằm tối đa hóa tỷ lệ thực thi thực tế (Execution Coverage) và triệt tiêu phản xạ dừng kiểm thử thụ động, quy chuẩn thiết lập tiền đề và dữ liệu kiểm thử được chuẩn hóa độc lập dự án như sau:
 
-1. **Kiểm tra Pre-condition trước khi thao tác:** Nếu môi trường chưa có tài khoản thuộc đúng vai trò phân quyền (Role Matrix), hoặc cơ sở dữ liệu chưa có dữ liệu mẫu thỏa mãn điều kiện tiên quyết của ca test (ví dụ: trạng thái bản ghi, ràng buộc số dư, quyền hạn đặc thù, mốc thời gian, liên kết nghiệp vụ):
-   - **BẮT BUỘC DỪNG LẠI NGAY LẬP TỨC:** Đánh dấu trạng thái ca test là **`Blocked`** hoặc **`Pending`** tại cột Result/Comment.
-   - **LẬP DANH SÁCH YÊU CẦU DATA (Test Data Seeding Requirements):** Nêu rõ thông tin cần chuẩn bị:
-     + Danh sách tài khoản người dùng cần có (Email/ID, Role, Trạng thái kích hoạt).
-     + Dữ liệu cần tạo mới hoặc cập nhật trong Database (tên bảng, trường dữ liệu, điều kiện truy vấn).
-     + Các bước chuẩn bị trước từ màn hình khác (nếu phụ thuộc luồng liên kết).
-   - **CẤM TUYỆT ĐỐI HÀNH VI TỰ ĐIỀN `Pass`:** Nghiêm cấm mọi hành vi "tự đánh Pass trước khi có dữ liệu để chạy thử".
+#### 3.2.1. Phân tầng Khả Năng Tự Sinh Dữ Liệu (3-Tier Data Readiness & Seeding Strategy)
+Khi gặp ca kiểm thử thiếu dữ liệu mẫu (danh sách rỗng, bản ghi chưa đạt trạng thái yêu cầu, chưa có ràng buộc nghiệp vụ):
+
+| Phân tầng | Bản chất dữ liệu / Tiền đề | Hành động BẮT BUỘC của Tester / AI Agent |
+| :--- | :--- | :--- |
+| **Tier 1: UI Self-Seeding<br>(Tự tạo qua Giao diện)** | Dữ liệu hoặc trạng thái có thể khởi tạo/cập nhật thông qua bất kỳ màn hình nào trên hệ thống (Form tạo mới, cập nhật trạng thái, phê duyệt/từ chối, gán cờ cấu hình...). | • **Bắt buộc chủ động điều hướng sang màn hình chức năng liên quan** để tạo dữ liệu hoặc thiết lập trạng thái trước.<br>• Sau khi tạo thành công, quay lại màn hình kiểm thử chính để thực hiện ca test.<br>• **NGHIÊM CẤM** dừng lại báo `Blocked`. |
+| **Tier 2: API Self-Seeding<br>(Tự tạo qua API)** | Màn hình UI tạo dữ liệu chưa hoàn thiện hoặc thao tác UI quá nhiều bước, nhưng hệ thống có sẵn endpoint API trong cấu hình kiểm thử (Postman Collection / Swagger / Test Config). | • **Chủ động kích hoạt request API** để tạo bản ghi/trạng thái trên môi trường test.<br>• Sau khi API trả về 200/201, quay lại giao diện web để xác nhận và thực thi testcase.<br>• **NGHIÊM CẤM** dừng lại báo `Blocked`. |
+| **Tier 3: True Blocker<br>(Bị chặn thực sự)** | Dữ liệu bắt buộc can thiệp trực tiếp cơ sở dữ liệu (chạy script DB nội bộ), phụ thuộc dịch vụ bên thứ 3 (OTP SMS, Cổng thanh toán Live không có sandbox), hoặc tài khoản đặc thù chưa từng được cung cấp trong cấu hình. | • **Được phép đánh dấu `Blocked`** tại cột Result.<br>• Ghi rõ lý do kỹ thuật chi tiết tại cột Comment.<br>• Lập danh sách yêu cầu dữ liệu (Test Data Request) gửi Dev/PO. |
+
+#### 3.2.2. Kiểm Thử Phối Hợp Đa Vai Trò & Đa Cổng Giao Diện (Cross-Role & Cross-Portal RBAC Protocol)
+Đối với các ca kiểm thử liên quan đến kiểm soát quyền truy cập (RBAC), bất đối xứng quyền lực, hoặc quy trình duyệt đa cấp (Ví dụ: Vai trò A cấu hình/hạn chế quyền $\rightarrow$ Vai trò B chịu tác động trên giao diện):
+
+1. **Tận dụng toàn bộ Ma trận Tài khoản (Role Matrix):**
+   - Khi cấu hình kiểm thử (`TEST_CONFIG.md` hoặc tài liệu tương đương) đã cung cấp thông tin đăng nhập của các vai trò liên quan (Role Quản trị cấp cao / Role Quản trị nhánh / Role Người dùng cuối):
+     + **Bước 1 (Precondition Setup):** Đăng nhập cổng quản trị của vai trò có thẩm quyền (Role A) $\rightarrow$ Thao tác bật/tắt quyền hoặc cấu hình trạng thái theo yêu cầu của tiền đề $\rightarrow$ Chụp ảnh bằng chứng thao tác setup.
+     + **Bước 2 (Target Verification):** Chuyển đổi ngữ cảnh sang vai trò bị tác động (Role B) $\rightarrow$ Mở màn hình kiểm thử đích $\rightarrow$ Kiểm tra và xác minh trạng thái phần tử giao diện (nút bấm bị disabled/ẩn, quyền truy cập bị chặn, thông báo lỗi).
+     + **Bước 3 (Evidence & Result):** Chụp ảnh bằng chứng thực tế tại màn hình đích $\rightarrow$ Kết luận `Pass`/`Fail`.
+   - **TUYỆT ĐỐI KHÔNG COI cổng giao diện của Role A là "ngoài phạm vi kiểm thử"** để tự ý báo `Blocked` cho ca test của Role B.
+
+2. **Quản lý Phiên Đăng Nhập (Session Isolation):**
+   - Khi luân chuyển giữa các vai trò hoặc cổng giao diện khác nhau, bắt buộc mở cửa sổ/tab ẩn danh riêng biệt hoặc thực hiện quy trình Đăng xuất $\rightarrow$ Xóa Session/Cookie $\rightarrow$ Đăng nhập vai trò mới để tránh xung đột quyền hạn hoặc cache token cũ.
+
+#### 3.2.3. Quy Chuẩn Đặt Tên & Ghi Nhận Dữ Liệu Tự Tạo (Data Hygiene & Traceability)
+- **Tiền tố nhận diện (Prefix Standard):** Mọi bản ghi được tự tạo để phục vụ kiểm thử bắt buộc phải chứa tiền tố nhận diện chuẩn nhằm tránh nhầm lẫn với dữ liệu thật và dễ dọn dẹp:  
+  `[TEST_AUTO]_{Mã_Chức_Năng}_{Timestamp}` hoặc `[QA_SEED]_{Mô_tả}`.
+- **Minh bạch hóa kết quả (Audit Trail):** Tại cột Comment của bảng kết quả kiểm thử, ghi nhận rõ:  
+  `[Self-Seeded: Đã chủ động khởi tạo bản ghi {Tên/ID} qua {Màn hình/API} để thực thi ca test]`.
+- **Ranh giới an toàn:** Tự tạo dữ liệu là phương tiện để thực thi kiểm thử thật, **TUYỆT ĐỐI CẤM** tự ý đánh `Pass` khi chưa thực hiện thao tác kiểm tra trên giao diện sau khi tạo data.
 
 ---
 
-## 4. QUY CHUẨN GHI NHẬN KẾT QUẢ TRÊN BẢNG TÍNH 17 CỘT (GOOGLE SHEETS / EXCEL)
+## 4. QUY CHUẨN GHI NHẬN KẾT QUẢ & BẢO TỒN CÔNG THỨC BẢNG TÍNH (FORMULA PRESERVATION & RESULT ENTRY STANDARD)
 
-Theo quy chuẩn cấu trúc 17 cột tại [02_manual_ui_test_case_rule.md](02_manual_ui_test_case_rule.md):
+Theo kiến trúc chuẩn hóa 17 cột tại [02_manual_ui_test_case_rule.md](02_manual_ui_test_case_rule.md), việc ghi nhận kết quả kiểm thử bắt buộc phải tuân thủ nghiêm ngặt nguyên tắc **Tự động hóa số liệu 100% bằng công thức** và **Bảo vệ toàn vẹn vùng tính toán**:
+
+### 4.1. Nguyên Tắc Bất Khả Xâm Phạm Vùng Công Thức (Zero-Hardcoding Formula Protection Zone)
+
+1. **Vùng cấm ghi đè giá trị tĩnh (Formula Protection Zone - Dòng 1 đến Dòng 7 & Sheet tổng Master):**
+   - **Tuyệt đối CẤM gõ đè, paste đè hoặc xóa** các ô chứa công thức toán học/thống kê:
+     + Khối thông số tổng quan (`B2` - Total Created, `B3` - Plan to Exec, `D2` - % Executed).
+     + Khối thống kê kết quả Round 1 (`H3:L3` - Pass, Fail, Impact, Not Run, Total).
+     + Khối thống kê kết quả Round 2 (`M3:Q3` - Pass, Fail, Impact, Not Run, Total).
+     + Cột mã định danh tự động (`A8:A` - Công thức sinh mã ID).
+     + Toàn bộ các dòng tổng hợp trên Sheet tổng quan dự án (`Result` / Master Dashboard) sử dụng hàm liên kết `=INDIRECT(...)` hoặc công thức tham chiếu.
+   - **Hành vi vi phạm:** Gõ cứng con số đếm (VD: gõ số "70", "4", "0.829", "100%") vào bất kỳ ô nào thuộc Dashboard hoặc Sheet tổng hợp sẽ bị coi là **làm hỏng tính toàn vẹn của bảng tính (Sheet Corruption)** và không được nghiệm thu.
+
+2. **Vùng duy nhất được phép ghi nhận dữ liệu (Data Entry Zone - Dòng 8 trở đi):**
+   - Tester / AI Agent **CHỈ ĐƯỢC PHÉP** thao tác nhập liệu trên từng dòng testcase thực tế (từ dòng 8 trở đi, tại các cột được phân quyền):
+     + **Round 1:** Cột H (Result), Cột I (Bug ID), Cột J (Status), Cột K (Comment), Cột L (Note).
+     + **Round 2:** Cột M (Result), Cột N (Bug ID), Cột O (Status), Cột P (Comment), Cột Q (Note).
+   - Khi điền kết quả vào Cột H hoặc Cột M, toàn bộ số liệu thống kê tại Dashboard (Dòng 2-3) và Sheet tổng hợp (`Result`) **bắt buộc phải tự động cập nhật nhảy số theo công thức sẵn có**.
+
+---
+
+### 4.2. Quy Chuẩn Chuỗi Nhập Liệu Bắt Buộc (Strict Enum Values for Formula Compatibility)
+
+Các công thức Dashboard sử dụng hàm `=COUNTIF(H8:H, "Pass")` hoặc `=COUNTIFS(...)`. Do đó, dữ liệu nhập vào cột Result bắt buộc phải chuẩn xác 100% theo danh mục định danh (Enum):
+
+| Giá trị hợp lệ | Định dạng text chuẩn | Quy tắc bắt buộc |
+| :--- | :--- | :--- |
+| **Đạt** | `Pass` | Viết hoa chữ cái đầu, các chữ sau viết thường. Không có dấu cách thừa trước/sau. |
+| **Không đạt** | `Fail` | Viết hoa chữ cái đầu, các chữ sau viết thường. Không có dấu cách thừa trước/sau. |
+| **Bị ảnh hưởng** | `Impact` | Viết hoa chữ cái đầu, các chữ sau viết thường. Dùng khi chức năng bị lỗi kéo theo. |
+| **Bị chặn** | `Blocked` | Viết hoa chữ cái đầu. Chỉ dùng khi gặp lỗi Tier 3 (True Blocker). |
+| **Chưa chạy** | *(Để trống - Blank)* | **TUYỆT ĐỐI ĐỂ TRỐNG Ô.** Nghiêm cấm gõ chữ `"Not Run"`, `"Not run"` hoặc gạch nối `"-"` vào ô Result. Việc gõ text vào ô chưa chạy sẽ làm sai lệch hoàn toàn công thức đếm ca tồn đọng (`COUNTBLANK` hoặc `COUNTIFS(..., "")`). |
+
+---
+
+### 4.3. Quy Chuẩn Bảng 17 Cột Khi Thực Thi (Field Specification Table)
 
 | Khối | Cột | Tên Cột | Quy Chuẩn Ghi Nhận Khi Thực Thi |
 | :---: | :---: | :--- | :--- |
-| **Round 1** | **H** | **Round 1 (Result)** | • Chọn đúng giá trị: `Pass` (Chữ xanh), `Fail` (Chữ đỏ), `Impact` (Chữ vàng).<br>• Tuyệt đối để trống nếu chưa chạy (Not Run). |
-| | **I** | **Bug ID (R1)** | Link hoặc mã Bug phát sinh ở Round 1 sau khi log lên Jira/hệ thống bug (VD: `BUG-101`). |
+| **Round 1** | **H** | **Round 1 (Result)** | • Điền chính xác: `Pass`, `Fail`, `Impact`, `Blocked`.<br>• Bắt buộc để trống nếu chưa chạy (Not Run) để công thức tự đếm. |
+| | **I** | **Bug ID (R1)** | Link hoặc mã Bug phát sinh ở Round 1 sau khi log lên hệ thống bug (VD: `BUG-101`). |
 | | **J** | **Status (R1)** | Trạng thái xử lý: `Open` (Mới phát hiện lỗi), `Fixing` (Đang sửa), `Closed` (Đã sửa). |
-| | **K** | **Comment (R1)** | Ghi nhận chi tiết kết quả thực tế nếu có sai lệch, hoặc lý do bị Blocked / Impact. |
+| | **K** | **Comment (R1)** | Ghi nhận chi tiết kết quả thực tế nếu có sai lệch, hoặc lý do bị Blocked / Impact / ghi chú [Self-Seeded]. |
 | | **L** | **Note (R1)** | Ghi chú nghiệp vụ / Trạng thái Q&A liên quan. |
-| **Round 2** | **M** | **Round 2 (Result)** | • Dành riêng cho Retest sau khi Dev báo đã sửa xong bug hoặc khi User yêu cầu chạy lại Round 2.<br>• Bắt buộc thực thi lại thực tế trên live environment.<br>• Tuyệt đối không copy cột H sang cột M.<br>• Điền: `Pass` (nếu đã fix/pass) hoặc `Fail` (nếu vẫn lỗi) hoặc `Blocked`. |
+| **Round 2** | **M** | **Round 2 (Result)** | • Dành riêng cho Retest sau khi Dev báo đã sửa xong bug hoặc khi User yêu cầu chạy lại Round 2.<br>• Bắt buộc thực thi lại thực tế trên live environment.<br>• Tuyệt đối không copy cột H sang cột M.<br>• Điền chính xác: `Pass`, `Fail`, `Impact`, `Blocked`. Bắt buộc để trống nếu chưa retest. |
 | | **N** | **Bug ID (R2)** | Link hoặc mã Bug phát sinh thêm hoặc ticket liên quan ở Round 2. |
 | | **O** | **Status (R2)** | Trạng thái xử lý lỗi Round 2: `Reopen`, `Closed`, v.v. |
 | | **P** | **Comment (R2)** | Ghi nhận chi tiết kết quả thực tế khi retest Round 2 kèm bằng chứng. |
 | | **Q** | **Note (R2)** | Ghi chú bổ sung Round 2. |
+
+---
+
+### 4.4. Quy Trình Đồng Bộ & Kiểm Soát Sheet Tổng Hợp (Master / Result Sheet Synchronization)
+
+Khi hoàn thành việc chạy test trên sheet của bất kỳ màn hình nào:
+1. **Kiểm tra dòng tương ứng trên Sheet tổng hợp (`Result`):**
+   - Đảm bảo dòng của màn hình đó trên Sheet tổng (`Result`) đang chứa đầy đủ các công thức liên kết động tham chiếu sang sheet con:
+     + `Total Created`: `=INDIRECT($A{Row}&"!B2")` hoặc `=INDIRECT("'"&$A{Row}&"'!B2")`
+     + `Plan to Exec`: `=INDIRECT($A{Row}&"!B3")`
+     + `Pass`: `=INDIRECT($A{Row}&"!H3")+INDIRECT($A{Row}&"!M3")`
+     + `Fail`: `=INDIRECT($A{Row}&"!I3")+INDIRECT($A{Row}&"!N3")`
+     + `Impact`: `=INDIRECT($A{Row}&"!J3")+INDIRECT($A{Row}&"!O3")`
+     + `Not Run`: `=INDIRECT($A{Row}&"!K3")+INDIRECT($A{Row}&"!P3")`
+2. **Xử lý khi thiếu công thức:**
+   - Nếu dòng của màn hình trên sheet `Result` chưa có công thức: Tester/Agent **BẮT BUỘC sao chép/kéo công thức liên kết chuẩn** từ dòng trên xuống. **NGHIÊM CẤM** gõ tay số đếm vào sheet tổng hợp.
+
+---
+
+### 4.5. Checklist Đối Soát Tính Toàn Vẹn Công Thức (Post-Execution Formula Checklist)
+
+Sau khi hoàn tất phiên test, Tester / Agent bắt buộc tự kiểm tra 4 điểm cốt tử:
+- [ ] **Tự động phản hồi:** Khi đổi giá trị tại cột H/M (Result), các ô Pass/Fail/Total tại dòng 3 tự động nhảy số tương ứng.
+- [ ] **Không mất công thức Dashboard:** Kiểm tra các ô `B2`, `B3`, `D2`, `H3:L3`, `M3:Q3` trên sheet con vẫn giữ nguyên công thức toán học (`COUNTIF`, `COUNTA`, `SUM`), không bị biến thành giá trị số tĩnh.
+- [ ] **Không lỗi tham chiếu:** Toàn bộ bảng tính không xuất hiện các mã lỗi `#REF!`, `#VALUE!`, `#NAME?`, `#DIV/0!`.
+- [ ] **Đồng bộ Sheet tổng (`Result`):** Số liệu Pass/Fail/Total trên sheet tổng hợp khớp hoàn toàn 100% với sheet con thông qua công thức liên kết.
 
 ---
 

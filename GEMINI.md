@@ -25,8 +25,9 @@ Khi nhận tác vụ, tự động nạp và tuân thủ rule tương ứng tron
 >
 > 1. **Phân định Round 1 vs Round 2:** Khi test Round 2 / Retest, **CẤM TUYỆT ĐỐI** lấy kết quả Round 1 (Cột H:L) báo `Pass` cho Round 2 hoặc copy đè kết quả. Bắt buộc test lại trên môi trường live và chỉ ghi nhận vào khối **Round 2 (Cột M:Q)**.
 > 2. **No Execution, No Pass:** Cấm suy đoán từ code FE/BE, file build JS hoặc dùng mocking để báo `Pass` cho test thủ công. Chỉ kết luận `Pass`/`Fail` khi thao tác thực tế trên browser/API live.
-> 3. **Test Data Blocker:** Thiếu dữ liệu/tài khoản $\rightarrow$ Dừng lại ngay, đánh dấu `Blocked` hoặc `Pending`, lập danh sách Data Seeding. Tuyệt đối không tự ý đánh `Pass`.
+> 3. **Chủ động Thiết lập Tiền đề & Dữ liệu (Proactive Preconditions & Data Seeding):** Khi gặp ca kiểm thử thiếu dữ liệu mẫu hoặc yêu cầu điều kiện tiên quyết (kể cả liên màn hình hoặc phối hợp liên vai trò RBAC/Cross-role), Tester/Agent **BẮT BUỘC chủ động tự tạo/cấu hình** qua giao diện người dùng (UI) hoặc API có sẵn trong cấu hình kiểm thử. **NGHIÊM CẤM** dừng lại báo `Blocked`/`Pending` thụ động khi luồng hệ thống hoặc tài khoản được cấp cho phép tự thiết lập. CHỈ ĐƯỢC PHÉP báo `Blocked` khi điều kiện đó bắt buộc can thiệp trực tiếp Database hoặc tài khoản đặc thù chưa được cấp quyền. Tuyệt đối không tự ý đánh `Pass` khi chưa thực thi kiểm tra thực tế.
 > 4. **No Evidence, No Report:** Mọi ca `Fail` và Bug Report bắt buộc phải có ảnh chụp độc lập (Atomic Screenshot) hoặc HTTP log thực tế tại thời điểm lỗi. Không bằng chứng $\rightarrow$ Không công nhận kết quả.
+> 5. **Bảo tồn Công thức Bảng tính (Zero-Hardcoding & Formula Integrity):** Tuyệt đối **CẤM GHI ĐÈ GIÁ TRỊ TĨNH** (số đếm Pass/Fail, phần trăm, text) vào các ô công thức thống kê trên Dashboard (dòng 1-7) và Sheet tổng hợp kết quả (Master / Result). Kết quả kiểm thử **CHỈ ĐƯỢC GHI NHẬN** vào từng dòng testcase thực tế (Cột Result: H hoặc M từ dòng 8 trở đi); toàn bộ chỉ số tổng hợp bắt buộc phải được tính toán tự động 100% bằng công thức.
 
 ---
 
