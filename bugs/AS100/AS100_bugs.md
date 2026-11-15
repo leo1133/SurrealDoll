@@ -1,6 +1,6 @@
 # BÁO CÁO LỖI KIỂM THỬ THỦ CÔNG - MÀN HÌNH AS100 (SALES ANALYSIS DASHBOARD)
 
-Theo quy chuẩn [06_bug_reporting_rule.md](file:///home/nga/Documents/SurrealDoll/Universal_Rules/06_bug_reporting_rule.md).
+Theo quy chuẩn [06_bug_reporting_rule.md](../../Universal_Rules/06_bug_reporting_rule.md).
 
 ---
 
@@ -37,7 +37,7 @@ Theo quy chuẩn [06_bug_reporting_rule.md](file:///home/nga/Documents/SurrealDo
   - Cả 2 lần click vào header cột 「終了日時」, thứ tự hiển thị của các hàng trong bảng hoàn toàn không thay đổi (8 hàng có `終了日時 = "ー"` vẫn cố định ở trên và 2 hàng có giá trị thời gian kết thúc vẫn ở dưới cùng).
   - API trả về cùng một danh sách bản ghi do backend không xử lý đảo chiều cho các bản ghi có giá trị `ended_at = null`.
 - **Bằng chứng đính kèm (Evidence):**
-  - File ảnh chụp lỗi: [evidence_AS100_TC355_sort_end_date_no_reorder.png](file:///home/nga/Documents/SurrealDoll/evidence/evidence_AS100_TC355_sort_end_date_no_reorder.png)
+  - File ảnh chụp lỗi: [evidence_AS100_TC355_sort_end_date_no_reorder.png](../../evidence/AS100/evidence_AS100_TC355_sort_end_date_no_reorder.png)
   - Bằng chứng trích xuất dữ liệu DOM sau 2 lần click:
     ```json
     // Dữ liệu hàng sau Click 1:
@@ -81,7 +81,7 @@ Theo quy chuẩn [06_bug_reporting_rule.md](file:///home/nga/Documents/SurrealDo
   - Tất cả các giao dịch nạp point qua APPLE và GOOGLE Store trên UI đều hiển thị `"ー"`.
   - API `/sales-dashboard` trả về `store_fee: null` do trường `missing_data` chứa `["MISSING_PAYMENT_RECEIPT", "MISSING_STORE_FEE_EVIDENCE"]`.
 - **Bằng chứng đính kèm (Evidence):**
-  - File ảnh chụp lỗi: [evidence_AS100_TC354_store_fee_hyphen.png](file:///home/nga/Documents/SurrealDoll/evidence/evidence_AS100_TC354_store_fee_hyphen.png)
+  - File ảnh chụp lỗi: [evidence_AS100_TC354_store_fee_hyphen.png](../../evidence/AS100/evidence_AS100_TC354_store_fee_hyphen.png)
   - Bằng chứng API JSON Payload:
     ```json
     {

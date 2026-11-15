@@ -2,7 +2,7 @@
 ## Màn hình: AA003 - パスワード変更 (Modal Đổi Mật Khẩu Khi Đang Đăng Nhập - Admin Master)
 ### Thuộc Task: [SURREALDOLLS-14231](https://issoh.backlog.com/view/SURREALDOLLS-14231) | BE: SURREALDOLLS-12839 | Rule: CMR43, CMR68
 ### Google Sheet Target: [Admin Master Test Case - Tab AA003 (gid=350559572)](https://docs.google.com/spreadsheets/d/1ZaL8llNgH6sCxpG-daLEi21IxXFpub-BbrRJRdUNMOg/edit?gid=350559572#gid=350559572)
-### Báo cáo Bug chi tiết: [AA003_bugs.md](../bugs/AA003_bugs.md)
+### Báo cáo Bug chi tiết: [AA003_bugs.md](../bugs/AA003/AA003_bugs.md)
 
 ---
 
@@ -22,10 +22,10 @@
 
 | Mã TC | Hạng mục kiểm tra | Thao tác thực hiện | Kết quả kỳ vọng (Expected) | Kết quả thực tế (Actual) | Bug ID liên quan | File bằng chứng (Evidence) |
 | :---: | :--- | :--- | :--- | :--- | :---: | :--- |
-| `[AA003-8]` | Nút tài khoản cuối Side menu | Đăng nhập Admin $\rightarrow$ Quan sát nút tài khoản ở chân side menu | Hiển thị avatar tròn, Tên, Email và **icon tam giác ▲** ở mép phải nút | Nút tài khoản chỉ hiển thị Avatar, Tên và Email; **hoàn toàn thiếu icon tam giác ▲** | `BUG-AA003-1` | `evidence/evidence_AA003_TC08_missing_triangle_icon.png` |
-| `[AA003-14]` | Header Menu tài khoản | Click mở menu tài khoản ở cuối side menu $\rightarrow$ Quan sát header menu | Hiển thị đầy đủ: Tên, Email, và **Tag role 「マスター」** | Header menu chỉ hiển thị Tên và Email; **thiếu Tag role 「マスター」** | `BUG-AA003-2` | `evidence/evidence_AA003_TC14_missing_role_tag.png` |
-| `[AA003-15]` | Tag Role 管理者 | Đăng nhập tài khoản role 管理者 $\rightarrow$ Mở menu tài khoản | Hiển thị tag role 「管理者」 | Header menu thiếu container/logic render tag role | `BUG-AA003-2` | `evidence/evidence_AA003_TC14_missing_role_tag.png` |
-| `[AA003-16]` | Tag Role 監視員 | Đăng nhập tài khoản role 監視員 $\rightarrow$ Mở menu tài khoản | Hiển thị tag role 「監視員」 | Header menu thiếu container/logic render tag role | `BUG-AA003-2` | `evidence/evidence_AA003_TC14_missing_role_tag.png` |
+| `[AA003-8]` | Nút tài khoản cuối Side menu | Đăng nhập Admin $\rightarrow$ Quan sát nút tài khoản ở chân side menu | Hiển thị avatar tròn, Tên, Email và **icon tam giác ▲** ở mép phải nút | Nút tài khoản chỉ hiển thị Avatar, Tên và Email; **hoàn toàn thiếu icon tam giác ▲** | `BUG-AA003-1` | `../evidence/AA003/evidence_AA003_TC08_missing_triangle_icon.png` |
+| `[AA003-14]` | Header Menu tài khoản | Click mở menu tài khoản ở cuối side menu $\rightarrow$ Quan sát header menu | Hiển thị đầy đủ: Tên, Email, và **Tag role 「マスター」** | Header menu chỉ hiển thị Tên và Email; **thiếu Tag role 「マスター」** | `BUG-AA003-2` | `../evidence/AA003/evidence_AA003_TC14_missing_role_tag.png` |
+| `[AA003-15]` | Tag Role 管理者 | Đăng nhập tài khoản role 管理者 $\rightarrow$ Mở menu tài khoản | Hiển thị tag role 「管理者」 | Header menu thiếu container/logic render tag role | `BUG-AA003-2` | `../evidence/AA003/evidence_AA003_TC14_missing_role_tag.png` |
+| `[AA003-16]` | Tag Role 監視員 | Đăng nhập tài khoản role 監視員 $\rightarrow$ Mở menu tài khoản | Hiển thị tag role 「監視員」 | Header menu thiếu container/logic render tag role | `BUG-AA003-2` | `../evidence/AA003/evidence_AA003_TC14_missing_role_tag.png` |
 
 ---
 
