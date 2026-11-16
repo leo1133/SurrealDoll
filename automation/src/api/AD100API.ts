@@ -14,7 +14,7 @@ export interface AgencyListPayload {
  * API Client đóng gói các thao tác gọi API liên quan đến AD100
  * Tuân thủ Rule 05: Trả về raw response, không chứa expect() bên trong
  */
-export class AD100AgencyAPI {
+export class AD100API {
   private client: CustomApiClient;
 
   constructor(client: CustomApiClient) {
@@ -35,3 +35,5 @@ export class AD100AgencyAPI {
     return this.client.sendRequest(method, apiEndpoints.agency.list, { headers: customHeaders });
   }
 }
+
+export { AD100API as AD100AgencyAPI };

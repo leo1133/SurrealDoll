@@ -9,7 +9,7 @@ import { commonData } from '../test-data/commonData';
  * Tuân thủ Rule 05: Chỉ chứa khai báo phần tử (Locators) & Thao tác hành động (Actions).
  * Tuyệt đối không chứa câu lệnh expect() kiểm tra kết quả bên trong class này.
  */
-export class AD100AgencyListPage extends BasePage {
+export class AD100Page extends BasePage {
   // Navigation & Header
   readonly breadcrumb: Locator;
   readonly sidebarMenu: Locator;
@@ -51,43 +51,57 @@ export class AD100AgencyListPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    // 1. Navigation & Breadcrumb
-    this.breadcrumb = page.locator('.breadcrumb, [aria-label="Breadcrumb"]').or(page.getByText(ad100Data.labels.breadcrumbs));
+    // 1. Navigation & Breadcrumb (Tham chiếu qua ad100Data.selectors)
+    this.breadcrumb = page.locator(ad100Data.selectors.breadcrumb).or(page.getByText(ad100Data.labels.breadcrumbs));
     this.sidebarMenu = page.getByRole('button', { name: ad100Data.labels.sidebarMenu });
     this.sidebarSubmenu = page.getByRole('link', { name: ad100Data.labels.sidebarSubmenu });
 
-    // 2. Search & Action Controls (Ưu tiên semantic selector)
-    this.searchInput = page.getByPlaceholder(ad100Data.placeholders.searchInput).or(page.locator('input[type="text"][name="q"], input[type="search"]'));
-    this.statusDropdown = page.getByRole('combobox', { name: ad100Data.labels.statusDropdown }).or(page.locator('select[name="status"], [role="combobox"]'));
+    // 2. Search & Action Controls
+    this.searchInput = page.getByPlaceholder(ad100Data.placeholders.searchInput).or(page.locator(ad100Data.selectors.searchInput));
+    this.statusDropdown = page.getByRole('combobox', { name: ad100Data.labels.statusDropdown }).or(page.locator(ad100Data.selectors.statusDropdown));
     this.searchButton = page.getByRole('button', { name: ad100Data.labels.btnSearch, exact: true });
     this.clearButton = page.getByRole('button', { name: ad100Data.labels.btnClear, exact: true });
     this.createButton = page.getByRole('button', { name: ad100Data.labels.btnCreate, exact: true });
 
     // 3. Table Headers
-    this.table = page.getByRole('table').or(page.locator('.data-table, [data-testid="agency-table"]'));
-    this.tableHeaderId = this.table.locator('th').filter({ hasText: ad100Data.tableHeaders.id });
-    this.tableHeaderAgencyId = this.table.locator('th').filter({ hasText: ad100Data.tableHeaders.agencyId });
-    this.tableHeaderAgencyName = this.table.locator('th').filter({ hasText: ad100Data.tableHeaders.agencyName });
-    this.tableHeaderContactOwner = this.table.locator('th').filter({ hasText: ad100Data.tableHeaders.contactOwner });
-    this.tableHeaderStreamerCount = this.table.locator('th').filter({ hasText: ad100Data.tableHeaders.streamerCount });
-    this.tableHeaderPointSales = this.table.locator('th').filter({ hasText: ad100Data.tableHeaders.pointSales });
-    this.tableHeaderFamiliaSales = this.table.locator('th').filter({ hasText: ad100Data.tableHeaders.familiaSales });
-    this.tableHeaderTotalSales = this.table.locator('th').filter({ hasText: ad100Data.tableHeaders.totalSales });
-    this.tableHeaderStatus = this.table.locator('th').filter({ hasText: ad100Data.tableHeaders.status });
-    this.tableHeaderCreatedAt = this.table.locator('th').filter({ hasText: ad100Data.tableHeaders.createdAt });
-    this.tableHeaderUpdatedAt = this.table.locator('th').filter({ hasText: ad100Data.tableHeaders.updatedAt });
+    this.table = page.getByRole('table').or(page.locator(ad100Data.selectors.dataTable));
+    this.tableHeaderId = this.table.locator(ad100Data.selectors.tableHeaders).filter({ hasText: ad100Data.tableHeaders.id });
+    this.tableHeaderAgencyId = this.table.locator(ad100Data.selectors.tableHeaders).filter({ hasText: ad100Data.tableHeaders.agencyId });
+    this.tableHeaderAgencyName = this.table.locator(ad100Data.selectors.tableHeaders).filter({ hasText: ad100Data.tableHeaders.agencyName });
+    this.tableHeaderContactOwner = this.table.locator(ad100Data.selectors.tableHeaders).filter({ hasText: ad100Data.tableHeaders.contactOwner });
+    this.tableHeaderStreamerCount = this.table.locator(ad100Data.selectors.tableHeaders).filter({ hasText: ad100Data.tableHeaders.streamerCount });
+    this.tableHeaderPointSales = this.table.locator(ad100Data.selectors.tableHeaders).filter({ hasText: ad100Data.tableHeaders.pointSales });
+    this.tableHeaderFamiliaSales = this.table.locator(ad100Data.selectors.tableHeaders).filter({ hasText: ad100Data.tableHeaders.familiaSales });
+    this.tableHeaderTotalSales = this.table.locator(ad100Data.selectors.tableHeaders).filter({ hasText: ad100Data.tableHeaders.totalSales });
+    this.tableHeaderStatus = this.table.locator(ad100Data.selectors.tableHeaders).filter({ hasText: ad100Data.tableHeaders.status });
+    this.tableHeaderCreatedAt = this.table.locator(ad100Data.selectors.tableHeaders).filter({ hasText: ad100Data.tableHeaders.createdAt });
+    this.tableHeaderUpdatedAt = this.table.locator(ad100Data.selectors.tableHeaders).filter({ hasText: ad100Data.tableHeaders.updatedAt });
 
     // 4. Data Rows & States
-    this.tableRows = this.table.locator('tbody tr');
-    this.emptyStateText = page.getByText(ad100Data.labels.emptyState).or(page.locator('.empty-state, [data-testid="empty-state"]'));
-    this.loadingSpinner = page.locator('.loading-spinner, [data-testid="loading-indicator"]');
+    this.tableRows = this.table.locator(ad100Data.selectors.tableRows);
+    this.emptyStateText = page.getByText(ad100Data.labels.emptyState).or(page.locator(ad100Data.selectors.emptyState));
+    this.loadingSpinner = page.locator(ad100Data.selectors.loadingSpinner);
 
     // 5. Pagination Controls
-    this.paginationContainer = page.locator('.pagination, [aria-label="Pagination"]');
-    this.prevPageButton = page.getByRole('button', { name: ad100Data.pagination.prevBtn }).or(page.locator('button[aria-label="Previous Page"]'));
-    this.nextPageButton = page.getByRole('button', { name: ad100Data.pagination.nextBtn }).or(page.locator('button[aria-label="Next Page"]'));
-    this.firstPageButton = page.getByRole('button', { name: ad100Data.pagination.firstBtn }).or(page.locator('button[aria-label="First Page"]'));
-    this.lastPageButton = page.getByRole('button', { name: ad100Data.pagination.lastBtn }).or(page.locator('button[aria-label="Last Page"]'));
+    this.paginationContainer = page.locator(ad100Data.selectors.paginationContainer);
+    this.prevPageButton = page.getByRole('button', { name: ad100Data.pagination.prevBtn }).or(page.locator(ad100Data.selectors.prevPageButton));
+    this.nextPageButton = page.getByRole('button', { name: ad100Data.pagination.nextBtn }).or(page.locator(ad100Data.selectors.nextPageButton));
+    this.firstPageButton = page.getByRole('button', { name: ad100Data.pagination.firstBtn }).or(page.locator(ad100Data.selectors.firstPageButton));
+    this.lastPageButton = page.getByRole('button', { name: ad100Data.pagination.lastBtn }).or(page.locator(ad100Data.selectors.lastPageButton));
+  }
+
+  // Parameterized Locators
+  getTableCell(rowIndex: number = 0, columnName: keyof typeof ad100Data.selectors.columns = 'id'): Locator {
+    const colIndex = ad100Data.selectors.columns[columnName];
+    return this.tableRows.nth(rowIndex).locator(ad100Data.selectors.tableCells).nth(colIndex);
+  }
+
+  getSidebarMenu(menuName: string = ad100Data.labels.sidebarMenu): Locator {
+    return this.page.getByRole('button', { name: menuName });
+  }
+
+  getSidebarSubmenu(submenuName: string = ad100Data.labels.sidebarSubmenu): Locator {
+    return this.page.getByRole('link', { name: submenuName });
   }
 
   /**
@@ -190,8 +204,7 @@ export class AD100AgencyListPage extends BasePage {
    * Click vào cột ライバー数 (CR 06/11/2025: Điều hướng sang AD302)
    */
   async clickStreamerCount(rowIndex: number = 0): Promise<void> {
-    const row = this.tableRows.nth(rowIndex);
-    const streamerCountCell = row.locator('td').nth(4); // Cột thứ 5 (index 4)
+    const streamerCountCell = this.getTableCell(rowIndex, 'streamerCount');
     await Promise.all([
       this.page.waitForNavigation({ timeout: commonData.timeouts.pageLoad }).catch(() => {}),
       streamerCountCell.click(),
@@ -202,8 +215,7 @@ export class AD100AgencyListPage extends BasePage {
    * Click vào dòng Agency hoặc nút Chi tiết (Điều hướng sang AD301)
    */
   async clickRowDetail(rowIndex: number = 0): Promise<void> {
-    const row = this.tableRows.nth(rowIndex);
-    const actionCell = row.locator('td').last();
+    const actionCell = this.getTableCell(rowIndex, 'actions');
     await Promise.all([
       this.page.waitForNavigation({ timeout: commonData.timeouts.pageLoad }).catch(() => {}),
       actionCell.click(),
@@ -222,3 +234,5 @@ export class AD100AgencyListPage extends BasePage {
     await this.waitForLoadingDetached(this.loadingSpinner);
   }
 }
+
+export { AD100Page as AD100AgencyListPage };

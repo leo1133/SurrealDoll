@@ -1,24 +1,24 @@
 import { test as base, expect } from '@playwright/test';
-import { AD100AgencyListPage } from '../pages/AD100AgencyListPage';
+import { AD100Page } from '../pages/AD100Page';
 import { LoginPage } from '../pages/LoginPage';
 import { CustomApiClient } from '../api/CustomApiClient';
-import { AD100AgencyAPI } from '../api/AD100AgencyAPI';
+import { AD100API } from '../api/AD100API';
 import { env } from '../config/env';
 import fs from 'fs';
 import path from 'path';
 
 // Định nghĩa kiểu cho các fixture mở rộng
 type CustomFixtures = {
-  agencyPage: AD100AgencyListPage;
+  agencyPage: AD100Page;
   loginPage: LoginPage;
   customApiClient: CustomApiClient;
-  agencyApi: AD100AgencyAPI;
+  agencyApi: AD100API;
 };
 
 export const test = base.extend<CustomFixtures>({
   // Fixture Page Object AD100
   agencyPage: async ({ page }, use) => {
-    const agencyPage = new AD100AgencyListPage(page);
+    const agencyPage = new AD100Page(page);
     await agencyPage.enableResourceAborting(); // Kích hoạt Rule 05: Resource Aborting
     await use(agencyPage);
   },

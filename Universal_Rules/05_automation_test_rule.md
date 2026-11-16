@@ -50,20 +50,31 @@ flowchart LR
    - Base URLs (`UI_BASE_URL`, `API_BASE_URL`).
    - Thông tin xác thực (`ADMIN_EMAIL`, `ADMIN_PASSWORD`, `BASIC_AUTH_USER`, `BASIC_AUTH_PASS`).
    - Target IDs đặc thù của môi trường (`TEST_MODEL_ID`, `TEST_PACKAGE_ID`, `SAMPLE_USER_ID`).
-2. **Cấp 2 - Dữ liệu tĩnh & Từ điển giao diện (`test-data/`):**
-   - URL template: `detailUrl: (id) => `/items/detail/${id}``.
+2. **Cấp 2 - Dữ liệu tĩnh, Bộ Selector tập trung & Từ điển giao diện (`test-data/`):**
+   - **Tập hợp Selectors tĩnh (`selectors: { ... }`):** Toàn bộ chuỗi CSS, XPath, aria-label, role template phải được khai báo dạng biến tại đây (VD: `selectors.breadcrumb`, `selectors.searchInput`).
+   - **Bảng ánh xạ vị trí cột (`selectors.columns: { ... }`):** Định nghĩa index ngữ nghĩa của từng cột trong bảng dữ liệu (VD: `{ id: 0, agencyCode: 1, streamerCount: 4 }`) để triệt tiêu magic index `nth(4)`.
+   - **URL Templates & Dynamic Query Builders:** `detailUrl: (id) => \`/items/detail/\${id}\`` và `buildQuery: (params) => new URLSearchParams(params).toString()`.
    - Nhãn nút bấm, tiêu đề bảng, selector regex, placeholder (hỗ trợ đa ngôn ngữ i18n).
    - Danh mục mã thông điệp lỗi hệ thống mong đợi (`ERROR_MESSAGES.*`).
    - Thời gian chờ tiêu chuẩn (`timeouts: { pageLoad: 15000, modal: 5000, action: 10000, suite: 60000 }`).
    - Đường dẫn tài nguyên mẫu để upload (`assets.sampleBannerPath`).
-3. **Cấp 3 - Trình sinh dữ liệu động & Ngày tháng (`utils/helpers`):**
-   - **CẤM:** Điền ngày tháng cố định (VD: `"2026-11-07"`).
-   - **BẮT BUỘC:** Sử dụng Dynamic Date Helper:
-     + `getToday(format)`: Lấy ngày hiện tại.
-     + `getFutureDate(offsetDays, format)`: Lấy ngày tương lai ($+N$ ngày).
-     + `getPastDate(offsetDays, format)`: Lấy ngày quá khứ ($-N$ ngày).
-     + `getDateRange(startOffset, endOffset, format)`: Khoảng thời gian động cho bộ lọc ngày.
-   - **Đảm bảo tính Idempotent:** Mọi dữ liệu tạo mới (User, Tên campaign, Mã giao dịch) phải sinh qua UUID, timestamp hoặc thư viện Faker để khi chạy lặp lại nhiều lần không bị lỗi trùng lặp (Duplicate Key / Database Conflict).
+3. **Cấp 3 - Quản trị Toàn diện Dữ liệu Động & Trình sinh dữ liệu (Universal Dynamic Data Governance):**
+   Mọi dữ liệu kiểm thử mang tính động bắt buộc phải tuân thủ chuẩn hóa 5 nhóm sau:
+   - **Dynamic Identifiers & Random Entities:**
+     + **CẤM:** Gán cứng ID hoặc Code bản ghi cố định (như `id = 1`, `code = "AG001"`).
+     + **BẮT BUỘC:** Lấy từ biến môi trường (`process.env.TEST_TARGET_ID`), truy vấn động từ DB/API, hoặc sinh động có tiền tố thời gian/ngẫu nhiên: `generateUniqueCode("AG")`, `generateTestEmail()`. Đảm bảo tính **Idempotent** khi chạy lại test nhiều lần không bị duplicate key conflict.
+   - **Dynamic Dates & Timestamps:**
+     + **CẤM:** Điền ngày tháng cố định (VD: `"2026-11-16"`).
+     + **BẮT BUỘC:** Sử dụng Dynamic Date Helpers: `getToday(format)`, `getFutureDate(offsetDays, format)`, `getPastDate(offsetDays, format)`, `getDateRange(startOffset, endOffset, format)`.
+   - **Dynamic URLs & Query Parameters:**
+     + **CẤM:** Nối chuỗi URL query thủ công trong spec (VD: `goto("q=Tokyo&status=1")`, `goto("page=-1")`).
+     + **BẮT BUỘC:** Dùng hàm builder đóng gói tham số: `routes.buildAgencyListQuery({ page: 1, q: keyword, status: 1 })`.
+   - **Dynamic Request Payloads & Form Data:**
+     + **CẤM:** Dùng object JSON tĩnh cho các ca kiểm thử tạo mới (Create Mutation).
+     + **BẮT BUỘC:** Áp dụng **Data Factory Pattern** (`buildAgencyPayload(overrides)`) sinh tự động các trường bắt buộc kèm giá trị ngẫu nhiên hợp lệ.
+   - **Dynamic Assertions & Schema Matching:**
+     + **CẤM:** So khớp cứng các trường tự sinh từ máy chủ: `expect(res.id).toBe(10)`, `expect(res.created_at).toBe("2026-11-16")`.
+     + **BẮT BUỘC:** Dùng Schema Matcher (`expect.any(Number)`, `expect.any(String)`), Regex Matching (`expect.stringMatching(/^\d{4}-\d{2}-\d{2}/)`), hoặc so sánh tương đối với mốc thời gian bắt đầu test (`toBeGreaterThanOrEqual(testStartTime)`).
 4. **Cấp 4 - Dữ liệu kiểm thử hướng dữ liệu (Data-driven CSV / JSON):**
    - Đưa các ma trận kiểm thử tham số phân trang, giá trị biên, tìm kiếm vào file `.csv` hoặc `.json` để nạp tự động thay vì viết lặp mã nguồn.
 
@@ -92,6 +103,83 @@ Khi sinh mã tự động, nếu có công cụ hỗ trợ (như Chrome DevTools
 3. **Xử lý tình huống ngoại lệ:**
    - **Màn hình chưa deploy:** Tạm thời sinh locator suy luận từ Spec/HTML và đánh dấu cờ `// [Pending Live Verification]`.
    - **iFrame / Shadow DOM:** Khai báo locator chuyển ngữ cảnh (`page.frameLocator(...)`).
+
+### 2.3. Quy Chuẩn Quản Trị Selector Tập Trung (Centralized Selector Management):
+> [!CAUTION]
+> **CẤM TUYỆT ĐỐI VIẾT RAW SELECTOR STRINGS:**
+> Không được viết bất kỳ chuỗi selector CSS, XPath, hoặc test-id literal nào (VD: `'.breadcrumb, [aria-label="Breadcrumb"]'`, `'.data-table'`, `'input[name="q"]'`) trực tiếp trong file Page Object hoặc Test Spec.
+
+Toàn bộ selector tĩnh phải được quy hoạch tập trung tại `src/test-data/[module]Data.js` theo cấu trúc:
+```javascript
+export const moduleData = {
+  selectors: {
+    // 1. Selector chuỗi tĩnh duy nhất
+    breadcrumb: '.breadcrumb, [aria-label="Breadcrumb"]',
+    searchInput: 'input[type="text"][name="q"], input[type="search"]',
+    dataTable: '.data-table, [data-testid="agency-table"]',
+    loadingSpinner: '.loading-spinner, [data-testid="loading-indicator"]',
+    emptyState: '.empty-state, [data-testid="empty-state"]',
+    paginationContainer: '.pagination, [aria-label="Pagination"]',
+    
+    // 2. Bảng ánh xạ vị trí cột ngữ nghĩa (Semantic Column Index Mapping)
+    // CẤM DÙNG MAGIC INDEX (.nth(4)): Bắt buộc dùng biến ánh xạ này
+    columns: {
+      id: 0,
+      agencyCode: 1,
+      agencyName: 2,
+      contactOwner: 3,
+      streamerCount: 4,
+      pointSales: 5,
+      familiaSales: 6,
+      totalSales: 7,
+      status: 8,
+      createdAt: 9,
+      updatedAt: 10,
+    },
+  },
+  // ...
+};
+```
+
+### 2.4. Chuẩn Hóa Locator Động & Selector Tham Số Hóa (Parameterized Locators):
+> [!IMPORTANT]
+> **Quy tắc phân định Static Locators vs Dynamic Locators trong Page Object:**
+> - **Static Locators (Chỉ phần tử tĩnh duy nhất trên màn hình):** Được phép khai báo trong `constructor(page)` nhưng **BẮT BUỘC** phải tham chiếu 100% qua biến `moduleData.selectors.*`.
+> - **Dynamic Locators (Phần tử biến thiên theo dữ liệu runtime):** Tuyệt đối **CẤM GÁN CHẾT VÀO CONSTRUCTOR** với 1 nhãn đơn lẻ (như `this.sidebarMenu = page.getByRole("button", { name: label })`). Bắt buộc phải đóng gói thành các **Hàm nhận tham số (Parameterized Locator Methods)**:
+
+```javascript
+export class ModulePage {
+  constructor(page) {
+    this.page = page;
+    // 1. Static Locators: Tham chiếu 100% qua biến tập trung
+    this.searchInput = page.locator(moduleData.selectors.searchInput);
+    this.table = page.locator(moduleData.selectors.dataTable);
+    this.tableRows = this.table.locator("tbody tr");
+  }
+
+  // 2. Dynamic Locators: Hàm nhận tham số linh hoạt
+  getSidebarMenu(menuName = moduleData.labels.sidebarMenu) {
+    return this.page.getByRole("button", { name: menuName });
+  }
+
+  getSidebarSubmenu(submenuName = moduleData.labels.sidebarSubmenu) {
+    return this.page.getByRole("link", { name: submenuName });
+  }
+
+  getTableCell(rowIndex, columnName) {
+    const colIndex = moduleData.selectors.columns[columnName];
+    return this.tableRows.nth(rowIndex).locator("td").nth(colIndex);
+  }
+
+  getTableRowById(entityId) {
+    return this.tableRows.filter({ has: this.page.locator(`td:text("${entityId}")`) });
+  }
+
+  getPageNumberButton(pageNumber) {
+    return this.page.getByRole("button", { name: String(pageNumber), exact: true });
+  }
+}
+```
 
 ---
 
@@ -129,12 +217,34 @@ Mọi bộ mã kiểm thử tự động phải phân tách rành mạch thành 
     ├── auth/
     │   └── admin.setup.*            # Global Setup: Login 1 lần và cache session/token
     ├── ui/
-    │   └── [stt].[module].ui.spec.* # Kịch bản kiểm thử giao diện thuần túy
+    │   └── [mã_màn].ui.spec.*       # Kịch bản UI theo ID Spec (VD: ad100.ui.spec.js)
     ├── api/
-    │   └── [stt].[module].api.spec.*# Kịch bản kiểm thử API độc lập (hỗ trợ chạy song song)
+    │   └── [mã_màn].api.spec.*      # Kịch bản API theo ID Spec (VD: ad100.api.spec.js)
     └── e2e/
-        └── [stt].[module].e2e.spec.*# Luồng tích hợp xuyên suốt UI <-> API <-> Database
+        └── [mã_màn].e2e.spec.*      # Kịch bản E2E theo ID Spec (VD: ad100.e2e.spec.js)
 ```
+
+### 3.1. Quy chuẩn Đặt tên File Đồng bộ theo Mã Màn hình (Spec ID Naming Standard):
+> [!IMPORTANT]
+> **Tôn chỉ truy xuất nguồn gốc 1:1 (Traceability & Spec-Driven Naming):**
+> Toàn bộ file mã nguồn kiểm thử tự động sinh ra **BẮT BUỘC ĐẶT TÊN THEO MÃ MÀN HÌNH (SPEC ID / SCREEN ID)** tương ứng trong Spec.
+> **TUYỆT ĐỐI CẤM:** Thêm tiền tố số thứ tự ma thuật tùy tiện (`01.`, `05.`, `06.`, `[stt].`) làm gãy đứt liên kết tìm kiếm trực tiếp giữa Spec $\leftrightarrow$ Manual Testcase $\leftrightarrow$ Automation Script.
+
+#### Bảng Quy Chuẩn Định Danh File Toàn Diện:
+| Thành phần Automation | Cú pháp đặt tên bắt buộc | Ví dụ thực tế (Mã `AD100`) | Quy cách chữ (Case) |
+| :--- | :--- | :--- | :--- |
+| **Kịch bản UI Spec** | `tests/ui/[mã_màn].ui.spec.js` | `tests/ui/ad100.ui.spec.js` | `[mã_màn]` viết thường |
+| **Kịch bản API Spec** | `tests/api/[mã_màn].api.spec.js` | `tests/api/ad100.api.spec.js` | `[mã_màn]` viết thường |
+| **Kịch bản E2E Spec** | `tests/e2e/[mã_màn].e2e.spec.js` | `tests/e2e/ad100.e2e.spec.js` | `[mã_màn]` viết thường |
+| **Page Object Model** | `src/pages/[MÃ_MÀN]Page.js` (hoặc `[MÃ_MÀN]_[VaiTrò]_[TênMàn]Page.js` / `[MÃ_MÀN][TênChứcNăng]Page.js`) | `src/pages/AA000Page.js` hoặc `src/pages/AD100AgencyListPage.js` | `PascalCase` giữ nguyên mã màn viết hoa |
+| **API Client Wrapper** | `src/api/[MÃ_MÀN]API.js` (hoặc `[MÃ_MÀN]_[VaiTrò]_[TênMàn]API.js` / `[MÃ_MÀN][TênChứcNăng]API.js`) | `src/api/AA000API.js` hoặc `src/api/AD100AgencyAPI.js` | `PascalCase` giữ nguyên mã màn viết hoa |
+| **UI Test Data** | `src/test-data/[mã_màn]Data.js` | `src/test-data/ad100Data.js` | `camelCase` (mã màn viết thường + `Data.js`) |
+| **API Test Data Matrix** | `src/test-data/api[Mã_Màn]Data.js` | `src/test-data/apiAd100Data.js` | `camelCase` (tiền tố `api` + mã màn + `Data.js`) |
+| **Tài liệu Bàn giao** | `automation/[MÃ_MÀN]_readme.md` | `automation/AD100_readme.md` | `[MÃ_MÀN]` viết hoa + `_readme.md` |
+
+> [!NOTE] **Quy ước định danh riêng cho LoginPage / Màn hình Đăng nhập:**
+> - **Ưu tiên 1 (Chỉ để mỗi mã màn):** `src/pages/[MÃ_MÀN]Page.js` (Ví dụ: `AA000Page.js`).
+> - **Ưu tiên 2 (Nếu để cả tên màn):** Bắt buộc theo đúng định dạng `[ID]_[Admin/Agency]_[Tên_màn]Page.js` để phân định rõ ràng giữa cổng Admin và Agency (Ví dụ: `AA000_Admin_LoginPage.js` cho cổng Master Admin, `BA100_Agency_LoginPage.js` cho cổng Agency Portal). Áp dụng tương tự cho API Client (`AA000API.js` hoặc `AA000_Admin_AuthAPI.js`).
 
 ### Quy tắc bất biến của Tầng Lõi:
 - **Tầng Page Object (`pages/`):** Chỉ chứa khai báo phần tử (Locators) và hàm tương tác người dùng (`fillSearchForm()`, `clickSubmitButton()`). **CẤM TUYỆT ĐỐI:** Không viết câu lệnh `expect / assert` logic nghiệp vụ trong Page Object để tránh làm vỡ tính tái sử dụng.
@@ -341,3 +451,16 @@ Trước khi kết thúc lượt sinh mã, AI bắt buộc phải tự quét l�
 | **6. Timeouts** | Gán số thời gian chờ tự do (`{ timeout: 5000 }`) | Tham chiếu từ `data.timeouts.modal`. |
 | **7. Asset Upload Path** | Viết đường dẫn file trực tiếp trong test spec | Định nghĩa tập trung trong `test-data/assets`. |
 | **8. Quantitative Coverage Audit** | Sinh code "làm mẫu" (Scaffold/Skeleton), tỷ lệ ca auto < 70% tổng testcase | Tự động đếm số block `test(` thực tế trong các file spec (`tests/ui/`, `tests/api/`, `tests/e2e/`). Bắt buộc đạt tỷ lệ chuyển đổi $\ge 70\% - 80\%$. Nếu chưa đạt, tiếp tục bổ sung các ca kiểm thử còn thiếu trước khi bàn giao. |
+| **9. Raw Selector Strings** | Xuất hiện raw CSS/XPath/ID inline trong POM hoặc Spec (VD: `locator('.breadcrumb')`, `locator('input[name="q"]')`) | Khai báo 100% trong `src/test-data/[module]Data.js` (`selectors: { ... }`). |
+| **10. Parameterized Dynamic Locators** | Gán chết nhãn/option vào constructor (VD: `this.menu = page.getByRole('button', { name: '事務所' })`) | Viết thành hàm nhận tham số trong POM: `getSidebarMenu(name)`, `getOption(text)`. |
+| **11. Magic Column & Row Index** | Dùng số thứ tự cột ma thuật (VD: `locator('td').nth(4)`, `cellTexts[1]`) | Ánh xạ qua `selectors.columns[columnName]` hoặc data-attribute ngữ nghĩa. |
+| **12. Dynamic Query & Payloads** | Viết query string hoặc payload tĩnh (VD: `goto("q=Tokyo&status=1")`, `{ q: "Tokyo" }`) | Dùng hàm `routes.buildQuery(params)` và Data Factory Pattern (`buildPayload()`). |
+| **13. Spec ID File Naming** | Tên file có tiền tố STT ma thuật (`05.ad100.ui.spec.js`) hoặc không khớp mã màn hình trong Spec | Đặt tên đồng bộ theo Mã màn hình (Spec ID): `tests/ui/[mã_màn].ui.spec.js`, `src/pages/[MÃ]Page.js`, `automation/[MÃ]_readme.md`. |
+
+### 8.1. Bộ lọc Regex Kiểm duyệt Tự động (Pre-Flight Anti-Hardcode Linter Checklist):
+Trước khi bàn giao mã nguồn, AI bắt buộc tự chạy quét codebase theo 4 mẫu Regex sau:
+1. `page\.locator\(["'][\.\#\[]` trong `pages/`: Bắt lỗi raw selector string inline.
+2. `\.nth\(\d+\)` trong `pages/` & `tests/`: Bắt lỗi magic index cột/hàng.
+3. `goto\(["'].*[?&=]` trong `tests/`: Bắt lỗi query param URL bị gán cứng.
+4. `(page|sharedPage)\.locator\(` trong `tests/`: Bắt lỗi viết locator trực tiếp trong test spec.
+*(Nếu phát hiện bất kỳ dòng nào khớp regex trên, nhiệm vụ bị đánh dấu Chưa Đạt và bắt buộc phải refactor sạch sẽ trước khi báo cáo hoàn thành).*

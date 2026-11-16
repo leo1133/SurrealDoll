@@ -4,6 +4,40 @@
  */
 
 export const ad100Data = {
+  // Selectors tập trung & Ánh xạ cột ngữ nghĩa
+  selectors: {
+    breadcrumb: '.breadcrumb, [aria-label="Breadcrumb"]',
+    searchInput: 'input[type="text"][name="q"], input[type="search"]',
+    statusDropdown: 'select[name="status"], [role="combobox"]',
+    dataTable: '.data-table, [data-testid="agency-table"]',
+    tableRows: 'tbody tr',
+    tableCells: 'td',
+    tableHeaders: 'th',
+    emptyState: '.empty-state, [data-testid="empty-state"]',
+    loadingSpinner: '.loading-spinner, [data-testid="loading-indicator"]',
+    paginationContainer: '.pagination, [aria-label="Pagination"]',
+    prevPageButton: 'button[aria-label="Previous Page"]',
+    nextPageButton: 'button[aria-label="Next Page"]',
+    firstPageButton: 'button[aria-label="First Page"]',
+    lastPageButton: 'button[aria-label="Last Page"]',
+    deleteButtons: 'button[aria-label="Delete"], .btn-delete, [data-testid="delete-btn"]',
+
+    columns: {
+      id: 0,
+      agencyCode: 1,
+      agencyName: 2,
+      contactOwner: 3,
+      streamerCount: 4,
+      pointSales: 5,
+      familiaSales: 6,
+      totalSales: 7,
+      status: 8,
+      createdAt: 9,
+      updatedAt: 10,
+      actions: 11,
+    },
+  },
+
   labels: {
     breadcrumbs: '＞ 事務所管理',
     screenTitle: '事務所一覧',
