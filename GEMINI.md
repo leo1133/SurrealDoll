@@ -53,7 +53,7 @@ Khi nhận câu lệnh từ người dùng:
 
 - **Clean Workspace:** Tuyệt đối không sinh file nháp, kết quả hay ảnh screenshot tự do ở thư mục gốc repo.
 - **Subfolder bắt buộc theo từng màn hình:**
-  - **Báo cáo lỗi:** `bugs/[Mã_màn_hình]/[Mã_màn_hình]_bugs.md` (hoặc `bug/`)
+  - **Báo cáo lỗi:** `bugs/[Mã_màn_hình]/[Mã_màn_hình]_bugs.md`
   - **Ảnh bằng chứng:** `evidence/[Mã_màn_hình]/evidence_{{MÃ}}_{{TC_ID}}_{{Timestamp/Mô_tả}}.png`
   - **Kịch bản UI:** `testcase_ui/[Mã_màn_hình]_testcase.md`
   - **Kịch bản API:** `testcase_api/[Mã_màn_hình]_api.md`
