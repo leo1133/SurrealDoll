@@ -265,7 +265,7 @@ Mỗi sheet test case chuẩn bao gồm 18 cột (từ cột A đến cột R), 
 | 3 | **Big item** | Cột C | Mục kiểm tra con / hành động cụ thể. **Merge theo nhóm thao tác.** |
 | 4 | **Steps** | Cột D | Các bước thực hiện thao tác đánh số `1. ...`, `2. ...`. |
 | 5 | **Pre-condition** | Cột E | Điều kiện tiên quyết (chỉ ghi ở ca đầu tiên, dưới để `-`). |
-| 6 | **Expected** | Cột F | Kết quả mong đợi chi tiết (mã lỗi, chuỗi text, phản hồi). |
+| 6 | **Expected** | Cột F | Kết quả mong đợi chi tiết (mã lỗi, chuỗi text, phản hồi UI, và trạng thái CSDL ngầm đối với action CRUD/Status theo [Rule 07](07_database_testing_rule.md)). |
 | 7 | **Priority** | Cột G | Mức độ ưu tiên: `High` \| `Medium` \| `Low`. |
 | 8 | **Automation Feasibility** | Cột H | **Khả năng tự động hóa (BẮT BUỘC ĐIỀN KHI THIẾT KẾ):** Phân loại kịch bản để sàng lọc bàn giao cho project automation `live2d` (Rule 05). Điền 1 trong 4 giá trị chuẩn hóa tại Mục 5.3. |
 | 9 | **Round 1 (Result)** | Cột I | Kết quả thực thi Round 1 (`Pass`, `Fail`, `Impact`, rỗng = `Not Run`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.** |
