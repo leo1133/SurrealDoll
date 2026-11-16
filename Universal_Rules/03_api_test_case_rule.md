@@ -20,10 +20,10 @@ flowchart TD
     API --> L5["5. Phản Chiếu Kịch Bản Nhập Liệu Vi Mô Từ UI<br>(Space đầu/cuối, zero leading, mã lỗi chuẩn)"]
 ```
 
-1. **Tính toàn vẹn & Biến động Dữ liệu DB (Database Persistence & State Change):**
-   - Sau khi gọi API làm thay đổi dữ liệu thành công (`POST` tạo mới, `PUT/PATCH` cập nhật, `DELETE` soft-delete):
-     - Gọi ngay API `GET detail` hoặc `GET list` tương ứng để verify xem các trường dữ liệu trong DB có được lưu trữ chính xác 100% theo payload gửi lên hay không.
-     - Kiểm tra các trường tự sinh ở tầng server (`updated_at`, `created_by`, `status`, `version_id`).
+1. **Tính toàn vẹn & Biến động Dữ liệu DB (Database Persistence & State Change - Trụ Cột 7):**
+   - Áp dụng quy chuẩn [07_database_testing_rule.md](07_database_testing_rule.md) đối soát trực tiếp hoặc qua API: Sau khi gọi API làm thay đổi dữ liệu thành công (`POST` tạo mới, `PUT/PATCH` cập nhật, `DELETE` soft-delete):
+     - Gọi ngay API `GET detail` hoặc `GET list` tương ứng, kết hợp truy vấn CSDL (Read-Only) để verify xem các trường dữ liệu trong DB có được lưu trữ chính xác 100% theo payload gửi lên hay không.
+     - Kiểm tra các trường tự sinh ở tầng server (`updated_at`, `created_by`, `status`, `version_id`) và cờ xóa mềm (`is_deleted` / `deleted_at`).
 2. **Ràng buộc loại trừ & Toàn vẹn nghiệp vụ (Business Integrity & Exclusion Rules):**
    - Thao tác API vi phạm quy tắc loại trừ logic nghiệp vụ (Ví dụ: Gán tài nguyên đang bị khóa) $\rightarrow$ Kỳ vọng trả về mã lỗi business `400/409/422` kèm mã thông báo chuẩn, tuyệt đối không cho phép ghi đè làm sai lệch dữ liệu.
    - Thao tác với khóa ngoại không tồn tại hoặc sai cặp quan hệ cha-con (`child_id` không thuộc `parent_id`) $\rightarrow$ Kỳ vọng bị chặn và trả về lỗi rõ ràng.
@@ -54,7 +54,7 @@ Khi sinh test case cho bất kỳ API nào, bắt buộc thực hiện tuần t�
 * **Bước 4 (Thiết lập Kỳ vọng đa tầng - Multi-Tier Expected):**
   * Kỳ vọng Status Code (200, 201, 400, 401, 403, 404, 409, 422).
   * Kỳ vọng Response Body (Cấu trúc JSON, mã lỗi, thông báo lỗi).
-  * Kỳ vọng Database State (Dữ liệu trong bảng thay đổi ra sao).
+  * Kỳ vọng Database State (Dữ liệu trong bảng thay đổi ra sao theo chuẩn [07_database_testing_rule.md](07_database_testing_rule.md)).
 * **Bước 5 (Gắn thẻ ưu tiên & Phân loại):**
   * Gắn Priority: `High` (CRUD chính, Validation bắt buộc, Phân quyền), `Medium` (Boundary, Negative format), `Low` (Ký tự hiếm gặp).
 * **Bước 6 (Đối soát tính độc lập - Atomic Verification):**
@@ -94,7 +94,7 @@ Khi tài liệu đặc tả API chưa nêu chi tiết, AI áp dụng các giả 
 - **Cột E (Pre-condition):** Token đăng nhập, dữ liệu DB có sẵn.
 - **Cột F (Request Data / Payload):** Query params, Headers, JSON Request body cụ thể.
 - **Cột G (Expected HTTP Status):** Mã trạng thái mong đợi (`200`, `201`, `400`, `401`, `403`, `404`, `422`).
-- **Cột H (Expected Response Body & DB State):** Response JSON mong đợi + Trạng thái DB thay đổi.
+- **Cột H (Expected Response Body & DB State):** Response JSON mong đợi + Trạng thái DB thay đổi theo [Rule 07](07_database_testing_rule.md).
 - **Cột I (Priority):** `High` | `Medium` | `Low`.
 - **Cột J (Round 1):** Kết quả thực thi round 1 (`Pass`, `Fail`, để trống = `Not Run`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.**
 - **Cột K (Round 2):** Kết quả thực thi round 2 (**để trống khi thiết kế**).

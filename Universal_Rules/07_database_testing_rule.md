@@ -4,10 +4,10 @@
 > [!IMPORTANT]
 > **Tôn chỉ phổ quát (Universal & Project-Agnostic):**
 > Bộ quy chuẩn này được thiết kế để áp dụng nhất quán cho **mọi hệ thống phần mềm** (Web B2B/B2C, SaaS, ERP, CRM, Fintech, E-Commerce, Mobile Backend), độc lập với hệ quản trị CSDL (PostgreSQL, MySQL, MariaDB, Oracle, SQL Server, MongoDB, DynamoDB):
-> - **Tiếp nhận đầu vào từ Trụ cột 1, 2, 3:** Nhận mô hình thực thể dữ liệu (ERD), từ điển dữ liệu (Data Dictionary), ràng buộc nghiệp vụ từ Spec và ma trận kịch bản kiểm thử làm chuẩn đối soát.
+> - **Tiếp nhận đầu vào từ Trụ cột 1, 2, 3:** Nhận mô hình thực thể dữ liệu (ERD), từ điển dữ liệu (Data Dictionary), ràng buộc nghiệp vụ từ Spec ([Rule 01](01_core_spec_analysis_rule.md)) và ma trận kịch bản kiểm thử ([Rule 02](02_manual_ui_test_case_rule.md), [Rule 03](03_api_test_case_rule.md)) làm chuẩn đối soát.
 > - **Nguyên tắc Xác thực 3 Chiều (Triple-Layer Assertion):** Đối chiếu chéo trạng thái thực tế giữa **Giao diện (UI) $\leftrightarrow$ Dịch vụ mạng (API) $\leftrightarrow$ Cơ sở dữ liệu (Database)**.
 > - **Nguyên tắc An toàn Dữ liệu Tuyệt đối (Data Safety & Least Privilege):** 100% hoạt động kiểm định trên môi trường dùng chung (Staging, Pre-prod, UAT) phải thực thi qua tài khoản phân quyền tối thiểu (ưu tiên Read-Only).
-> - **Cấu hình độc lập (Config-Driven):** Mọi tham số kết nối, tài khoản và cổng truy cập bắt buộc phải tham chiếu từ file cấu hình môi trường (`.env` hoặc `TEST_CONFIG.md`), triệt tiêu hoàn toàn việc hardcode trong mã kịch bản.
+> - **Cấu hình độc lập (Config-Driven):** Mọi tham số kết nối, tài khoản và cổng truy cập bắt buộc phải tham chiếu từ file cấu hình môi trường (`.env` hoặc [TEST_CONFIG.md](../TEST_CONFIG.md)), triệt tiêu hoàn toàn việc hardcode trong mã kịch bản.
 
 ---
 
@@ -28,7 +28,7 @@ flowchart TD
     TaskType -- "Thực Thi Automation (Rule 05)" --> AutoAssert["4. Triple-Layer Assertion Trong Test Code<br>• Step 1: Pre-query lấy trạng thái ban đầu<br>• Step 2: Thực thi action qua UI/API<br>• Step 3: Assert DB state khớp kỳ vọng"]
     
     Seeding --> Execution["Tiến hành chạy ca kiểm thử"]
-    ManualVerify --> Record["5. Ghi nhận kết quả: Pass / Fail kèm SQL & Data Evidence"]
+    ManualVerify --> Record["5. Ghi nhận kết quả: Pass / Fail kèm SQL & Data Evidence (Rule 06)"]
     AutoAssert --> Record
     
     Record --> Cleanup["Dọn dẹp dữ liệu (Teardown) nếu có dữ liệu tạm"]
@@ -146,7 +146,7 @@ expect(new Date(dbRecord.updated_at).getTime()).toBeGreaterThan(testStartTime);
 >    - Khi kết nối kiểm tra dữ liệu trên môi trường dùng chung (Dev, Staging, Pre-prod, UAT), Tester/Agent **CHỈ ĐƯỢC PHÉP SỬ DỤNG TÀI KHOẢN CÓ QUYỀN ĐỌC (READ-ONLY USER)**.
 >    - Tuyệt đối nghiêm cấm tự ý thực thi các câu lệnh can thiệp cấu trúc hoặc phá hủy dữ liệu: `DROP`, `TRUNCATE`, `ALTER`, hoặc `DELETE` / `UPDATE` không có điều kiện `WHERE`.
 > 2. **CẤM HARDCODE THÔNG TIN XÁC THỰC (ZERO-HARDCODING CREDENTIALS):**
->    - Tuyệt đối không viết cứng User, Password, Host, Port vào mã nguồn test hoặc kịch bản kiểm thử. Toàn bộ thông số kết nối phải được nạp thông qua biến môi trường (`.env`) hoặc file cấu hình tập trung (`TEST_CONFIG.md`).
+>    - Tuyệt đối không viết cứng User, Password, Host, Port vào mã nguồn test hoặc kịch bản kiểm thử. Toàn bộ thông số kết nối phải được nạp thông qua biến môi trường (`.env`) hoặc file cấu hình tập trung ([TEST_CONFIG.md](../TEST_CONFIG.md)).
 > 3. **GIỚI HẠN THỜI GIAN CHỜ & TẢI TRỌNG (QUERY TIMEOUT & LIMIT ENFORCEMENT):**
 >    - Mọi câu lệnh truy vấn phục vụ kiểm tra phải thiết lập thời gian chờ tối đa (`statement_timeout` $\le$ 5000ms).
 >    - Khi truy vấn bảng lớn phục vụ lấy mẫu, bắt buộc phải có mệnh đề giới hạn số dòng (`LIMIT`) để tránh khóa bảng hoặc làm cạn kiệt tài nguyên máy chủ CSDL.

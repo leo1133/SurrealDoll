@@ -4,7 +4,7 @@
 > [!IMPORTANT]
 > **Mục tiêu:** Cung cấp quy chuẩn chuyên biệt cho việc đọc hiểu, bóc tách tài liệu đặc tả (Spec / PRD / Requirement Sheet) cho bất kỳ hệ thống phần mềm nào; tự động truy xuất và đối chiếu 1:1 với nguồn thiết kế (Figma / HTML Prototype); trích xuất ma trận logic nghiệp vụ cốt lõi; xác định phạm vi API; và thiết lập bảng câu hỏi Q&A trực quan có cấu trúc lựa chọn (Option A / Option B).
 > - **Độc lập dự án (Project-Agnostic):** Áp dụng nhất quán cho mọi loại dự án và ngôn ngữ, tham số hóa toàn bộ qua bảng biến cấu hình `{{PROJECT_PROFILE}}` và file cấu hình kiểm thử tập trung [TEST_CONFIG.md](../TEST_CONFIG.md).
-> - **Cổng vào đầu tiên (Entry Gate):** Cung cấp toàn bộ dữ liệu đầu vào cho Trụ cột 2 (Manual UI Testing) và Trụ cột 3 (Backend API Testing).
+> - **Cổng vào đầu tiên (Entry Gate):** Cung cấp toàn bộ dữ liệu đầu vào cho Trụ cột 2 (Manual UI Testing), Trụ cột 3 (Backend API Testing) và Trụ cột 7 (Database Testing).
 
 ---
 
@@ -66,7 +66,7 @@ Mỗi màn hình bắt buộc phải được bóc tách thành **4 Nhóm Logic 
 | :--- | :--- | :--- |
 | **1. Điều kiện Tiên quyết & Phân quyền (Precondition & RBAC)** | Ai được phép xem? Điều kiện dữ liệu ban đầu là gì? | Admin xem toàn bộ; Agency chỉ xem dữ liệu thuộc quyền; User thông thường bị chặn 403. |
 | **2. Ràng buộc Dữ liệu & Cận biên (Validation & Boundaries)** | Định dạng hợp lệ, độ dài Min/Max, ký tự cấm, quan hệ phụ thuộc giữa các trường. | Từ ngày $\le$ Đến ngày; Mật khẩu từ 8-32 ký tự có cả chữ và số; Email đúng định dạng regex. |
-| **3. Biến đổi Trạng thái & Tính toán (State Change & Calculations)** | Công thức tính số liệu, cơ chế trừ/cộng dồn, thay đổi trạng thái sau thao tác. | Tổng tiền = Số lượng $\times$ Đơn giá $-$ Giảm giá; Chuyển trạng thái từ "Chờ duyệt" sang "Đã duyệt". |
+| **3. Biến đổi Trạng thái & Tính toán (State Change & Calculations)** | Công thức tính số liệu, cơ chế trừ/cộng dồn, thay đổi trạng thái sau thao tác và đối soát CSDL ngầm ([Rule 07](07_database_testing_rule.md)). | Tổng tiền = Số lượng $\times$ Đơn giá $-$ Giảm giá; Chuyển trạng thái từ "Chờ duyệt" sang "Đã duyệt"; Ghi nhận `updated_at`, `status` trong DB. |
 | **4. Phản hồi Hệ thống & Thông báo (System Feedback & Error Codes)** | Mã lỗi kỹ thuật, nội dung thông báo thành công/thất bại, popup cảnh báo. | Hiển thị mã lỗi chuẩn `{{ERROR_FORMAT}}` (VD: `ERR_001: Tên đăng nhập đã tồn tại`). |
 
 ---

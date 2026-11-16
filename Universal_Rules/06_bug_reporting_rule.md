@@ -69,6 +69,7 @@ Mọi ca kiểm thử bị đánh giá là **FAIL** bắt buộc phải có bằ
 Bên cạnh ảnh chụp, bắt buộc trích xuất trực tiếp:
 - **DOM / Attribute Dump:** Trích đoạn mã HTML hoặc text thực tế của phần tử (VD: `<input value="Test12345" maxlength="10">` hoặc text hiển thị tại tooltip: `"None"`).
 - **Network / Console Log:** Nếu fail liên quan đến API hoặc JS error, trích xuất mã phản hồi (HTTP Status code) và URL API tương ứng.
+- **Database Query Log & Data Dump:** Khi lỗi liên quan đến sai lệch dữ liệu ngầm (Silent Data Failure / UI False Positive), trạng thái DB không cập nhật, vi phạm ràng buộc dữ liệu hoặc cờ xóa mềm/audit trail sai lệch, trích xuất câu lệnh SQL `SELECT` và kết quả truy vấn thực tế theo quy chuẩn Trụ Cột 7 ([07_database_testing_rule.md](07_database_testing_rule.md)).
 
 ---
 
@@ -98,6 +99,12 @@ Khi log từng bug lên hệ thống quản lý lỗi (Jira / GitHub Issues / Ma
   - Bằng chứng API Log (nếu có):
     ```json
     { "status": 500, "error": "Internal Server Error", "path": "/api/v1/users" }
+    ```
+  - Bằng chứng CSDL (nếu phát hiện sai lệch dữ liệu ngầm theo Trụ Cột 7):
+    ```sql
+    -- Query kiểm tra trạng thái trong DB:
+    SELECT id, status, updated_at FROM users WHERE id = 'user_123';
+    -- Actual result: status vẫn là 'active' thay vì 'suspended' như UI thông báo
     ```
 ```
 

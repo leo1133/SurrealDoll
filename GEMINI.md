@@ -57,8 +57,9 @@ Khi nhận câu lệnh từ người dùng:
   - **Ảnh bằng chứng:** `evidence/[Mã_màn_hình]/evidence_{{MÃ}}_{{TC_ID}}_{{Timestamp/Mô_tả}}.png`
   - **Kịch bản UI:** `testcase_ui/[Mã_màn_hình]_testcase.md`
   - **Kịch bản API:** `testcase_api/[Mã_màn_hình]_api.md`
-  - **Automation:** Mã nguồn lưu trực tiếp vào project target `../live2d` (`src/pages/`, `src/api/`, `tests/ui/`, `tests/api/`, `tests/e2e/`) kết hợp đồng bộ cả `testcase_ui` và `testcase_api` theo [TEST_CONFIG.md](TEST_CONFIG.md); Báo cáo bàn giao tại `automation/[Mã_màn_hình]_readme.md`
+  - **Automation:** Mã nguồn lưu trực tiếp vào project target `../live2d` (`src/pages/`, `src/api/`, `src/db/`, `tests/ui/`, `tests/api/`, `tests/e2e/`) kết hợp đồng bộ cả `testcase_ui` và `testcase_api` theo [TEST_CONFIG.md](TEST_CONFIG.md); Báo cáo bàn giao tại `automation/[Mã_màn_hình]_readme.md`
   - **Q&A Spec:** `Q&A/[Mã_màn_hình]_Q&A.md`
+  - **Kiểm tra CSDL & Đối soát:** File log truy vấn CSDL lưu tại `logs/db/` hoặc đính kèm trực tiếp vào mục Evidence của `testcase_ui/` / `bugs/`
 
 ---
 
