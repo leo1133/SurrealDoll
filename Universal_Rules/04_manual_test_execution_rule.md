@@ -114,6 +114,27 @@ Khi gặp ca kiểm thử thiếu dữ liệu mẫu (danh sách rỗng, bản gh
   `[Self-Seeded: Đã chủ động khởi tạo bản ghi {Tên/ID} qua {Màn hình/API} để thực thi ca test]`.
 - **Ranh giới an toàn:** Tự tạo dữ liệu là phương tiện để thực thi kiểm thử thật, **TUYỆT ĐỐI CẤM** tự ý đánh `Pass` khi chưa thực hiện thao tác kiểm tra trên giao diện sau khi tạo data.
 
+#### 3.2.4. Khai Thác CSDL Để Truy Tìm & Chuẩn Bị Dữ Liệu (Database-Driven Precondition Discovery)
+- Khi môi trường thử nghiệm đã cấu hình kết nối CSDL theo [07_database_testing_rule.md](07_database_testing_rule.md):
+  + Tester / AI Agent chủ động sử dụng câu lệnh SQL `SELECT` để truy tìm các bản ghi mẫu đáp ứng đúng điều kiện tiên quyết của ca kiểm thử (ví dụ: tìm bản ghi có số lượng liên kết bằng 0 để test Empty State, tìm tài khoản bị khóa để test Negative Authentication, tìm bản ghi có mốc thời gian đặc thù để test Expired State).
+  + Ghi nhận mã ID bản ghi tìm được vào cột Comment để phục vụ truy vết bằng chứng.
+
+---
+
+### 3.3. QUY CHUẨN XÁC THỰC CƠ SỞ DỮ LIỆU SAU THAO TÁC (DATABASE STATE VERIFICATION PROTOCOL)
+
+Nhằm triệt tiêu lỗi ngầm (Silent Failure / UI False Positive - giao diện báo thành công nhưng cơ sở dữ liệu không cập nhật hoặc cập nhật sai trường), Tester và AI Agent bắt buộc áp dụng **Trụ Cột 7 ([07_database_testing_rule.md](07_database_testing_rule.md))**:
+
+1. **Các nhóm ca kiểm thử bắt buộc đối soát CSDL:**
+   - **Tạo mới (Create / Register):** Xác minh bản ghi mới đã được chèn vào đúng bảng, khóa chính tự sinh hợp lệ, các trường thông tin nhận đúng giá trị nhập trên form, và cờ `is_deleted = false`.
+   - **Cập nhật & Chỉnh sửa (Update / Edit):** Xác minh các trường thay đổi nhận đúng giá trị mới, trường không chỉnh sửa giữ nguyên giá trị cũ, và trường `updated_at` được cập nhật thời gian hiện tại.
+   - **Đổi trạng thái (Toggle Switch / Segmented Button / Status Dropdown):** Xác minh mã trạng thái (`status` / `state`) trong CSDL chuyển đổi chính xác theo ma trận nghiệp vụ.
+   - **Phê duyệt / Từ chối (Approval / Rejection Workflow):** Xác minh trạng thái duyệt, thời điểm duyệt (`approved_at` / `rejected_at`) và người duyệt (`approved_by`).
+   - **Xóa bản ghi (Deletion):** Với hệ thống xóa mềm, xác minh bản ghi không bị mất mà được gắn cờ `is_deleted = true` hoặc `deleted_at` có giá trị.
+   - **Báo cáo & Tổng hợp số liệu (Aggregation & Calculations):** Đối soát con số tổng (Total, Sum, Count, Average) trên UI với kết quả hàm tổng hợp trong CSDL.
+2. **Quy tắc đánh giá Pass/Fail:**
+   - Nếu giao diện hiển thị thông báo "Thành công" nhưng trong CSDL dữ liệu không đổi hoặc sai lệch: **BẮT BUỘC ĐÁNH GIÁ `Fail`** và ghi nhận log CSDL làm bằng chứng lỗi theo [06_bug_reporting_rule.md](06_bug_reporting_rule.md).
+
 ---
 
 ## 4. QUY CHUẨN GHI NHẬN KẾT QUẢ & BẢO TỒN CÔNG THỨC BẢNG TÍNH (FORMULA PRESERVATION & RESULT ENTRY STANDARD)
