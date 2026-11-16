@@ -231,26 +231,31 @@ flowchart LR
      + *Bước 3 (Bắt buộc):* Chạy lệnh **Rollback** khôi phục lại dữ liệu ban đầu để bảo toàn môi trường test.
 6. **Khối 6 - Negative & Input Validation (400/422):** Gửi payload thiếu trường bắt buộc, giá trị âm, sai định dạng $\rightarrow$ Kiểm tra thông báo lỗi trả về khớp với hằng số `ERROR_MESSAGES.*`.
 
-### 5.3. Kịch bản E2E & Xác thực 3 Chiều (Triple-Layer Validation):
-Đối với các luồng nghiệp vụ quan trọng: Đối chiếu chéo dữ liệu giữa **Giao diện (UI) $\leftrightarrow$ Dịch vụ mạng (API) $\leftrightarrow$ Cơ sở dữ liệu (Database)**:
+### 5.3. Kịch bản E2E & Xác thực 3 Chiều Toàn Vẹn (Triple-Layer Validation - Trụ Cột 7):
+Đối với các luồng nghiệp vụ quan trọng: Bắt buộc áp dụng **Trụ Cột 7 ([07_database_testing_rule.md](07_database_testing_rule.md))** để đối chiếu chéo dữ liệu giữa **Giao diện (UI) $\leftrightarrow$ Dịch vụ mạng (API) $\leftrightarrow$ Cơ sở dữ liệu (Database)**:
 ```typescript
 test("TC_E2E_01: Verify entity data consistency across UI, API and Database", async ({ page, authenticatedRequest, db }) => {
   // 1. Lấy dữ liệu qua API
   const apiRes = await authenticatedRequest.get(`/api/v1/entities/${entityId}`);
   const apiData = await apiRes.json();
 
-  // 2. Truy vấn trực tiếp Cơ sở dữ liệu
+  // 2. Truy vấn trực tiếp Cơ sở dữ liệu theo Trụ Cột 7 (Read-Only)
   const dbData = await db.getEntityById(entityId);
 
-  // 3. Đối chiếu API vs DB
+  // 3. Đối chiếu 3 chiều: API vs DB vs UI
   expect(apiData.name).toBe(dbData.name);
   expect(apiData.status).toBe(dbData.status);
 
-  // 4. Đối chiếu UI vs DB
+  // 4. Đối chiếu UI vs DB (Xác nhận hiển thị và trạng thái không bị lỗi ngầm)
   await page.goto(`/entities/detail/${entityId}`);
   await expect(page.getByTestId('entity-name')).toHaveText(dbData.name);
+  expect(new Date(dbData.updated_at).getTime()).toBeGreaterThan(testStartTime);
 });
 ```
+
+#### Quy tắc quản lý dữ liệu kiểm thử tự động (DB Seeding & Teardown Rule):
+- **Pre-test Seeding:** Khi kịch bản cần dữ liệu mẫu đặc thù (User chưa kích hoạt, đơn hàng chờ duyệt...), test runner ưu tiên truy vấn DB thông qua `db.helper` để tìm bản ghi phù hợp thay vì gán cứng ID (Zero-Hardcoding).
+- **Post-test Teardown:** Các bản ghi được sinh ra trong phiên test bắt buộc phải được gắn prefix định danh duy nhất (Timestamp / UUID) và được thu hồi/dọn dẹp trong hook `afterAll` hoặc qua API cleanup để tránh làm bẩn CSDL kiểm thử.
 
 ### 5.4. Quy chuẩn truy xuất nguồn gốc (Traceability Mapping: Manual -> Automation):
 Mọi ca kiểm thử trong tầng `specs/` bắt buộc phải gắn mã định danh của Test Case Manual từ Trụ cột 2 & 3:
