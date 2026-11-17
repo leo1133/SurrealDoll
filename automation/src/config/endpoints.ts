@@ -4,11 +4,11 @@
  */
 export const routes = {
   login: '/sign-in',
-  agencyList: '/admin/agencies',
-  agencyCreate: '/admin/agencies/create',
-  agencyDetail: (id: number | string) => `/admin/agencies/${id}`,
-  agencyStreamers: (id: number | string) => `/admin/agencies/${id}/livers`,
-  agencyRevenue: (id: number | string) => `/admin/agencies/${id}/revenue`,
+  agencyList: '/agencies',
+  agencyCreate: '/agencies/create',
+  agencyDetail: (id: number | string) => `/agencies/detail/${id}?tab=detail`,
+  agencyStreamers: (id: number | string) => `/agencies/detail/${id}?tab=list-streamer`,
+  agencyRevenue: (id: number | string) => `/agencies/detail/${id}?tab=revenue`,
 };
 
 export const apiEndpoints = {
