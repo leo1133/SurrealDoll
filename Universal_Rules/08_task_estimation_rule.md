@@ -12,17 +12,20 @@
 
 ```mermaid
 flowchart TD
-    Receive["Tiếp nhận Task / Ticket"] --> CheckType{"Phân loại Tác Vụ (Task Type)?"}
+    Receive["Tiếp nhận Yêu cầu / Command"] --> CheckType{"Loại Tác Vụ / Cú Pháp?"}
 
     CheckType -- "Type = bug / CR / hot fix" --> BugFlow["1. Đánh giá theo ĐỘ KHÓ KỸ THUẬT:<br>• UI: ~5 phút<br>• Validate: 5 - 7 phút<br>• Logic: 15 - 30 phút"]
     
     CheckType -- "Type = task (New Feature / Story)" --> TaskFlow["2. Đánh giá theo ĐỘ PHỨC TẠP LOGIC:<br>• Giai đoạn 1: Viết Testcase (UI + API)<br>• Giai đoạn 2: Thực thi Test (R1 + Retest R2)"]
     
-    CheckType -- "Type = verify bug" --> VerifyFlow["3. Đánh giá theo SỐ LƯỢNG SUBTASKING:<br>• Tổng số subtasks cần verify<br>• Phân loại từng subtask UI/Val/Logic<br>• Thời gian update ticket & evidence"]
+    CheckType -- "Type = verify bug / subtasks" --> VerifyFlow["3. Đánh giá theo SỐ LƯỢNG SUBTASKING:<br>• Tổng số subtasks cần verify<br>• Phân loại từng subtask UI/Val/Logic<br>• Thời gian update ticket & evidence"]
+
+    CheckType -- "Lệnh: check task / kế hoạch ngày" --> DailyFlow["4. Điều Phối Kế Hoạch 8H/NGÀY:<br>• Quét: Need Verify (Dev/STG), In Progress, Open (Due hôm nay/mai)<br>• ƯU TIÊN: Verify trước -> In Progress -> Open<br>• Lên Est đủ đúng 8.0h/ngày"]
 
     BugFlow --> Output["Tổng hợp Báo cáo Estimate Chuẩn"]
     TaskFlow --> Output
     VerifyFlow --> Output
+    DailyFlow --> Output
 ```
 
 ---
@@ -140,3 +143,54 @@ Khi hoàn thành ước lượng task tổng thể, Agent xuất kết quả the
 - Môi trường và dữ liệu test sẵn sàng.
 - Không phát sinh lỗi chặn nghiêm trọng (Blocker) trong quá trình thực thi.
 ```
+
+---
+
+## 5. QUY CHUẨN KHI NHẬN LỆNH "CHECK TASK" (ĐIỀU PHỐI KHỐI LƯỢNG 8H/NGÀY)
+
+Khi người dùng ra lệnh `check task`, `kiểm tra task`, `kế hoạch hôm nay`, `daily task`, `check backlog` hoặc các câu lệnh tương đương:
+
+### 5.1. Phạm Vi Quét Bắt Buộc (Strict 3-Tier Scan)
+Agent bắt buộc truy cập Backlog (theo cấu hình [TEST_CONFIG.md](../TEST_CONFIG.md)), lọc theo Assignee mặc định (`Mume_ガー（テスター）`) và chỉ quét **đúng 3 nhóm trạng thái**:
+1. **Nhóm 1 (Verify Dev & STG):** Toàn bộ các bug/task có trạng thái:
+   - `Need Verify (Dev)`
+   - `Need Verify (STG)`
+2. **Nhóm 2 (Đang thực hiện):** Toàn bộ các task có trạng thái:
+   - `In Progress` (Đang chạy dở dang)
+3. **Nhóm 3 (Chờ thực hiện khẩn):** Các task có trạng thái `Open` (hoặc `未対応`) nhưng có:
+   - `Due Date = Hôm nay` (Today) HOẶC `Due Date = Ngày mai` (Tomorrow).
+
+### 5.2. Nguyên Tắc Lên Estimate & Phân Bổ Đủ 8 Giờ/Ngày (8-Hour Allocation Protocol)
+1. **Mục tiêu quỹ thời gian:** Tổng khối lượng công việc được lên kế hoạch cho ngày phải đạt chuẩn **8.0 giờ / ngày** (tương đương 1 Man-Day).
+2. **Thứ tự ưu tiên xếp việc (Priority Order):**
+   - **Ưu tiên 1 (Cao nhất): CÁC TASK VERIFY** (Bugs `Need Verify STG`, Bugs `Need Verify Dev`, và các Task loại `Verify Bug`):
+     - Áp dụng định mức chuẩn: Bug UI ~5p, Bug Validate 5-7p, Bug Logic 15-30p (TB 20p).
+     - Lý do: Đóng vòng đời bug sớm để unblock tiến độ release và đội ngũ phát triển.
+   - **Ưu tiên 2: CÁC TASK IN PROGRESS** (Đang chạy dở):
+     - Hoàn thiện tiếp các task đang dang dở để tránh tồn đọng WIP (Work In Progress).
+   - **Ưu tiên 3: CÁC TASK OPEN CÓ HẠN HÔM NAY / NGÀY MAI:**
+     - Lựa chọn thêm các task Open này theo hạn chót gần nhất để lấp đầy quỹ thời gian cho đủ **8.0 giờ**.
+3. **Cơ chế cân bằng tải (Workload Balancing):**
+   - Nếu tổng thời gian của Nhóm 1 + Nhóm 2 đã $\ge 8.0\text{h}$: Giữ nguyên các task ưu tiên cao nhất cho ngày hôm nay, chuyển các task còn lại vào danh sách "Dự phòng / Chuyển sang ngày tiếp theo" (Overload Warning).
+   - Nếu tổng thời gian $< 8.0\text{h}$: Tiếp tục lấy thêm các task từ Nhóm 3 (Open) theo thứ tự hạn chót gần nhất để tổng thời gian đạt đúng **8.0h**.
+
+### 5.3. Mẫu Báo Cáo Kế Hoạch 8h (Daily 8-Hour Workload Report)
+
+```markdown
+### 📋 Kế Hoạch Phân Bổ Công Việc 8H/Ngày - [Ngày hiện tại]
+- **Assignee:** Mume_ガー（テスター）
+- **Mục tiêu quỹ thời gian:** 8.0 giờ (1 Man-Day)
+
+#### 1. Danh Sách Tác Vụ Ưu Tiên Trong Ngày (Tổng: ~8.0h)
+| STT | Mã Ticket | Tiêu đề Task / Bug | Trạng Thái | Loại | Độ Ưu Tiên | Est (Giờ/Phút) | Lý Do Ưu Tiên |
+| :---: | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
+| 1 | `[SURREALDOLLS-xxx]` | [Verify Bug] ... | Need Verify STG | Bug | High | 20p | Ưu tiên 1: Verify STG |
+| 2 | `[SURREALDOLLS-xxx]` | [Verify Bug] ... | Need Verify Dev | Bug | Normal | 5p | Ưu tiên 1: Verify Dev |
+| 3 | `[SURREALDOLLS-xxx]` | [Task đang làm] ... | In Progress | Task | Normal | 2.5h | Ưu tiên 2: Hoàn thiện In Progress |
+| 4 | `[SURREALDOLLS-xxx]` | [Task mới] ... | Open | Task | High | 3.0h | Ưu tiên 3: Due date hôm nay/mai |
+| 🎯 | **TỔNG CỘNG** | **X tasks/bugs** | — | — | — | **8.0 giờ (480p)** | **Đủ 1 Man-Day** |
+
+#### 2. Danh Sách Chuyển Sang Ngày Tiếp Theo (Nếu vượt quá 8h)
+- `[SURREALDOLLS-yyy]`: [Mô tả] - Hạn chót ... (Chuyển sang ngày mai do đã đủ tải 8h)
+```
+
