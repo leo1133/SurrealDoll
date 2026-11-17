@@ -17,6 +17,7 @@ Khi nhận các câu lệnh ngắn gọn từ người dùng (như `gen testcase
 | **Automation Test**<br>• `gen script auto [MÃ]`<br>• `viết code auto [MÃ]`<br>• `tạo test playwright [MÃ]` | [05_automation_test_rule.md](Universal_Rules/05_automation_test_rule.md)<br>& [07_database_testing_rule.md](Universal_Rules/07_database_testing_rule.md) | 1. **Cả 2 kịch bản**: `testcase_ui/[MÃ]_testcase.md` **VÀ** `testcase_api/[MÃ]_api.md`<br>2. `test_specs/[MÃ]_online.json` hoặc `test_specs/[MÃ].json`<br>3. [TEST_CONFIG.md](TEST_CONFIG.md) (Target: `../live2d`, URLs, Credentials, DB Tunnel)<br>4. `test_files/` (Fixture data upload) | Project Automation `../live2d` (`src/pages/`, `src/api/`, `src/db/`, `tests/`) & `automation/[Mã_màn]_readme.md` |
 | **Kiểm tra CSDL & Đối soát**<br>• `check db`<br>• `đối soát db`<br>• `query db [MÃ]` | [07_database_testing_rule.md](Universal_Rules/07_database_testing_rule.md) | 1. [TEST_CONFIG.md](TEST_CONFIG.md) (Thông tin kết nối CSDL & SSM Tunnel)<br>2. Spec ERD / Data Dictionary<br>3. Kịch bản testcase cần đối soát dữ liệu | Báo cáo đối soát trong bảng testcase hoặc `evidence/` |
 | **Báo cáo Bug & Evidence**<br>• `log bug [MÃ]`<br>• `báo cáo lỗi [MÃ]`<br>• `tổng hợp bug [MÃ]` | [06_bug_reporting_rule.md](Universal_Rules/06_bug_reporting_rule.md) | 1. `testcase_ui/[MÃ]_testcase.md` (hoặc log chạy test thực tế: TC Fail, Step, Expected)<br>2. `evidence/[Mã_màn]/` (ảnh chụp fail per-step & log HTTP/console/DB)<br>3. `test_specs/[MÃ].json` (đối chiếu mã lỗi MSG / CMMSG chính xác) | `bugs/[Mã_màn]/[Mã_màn]_bugs.md` & `evidence/[Mã_màn]/` |
+| **Ước lượng Tác vụ (Estimate)**<br>• `estimate [MÃ/TICKET]`<br>• `ước lượng [MÃ/TICKET]`<br>• `estimate task [TICKET]` | [08_task_estimation_rule.md](Universal_Rules/08_task_estimation_rule.md) | 1. Mô tả chi tiết Ticket / Task (type = bug/CR/hot fix, task, verify bug)<br>2. Danh sách subtasks (nếu là verify bug)<br>3. `test_specs/[MÃ].json` (nếu là task màn hình mới)<br>4. [TEST_CONFIG.md](TEST_CONFIG.md) | `estimates/[Mã_hoặc_Ticket]_estimate.md` hoặc báo cáo trực tiếp |
 
 ---
 
@@ -63,6 +64,7 @@ Khi nhận câu lệnh từ người dùng:
   - **Kịch bản API:** `testcase_api/[Mã_màn_hình]_api.md`
   - **Automation:** Mã nguồn lưu trực tiếp vào project target `../live2d` theo chuẩn định danh đồng bộ 100% theo Mã màn hình (Spec ID): `tests/ui/[mã_màn].ui.spec.js`, `tests/api/[mã_màn].api.spec.js`, `tests/e2e/[mã_màn].e2e.spec.js`, `src/pages/[MÃ_MÀN]Page.js` (riêng login page chỉ để mỗi mã màn `[MÃ_MÀN]Page.js`, nếu để cả tên màn thì theo format `[ID]_[Admin/Agency]_[Tên_màn]Page.js`), `src/api/[MÃ_MÀN]API.js`, `src/test-data/[mã_màn]Data.js`. Tuyệt đối không thêm tiền tố số thứ tự (`01.`, `05.`); Báo cáo bàn giao tại `automation/[Mã_màn_hình]_readme.md`
   - **Q&A Spec:** `Q&A/[Mã_màn_hình]_Q&A.md`
+  - **Ước lượng kiểm thử:** `estimates/[Mã_màn_hoặc_Ticket]_estimate.md` (nếu cần xuất file)
   - **Kiểm tra CSDL & Đối soát:** File log truy vấn CSDL lưu tại `logs/db/` hoặc đính kèm trực tiếp vào mục Evidence của `testcase_ui/` / `bugs/`
 
 ---
