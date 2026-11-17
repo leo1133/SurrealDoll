@@ -1,6 +1,6 @@
 # UNIVERSAL TESTING RULES (KHUNG QUY CHUẨN KIỂM THỬ ĐA DỰ ÁN BẰNG AI)
 
-Thư mục này chứa trọn vẹn bộ **7 Quy chuẩn Kiểm thử Phần mềm (7 Trụ Cột)** được thiết kế độc lập dự án (Project-Agnostic), phân định rành mạch giữa **Kiểm thử Đặc tả**, **Kiểm thử Giao diện (UI)**, **Kiểm thử Backend API**, **Kiểm thử Thủ công (Manual)**, **Kiểm thử Tự động (Automation)**, **Quản lý Báo cáo Lỗi & Bằng chứng**, và **Kiểm thử Cơ sở Dữ liệu (Database)**, dùng chung cho mọi dự án (Web, SaaS, E-Commerce, ERP, Mobile Web):
+Thư mục này chứa trọn vẹn bộ **8 Quy chuẩn Kiểm thử Phần mềm (8 Trụ Cột)** được thiết kế độc lập dự án (Project-Agnostic), phân định rành mạch giữa **Kiểm thử Đặc tả**, **Kiểm thử Giao diện (UI)**, **Kiểm thử Backend API**, **Kiểm thử Thủ công (Manual)**, **Kiểm thử Tự động (Automation)**, **Quản lý Báo cáo Lỗi & Bằng chứng**, **Kiểm thử Cơ sở Dữ liệu (Database)**, và **Ước lượng Tác vụ Kiểm thử (Task Estimation)**, dùng chung cho mọi dự án (Web, SaaS, E-Commerce, ERP, Mobile Web):
 
 ---
 
@@ -10,13 +10,14 @@ Thư mục này chứa trọn vẹn bộ **7 Quy chuẩn Kiểm thử Phần m�
 
 ```
 [Thư mục Dự án]/
-├── 📁 Universal_Rules/ -> Quy chuẩn 7 trụ cột kiểm thử phần mềm (Specs, UI, API, Manual, Auto, Bug, Database)
+├── 📁 Universal_Rules/ -> Quy chuẩn 8 trụ cột kiểm thử phần mềm (Specs, UI, API, Manual, Auto, Bug, Database, Estimate)
 ├── 📁 Q&A/            -> [Tên màn hình]_Q&A.md        (Rule 01: Câu hỏi làm rõ spec & giả định)
 ├── 📁 testcase_ui/    -> [Tên màn hình]_testcase.md   (Rule 02 & 04: Kịch bản & Kết quả UI manual)
 ├── 📁 testcase_api/   -> [Tên màn hình]_api.md        (Rule 03: Kịch bản kiểm thử backend API)
 ├── 📁 automation/     -> [Tên màn hình]_readme.md     (Rule 05: Kịch bản Playwright POM & runner)
 ├── 📁 bugs/           -> [Mã_màn]/[Mã_màn]_bugs.md    (Rule 06: Báo cáo danh sách lỗi & chi tiết bug)
 ├── 📁 evidence/       -> [Mã_màn]/evidence_{{MÃ}}_{{TC_ID}}_{{Mô_tả}}.png (Rule 06: Ảnh chụp bằng chứng lỗi)
+├── 📁 estimates/      -> [Mã_hoặc_Ticket]_estimate.md (Rule 08: Báo cáo ước lượng kiểm thử theo loại task)
 ├── 📁 test_specs/     -> Snapshot JSON trích xuất từ Google Sheets 17 cột ([MÃ]_online.json)
 └── 📁 test_files/     -> Dữ liệu mẫu kiểm thử tải file (5MB, 10MB, đúng/sai định dạng)
 ```
@@ -29,13 +30,14 @@ Thư mục này chứa trọn vẹn bộ **7 Quy chuẩn Kiểm thử Phần m�
 | **`automation/`** | `[Tên màn hình]_readme.md` | Rule 05 | `automation/AE800_readme.md` |
 | **`bugs/`** | `[Mã_màn]/[Mã_màn]_bugs.md` | Rule 06 | `bugs/AS100/AS100_bugs.md` |
 | **`evidence/`** | `[Mã_màn]/evidence_{{MÃ}}_{{TC_ID}}_{{Mô_tả}}.png` | Rule 06 | `evidence/AS100/evidence_AS100_TC354_store_fee_hyphen.png` |
+| **`estimates/`** | `[Mã_hoặc_Ticket]_estimate.md` | Rule 08 | `estimates/SURREALDOLLS-14230_estimate.md` |
 
 > [!WARNING]
 > **Quy định nghiêm ngặt:** Tuyệt đối không lưu file kết quả hoặc ảnh chụp màn hình tự do ở thư mục gốc của dự án. AI khi nhận lệnh xuất file bắt buộc phải tự động kiểm tra/tạo thư mục tương ứng và lưu đúng đường dẫn quy chuẩn ở trên.
 
 ---
 
-## II. DANH MỤC CÁC FILE QUY CHUẨN 7 TRỤ CỘT (`Universal_Rules/`)
+## II. DANH MỤC CÁC FILE QUY CHUẨN 8 TRỤ CỘT (`Universal_Rules/`)
 
 | File Quy Chuẩn | Phạm Vi & Vai Trò | Thư Mục Đầu Ra Tương Ứng |
 | :--- | :--- | :--- |
@@ -46,6 +48,7 @@ Thư mục này chứa trọn vẹn bộ **7 Quy chuẩn Kiểm thử Phần m�
 | [05_automation_test_rule.md](Universal_Rules/05_automation_test_rule.md) | **Trụ cột 5 (Automation):** Kiểm Thử Tự Động Hóa (Sinh code Playwright POM, Triple-Layer E2E, Resilient Locators, Smart Waiting) | Lưu vào `automation/[Tên màn hình]_readme.md` |
 | [06_bug_reporting_rule.md](Universal_Rules/06_bug_reporting_rule.md) | **Trụ cột 6 (Bug & Evidence):** Quản Lý Báo Cáo Lỗi & Bằng Chứng (Atomic Screenshot, Bug Template, Fail Table, DB Query Log) | Lưu vào `bugs/[Mã_màn]/[Mã_màn]_bugs.md` & `evidence/[Mã_màn]/` |
 | [07_database_testing_rule.md](Universal_Rules/07_database_testing_rule.md) | **Trụ cột 7 (Database Testing):** Kiểm Thử Cơ Sở Dữ Liệu & Đối Soát Tính Toàn Vẹn Dữ Liệu (Xác thực 3 chiều UI ↔ API ↔ DB, Read-Only Safety, Data Seeding & Teardown, Audit Trail, Zero-Hardcoding) | `logs/db/` hoặc đính kèm vào `testcase_ui/` & `bugs/` |
+| [08_task_estimation_rule.md](Universal_Rules/08_task_estimation_rule.md) | **Trụ cột 8 (Estimation):** Ước Lượng Tác Vụ Kiểm Thử Thực Tế (Định mức Bug UI/Val/Logic, New Feature Task Design & Exec, Verify Bug Subtasks) | `estimates/[Mã_hoặc_Ticket]_estimate.md` hoặc báo cáo trực tiếp |
 
 ---
 
@@ -72,6 +75,7 @@ Chỉ cần ra lệnh bằng các **cú pháp ngắn gọn**, Agent sẽ tự đ
 | **5. Sinh Mã Automation** | • `gen script auto [MÃ]`<br>• `viết code auto [MÃ]`<br>• `tạo test playwright [MÃ]` | [Rule 05](Universal_Rules/05_automation_test_rule.md)<br>& [Rule 07](Universal_Rules/07_database_testing_rule.md) | 1. **Cả 2 kịch bản**: `testcase_ui/[MÃ]_testcase.md` **VÀ** `testcase_api/[MÃ]_api.md`<br>2. `test_specs/[MÃ]_online.json` hoặc `test_specs/[MÃ].json`<br>3. [TEST_CONFIG.md](TEST_CONFIG.md) (Target project: `../live2d`, URLs, Credentials, DB Tunnel)<br>4. `test_files/` (Fixture data upload) | Project Automation `../live2d` (`src/pages/`, `src/api/`, `src/db/`, `tests/`) & `automation/[Mã_màn]_readme.md` |
 | **6. Báo cáo Bug & Evidence** | • `log bug [MÃ]`<br>• `báo cáo lỗi [MÃ]`<br>• `tổng hợp bug [MÃ]` | [Rule 06](Universal_Rules/06_bug_reporting_rule.md) | 1. `testcase_ui/[MÃ]_testcase.md` (hoặc log chạy test thực tế: TC Fail, Step, Expected)<br>2. `evidence/[Mã_màn]/` (ảnh chụp fail per-step & log HTTP/console)<br>3. `test_specs/[MÃ].json` (đối chiếu mã lỗi MSG / CMMSG chính xác) | `bugs/[Mã_màn]/[Mã_màn]_bugs.md` & `evidence/[Mã_màn]/` |
 | **7. Kiểm tra CSDL & Đối soát** | • `check db`<br>• `đối soát db`<br>• `query db [MÃ]` | [Rule 07](Universal_Rules/07_database_testing_rule.md) | 1. [TEST_CONFIG.md](TEST_CONFIG.md) (Thông tin kết nối CSDL & SSM Tunnel)<br>2. Spec ERD / Data Dictionary / Mapping spec<br>3. `testcase_ui/[MÃ]_testcase.md` & `testcase_api/[MÃ]_api.md` | `logs/db/` hoặc đính kèm kết quả đối soát vào `testcase_ui/` / `bugs/` |
+| **8. Ước lượng Tác vụ** | • `estimate [MÃ/TICKET]`<br>• `ước lượng [MÃ/TICKET]`<br>• `estimate task [TICKET]` | [Rule 08](Universal_Rules/08_task_estimation_rule.md) | 1. Mô tả chi tiết Ticket / Task (type = bug/CR/hot fix, task, verify bug)<br>2. Danh sách subtasks (nếu là verify bug)<br>3. `test_specs/[MÃ].json` (nếu là task màn hình mới)<br>4. [TEST_CONFIG.md](TEST_CONFIG.md) | `estimates/[Mã_hoặc_Ticket]_estimate.md` hoặc báo cáo trực tiếp |
 
 ### Cơ chế Suy luận Ngữ cảnh (Context Fallback)
 Khi câu lệnh của người dùng chỉ ghi ngắn gọn không kèm mã màn hình (ví dụ: `gen testcase`, `run test`, `log bug`):

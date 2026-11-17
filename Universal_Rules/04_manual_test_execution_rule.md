@@ -183,7 +183,7 @@ Các công thức Dashboard sử dụng hàm `=COUNTIF(H8:H, "Pass")` hoặc `=C
 | | **J** | **Status (R1)** | Trạng thái xử lý: `Open` (Mới phát hiện lỗi), `Fixing` (Đang sửa), `Closed` (Đã sửa). |
 | | **K** | **Comment (R1)** | Ghi nhận chi tiết kết quả thực tế nếu có sai lệch, hoặc lý do bị Blocked / Impact / ghi chú [Self-Seeded]. |
 | | **L** | **Note (R1)** | Ghi chú nghiệp vụ / Trạng thái Q&A liên quan. |
-| **Round 2** | **M** | **Round 2 (Result)** | • Dành riêng cho Retest sau khi Dev báo đã sửa xong bug hoặc khi User yêu cầu chạy lại Round 2.<br>• Bắt buộc thực thi lại thực tế trên live environment.<br>• Tuyệt đối không copy cột H sang cột M.<br>• Điền chính xác: `Pass`, `Fail`, `Impact`, `Blocked`. Bắt buộc để trống nếu chưa retest. |
+| **Round 2** | **M** | **Round 2 (Result)** | • Dành riêng cho Retest sau khi Dev báo đã sửa xong bug hoặc khi User yêu cầu chạy lại Round 2.<br>• Bắt buộc thực thi lại thực tế trên live environment.<br>• Tuyệt đối không copy cột H sang cột M.<br>• Điền chính xác: `Pass`, `Fail`, `Impact`, `Blocked`. Bắt buộc để trống nếu chưa retest.<br>• Ước lượng thời gian Retest theo định mức [Trụ Cột 8 (08_task_estimation_rule.md)](08_task_estimation_rule.md). |
 | | **N** | **Bug ID (R2)** | Link hoặc mã Bug phát sinh thêm hoặc ticket liên quan ở Round 2. |
 | | **O** | **Status (R2)** | Trạng thái xử lý lỗi Round 2: `Reopen`, `Closed`, v.v. |
 | | **P** | **Comment (R2)** | Ghi nhận chi tiết kết quả thực tế khi retest Round 2 kèm bằng chứng. |

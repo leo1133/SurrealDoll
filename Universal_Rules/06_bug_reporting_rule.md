@@ -144,3 +144,15 @@ Mọi báo cáo lỗi và file bằng chứng bắt buộc phải được phân
 
 > [!WARNING]
 > **Quy định nghiêm ngặt:** Tuyệt đối không lưu file báo cáo bug hoặc file ảnh screenshot tự do ở thư mục gốc của dự án hoặc lưu ngang cấp ở thư mục cha `bugs/`, `evidence/` mà không phân vào thư mục con `[Tên_màn_hình]`. AI khi tạo báo cáo hoặc chụp ảnh bắt buộc phải tự động tạo thư mục con tương ứng nếu chưa tồn tại.
+
+---
+
+## 5. QUY CHUẨN ƯỚC LƯỢNG KHI VERIFY BUG & RETEST (ESTIMATION ALIGNMENT)
+
+Khi nhận nhiệm vụ xác thực lại lỗi đã fix (Verify Bug) hoặc nhận ticket có `type = verify bug`:
+- Tester / AI Agent bắt buộc áp dụng **Trụ Cột 8 ([08_task_estimation_rule.md](08_task_estimation_rule.md))** để bóc tách theo số lượng subtasks:
+  - Subtask Bug UI: **~5 phút** / bug.
+  - Subtask Bug Validate: **5 – 7 phút** / bug.
+  - Subtask Bug Logic / CSDL: **15 – 30 phút** / bug.
+  - Chi phí cập nhật ticket & đính kèm evidence: **2 phút** / subtask.
+- Công thức: $\text{Total Estimate} = \sum (N_{\text{UI}} \times 5\text{p} + N_{\text{Validate}} \times 7\text{p} + N_{\text{Logic}} \times 20\text{p}) + N_{\text{Tổng}} \times 2\text{p}$.
