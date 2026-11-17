@@ -109,12 +109,13 @@ Khi log từng bug lên hệ thống quản lý lỗi (Jira / GitHub Issues / Ma
 ```
 
 ### 3.2. Bảng Tổng Hợp Danh Sách Lỗi (Fail Summary Table)
-Tại mục danh sách lỗi phát hiện trong phiên kiểm thử, xuất theo bảng Markdown chi tiết:
+Tại mục danh sách lỗi phát hiện trong phiên kiểm thử, xuất theo bảng Markdown chi tiết kèm phân loại và thời gian ước lượng (Est) cho từng bug để kiểm soát thời gian:
 
-| TC ID | Control / Chức năng | Các bước tái hiện (Steps) | Expected Result | Actual Result | Mức độ | File Evidence (Unique) & DOM Log | Bug ID |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `[{{MODULE_PREFIX}}-5]` | Textbox Tên | 1. Vào màn hình<br>2. Nhập trùng tên 'Body Tracking'<br>3. Bấm Save | Hiển thị thông báo lỗi trùng tên | Cho phép lưu thành công, không báo lỗi | Major | `evidence/{{MODULE_PREFIX}}/evidence_{{MODULE_PREFIX}}_TC05_dup_name.png`<br>`Value: "Body Tracking"` | *(Để trống)* |
-| `[{{MODULE_PREFIX}}-12]` | Input Giới hạn ký tự | 1. Vào màn hình<br>2. Nhập 256 ký tự vào ô Textbox<br>3. Bấm Save | Giới hạn tối đa 255 ký tự | Nhận đủ 256 ký tự và lưu thành công | Minor | `evidence/{{MODULE_PREFIX}}/evidence_{{MODULE_PREFIX}}_TC12_maxlength.png`<br>`DOM length: 256` | *(Để trống)* |
+| TC ID | Control / Chức năng | Các bước tái hiện (Steps) | Expected Result | Actual Result | Mức độ | Phân loại | Est (Phút) | File Evidence (Unique) & DOM Log | Bug ID |
+| :--- | :--- | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
+| `[{{MODULE_PREFIX}}-5]` | Textbox Tên | 1. Vào màn hình<br>2. Nhập trùng tên 'Body Tracking'<br>3. Bấm Save | Hiển thị thông báo lỗi trùng tên | Cho phép lưu thành công, không báo lỗi | Major | **Validate** | **7p** | `evidence/{{MODULE_PREFIX}}/evidence_{{MODULE_PREFIX}}_TC05_dup_name.png`<br>`Value: "Body Tracking"` | *(Để trống)* |
+| `[{{MODULE_PREFIX}}-12]` | Input Giới hạn ký tự | 1. Vào màn hình<br>2. Nhập 256 ký tự vào ô Textbox<br>3. Bấm Save | Giới hạn tối đa 255 ký tự | Nhận đủ 256 ký tự và lưu thành công | Minor | **Validate** | **5p** | `evidence/{{MODULE_PREFIX}}/evidence_{{MODULE_PREFIX}}_TC12_maxlength.png`<br>`DOM length: 256` | *(Để trống)* |
+| 🎯 **TỔNG CỘNG** | **2 bugs** | | | | | | **12p (~0.2h)** | | |
 
 ---
 
@@ -147,8 +148,20 @@ Mọi báo cáo lỗi và file bằng chứng bắt buộc phải được phân
 
 ---
 
-## 5. QUY CHUẨN ƯỚC LƯỢNG KHI VERIFY BUG & RETEST (ESTIMATION ALIGNMENT)
+## 5. QUY CHUẨN ƯỚC LƯỢNG KHI VERIFY BUG & LỆNH CHECK LIST BUG
 
+### 5.1. Lệnh Kiểm Tra Danh Sách Lỗi & Lên Est Từng Bug (`check list bug`):
+Khi người dùng gõ các lệnh: `check list bug [MÃ]`, `check bug [MÃ]`, `danh sách bug [MÃ]`, `tổng hợp bug [MÃ]`:
+- **Bắt buộc lên Estimate (Est) cho TỪNG BUG để kiểm soát thời gian:**
+  1. Tự động đọc file `bugs/[Mã_màn]/[Mã_màn]_bugs.md` của màn hình tương ứng.
+  2. Bóc tách từng bug và phân loại độ khó kỹ thuật:
+     - **Bug UI:** **~5 phút**
+     - **Bug Validate:** **5 – 7 phút**
+     - **Bug Logic / CSDL:** **15 – 30 phút**
+  3. Lập bảng danh sách bug có 2 cột riêng biệt: `Phân loại` và `Est (Dự kiến)`.
+  4. Cuối bảng **BẮT BUỘC** có dòng **TỔNG CỘNG THỜI GIAN (TOTAL EST)** và quy đổi sang giờ để người dùng kiểm soát và phân bổ thời gian thực thi.
+
+### 5.2. Công Thức Ước Lượng Cho Task Verify Bug / Subtasking:
 Khi nhận nhiệm vụ xác thực lại lỗi đã fix (Verify Bug) hoặc nhận ticket có `type = verify bug`:
 - Tester / AI Agent bắt buộc áp dụng **Trụ Cột 8 ([08_task_estimation_rule.md](08_task_estimation_rule.md))** để bóc tách theo số lượng subtasks:
   - Subtask Bug UI: **~5 phút** / bug.

@@ -87,11 +87,39 @@ Giả sử nhận 1 task `verify bug` chứa **6 subtasks** gồm: 3 bug UI, 2 b
 - Cập nhật 6 ticket + đính kèm evidence: $6 \times 2\text{p} = 12\text{ phút}$
 - **$\rightarrow$ Tổng thời gian ước lượng:** $15 + 14 + 20 + 12 = \mathbf{61\text{ phút}} \approx \mathbf{1.0\text{ giờ}}$.
 
+### 3.3. Quy Chuẩn Khi Nhận Lệnh "Check List Bug" (Per-Bug Estimation Protocol)
+
+Khi người dùng đưa ra các câu lệnh như `check list bug [MÃ]`, `check bug [MÃ]`, `danh sách bug [MÃ]`, hoặc yêu cầu rà soát danh sách lỗi:
+1. **Bắt buộc lên Estimate chi tiết cho TỪNG BUG:** Agent **TUYỆT ĐỐI KHÔNG** chỉ liệt kê danh sách lỗi thuần túy, mà **BẮT BUỘC** phải phân tích và gán mức thời gian kiểm thử dự kiến (Est) độc lập cho **từng bug một** dựa trên độ khó kỹ thuật:
+   - Bug UI: **~5 phút**
+   - Bug Validate: **5 – 7 phút**
+   - Bug Logic: **15 – 30 phút** (mặc định lấy 20 phút cho logic thông thường, 30 phút cho logic sâu liên quan CSDL/API).
+2. **Cấu trúc bảng kiểm soát thời gian per-bug:** Bảng danh sách bug bắt buộc phải bổ sung 2 cột: `Phân Loại Độ Khó` và `Est (Thời Gian Dự Kiến)`.
+3. **Dòng Tổng Thời Gian Kiểm Soát (Total Est):** Cuối bảng danh sách bắt buộc phải có dòng tính tổng thời gian (tổng số phút và quy đổi ra giờ) để người dùng nắm rõ tổng khối lượng và kiểm soát tiến độ thực thi.
+
 ---
 
 ## 4. MẪU BÁO CÁO ESTIMATE CHUẨN (OUTPUT TEMPLATE)
 
-Khi hoàn thành ước lượng, Agent xuất kết quả theo định dạng sau:
+### 4.1. Mẫu Báo Cáo Khi Có Lệnh "Check List Bug" (Bắt Buộc Lên Est Từng Bug)
+
+Khi nhận lệnh `check list bug [MÃ]`:
+
+```markdown
+### 📋 Danh Sách Bug Kèm Bảng Estimate Kiểm Soát Thời Gian - Màn Hình [MÃ]
+
+| STT | TC ID | Tiêu đề lỗi / Control | Phân Loại Độ Khó | Est (Dự kiến) | Trạng thái | Ghi chú kiểm tra |
+| :---: | :--- | :--- | :---: | :---: | :---: | :--- |
+| 1 | `[MÃ-05]` | Textbox Tên: Sai màu viền border khi focus | **UI** | **5p** | Open | Check trực quan style |
+| 2 | `[MÃ-12]` | Input Giới hạn: Nhập quá 255 ký tự vẫn cho lưu | **Validate** | **7p** | Open | Test ca biên 255/256 ký tự & MSG |
+| 3 | `[MÃ-45]` | Nút Lưu: Không cập nhật trạng thái bản ghi trong DB | **Logic** | **20p** | Open | Chạy luồng + đối soát SQL CSDL |
+| ... | ... | ... | ... | ... | ... | ... |
+| 🎯 | **TỔNG CỘNG** | **X bugs** (UI: A, Val: B, Logic: C) | — | **... phút (~... giờ)** | | **Tổng thời gian cần kiểm soát** |
+```
+
+### 4.2. Mẫu Báo Cáo Estimate Cho Task Phát Triển Mới / Ticket Tổng Hợp
+
+Khi hoàn thành ước lượng task tổng thể, Agent xuất kết quả theo định dạng sau:
 
 ```markdown
 ### 📊 Báo Cáo Ước Lượng Kiểm Thử (QA Estimate Report)
