@@ -170,9 +170,12 @@ Agent bắt buộc truy cập Backlog (theo cấu hình [TEST_CONFIG.md](../TEST
      - Hoàn thiện tiếp các task đang dang dở để tránh tồn đọng WIP (Work In Progress).
    - **Ưu tiên 3: CÁC TASK OPEN CÓ HẠN HÔM NAY / NGÀY MAI:**
      - Lựa chọn thêm các task Open này theo hạn chót gần nhất để lấp đầy quỹ thời gian cho đủ **8.0 giờ**.
-3. **Cơ chế cân bằng tải (Workload Balancing):**
-   - Nếu tổng thời gian của Nhóm 1 + Nhóm 2 đã $\ge 8.0\text{h}$: Giữ nguyên các task ưu tiên cao nhất cho ngày hôm nay, chuyển các task còn lại vào danh sách "Dự phòng / Chuyển sang ngày tiếp theo" (Overload Warning).
-   - Nếu tổng thời gian $< 8.0\text{h}$: Tiếp tục lấy thêm các task từ Nhóm 3 (Open) theo thứ tự hạn chót gần nhất để tổng thời gian đạt đúng **8.0h**.
+3. **Cơ chế cân bằng tải & Cảnh báo quá tải xin PM lùi plan (Overload & Plan Adjustment Alert):**
+   - **Khi tổng khối lượng $\le 8.0\text{h}$:** Phân bổ toàn bộ các task vào kế hoạch thực thi trong ngày.
+   - **Khi tổng khối lượng $> 8.0\text{h}$ (Quá tải):**
+     1. **Ưu tiên lấp đầy 8.0h:** Giữ nguyên các task ưu tiên cao nhất (Verify STG/Dev và task In Progress quan trọng) để hoàn thành trong 8 giờ làm việc chuẩn.
+     2. **Phát cảnh báo quá tải (Overload Alert):** Hiển thị rõ tổng thời gian thực tế, số giờ bị vượt mức (ví dụ: Tổng 11.5h $\rightarrow$ Vượt +3.5h so với định mức 8h/ngày).
+     3. **Chủ động thông báo để xin PM lùi plan:** Liệt kê các task có nguy cơ trễ hạn (At-Risk Tasks) kèm **mẫu tin nhắn soạn sẵn gửi PM** để xin dời hạn chót (lùi Due Date) sang ngày tiếp theo, nêu rõ lý do do đang dồn tải ưu tiên cho các task Verify/khẩn cấp.
 
 ### 5.3. Mẫu Báo Cáo Kế Hoạch 8h (Daily 8-Hour Workload Report)
 
@@ -190,7 +193,15 @@ Agent bắt buộc truy cập Backlog (theo cấu hình [TEST_CONFIG.md](../TEST
 | 4 | `[SURREALDOLLS-xxx]` | [Task mới] ... | Open | Task | High | 3.0h | Ưu tiên 3: Due date hôm nay/mai |
 | 🎯 | **TỔNG CỘNG** | **X tasks/bugs** | — | — | — | **8.0 giờ (480p)** | **Đủ 1 Man-Day** |
 
-#### 2. Danh Sách Chuyển Sang Ngày Tiếp Theo (Nếu vượt quá 8h)
-- `[SURREALDOLLS-yyy]`: [Mô tả] - Hạn chót ... (Chuyển sang ngày mai do đã đủ tải 8h)
+#### 2. Cảnh Báo Quá Tải & Đề Xuất Xin PM Lùi Plan (Nếu tổng > 8h)
+> [!WARNING]
+> **CẢNH BÁO QUÁ TẢI (OVERLOAD ALERT):**
+> Tổng khối lượng công việc hôm nay là **... giờ** (Vượt mức **+... giờ** so với định mức 8h/ngày).
+
+- **Danh sách các task đề xuất xin lùi hạn chót:**
+  - `[SURREALDOLLS-yyy]`: [Tên task] (Hạn chót hiện tại: ... $\rightarrow$ Đề xuất dời sang: ...)
+
+- **Mẫu tin nhắn gửi PM:**
+  > *"Chào PM, do hôm nay em cần tập trung ưu tiên xử lý dứt điểm các task Verify STG/Dev ([Mã_ticket_verify],...) và hoàn thiện task In Progress với tổng khối lượng đã đạt đủ 8h công, em xin phép đề xuất lùi hạn chót của task [Mã_ticket_cần_lùi] sang ngày [Ngày_mai/Ngày_kia] để đảm bảo chất lượng kiểm thử. Nhờ PM xác nhận giúp em nhé!"*
 ```
 
