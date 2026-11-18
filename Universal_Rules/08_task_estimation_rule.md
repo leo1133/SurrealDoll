@@ -22,10 +22,13 @@ flowchart TD
 
     CheckType -- "Lệnh: check task / kế hoạch ngày" --> DailyFlow["4. Điều Phối Kế Hoạch 8H/NGÀY:<br>• Quét: Need Verify (Dev/STG), In Progress, Open (Due hôm nay/mai)<br>• ƯU TIÊN: Verify trước -> In Progress -> Open<br>• Lên Est đủ đúng 8.0h/ngày"]
 
-    BugFlow --> Output["Tổng hợp Báo cáo Estimate Chuẩn"]
+    CheckType -- "Lệnh: tính actual / check actual" --> ActualFlow["5. Đo Lường Actual Time Trong Ngày:<br>• Quét Activity feed ngày hôm nay<br>• Tính Delta: Actual_new - Actual_old<br>• Đo tiến độ hoàn thành so với quỹ 8.0h"]
+
+    BugFlow --> Output["Tổng hợp Báo cáo Estimate / Actual Chuẩn"]
     TaskFlow --> Output
     VerifyFlow --> Output
     DailyFlow --> Output
+    ActualFlow --> Output
 ```
 
 ---
@@ -204,4 +207,72 @@ Agent bắt buộc truy cập Backlog (theo cấu hình [TEST_CONFIG.md](../TEST
 - **Mẫu tin nhắn gửi PM:**
   > *"Chào PM, do hôm nay em cần tập trung ưu tiên xử lý dứt điểm các task Verify STG/Dev ([Mã_ticket_verify],...) và hoàn thiện task In Progress với tổng khối lượng đã đạt đủ 8h công, em xin phép đề xuất lùi hạn chót của task [Mã_ticket_cần_lùi] sang ngày [Ngày_mai/Ngày_kia] để đảm bảo chất lượng kiểm thử. Nhờ PM xác nhận giúp em nhé!"*
 ```
+
+---
+
+## 6. QUY CHUẨN ĐO LƯỜNG & TÍNH TOÁN ACTUAL TIME TRONG NGÀY (DAILY ACTUAL HOURS TRACKING PROTOCOL)
+
+Khi người dùng ra lệnh `tính actual`, `tính tổng actual`, `check actual`, `actual hôm nay`, `thời gian thực tế hôm nay`, `tiến độ actual` hoặc các câu lệnh tương đương:
+
+### 6.1. Nguyên Tắc Phân Biệt Hai Chỉ Số Actual Bắt Buộc (Mandatory Two-Metric Principle)
+
+Agent **TUYỆT ĐỐI KHÔNG** được gộp chung hoặc nhầm lẫn giữa tổng giờ ghi nhận trên ticket và thời gian thực làm của Tester trong ngày. Bắt buộc phải phân tách rạch ròi 2 chỉ số:
+
+1. **Thời gian thực làm trong ngày (Net Daily Actual / Delta $\Delta$):**
+   - Định nghĩa: Là lượng thời gian chênh lệch mà Tester đã log vào các ticket trong phạm vi ngày hôm nay (`YYYY-MM-DD`):
+     $$\Delta \text{Actual} = \text{Actual}_{\text{sau khi update}} - \text{Actual}_{\text{trước khi update}}$$
+   - *(Trường hợp ticket mới tạo hoặc lần đầu tiên log Actual Hours trong ngày thì $\Delta \text{Actual} = \text{Actual}_{\text{mới}}$)*.
+   - **Ý nghĩa sống còn:** Đây là **chỉ số DUY NHẤT** phản ánh đúng số giờ công lao động thực tế mà Tester đã bỏ ra trong ngày, dùng để đối soát với định mức kế hoạch chuẩn **8.0 giờ / ngày** (1 Man-Day).
+2. **Tổng Actual Hours lũy kế của Ticket (Cumulative Ticket Actual Hours):**
+   - Định nghĩa: Là tổng số giờ tích lũy ghi nhận trên trường `Actual Hours` của ticket từ khi tạo đến hiện tại (bao gồm cả công của Dev, BA, và Tester ở các vòng kiểm thử trước đó).
+   - **Ý nghĩa:** Dùng để theo dõi toàn bộ chi phí/nỗ lực đã tiêu tốn cho ticket, **tuyệt đối không được lấy tổng này để báo cáo làm giờ công của Tester trong ngày** (vì sẽ gây sai lệch nghiêm trọng, thổi phồng giờ công).
+
+### 6.2. Quy Trình 5 Bước Tự Động Truy Xuất & Tính Toán (Automated 5-Step Extraction Flow)
+
+```mermaid
+flowchart TD
+    A["Truy cập Profile / Activity Timeline của Tester trên Backlog<br>(/user/*[ID]#activity)"] --> B["Quét toàn bộ Event cập nhật trong ngày hiện tại<br>(Wed Nov. 18, 2026)"]
+    B --> C["Lọc các ticket có thay đổi trường 'Actual Hours'"]
+    C --> D["Trích xuất Lịch sử Cập nhật (Diff Log):<br>[ Actual Hours: old -> new ] -> Tính Delta"]
+    D --> E["Tổng hợp Báo cáo 2 Chỉ Số & Đo Tiến Độ so với Quỹ 8.0h"]
+```
+
+1. **Bước 1 (Truy cập nguồn Activity):** Truy cập trực tiếp trang cá nhân của Tester trên Backlog (`/user/*[ID]#activity`) hoặc lọc Activity Feed theo ngày hiện tại (`YYYY-MM-DD`).
+2. **Bước 2 (Quét Event trong ngày):** Quét toàn bộ các hoạt động (Status updates, comments, issue edits) diễn ra từ `00:00:00` đến thời điểm hiện tại của ngày đang kiểm tra.
+3. **Bước 3 (Lọc Ticket có Actual):** Xác định các ticket phát sinh cập nhật trường `Actual Hours`.
+4. **Bước 4 (Tính Delta $\Delta$ từng Ticket):** So sánh giá trị trước và sau cập nhật trong nội dung comment/history:
+   $$\Delta \text{Actual}_i = \text{Actual}_{\text{new}, i} - \text{Actual}_{\text{old}, i}$$
+5. **Bước 5 (Tổng hợp chỉ số & Đối soát định mức 8h):**
+   - **Tổng Actual thực làm trong ngày:**
+     $$\text{Total Daily Actual} = \sum_{i=1}^{n} \Delta \text{Actual}_i$$
+   - **Tỷ lệ hoàn thành kế hoạch ngày:**
+     $$\text{Tỷ Lệ Hoàn Thành (\%)} = \frac{\text{Total Daily Actual}}{8.0\text{h}} \times 100\%$$
+   - **Quỹ thời gian còn lại cần hoàn thành:**
+     $$\text{Thời Gian Còn Lại} = 8.0\text{h} - \text{Total Daily Actual}$$
+
+### 6.3. Mẫu Báo Cáo Actual Time Trong Ngày Chuẩn (Daily Actual Time Output Template)
+
+```markdown
+### ⏱️ Báo Cáo Tổng Hợp Actual Hours Thực Tế Trong Ngày - [Ngày hiện tại]
+- **Assignee:** Mume_ガー（テスター）
+- **Thời điểm trích xuất:** [Giờ:Phút:Giây - DD/MM/YYYY]
+- **Mục tiêu định mức:** 8.00 giờ / ngày (1 Man-Day)
+
+#### 1. Bảng Chi Tiết Actual Hours Từng Ticket Trong Ngày
+| STT | Mã Ticket | Tiêu đề Task / Bug | Môi Trường | Giờ Trước Đó | Actual Sau Update | Actual Thực Tế Log Thêm (Delta) | Trạng Thái |
+| :---: | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| 1 | `[SURREALDOLLS-xxx]` | [Tên bug/task] | STG/Dev | 0.50h | 0.75h | **+0.25h** *(15p)* | Resolved |
+| 2 | `[SURREALDOLLS-yyy]` | [Tên bug/task] | STG/Dev | 1.10h | 1.47h | **+0.37h** *(22p)* | Resolved |
+| ... | ... | ... | ... | ... | ... | ... | ... |
+
+#### 2. Tổng Hợp Số Giờ & Tiến Độ Quỹ Thời Gian 8H
+- 🔥 **Tổng thời gian thực tế Tester đã thực hiện & log trong ngày (Delta):**
+  $$\mathbf{X.XX\text{ giờ}} \quad (\text{YY}\text{ phút})$$
+- 📊 **Tổng Actual Hours lũy kế ghi nhận trên các ticket đã xử lý:**
+  $$\mathbf{Z.ZZ\text{ giờ}} \quad (\text{ZZZ}\text{ phút})$$
+- 🎯 **Đánh giá tiến độ so với quỹ 8.00h:**
+  - **Đã hoàn thành:** X.XXh / 8.00h (Đạt **...%** kế hoạch ngày).
+  - **Thời gian còn lại:** **... giờ** (... phút) để tiếp tục xử lý các task ưu tiên tiếp theo.
+```
+
 
