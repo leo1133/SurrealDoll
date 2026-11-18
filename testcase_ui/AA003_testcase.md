@@ -1,8 +1,8 @@
 # BẢNG TEST CASE VÀ KẾT QUẢ KIỂM THỬ THỦ CÔNG - MÀN HÌNH AA003 (PASSWORD CHANGE MODAL)
 ## Màn hình: AA003 - パスワード変更 (Modal Đổi Mật Khẩu Khi Đang Đăng Nhập - Admin Master)
-### Thuộc Task: [SURREALDOLLS-14231](https://issoh.backlog.com/view/SURREALDOLLS-14231) | BE: SURREALDOLLS-12839 | Rule: CMR43, CMR68
+### Thuộc Task: [SURREALDOLLS-14231](https://issoh.backlog.com/view/SURREALDOLLS-14231) (DEV) & [SURREALDOLLS-14848](https://issoh.backlog.com/view/SURREALDOLLS-14848) (STG) | BE: SURREALDOLLS-12839 | Rule: CMR43, CMR68
 ### Google Sheet Target: [Admin Master Test Case - Tab AA003 (gid=350559572)](https://docs.google.com/spreadsheets/d/1ZaL8llNgH6sCxpG-daLEi21IxXFpub-BbrRJRdUNMOg/edit?gid=350559572#gid=350559572)
-### Báo cáo Bug chi tiết: [AA003_bugs.md](../bugs/AA003/AA003_bugs.md)
+### Báo cáo Bug chi tiết: [AA003_bugs.md](../bugs/AA003/AA003_bugs.md) & [SURREALDOLLS-14848_bugs.md](../bugs/SURREALDOLLS-14848/SURREALDOLLS-14848_bugs.md)
 
 ---
 

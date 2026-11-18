@@ -8,9 +8,9 @@
 
 | Thuộc tính | Giá trị | Thuộc tính | Giá trị | Round 1 Metric | Kết quả | Round 2 Metric | Kết quả |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Module Code** |  | **Environment** |  | **Total TCs** | 43 | **Pass** | 36 |
-| **Total Testcases** | **43** | **Tester** |  | **Executed** | 100% | **Fail** | 4 |
-| **Pass Rate (R2)** | **90.0%** | **Test Date** |  | **Pass Rate (R1)** | - | **Impact** | 0 |
+| **Module Code** |  | **Environment** |  | **Total TCs** | 43 | **Pass** | 40 |
+| **Total Testcases** | **43** | **Tester** |  | **Executed** | 100% | **Fail** | 0 |
+| **Pass Rate (R2)** | **100.0%** | **Test Date** |  | **Pass Rate (R1)** | - | **Impact** | 0 |
 | **Spec Source** |  | **Google Sheet Tab** |  | | | **Blocked** | 3 |
 
 ---
@@ -42,10 +42,10 @@
 |  |  | Kiểm tra khi để trống | 1. Để trống ô メールアドレス<br>2. Click button 送信 |  | 2. <br>- Viền ô chuyển màu đỏ<br>- Hiển thị thông báo lỗi dưới ô: メールアドレスは空欄にできません。 | High | Pass |  | NgaDTP | 06/11/2026 |  | **Pass** |  | NgaDTP | Để trống ô email bấm 送信 báo lỗi: メールアドレスは空欄にできません。 | |
 |  |  | Kiểm tra nhập toàn ký tự space | 1. Nhập toàn ký tự khoảng trắng<br>2. Click button 送信 |  | 2. <br>- Viền ô chuyển màu đỏ<br>- Hiển thị thông báo lỗi: メールアドレスは空欄にできません。 | High | Pass |  | NgaDTP | 06/11/2026 |  | **Pass** |  | NgaDTP | Nhập toàn space báo lỗi: メールアドレスは空欄にできません。 | |
 |  |  | Kiểm tra tự động xóa lỗi khi gõ lại | 1. Để trống bấm 送信 để hiện lỗi<br>2. Focus vào ô và gõ 1 ký tự |  | 2. Viền đỏ và thông báo lỗi lập tức biến mất | Medium | Pass |  | NgaDTP | 06/11/2026 |  | **Pass** |  | NgaDTP | Tự động xóa viền đỏ và lỗi khi focus gõ lại | |
-|  |  | Kiểm tra sai định dạng thiếu @ | 1. Nhập userexample.com (không có @)<br>2. Click button 送信 |  | 2. <br>- Viền ô chuyển màu đỏ<br>- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。 | High | Pass |  | NgaDTP | 06/11/2026 |  | **Fail** | SURREALDOLLS-14374 | NgaDTP | Text lỗi định dạng sai: 有効なメールアドレスを入力してください。 (kỳ vọng: 無効なメールアドレスです。) | |
-|  |  | Kiểm tra sai định dạng thiếu domain | 1. Nhập user@<br>2. Click button 送信 |  | 2. <br>- Viền ô chuyển màu đỏ<br>- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。 | High | Pass |  | NgaDTP | 06/11/2026 |  | **Fail** | SURREALDOLLS-14374 | NgaDTP | Text lỗi định dạng sai: 有効なメールアドレスを入力してください。 (kỳ vọng: 無効なメールアドレスです。) | |
-|  |  | Kiểm tra sai định dạng thiếu local-part | 1. Nhập @example.com<br>2. Click button 送信 |  | 2. <br>- Viền ô chuyển màu đỏ<br>- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。 | High | Pass |  | NgaDTP | 06/11/2026 |  | **Fail** | SURREALDOLLS-14374 | NgaDTP | Text lỗi định dạng sai: 有効なメールアドレスを入力してください。 (kỳ vọng: 無効なメールアドレスです。) | |
-|  |  | Kiểm tra sai định dạng có space ở giữa | 1. Nhập user name@example.com<br>2. Click button 送信 |  | 2. <br>- Viền ô chuyển màu đỏ<br>- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。 | High | Pass |  | NgaDTP | 06/11/2026 |  | **Fail** | SURREALDOLLS-14374 | NgaDTP | Text lỗi định dạng sai: 有効なメールアドレスを入力してください。 (kỳ vọng: 無効なメールアドレスです。) | |
+|  |  | Kiểm tra sai định dạng thiếu @ | 1. Nhập userexample.com (không có @)<br>2. Click button 送信 |  | 2. <br>- Viền ô chuyển màu đỏ<br>- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。 | High | Pass |  | NgaDTP | 06/11/2026 |  | **Pass** | SURREALDOLLS-14374 | NgaDTP | Retest Pass: Hiển thị đúng text đặc tả: 無効なメールアドレスです。 | |
+|  |  | Kiểm tra sai định dạng thiếu domain | 1. Nhập user@<br>2. Click button 送信 |  | 2. <br>- Viền ô chuyển màu đỏ<br>- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。 | High | Pass |  | NgaDTP | 06/11/2026 |  | **Pass** | SURREALDOLLS-14374 | NgaDTP | Retest Pass: Hiển thị đúng text đặc tả: 無効なメールアドレスです。 | |
+|  |  | Kiểm tra sai định dạng thiếu local-part | 1. Nhập @example.com<br>2. Click button 送信 |  | 2. <br>- Viền ô chuyển màu đỏ<br>- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。 | High | Pass |  | NgaDTP | 06/11/2026 |  | **Pass** | SURREALDOLLS-14374 | NgaDTP | Retest Pass: Hiển thị đúng text đặc tả: 無効なメールアドレスです。 | |
+|  |  | Kiểm tra sai định dạng có space ở giữa | 1. Nhập user name@example.com<br>2. Click button 送信 |  | 2. <br>- Viền ô chuyển màu đỏ<br>- Hiển thị thông báo lỗi dưới ô: 無効なメールアドレスです。 | High | Pass |  | NgaDTP | 06/11/2026 |  | **Pass** | SURREALDOLLS-14374 | NgaDTP | Retest Pass: Hiển thị đúng text đặc tả: 無効なメールアドレスです。 | |
 |  |  | Kiểm tra bảo mật XSS | 1. Nhập chuỗi <script>alert(1)</script>@test.jp<br>2. Click button 送信 |  | 2. Hệ thống encode an toàn, không thực thi mã độc JavaScript | High | Pass |  | NgaDTP | 06/11/2026 |  | **Pass** |  | NgaDTP | XSS payload bị chặn an toàn bởi validation email frontend/backend | |
 |  |  | Kiểm tra bảo mật SQL Injection | 1. Nhập chuỗi ' OR '1'='1'@test.jp<br>2. Click button 送信 |  | 2. Hệ thống xử lý an toàn, không phát sinh lỗi 500 | High | Pass |  | NgaDTP | 06/11/2026 |  | **Pass** |  | NgaDTP | SQL Injection payload bị chặn an toàn bởi ORM backend | |
 |  | [2] Link アカウントをお持ちですか？ ログイン | Kiểm tra hiển thị | 1. Quan sát đoạn text bên dưới ô email |  | 1. <br>- Hiển thị text アカウントをお持ちですか？ ログイン căn phải<br>- Chỉ từ ログイン là link có thể click | High | Pass |  | NgaDTP | 06/11/2026 |  | **Pass** |  | NgaDTP | Hiển thị link アカウントをお持ちですか？ ログイン | |

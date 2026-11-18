@@ -51,13 +51,14 @@ Môi trường kiểm thử: **Dev-Agency** (`https://admin-dev.surrealdolls.com
 
 ---
 
-### [BUG-2] [BA1001] [Email Format Validation] Thông báo lỗi định dạng email hiển thị sai text so với tài liệu đặc tả Spec
+### [BUG-2] [BA1001] [Email Format Validation] Thông báo lỗi định dạng email hiển thị sai text so với tài liệu đặc tả Spec (ĐÃ FIX - VERIFIED PASS / CLOSED)
 
 - **Backlog Ticket:** [SURREALDOLLS-14374](https://issoh.backlog.com/view/SURREALDOLLS-14374)
-- **Mã Test Case liên quan:** `[BA1001-24]`, `[BA1001-25]`, `[BA1001-26]`, `[BA1001-27]`
-- **Mức độ nghiêm trọng (Severity):** Minor (Wording mismatch)
+- **Trạng thái Retest:** **Closed (Pass)** — Hệ thống đã cập nhật thông báo lỗi định dạng email thành `無効なメールアドレスです。` đúng chuẩn 100% theo tài liệu đặc tả trên cả môi trường Dev và Staging.
+- **Mã Test Case liên quan:** `[BA1001-24]`, `[BA1001-25]`, `[BA1001-26]`, `[BA1001-27]` (Đã chuyển thành Pass)
+- **Mức độ nghiêm trọng (Severity):** Minor (Đã được khắc phục)
 - **Môi trường (Environment):** 
-  - URL: `https://admin-dev.surrealdolls.com/forgot-password/agency`
+  - URL: `https://admin-dev.surrealdolls.com/forgot-password/agency` & `https://admin-stg.surrealdolls.com/forgot-password/agency`
   - Trình duyệt: Chromium / Chrome
 - **Các bước tái hiện (Steps to Reproduce):**
   1. Truy cập `https://admin-dev.surrealdolls.com/forgot-password/agency`.
@@ -66,13 +67,13 @@ Môi trường kiểm thử: **Dev-Agency** (`https://admin-dev.surrealdolls.com
 - **Kết quả kỳ vọng (Expected Result):**
   - Viền ô chuyển màu đỏ.
   - Dưới ô hiển thị thông báo lỗi nguyên văn theo Spec: `無効なメールアドレスです。`.
-- **Kết quả thực tế (Actual Result):**
-  - Dưới ô hiển thị thông báo lỗi: `有効なメールアドレスを入力してください。`.
-- **Bằng chứng đính kèm (Evidence):**
-  - File ảnh chụp lỗi (thiếu @): [evidence/BA1001/evidence_BA1001_TC_format_BA1001-24.png](../../evidence/BA1001/evidence_BA1001_TC_format_BA1001-24.png)
-  - File ảnh chụp lỗi (thiếu domain): [evidence/BA1001/evidence_BA1001_TC_format_BA1001-25.png](../../evidence/BA1001/evidence_BA1001_TC_format_BA1001-25.png)
-  - File ảnh chụp lỗi (thiếu local-part): [evidence/BA1001/evidence_BA1001_TC_format_BA1001-26.png](../../evidence/BA1001/evidence_BA1001_TC_format_BA1001-26.png)
-  - File ảnh chụp lỗi (có space): [evidence/BA1001/evidence_BA1001_TC_format_BA1001-27.png](../../evidence/BA1001/evidence_BA1001_TC_format_BA1001-27.png)
+- **Kết quả thực tế sau Retest (Actual Result):**
+  - Dưới ô hiển thị chính xác thông báo lỗi theo Spec: `無効なメールアドレスです。`.
+- **Bằng chứng đính kèm (Evidence Pass):**
+  - Thiếu @: [evidence/BA1001/evidence_BA1001_TC24_pass_retest_missing_at.png](../../evidence/BA1001/evidence_BA1001_TC24_pass_retest_missing_at.png)
+  - Thiếu domain: [evidence/BA1001/evidence_BA1001_TC25_pass_retest_missing_domain.png](../../evidence/BA1001/evidence_BA1001_TC25_pass_retest_missing_domain.png)
+  - Thiếu local-part: [evidence/BA1001/evidence_BA1001_TC26_pass_retest_missing_localpart.png](../../evidence/BA1001/evidence_BA1001_TC26_pass_retest_missing_localpart.png)
+  - Có space ở giữa: [evidence/BA1001/evidence_BA1001_TC27_pass_retest_space_in_middle.png](../../evidence/BA1001/evidence_BA1001_TC27_pass_retest_space_in_middle.png)
   - Bằng chứng DOM HTML:
     ```html
     <p data-slot="form-message" id="_R_15klubsnpflb_-form-item-message" class="text-danger text-xs">有効なメールアドレスを入力してください。</p>
@@ -85,10 +86,10 @@ Môi trường kiểm thử: **Dev-Agency** (`https://admin-dev.surrealdolls.com
 | TC ID | Control / Chức năng | Các bước tái hiện (Steps) | Expected Result | Actual Result | Mức độ | Trạng thái Retest | Bug ID |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: | :--- |
 | `[BA1001-17]` | Nhập Email Owner | 1. Vào `/forgot-password/agency`<br>2. Nhập `ngadtp@mumesoft.vn`<br>3. Bấm 送信 | Gửi email thành công, chuyển sang BA1002 | API 200 OK, chuyển sang BA1002 thành công | Critical | **Closed (Pass)** | - |
-| `[BA1001-24]` | Format thiếu @ | 1. Nhập `example.com`<br>2. Bấm 送信 | Hiển thị: `無効なメールアドレスです。` | Hiển thị: `有効なメールアドレスを入力してください。` | Minor | **Open (Fail)** | [SURREALDOLLS-14374](https://issoh.backlog.com/view/SURREALDOLLS-14374) |
-| `[BA1001-25]` | Format thiếu domain | 1. Nhập `user@`<br>2. Bấm 送信 | Hiển thị: `無効なメールアドレスです。` | Hiển thị: `有効なメールアドレスを入力してください。` | Minor | **Open (Fail)** | [SURREALDOLLS-14374](https://issoh.backlog.com/view/SURREALDOLLS-14374) |
-| `[BA1001-26]` | Format thiếu local-part | 1. Nhập `@example.com`<br>2. Bấm 送信 | Hiển thị: `無効なメールアドレスです。` | Hiển thị: `有効なメールアドレスを入力してください。` | Minor | **Open (Fail)** | [SURREALDOLLS-14374](https://issoh.backlog.com/view/SURREALDOLLS-14374) |
-| `[BA1001-27]` | Format space ở giữa | 1. Nhập `user name@example.com`<br>2. Bấm 送信 | Hiển thị: `無効なメールアドレスです。` | Hiển thị: `有効なメールアドレスを入力してください。` | Minor | **Open (Fail)** | [SURREALDOLLS-14374](https://issoh.backlog.com/view/SURREALDOLLS-14374) |
+| `[BA1001-24]` | Format thiếu @ | 1. Nhập `example.com`<br>2. Bấm 送信 | Hiển thị: `無効なメールアドレスです。` | Hiển thị: `無効なメールアドレスです。` | Minor | **Closed (Pass)** | [SURREALDOLLS-14374](https://issoh.backlog.com/view/SURREALDOLLS-14374) |
+| `[BA1001-25]` | Format thiếu domain | 1. Nhập `user@`<br>2. Bấm 送信 | Hiển thị: `無効なメールアドレスです。` | Hiển thị: `無効なメールアドレスです。` | Minor | **Closed (Pass)** | [SURREALDOLLS-14374](https://issoh.backlog.com/view/SURREALDOLLS-14374) |
+| `[BA1001-26]` | Format thiếu local-part | 1. Nhập `@example.com`<br>2. Bấm 送信 | Hiển thị: `無効なメールアドレスです。` | Hiển thị: `無効なメールアドレスです。` | Minor | **Closed (Pass)** | [SURREALDOLLS-14374](https://issoh.backlog.com/view/SURREALDOLLS-14374) |
+| `[BA1001-27]` | Format space ở giữa | 1. Nhập `user name@example.com`<br>2. Bấm 送信 | Hiển thị: `無効なメールアドレスです。` | Hiển thị: `無効なメールアドレスです。` | Minor | **Closed (Pass)** | [SURREALDOLLS-14374](https://issoh.backlog.com/view/SURREALDOLLS-14374) |
 | `[BA1001-37]` | Button 送信 / API | 1. Nhập email hợp lệ<br>2. Bấm 送信 | Chuyển sang màn BA1002, gửi mail reset | API 200 OK, chuyển sang BA1002 thành công | Critical | **Closed (Pass)** | - |
 | `[BA1001-38]` | Anti-enumeration chưa đăng ký | 1. Nhập email chưa đăng ký<br>2. Bấm 送信 | Vẫn chuyển sang BA1002 | API 200 OK, chuyển sang BA1002 an toàn | Critical | **Closed (Pass)** | - |
 | `[BA1001-41]` | Anti-enumeration Master | 1. Nhập `admin@admin.com`<br>2. Bấm 送信 | Vẫn chuyển sang BA1002 | API 200 OK, chuyển sang BA1002 an toàn | Critical | **Closed (Pass)** | - |

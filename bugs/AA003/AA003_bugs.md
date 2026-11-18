@@ -1,7 +1,8 @@
 # BÁO CÁO LỖI KIỂM THỬ THỦ CÔNG - MÀN HÌNH AA003 (PASSWORD CHANGE MODAL - ADMIN WEB)
 
 Theo quy chuẩn [06_bug_reporting_rule.md](../../Universal_Rules/06_bug_reporting_rule.md).
-Môi trường kiểm thử: **Dev-Admin** (`https://admin-dev.surrealdolls.com/`) theo cấu hình tại [TEST_CONFIG.md](../../TEST_CONFIG.md).
+Môi trường kiểm thử: **Dev-Admin** (`https://admin-dev.surrealdolls.com/`) và **STG-Admin** (`https://admin-stg.surrealdolls.com/`) theo cấu hình tại [TEST_CONFIG.md](../../TEST_CONFIG.md).  
+Task Backlog liên quan: [SURREALDOLLS-14231](https://issoh.backlog.com/view/SURREALDOLLS-14231) (DEV) & [SURREALDOLLS-14848](https://issoh.backlog.com/view/SURREALDOLLS-14848) (STG).
 
 ---
 

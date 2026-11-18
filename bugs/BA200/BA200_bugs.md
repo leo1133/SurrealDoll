@@ -1,6 +1,8 @@
 # BÁO CÁO LỖI KIỂM THỬ THỦ CÔNG - MÀN HÌNH BA200 (PASSWORD CHANGE MODAL)
 
-Theo quy chuẩn [06_bug_reporting_rule.md](../../Universal_Rules/06_bug_reporting_rule.md).
+Theo quy chuẩn [06_bug_reporting_rule.md](../../Universal_Rules/06_bug_reporting_rule.md).  
+Môi trường kiểm thử: **Dev-Agency** (`https://admin-dev.surrealdolls.com/sign-in/agency`) và **STG-Agency** (`https://admin-stg.surrealdolls.com/sign-in/agency`).  
+Task Backlog liên quan: [SURREALDOLLS-14231](https://issoh.backlog.com/view/SURREALDOLLS-14231) (DEV) & [SURREALDOLLS-14848](https://issoh.backlog.com/view/SURREALDOLLS-14848) (STG).
 
 ---
 
