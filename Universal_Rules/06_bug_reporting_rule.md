@@ -61,11 +61,56 @@ Mọi ca kiểm thử bị đánh giá là **FAIL** bắt buộc phải có bằ
     + `evidence/BA1003/evidence_BA1003_TC02_500_server_error_PEM3.png`
     + `evidence/AA003/evidence_AA003_TC08_missing_triangle_icon.png`
   - Nếu hai ca test khác nhau có cùng một file ảnh evidence thì báo cáo đó bị coi là **KHÔNG HỢP LỆ**.
-- **Chế độ chụp tập trung (Element-Level / Highlight):**
-  - Ưu tiên chụp crop hoặc scroll màn hình đến đúng phần tử (element) bị fail.
-  - Nếu chụp full-page, element bị lỗi phải được highlight (viền đỏ) hoặc đang ở trạng thái active/focused.
+- **Chế độ chụp tập trung & Điểm neo thị giác (Element-Level & Visual Anchor):**
+  - **CẤM TUYỆT ĐỐI** chụp ảnh toàn cảnh màn hình trơ trọi (unmarked full-page) khiến người xem phải tự tìm kiếm vị trí bị lỗi hoặc vị trí đã được re-test.
+  - Ảnh chụp **BẮT BUỘC** phải có **khung viền nổi bật (Bounding Box / Outline màu đỏ `#ef4444` hoặc xanh lá `#16a34a`)** bao quanh trực tiếp phần tử bị tác động trước khi chụp.
+  - Ưu tiên chụp crop cận cảnh phần tử (Element-Level Screenshot) hoặc chụp toàn cảnh nhưng có highlight rõ ràng (Context Overview with Highlight).
 
-### 2.2. Bằng Chứng Kỹ Thuật Song Hành (Technical Evidence)
+### 2.2. Quy Chuẩn Đánh Dấu Trực Quan Bắt Buộc (Mandatory Visual Highlighting Protocol)
+> [!IMPORTANT]
+> **NGUYÊN TẮC 3 GIÂY (THE 3-SECOND VISUAL CLARITY RULE):**
+> Bất kỳ ai (Developer, Product Owner, PM, Tester khác) khi mở ảnh bằng chứng ra **BẮT BUỘC PHẢI NHẬN BIẾT ĐƯỢC NGAY VỊ TRÍ VỪA KIỂM TRA TRONG VÒNG 3 GIÂY** nhờ các dấu hiệu thị giác nổi bật.
+
+1. **Phương pháp gắn Highlight tự động qua Script (Inject Highlighting):**
+   - Trước khi gọi lệnh chụp màn hình (trong Chrome DevTools, Playwright, hoặc Puppeteer), Tester/Agent thực thi đoạn script CSS inject trực tiếp vào phần tử cần kiểm tra:
+   ```javascript
+   // Snippet chuẩn áp dụng trước khi chụp màn hình:
+   ((selector, label = "INSPECTED POINT", isPass = true) => {
+     const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
+     if (!el) return;
+     el.scrollIntoView({ behavior: 'instant', block: 'center', inline: 'center' });
+     const color = isPass ? '#16a34a' : '#ef4444'; // Xanh lá nếu Pass, Đỏ nếu Fail/Reopen
+     el.style.outline = `3px solid ${color}`;
+     el.style.outlineOffset = '3px';
+     el.style.boxShadow = `0 0 12px ${color}`;
+     
+     // Thêm badge nhãn trực quan phía trên phần tử:
+     const badge = document.createElement('div');
+     badge.className = 'qa-verify-badge';
+     badge.textContent = `🔍 ${label}`;
+     badge.style.cssText = `
+       position: absolute; background: ${color}; color: #ffffff;
+       font-size: 11px; font-weight: bold; padding: 2px 6px;
+       border-radius: 3px; z-index: 999999; box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+       pointer-events: none; transform: translateY(-100%);
+     `;
+     el.parentNode.insertBefore(badge, el);
+   })('#target-control-id', 'RE-TEST POINT: VALIDATION MSG', true);
+   ```
+
+2. **Quy chuẩn đánh dấu theo từng nhóm phần tử giao diện:**
+   - **Form Input & Message lỗi:** Bắt buộc bao khung viền highlight **CẢ Ô INPUT VÀ DÒNG MESSAGE LỖI**. Nghiêm cấm chỉ chụp ô input mà bỏ qua message, hoặc chỉ chụp dòng text lỗi trơ trọi giữa trang.
+   - **Badge / Tag / Icon / Độ hiếm:** Bắt buộc khoanh viền đỏ/xanh trực tiếp vào card hoặc badge cụ thể được kiểm tra. Nếu màn hình có hàng chục card, phải highlight tối thiểu 1-3 card tiêu biểu mang dữ liệu re-test, tuyệt đối không chụp nguyên cả lưới (grid) 50 card mà không có điểm nhấn.
+   - **Bảng dữ liệu (Data Table):** Bắt buộc highlight trực tiếp dòng bản ghi (`<tr>`) và ô dữ liệu (`<td>`) mang giá trị vừa re-test. Cấm chụp nguyên bảng 20 dòng mà không chỉ rõ dòng nào.
+   - **Modal / Popup / Dialog:** Đóng khung phần nút bấm (Save/Confirm) hoặc khối nội dung vừa thay đổi bên trong Modal.
+
+3. **Giao thức chụp 2 cấp độ (Dual-Shot Protocol - Khuyến nghị cho màn hình phức tạp):**
+   - **Shot 1 (Element Zoom / Cropped):** Chụp cận cảnh riêng phần tử hoặc nhóm control đã kiểm tra để nhìn rõ từng ký tự text, style border, icon.
+   - **Shot 2 (Context Overview with Highlight):** Chụp ảnh toàn cảnh (viewport) chứa phần tử đó kèm viền highlight đỏ/xanh để định vị phần tử đó nằm ở khu vực nào trên trang.
+
+---
+
+### 2.3. Bằng Chứng Kỹ Thuật Song Hành (Technical Evidence)
 Bên cạnh ảnh chụp, bắt buộc trích xuất trực tiếp:
 - **DOM / Attribute Dump:** Trích đoạn mã HTML hoặc text thực tế của phần tử (VD: `<input value="Test12345" maxlength="10">` hoặc text hiển thị tại tooltip: `"None"`).
 - **Network / Console Log:** Nếu fail liên quan đến API hoặc JS error, trích xuất mã phản hồi (HTTP Status code) và URL API tương ứng.
@@ -148,9 +193,250 @@ Mọi báo cáo lỗi và file bằng chứng bắt buộc phải được phân
 
 ---
 
-## 5. QUY CHUẨN ƯỚC LƯỢNG KHI VERIFY BUG & LỆNH CHECK LIST BUG
+## 5. QUY TRÌNH & TIÊU CHUẨN XÁC THỰC LỖI KHI CÓ YÊU CẦU VERIFY BUG (BUG VERIFICATION & RETEST PROTOCOL)
 
-### 5.1. Lệnh Kiểm Tra Danh Sách Lỗi & Lên Est Từng Bug (`check list bug`):
+Khi có yêu cầu xác thực lỗi đã sửa (Verify Bug) từ câu lệnh người dùng hoặc khi nhận ticket chuyển trạng thái từ Developer, Tester và AI Agent **BẮT BUỘC** tuân thủ quy trình chuẩn hóa 6 bước dưới đây:
+
+### 5.1. Các Tình Huống Kích Hoạt Yêu Cầu Verify Bug (Trigger Events & Commands)
+Yêu cầu Verify Bug được kích hoạt tự động khi:
+1. **Người dùng ra lệnh bằng các cú pháp:**
+   - `verify bug [MÃ/TICKET]`, `kiểm tra lại bug [MÃ/TICKET]`, `retest bug [MÃ/TICKET]`, `xác nhận bug [TICKET]`, `verify [TICKET]`.
+2. **Ticket trên hệ thống quản lý lỗi (Backlog / Jira) chuyển trạng thái:**
+   - `Need Verify (Dev)` $\rightarrow$ Cần xác thực trên môi trường **DEV**.
+   - `Need Verify (STG)` $\rightarrow$ Cần xác thực trên môi trường **STG**.
+3. **Task được phân công mang thuộc tính:**
+   - `type = verify bug` hoặc danh sách subtasks cần retest trong kế hoạch làm việc 8h hàng ngày (theo [08_task_estimation_rule.md](08_task_estimation_rule.md)).
+
+---
+
+### 5.2. Sơ Đồ Quy Trình 6 Bước Xác Thực Lỗi Chuẩn (6-Step Bug Verification Workflow)
+
+```mermaid
+flowchart TD
+    Trigger["Nhận Lệnh / Ticket Verify Bug<br>(Cú pháp: verify bug [MÃ/TICKET] hoặc trạng thái Need Verify)"] --> Step1["1. Phân Tích Thông Tin Bug & Bóc Tách Expected vs Actual cũ"]
+    
+    Step1 --> Step2["2. Định Tuyến Môi Trường TUYỆT ĐỐI:<br>• Need Verify Dev -> Môi trường DEV (DB 15432)<br>• Need Verify STG -> Môi trường STG (DB 15433)<br>• Chọn đúng Cổng: Admin / Agency"]
+    
+    Step2 --> Step3["3. Ước Lượng Thời Gian (Est) & Chuẩn Bị Dữ Liệu:<br>• UI: ~5p | Validate: 5-7p | Logic: 15-30p + 2p update ticket<br>• Tự chuẩn bị data (Self-Seeding), CẤM bị động báo Blocked"]
+    
+    Step3 --> Step4["4. Thực Thi Tái Hiện Thực Tế Trên Live Browser/API:<br>• Làm đúng Steps to reproduce (CẤM đoán mò code/PR)<br>• Kiểm tra 2 chiều (Positive & Negative/Boundary)<br>• Đối soát CSDL Read-Only (Rule 07)<br>• Kiểm tra hồi quy Side-Effect liền kề"]
+    
+    Step4 --> Check{"Lỗi Đã Khắc Phục Hoàn Toàn?"}
+    
+    Check -- "CÓ (Khớp 100% Expected, Không lỗi mới)" --> PassFlow["KẾT LUẬN: VERIFIED PASS<br>(Bug Resolved / Closed)"]
+    Check -- "KHÔNG (Vẫn lỗi cũ hoặc lỗi mới phát sinh)" --> FailFlow["KẾT LUẬN: FAILED / REOPEN<br>(Bug Reopened)"]
+    
+    PassFlow --> EvPass["5. Chụp Bằng Chứng PASS:<br>• Ảnh màn hình thao tác thành công<br>• Log DOM / Network 200 / SQL"]
+    FailFlow --> EvFail["5. Chụp Bằng Chứng FAIL/REOPEN:<br>• Ảnh màn hình lỗi (Highlight)<br>• Log DOM, Console Error, HTTP Status"]
+    
+    EvPass --> Step6["6. Đồng Bộ Kết Quả 3 Điểm Bắt Buộc:<br>① Cập nhật Ticket Backlog (Trạng thái Resolved, Comment kèm Evidence, Log Actual Delta)<br>② Cập nhật Sheet Testcase Khối Round 2 (Cột M:Q, Bảo tồn công thức Dòng 1-7)<br>③ Cập nhật File Markdown: bugs/[Mã_hoặc_Ticket]_bugs.md"]
+    EvFail --> Step6
+```
+
+---
+
+### 5.3. Chi Tiết Thực Thi 6 Bước Xác Thực Lỗi (Detailed Execution Guide)
+
+#### Bước 1: Tiếp Nhận & Phân Tích Thông Tin Lỗi (Bug Analysis)
+- Đọc kỹ nội dung ticket hoặc file báo cáo lỗi ban đầu (`bugs/[Mã_màn]/[Mã_màn]_bugs.md`):
+  + **Bug ID & Tiêu đề:** Xác định chính xác bug cần verify.
+  + **Màn hình / Phân hệ:** Xác định mã màn hình (ví dụ: `BB300`, `AE300`, `BA100`).
+  + **Các bước tái hiện (Steps to Reproduce):** Ghi nhớ chuỗi thao tác từng bước.
+  + **Kết quả kỳ vọng (Expected Result):** Đặc tả đúng theo Spec/SRS.
+  + **Kết quả thực tế cũ (Old Actual Result):** Hành vi lỗi từng xảy ra trước đó.
+
+#### Bước 2: Định Tuyến Môi Trường & Cổng Phân Hệ Chuẩn Tuyệt Đối (Strict Environment Routing)
+> [!CAUTION]
+> **RANH GIỚI ĐỎ:** Tuyệt đối **CẤM KIỂM TRA CHÉO MÔI TRƯỜNG** (dùng STG để verify bug Dev hoặc ngược lại). Sự khác biệt về phiên bản deploy (commit) và cấu trúc dữ liệu giữa Dev và STG sẽ dẫn đến kết luận sai lệch nghiêm trọng.
+
+- **Khi ticket ở trạng thái `Need Verify (Dev)` hoặc chỉ định DEV:**
+  + **Dev-Admin Web:** `https://admin-dev.surrealdolls.com/sign-in/`
+  + **Dev-Agency Web:** `https://admin-dev.surrealdolls.com/sign-in/agency`
+  + **Database Dev (Local Tunnel):** `localhost:15432` (`surreal`)
+- **Khi ticket ở trạng thái `Need Verify (STG)` hoặc chỉ định STG:**
+  + **STG-Admin Web:** `https://admin-stg.surrealdolls.com/sign-in`
+  + **STG-Agency Web:** `https://admin-stg.surrealdolls.com/sign-in/agency`
+  + **Database STG (Local Tunnel):** `localhost:15433` (`surreal_stg`)
+- Chọn đúng tài khoản kiểm thử tương ứng (Admin vs Agency) theo [TEST_CONFIG.md](../../TEST_CONFIG.md).
+
+#### Bước 3: Ước Lượng Thời Gian & Chủ Động Dữ Liệu (Estimation & Preconditions)
+- **Ước lượng thời gian (Est):** Áp dụng định mức theo [08_task_estimation_rule.md](08_task_estimation_rule.md):
+  + Bug UI: **~5 phút** / bug.
+  + Bug Validate: **5 – 7 phút** / bug.
+  + Bug Logic / CSDL: **15 – 30 phút** (TB 20 phút) / bug.
+  + Chi phí cập nhật ticket & đính kèm evidence: **2 phút** / bug.
+- **Chủ động dữ liệu kiểm thử (Self-Seeding):**
+  + Nếu ca verify cần tài khoản đặc thù hoặc bản ghi dữ liệu mẫu, Tester/Agent **BẮT BUỘC chủ động tự tạo** qua UI hoặc API theo Trụ Cột 4 ([04_manual_test_execution_rule.md](04_manual_test_execution_rule.md)).
+  + **NGHIÊM CẤM** dừng lại thụ động báo `Blocked` khi luồng hệ thống cho phép tự khởi tạo dữ liệu.
+
+#### Bước 4: Thực Thi Xác Thực Thực Tế Trên Live Environment (Live Verification & Side-Effect Check)
+- **Nguyên tắc "No Execution, No Pass":**
+  + Tuyệt đối **KHÔNG SUY ĐOÁN** từ git commit, PR diff, hoặc mã nguồn build JS để kết luận "đã sửa". Bắt buộc phải trực tiếp thao tác click, nhập liệu, gửi request trên trình duyệt/API thật.
+- **Thực hiện đúng Steps to Reproduce:**
+  + Tái hiện lại đúng các bước và dữ liệu đầu vào đã ghi trong bug report cũ.
+- **Kiểm tra 2 chiều (Positive & Boundary/Negative):**
+  + **Positive:** Xác nhận tính năng/control đã hoạt động đúng theo Expected Result.
+  + **Negative:** Thử lại các ca biên, ca sai để đảm bảo không bị hổng validation hoặc bypass rule khác.
+- **Đối soát CSDL (Áp dụng Trụ Cột 7 cho bug Logic/Data):**
+  + Chạy truy vấn SQL `SELECT` (quyền Read-Only) qua SSM Tunnel cổng 15432 (DEV) hoặc 15433 (STG) để kiểm tra các trường dữ liệu, cờ trạng thái (`status`, `is_deleted`), thời gian cập nhật (`updated_at`). Triệt tiêu 100% lỗi ngầm (Silent Bug).
+- **Kiểm thử hồi quy nhanh (Side-Effect & Quick Regression Check):**
+  + Kiểm tra nhanh các nút bấm, luồng nghiệp vụ liền kề hoặc các control cùng nhóm để đảm bảo việc sửa bug không gây gãy đổ tính năng khác.
+
+#### Bước 5: Bằng Chứng Xác Thực Bắt Buộc & Đánh Dấu Vị Trí Re-Test (Mandatory Re-Test Evidence & Visual Highlighting)
+> [!IMPORTANT]
+> **NO EVIDENCE, NO PASS / NO REPORT & NGUYÊN TẮC RÕ RÀNG VỊ TRÍ RE-TEST:**
+> - Mọi kết luận Verify (kể cả PASS hay FAIL) **BẮT BUỘC** phải có file ảnh chụp màn hình thực tế (Atomic Screenshot) tại thời điểm kiểm tra.
+> - **CẤM TUYỆT ĐỐI CHỤP ẢNH TOÀN CẢNH TRƠ TRỌI:** Ảnh chụp evidence khi re-test bắt buộc phải có **khung viền nổi bật (Bounding Box viền đỏ `#ef4444` hoặc xanh lá `#16a34a`, độ dày 3px)** hoặc badge nhãn trực quan đánh dấu chính xác phần tử/vùng vừa được re-test.
+> - Người xem (Dev, PO, PM) khi nhìn vào ảnh **bắt buộc phải nhận diện được ngay điểm re-test trong vòng 3 giây** mà không cần phải căng mắt dò tìm giữa hàng chục controls hay hàng trăm bản ghi.
+
+1. **Quy chuẩn đánh dấu trực quan khi Verify từng loại thành phần:**
+   - **Xác minh sửa lỗi Validate / Thông báo lỗi (MSG / CMMSG):**
+     + Bắt buộc inject viền highlight đóng khung **CẢ Ô INPUT VÀ DÒNG THÔNG BÁO LỖI**.
+     + Đảm bảo nhìn rõ nội dung text của thông báo lỗi mới và giá trị chuỗi nhập thử nghiệm.
+   - **Xác minh sửa lỗi Icon / Badge / Tag độ hiếm / Style hiển thị:**
+     + Bắt buộc đóng khung viền đỏ/xanh trực tiếp vào đúng các card/item đại diện cụ thể đã được sửa lỗi (tối thiểu 1 – 3 card tiêu biểu).
+     + **Nghiêm cấm chụp toàn bộ danh sách 50 – 100 card trôi nổi** mà không có bất kỳ khung viền hay mũi tên chỉ điểm card nào là card vừa được re-test.
+   - **Xác minh sửa lỗi Bảng dữ liệu (Data Table / Grid):**
+     + Đóng khung highlight trực tiếp vào **dòng bản ghi (`<tr>`) và cột dữ liệu (`<td>`)** vừa kiểm tra.
+   - **Xác minh Modal / Dialog / Nút bấm (Buttons):**
+     + Đóng khung highlight vào vị trí nút bấm hoặc nội dung thay đổi bên trong dialog.
+
+2. **Giao thức chụp 2 ảnh (Dual-Shot) cho màn hình phức tạp:**
+   - **Ảnh 1 (Cận cảnh - Element Cropped Shot):** Chụp zoom đúng phần tử/card/dòng đã re-test để nhìn rõ chi tiết từng ký tự và trạng thái.
+   - **Ảnh 2 (Toàn cảnh có điểm nhấn - Overview with Bounding Box):** Chụp vùng nhìn (Viewport) có viền highlight bao quanh vị trí phần tử để định vị rõ ngữ cảnh trên trang.
+
+3. **Quy chuẩn định danh file ảnh Evidence Verify:**
+   - Thư mục lưu: `evidence/[Mã_màn_hình]/` (hoặc `evidence/[Mã_Ticket]/`)
+   - Định dạng tên file:
+     `evidence/[Mã_màn]/evidence_{{MÃ}}_{{TICKET/TC}}_{{DEV/STG}}_{{PASS/FAIL}}_{{Mô_tả_ngắn}}.png`
+   - Ví dụ thực tế:
+     * `evidence/AE300/evidence_AE300_DEV_PASS_TC01_avatar_items_badges_highlighted.png`
+     * `evidence/BB300/evidence_BB300_BB300-47_DEV_FAIL_invalid_email_no_domain.png`
+     * `evidence/BA100/evidence_BA100_SURREALDOLLS-14252_DEV_PASS_filter_common.png`
+   - **Kèm log kỹ thuật song hành:** Trích xuất DOM element HTML, HTTP Status code / API response JSON, hoặc kết quả câu lệnh SQL đối soát CSDL (Trụ Cột 7).
+
+#### Bước 6: Đồng Bộ Kết Quả 3 Chiều & Báo Cáo Hoàn Tất (3-Way Synchronization)
+Sau khi hoàn tất kiểm tra và thu thập bằng chứng, Tester/Agent **BẮT BUỘC thực hiện đồng bộ tại 3 nơi**:
+
+1. **Cập nhật trên Hệ Thống Quản Lý Lỗi (Backlog / Jira Ticket):**
+   - **Khi kết quả là PASS (Bug đã được fix hoàn toàn):**
+     + Đổi trạng thái ticket sang: **`Resolved`** (hoặc `Closed` theo workflow).
+     + Comment phản hồi xác nhận: Nêu rõ môi trường kiểm tra (DEV/STG), kết quả thực tế, đính kèm link/ảnh Evidence Pass.
+     + Log thời gian thực tế: Điền trường `Actual Hours` theo độ chênh lệch thực làm (Delta $\Delta \text{Actual}$) theo [08_task_estimation_rule.md](08_task_estimation_rule.md).
+   - **Khi kết quả là FAIL (Bug chưa sửa hoặc phát sinh lỗi mới):**
+     + Đổi trạng thái ticket sang: **`Reopen`** (hoặc `In Progress` giao lại cho Dev).
+     + Comment phản hồi chi tiết: Nêu rõ bước tái hiện lại, điểm chưa đạt so với Expected, nguyên nhân kỹ thuật (DOM/API/Root Cause nếu phân tích được), đính kèm ảnh Evidence Fail.
+     + Log thời gian thực tế vào `Actual Hours`.
+2. **Cập nhật trên Bảng Google Sheet Test Case (Khối Round 2 - Cột M:Q):**
+   - Đối với các testcase tương ứng trên Sheet kiểm thử 17 cột:
+     + **Cột M (Round 2 Result):** Điền `Pass` hoặc `Fail` (TUYỆT ĐỐI không ghi đè vào cột H của Round 1).
+     + **Cột N (Bug ID R2):** Điền mã Bug ID vừa verify.
+     + **Cột O (Status R2):** Điền `Closed` (nếu Pass) hoặc `Reopen` (nếu Fail).
+     + **Cột P (Comment R2):** Ghi rõ `[Verified DEV/STG - YYYY-MM-DD: Mô tả kết quả thực tế]`.
+     + **Cột Q (Note R2):** Ghi chú bổ sung nếu có.
+     + **Bảo tồn công thức:** Giữ nguyên 100% công thức tại dòng 1-7 và sheet tổng hợp.
+3. **Cập nhật File Markdown Báo Cáo Cục Bộ (`bugs/`):**
+   - Tạo hoặc cập nhật file: `bugs/[Mã_màn_hoặc_Ticket]/[Mã_màn_hoặc_Ticket]_bugs.md` theo mẫu chuẩn tại Mục 5.4.
+   - Cập nhật số giờ thực tế đã tiêu tốn cho phiên verify vào báo cáo tiến độ hàng ngày.
+
+---
+
+### 5.4. Mẫu Báo Cáo Xác Minh Lỗi Chuẩn Cục Bộ (Local Bug Verification Report Template)
+
+Định dạng file lưu trữ tại: `bugs/[Mã_Ticket]/[Mã_Ticket]_bugs.md` (hoặc `bugs/[Mã_màn]/[Mã_màn]_bugs.md`):
+
+```markdown
+# BÁO CÁO XÁC MINH LỖI TICKET [MÃ_TICKET]
+## [BUG] - [MÃ_MÀN] - [Tiêu đề tóm tắt lỗi]
+### Áp dụng: Master Agent Policy (GEMINI.md) & Trụ cột 6 (06_bug_reporting_rule.md)
+
+---
+
+## 1. THÔNG TIN TỔNG QUAN
+
+- **Ticket ID:** [[MÃ_TICKET]](https://issoh.backlog.com/view/[MÃ_TICKET])
+- **Màn hình / Phân hệ:** [MÃ_MÀN] - [Tên màn hình tiếng Nhật / Anh]
+- **Môi trường định tuyến:** **DEV** / **STG** (URL: `https://...`)
+- **Tài khoản kiểm thử:** [admin / agency] (HTTP Basic Auth: `suriaru` / `suriaru`)
+- **Trạng thái Backlog tiếp nhận:** `Need Verify (Dev)` / `Need Verify (STG)`
+- **Thời lượng ước tính (Est):** 0.15h (9 phút)
+- **Thời lượng thực tế (Actual):** 0.20h (12 phút)
+- **Tester:** `NgaDTP` / `Antigravity QA`
+- **Ngày kiểm tra:** DD/MM/YYYY
+- **Kết luận:** **VERIFIED PASS (ĐÃ SỬA XONG / RESOLVED)** hoặc **FAIL (CHƯA ĐƯỢC SỬA / REOPEN TICKET)**
+
+---
+
+## 2. KẾT QUẢ ĐỐI SOÁT CHI TIẾT
+
+| Tiêu chí | Đặc tả kỳ vọng (Expected) | Thực tế trên live [DEV/STG] (Actual) | Đánh giá |
+| :--- | :--- | :--- | :---: |
+| **Hành vi / Validate** | [Mô tả Expected theo spec] | [Mô tả Actual thực tế quan sát được] | **PASS** / **FAIL** |
+| **Mã thông báo lỗi** | [Mã MSG / CMMSG kỳ vọng] | [Mã thông báo hiển thị thực tế] | **PASS** / **FAIL** |
+| **DOM Element / Style** | `<p ...>Nội dung kỳ vọng</p>` | `<p ...>Nội dung thực tế</p>` | **PASS** / **FAIL** |
+| **Dữ liệu CSDL (Rule 07)** | [Giá trị trường/cờ trong DB] | [Dữ liệu query thực tế qua SSM tunnel] | **PASS** / **FAIL** |
+
+---
+
+## 3. NGUYÊN NHÂN KỸ THUẬT (Áp dụng khi FAIL / REOPEN)
+
+*(Trích xuất đoạn mã FE, API response hoặc Schema nếu phát hiện căn nguyên lỗi)*
+- Phân tích nguyên nhân: ...
+```javascript
+// Ví dụ trích xuất code lỗi trong bundle:
+message: schema.INVALID_EMAIL // Thay vì dùng schema.EMAIL chuẩn
+```
+
+---
+
+## 4. BẰNG CHỨNG KIỂM THỬ (EVIDENCE)
+
+- Case 1: [evidence_MÃ_TICKET_DEV_PASS_case1.png](file:///home/nga/Documents/SurrealDoll/evidence/[MÃ]/evidence_MÃ_TICKET_DEV_PASS_case1.png)
+- Case 2: [evidence_MÃ_TICKET_DEV_FAIL_case2.png](file:///home/nga/Documents/SurrealDoll/evidence/[MÃ]/evidence_MÃ_TICKET_DEV_FAIL_case2.png)
+
+---
+
+## 5. HÀNH ĐỘNG TIẾP THEO
+
+- Chuyển trạng thái ticket trên Backlog sang: **`Resolved`** (nếu PASS) hoặc **`Reopen`** (nếu FAIL).
+- Comment báo cáo kết quả chi tiết kèm Evidence lên Backlog.
+- Log thời gian làm thực tế (**Actual Hours** = +...h).
+- Cập nhật Khối Round 2 (Cột M:Q) trên Google Sheet Testcase tương ứng.
+```
+
+---
+
+### 5.5. Mẫu Comment Cập Nhật Ticket Backlog Khi Verify Bug
+
+#### Mẫu Comment khi PASS (Bug Resolved):
+```markdown
+Đã tiến hành xác minh lại lỗi trên môi trường **[DEV / STG]** (URL: `{{TARGET_URL}}`):
+- **Kết quả:** Bug đã được khắc phục hoàn toàn theo đúng đặc tả.
+  + Hành vi thực tế: [Mô tả ngắn kết quả quan sát được]
+  + Đối soát CSDL (nếu có): Trạng thái bản ghi đã cập nhật chính xác (`status = ...`).
+- **Bằng chứng xác thực:** Đã đính kèm ảnh chụp màn hình kiểm tra thành công: `[Tên_file_ảnh_evidence_PASS.png]`.
+- **Trạng thái:** Chuyển sang **Resolved** / **Closed**.
+- **Actual Time:** [X.XX]h
+```
+
+#### Mẫu Comment khi FAIL (Bug Reopen):
+```markdown
+Đã tiến hành xác minh lại lỗi trên môi trường **[DEV / STG]** (URL: `{{TARGET_URL}}`):
+- **Kết quả:** Bug **VẪN CÒN TỒN TẠI** (Chưa được khắc phục hoàn toàn).
+  + Các bước tái hiện: [Các bước thao tác]
+  + Kết quả kỳ vọng (Expected): [Nội dung theo spec/SRS]
+  + Kết quả thực tế (Actual): [Lỗi thực tế còn vướng phải]
+  + DOM / API Log: [Trích xuất mã lỗi nếu có]
+- **Bằng chứng lỗi:** Đính kèm ảnh chụp màn hình tái hiện: `[Tên_file_ảnh_evidence_FAIL.png]`.
+- **Trạng thái:** Chuyển sang **Reopen** nhờ Developer kiểm tra và xử lý lại giúp em nhé!
+- **Actual Time:** [X.XX]h
+```
+
+---
+
+## 6. QUY CHUẨN ƯỚC LƯỢNG KHI VERIFY BUG & LỆNH CHECK LIST BUG
+
+### 6.1. Lệnh Kiểm Tra Danh Sách Lỗi & Lên Est Từng Bug (`check list bug`):
 Khi người dùng gõ các lệnh: `check list bug [MÃ]`, `check bug [MÃ]`, `danh sách bug [MÃ]`, `tổng hợp bug [MÃ]`:
 - **Bắt buộc lên Estimate (Est) cho TỪNG BUG để kiểm soát thời gian:**
   1. Tự động đọc file `bugs/[Mã_màn]/[Mã_màn]_bugs.md` của màn hình tương ứng.
@@ -161,7 +447,7 @@ Khi người dùng gõ các lệnh: `check list bug [MÃ]`, `check bug [MÃ]`, `
   3. Lập bảng danh sách bug có 2 cột riêng biệt: `Phân loại` và `Est (Dự kiến)`.
   4. Cuối bảng **BẮT BUỘC** có dòng **TỔNG CỘNG THỜI GIAN (TOTAL EST)** và quy đổi sang giờ để người dùng kiểm soát và phân bổ thời gian thực thi.
 
-### 5.2. Công Thức Ước Lượng Cho Task Verify Bug / Subtasking:
+### 6.2. Công Thức Ước Lượng Cho Task Verify Bug / Subtasking:
 Khi nhận nhiệm vụ xác thực lại lỗi đã fix (Verify Bug) hoặc nhận ticket có `type = verify bug`:
 - Tester / AI Agent bắt buộc áp dụng **Trụ Cột 8 ([08_task_estimation_rule.md](08_task_estimation_rule.md))** để bóc tách theo số lượng subtasks:
   - Subtask Bug UI: **~5 phút** / bug.
