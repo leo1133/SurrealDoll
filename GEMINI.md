@@ -51,6 +51,9 @@ Khi nhận câu lệnh từ người dùng:
 >    - **Tuyệt đối cấm Raw Selectors & Magic Index:** Nghiêm cấm viết raw selector strings (CSS, XPath, id, class) hoặc magic column index (`nth(4)`, `last()`) trực tiếp trong Page Object hay Test Specs. Toàn bộ selector tĩnh phải được quy hoạch thành biến tập trung trong object `selectors` tại `src/test-data/`; toàn bộ vị trí cột phải được ánh xạ qua object `columns`.
 >    - **Bắt buộc tham số hóa Locator Động (Parameterized Locators):** Mọi phần tử mang tính động (theo ID bản ghi, theo tên menu/submenu, theo tiêu đề cột, theo trạng thái) bắt buộc phải đóng gói thành các hàm/phương thức nhận tham số (`getSidebarMenu(name)`, `getTableCell(row, colName)`, `getTableRowById(id)`). Nghiêm cấm gán cứng một nhãn cố định vào thuộc tính trong constructor.
 >    - **Chuẩn hóa Dữ liệu Động (Dynamic Data Governance):** Toàn bộ dữ liệu kiểm thử mang tính động (Unique IDs, ngày tháng, query URL params, form/API payloads, assertions) bắt buộc phải sử dụng helpers/factories sinh động (UUID, dynamic date helpers, query builder, schema matchers), tuyệt đối không gán cứng literal values (`"Tokyo"`, `"page=-1"`, `"2026-11-16"`).
+> 10. **Định Tuyến Môi Trường Verify Tuyệt Đối (Strict Environment Routing for Bug Verification):**
+>     - Khi kiểm tra bug hoặc retest: Trạng thái `Need Verify (Dev)` **BẮT BUỘC** mở đúng môi trường **DEV** (Dev-Admin / Dev-Agency / DB Dev `15432`); trạng thái `Need Verify (STG)` **BẮT BUỘC** mở đúng môi trường **STG** (STG-Admin / STG-Agency / DB STG `15433`) theo cấu hình tại [TEST_CONFIG.md](TEST_CONFIG.md).
+>     - **NGHIÊM CẤM** kiểm tra chéo môi trường (dùng STG verify bug Dev hoặc ngược lại) làm sai lệch kết luận kiểm thử do khác biệt mã nguồn deploy hoặc dữ liệu.
 
 ---
 

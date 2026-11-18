@@ -32,8 +32,18 @@ flowchart TD
 
 Trước khi bắt đầu bấm vào ca kiểm thử đầu tiên, Tester bắt buộc hoàn thành 4 bước chuẩn bị:
 
-### 2.1. Xác Định Môi Trường & Phiên Bản Build:
-- Xác nhận đúng URL môi trường được chỉ định (Dev, Staging hoặc UAT).
+### 2.1. Xác Định Môi Trường & Phiên Bản Build (Strict Environment Routing):
+- **Nguyên tắc định tuyến môi trường theo trạng thái ticket (Bắt buộc 100%):**
+  - **Trạng thái `Need Verify (Dev)`** $\rightarrow$ **BẮT BUỘC MỞ MÔI TRƯỜNG DEV**:
+    - Web Admin DEV: `https://admin-dev.surrealdolls.com/sign-in/`
+    - Web Agency DEV: `https://admin-dev.surrealdolls.com/sign-in/agency`
+    - Tài khoản test & Database Dev (`localhost:15432`) theo [TEST_CONFIG.md](../TEST_CONFIG.md).
+  - **Trạng thái `Need Verify (STG)`** $\rightarrow$ **BẮT BUỘC MỞ MÔI TRƯỜNG STG**:
+    - Web Admin STG: `https://admin-stg.surrealdolls.com/sign-in`
+    - Web Agency STG: `https://admin-stg.surrealdolls.com/sign-in/agency`
+    - Tài khoản test & Database STG (`localhost:15433`) theo [TEST_CONFIG.md](../TEST_CONFIG.md).
+  - > [!CAUTION]
+    > **TUYỆT ĐỐI CẤM KIỂM THỬ CHÉO MÔI TRƯỜNG:** Nghiêm cấm mở STG để verify bug ở `Need Verify (Dev)` (vì code fix chưa được merge/deploy lên STG, verify sẽ bị fail oan); và nghiêm cấm mở DEV để verify bug ở `Need Verify (STG)` (vì DEV chứa code thử nghiệm dở dang của các feature khác, không phản ánh đúng bản release chuẩn bị phát hành).
 - Ghi nhận mã phiên bản (Build Version / Commit Tag) đang chạy trên môi trường để đảm bảo các tính năng mới đã được deploy đầy đủ.
 
 ### 2.2. Thiết Lập Ma Trận Tài Khoản & Phân Quyền (Role Matrix):
@@ -219,13 +229,17 @@ Sau khi hoàn tất phiên test, Tester / Agent bắt buộc tự kiểm tra 4 �
 
 ## 5. QUY TRÌNH RETEST & KIỂM THỬ HỒI QUY (RETEST & REGRESSION WORKFLOW)
 
-Khi Developer thông báo đã sửa xong bug và deploy bản build mới:
+Khi Developer thông báo đã sửa xong bug và deploy bản build mới (chuyển trạng thái sang `Need Verify`):
 
-1. **Verify lại chính xác ca kiểm thử bị Fail:**
+1. **Định tuyến mở đúng môi trường kiểm thử (Strict Environment Selection):**
+   - **Ticket ở trạng thái `Need Verify (Dev)`** $\rightarrow$ **Mở đúng môi trường DEV** để kiểm tra.
+   - **Ticket ở trạng thái `Need Verify (STG)`** $\rightarrow$ **Mở đúng môi trường STG** để kiểm tra.
+   - Tuyệt đối cấm kiểm tra nhầm môi trường hoặc kiểm tra chéo môi trường làm sai lệch kết luận kiểm thử.
+2. **Verify lại chính xác ca kiểm thử bị Fail:**
    - Đọc lại `Bug Report` $\rightarrow$ Thực hiện lại đúng các bước tái hiện lỗi.
-   - Nếu lỗi đã được khắc phục hoàn toàn $\rightarrow$ Cập nhật cột **M (Round 2) = `Pass`**, đóng bug trên Jira/hệ thống quản lý lỗi (`Status = Closed` tại cột O).
-   - Nếu lỗi vẫn còn tồn tại $\rightarrow$ Cập nhật cột **M (Round 2) = `Fail`**, mở lại bug (`Status = Reopen` tại cột O) kèm ảnh chụp màn hình mới.
-2. **Kiểm thử hồi quy (Regression Test):**
+   - Nếu lỗi đã được khắc phục hoàn toàn $\rightarrow$ Cập nhật cột **M (Round 2) = `Pass`**, đóng bug trên Jira/hệ thống quản lý lỗi (`Status = Closed` hoặc `Resolved` tại cột O).
+   - Nếu lỗi vẫn còn tồn tại $\rightarrow$ Cập nhật cột **M (Round 2) = `Fail`**, mở lại bug (`Status = Reopen` tại cột O) kèm ảnh chụp màn hình / video bằng chứng mới.
+3. **Kiểm thử hồi quy (Regression Test):**
    - Chạy lại các ca kiểm thử xung quanh hoặc các tính năng có liên quan trực tiếp đến đoạn code vừa được sửa để đảm bảo việc sửa bug không làm phát sinh lỗi mới (Side-effect).
 
 ---

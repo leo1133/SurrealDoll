@@ -156,8 +156,9 @@ Khi người dùng ra lệnh `check task`, `kiểm tra task`, `kế hoạch hôm
 ### 5.1. Phạm Vi Quét Bắt Buộc (Strict 3-Tier Scan)
 Agent bắt buộc truy cập Backlog (theo cấu hình [TEST_CONFIG.md](../TEST_CONFIG.md)), lọc theo Assignee mặc định (`Mume_ガー（テスター）`) và chỉ quét **đúng 3 nhóm trạng thái**:
 1. **Nhóm 1 (Verify Dev & STG):** Toàn bộ các bug/task có trạng thái:
-   - `Need Verify (Dev)`
-   - `Need Verify (STG)`
+   - `Need Verify (Dev)` $\rightarrow$ **Mở đúng môi trường DEV** để kiểm tra (theo [TEST_CONFIG.md](../TEST_CONFIG.md)).
+   - `Need Verify (STG)` $\rightarrow$ **Mở đúng môi trường STG** để kiểm tra (theo [TEST_CONFIG.md](../TEST_CONFIG.md)).
+   - *(Cấm kiểm tra chéo môi trường: không dùng STG để verify bug Dev, không dùng DEV để verify bug STG)*.
 2. **Nhóm 2 (Đang thực hiện):** Toàn bộ các task có trạng thái:
    - `In Progress` (Đang chạy dở dang)
 3. **Nhóm 3 (Chờ thực hiện khẩn):** Các task có trạng thái `Open` (hoặc `未対応`) nhưng có:
