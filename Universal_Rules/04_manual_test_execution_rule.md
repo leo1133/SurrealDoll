@@ -248,15 +248,16 @@ Khi nhận được yêu cầu Verify Bug (từ câu lệnh người dùng `veri
    - **CẤM TUYỆT ĐỐI CHỤP ẢNH TOÀN CẢNH TRƠ TRỌI:** Ảnh chụp evidence khi re-test bắt buộc phải có **khung viền nổi bật (Bounding Box viền đỏ `#ef4444` hoặc xanh lá `#16a34a`, độ dày 3px)** hoặc badge nhãn đánh dấu chính xác phần tử/vùng vừa được re-test theo [Rule 06 (Mục 2.2 & 5.3)](06_bug_reporting_rule.md).
    - Người xem nhìn vào ảnh bắt buộc phải định vị được ngay điểm re-test trong vòng **3 giây** (đối với Form input + message lỗi; Card mang badge sửa lỗi; Row/Cell trong bảng dữ liệu; hoặc nút bấm trong modal).
    - Lưu trữ theo định dạng: `evidence/[Mã_màn]/evidence_{{MÃ}}_{{TC/TICKET}}_{{DEV/STG}}_{{PASS/FAIL}}_{{Timestamp}}.png` kèm trích xuất DOM, Network HTTP status 200/5xx hoặc SQL log.
-6. **Đồng bộ kết quả 3 điểm (Sheet Round 2, Backlog Ticket & Local Report):**
-   - **Trên Sheet Test Case (Khối Round 2 - Cột M:Q):**
+6. **Báo cáo kết quả tại Conversation & Đồng bộ cục bộ (Conversation Reporting & Safe Sync):**
+   - **Báo cáo trực tiếp tại Conversation:**
+     + Trình bày bảng tổng hợp kết quả chi tiết kèm phân tích Expected vs Actual.
+     + Đính kèm toàn bộ link ảnh bằng chứng Atomic Evidence (có viền highlight 3px và badge nhận diện theo Rule 06).
+     + Trích xuất log DOM / API HTTP / DB Query.
+     + **NGHIÊM CẤM TỰ Ý CHUYỂN TRẠNG THÁI TRÊN BACKLOG:** Không tự động thao tác chuyển trạng thái (Resolved, Closed, Reopen) trên Backlog. Chỉ đề xuất trạng thái, tính toán Actual Hours và cung cấp mẫu comment chuẩn để người dùng chủ động duyệt và cập nhật.
+   - **Trên Sheet Test Case (Khối Round 2 - Cột M:Q) (Nếu có yêu cầu):**
      + Nếu lỗi đã được khắc phục hoàn toàn $\rightarrow$ Cập nhật cột **M (Round 2 Result) = `Pass`**, cột **N (Bug ID)**, cột **O (Status R2) = `Closed`**, cột **P (Comment R2)** ghi nhận chi tiết kết quả.
      + Nếu lỗi vẫn còn tồn tại $\rightarrow$ Cập nhật cột **M (Round 2 Result) = `Fail`**, cột **N (Bug ID)**, cột **O (Status R2) = `Reopen`**, cột **P (Comment R2)** ghi nhận lỗi còn vướng kèm ảnh evidence.
      + **Bảo tồn công thức:** Tuyệt đối không ghi đè vào cột H của Round 1 hoặc các ô công thức Dashboard (Dòng 1-7).
-   - **Trên Backlog Ticket:**
-     + Chuyển trạng thái sang `Resolved` (nếu Pass) hoặc `Reopen` (nếu Fail).
-     + Comment phản hồi chi tiết kết quả kèm đính kèm ảnh bằng chứng Evidence.
-     + Log số giờ thực tế đã làm vào trường `Actual Hours` (Delta $\Delta \text{Actual}$) theo đúng định mức [Trụ Cột 8 (08_task_estimation_rule.md)](08_task_estimation_rule.md).
    - **Trên file markdown cục bộ:**
      + Cập nhật hoặc khởi tạo báo cáo tại `bugs/[Mã_màn_hoặc_Ticket]/[Mã_màn_hoặc_Ticket]_bugs.md`.
 

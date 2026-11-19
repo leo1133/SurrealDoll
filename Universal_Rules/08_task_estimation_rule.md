@@ -84,7 +84,7 @@ Trong đó:
 - $N_{\text{UI}}$: Số lượng bug/subtask lỗi UI ($\times$ 5 phút/bug).
 - $N_{\text{Validate}}$: Số lượng bug/subtask lỗi Validate ($\times$ 7 phút/bug).
 - $N_{\text{Logic}}$: Số lượng bug/subtask lỗi Logic ($\times$ 15 – 30 phút, trung bình lấy 20 phút/bug).
-- $N_{\text{Tổng}} \times 2\text{p}$: Thời gian cập nhật trạng thái từng ticket trên Backlog, ghi chú kết quả chi tiết, đính kèm ảnh bằng chứng (Atomic Screenshot theo [Rule 06](06_bug_reporting_rule.md)) và log Actual Hours.
+- $N_{\text{Tổng}} \times 2\text{p}$: Thời gian tổng hợp kết quả chi tiết, gắn ảnh bằng chứng (Atomic Screenshot theo [Rule 06](06_bug_reporting_rule.md)), soạn báo cáo conversation và tính toán Actual Hours.
 
 ### 3.2. Ước lượng cho từng bug đơn lẻ (Single Bug Verification):
 - **Bug UI:** $5\text{p} + 2\text{p} = \mathbf{7\text{ phút}} \approx \mathbf{0.12\text{h}}$

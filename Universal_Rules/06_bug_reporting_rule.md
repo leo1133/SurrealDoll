@@ -229,7 +229,7 @@ flowchart TD
     PassFlow --> EvPass["5. Chụp Bằng Chứng PASS:<br>• Ảnh màn hình thao tác thành công<br>• Log DOM / Network 200 / SQL"]
     FailFlow --> EvFail["5. Chụp Bằng Chứng FAIL/REOPEN:<br>• Ảnh màn hình lỗi (Highlight)<br>• Log DOM, Console Error, HTTP Status"]
     
-    EvPass --> Step6["6. Đồng Bộ Kết Quả 3 Điểm Bắt Buộc:<br>① Cập nhật Ticket Backlog (Trạng thái Resolved, Comment kèm Evidence, Log Actual Delta)<br>② Cập nhật Sheet Testcase Khối Round 2 (Cột M:Q, Bảo tồn công thức Dòng 1-7)<br>③ Cập nhật File Markdown: bugs/[Mã_hoặc_Ticket]_bugs.md"]
+    EvPass --> Step6["6. Báo Cáo Kết Quả & Đồng Bộ Cục Bộ:<br>① Báo cáo kết quả chi tiết tại Conversation (Kèm đề xuất status, CẤM tự ý đổi status trên Backlog)<br>② Cập nhật File Markdown: bugs/[Mã_hoặc_Ticket]_bugs.md & evidence/<br>③ Cập nhật Sheet Testcase Khối Round 2 (Cột M:Q nếu có)"]
     EvFail --> Step6
 ```
 
@@ -315,19 +315,29 @@ flowchart TD
      * `evidence/BA100/evidence_BA100_SURREALDOLLS-14252_DEV_PASS_filter_common.png`
    - **Kèm log kỹ thuật song hành:** Trích xuất DOM element HTML, HTTP Status code / API response JSON, hoặc kết quả câu lệnh SQL đối soát CSDL (Trụ Cột 7).
 
-#### Bước 6: Đồng Bộ Kết Quả 3 Chiều & Báo Cáo Hoàn Tất (3-Way Synchronization)
-Sau khi hoàn tất kiểm tra và thu thập bằng chứng, Tester/Agent **BẮT BUỘC thực hiện đồng bộ tại 3 nơi**:
+#### Bước 6: Báo Cáo Kết Quả Tại Conversation & Đồng Bộ Báo Cáo Cục Bộ (Conversation Reporting & Safe Sync)
 
-1. **Cập nhật trên Hệ Thống Quản Lý Lỗi (Backlog / Jira Ticket):**
-   - **Khi kết quả là PASS (Bug đã được fix hoàn toàn):**
-     + Đổi trạng thái ticket sang: **`Resolved`** (hoặc `Closed` theo workflow).
-     + Comment phản hồi xác nhận: Nêu rõ môi trường kiểm tra (DEV/STG), kết quả thực tế, đính kèm link/ảnh Evidence Pass.
-     + Log thời gian thực tế: Điền trường `Actual Hours` theo độ chênh lệch thực làm (Delta $\Delta \text{Actual}$) theo [08_task_estimation_rule.md](08_task_estimation_rule.md).
-   - **Khi kết quả là FAIL (Bug chưa sửa hoặc phát sinh lỗi mới):**
-     + Đổi trạng thái ticket sang: **`Reopen`** (hoặc `In Progress` giao lại cho Dev).
-     + Comment phản hồi chi tiết: Nêu rõ bước tái hiện lại, điểm chưa đạt so với Expected, nguyên nhân kỹ thuật (DOM/API/Root Cause nếu phân tích được), đính kèm ảnh Evidence Fail.
-     + Log thời gian thực tế vào `Actual Hours`.
-2. **Cập nhật trên Bảng Google Sheet Test Case (Khối Round 2 - Cột M:Q):**
+> [!CAUTION]
+> **RANH GIỚI ĐỎ — TUYỆT ĐỐI KHÔNG TỰ Ý CHUYỂN TRẠNG THÁI TRÊN BACKLOG:**
+> Khi thực hiện tác vụ Verify Bug, Agent **NGHIÊM CẤM TỰ Ý CHUYỂN TRẠNG THÁI TICKET TRÊN BACKLOG** (không tự click chuyển sang `Resolved`, `Closed`, `Reopen`, `完了`...). 
+> - Toàn bộ kết quả kiểm thử, hình ảnh evidence, log API/DOM/DB **BẮT BUỘC CHỈ GHI NHẬN TẠI CONVERSATION** và file markdown cục bộ để người dùng (Tester / PM) chủ động kiểm tra và thực hiện cập nhật trên Backlog.
+
+Sau khi hoàn tất kiểm tra và thu thập bằng chứng, Tester/Agent thực hiện:
+
+1. **Báo Cáo Toàn Diện Trực Tiếp Tại Conversation:**
+   - **Bảng tổng hợp kết quả từng tiêu chí:** Đánh giá chi tiết Expected vs Actual kèm kết luận Pass/Fail.
+   - **Bằng chứng trực quan:** Đính kèm toàn bộ link ảnh evidence (đã inject bounding box 3px và badge nhận diện trong 3 giây theo Mục 2.2).
+   - **Log kỹ thuật song hành:** Trích xuất API Request/Response JSON, mã trạng thái HTTP, DOM element hoặc câu lệnh SQL đối soát CSDL (Trụ Cột 7).
+   - **Đề xuất hành động cho Backlog:**
+     + Khi kết quả là PASS: Đề xuất chuyển trạng thái sang **`Resolved`** (hoặc `Closed` / `完了` theo workflow dự án) kèm số giờ thực làm (**Actual Hours**).
+     + Khi kết quả là FAIL: Đề xuất chuyển trạng thái sang **`Reopen`** (hoặc `In Progress` giao lại cho Dev).
+     + Cung cấp mẫu comment chuẩn (theo Mục 5.5) để người dùng có thể sao chép trực tiếp lên Backlog.
+
+2. **Cập nhật Báo Cáo Markdown Cục Bộ (`bugs/`):**
+   - Lưu hoặc cập nhật file: `bugs/[Mã_màn_hoặc_Ticket]/[Mã_màn_hoặc_Ticket]_bugs.md` theo mẫu chuẩn tại Mục 5.4.
+   - Lưu trữ toàn bộ file ảnh chụp bằng chứng vào `evidence/[Mã_màn]/`.
+
+3. **Cập nhật trên Bảng Google Sheet Test Case (Khối Round 2 - Cột M:Q) (Nếu có yêu cầu):**
    - Đối với các testcase tương ứng trên Sheet kiểm thử 17 cột:
      + **Cột M (Round 2 Result):** Điền `Pass` hoặc `Fail` (TUYỆT ĐỐI không ghi đè vào cột H của Round 1).
      + **Cột N (Bug ID R2):** Điền mã Bug ID vừa verify.
@@ -335,9 +345,6 @@ Sau khi hoàn tất kiểm tra và thu thập bằng chứng, Tester/Agent **B�
      + **Cột P (Comment R2):** Ghi rõ `[Verified DEV/STG - YYYY-MM-DD: Mô tả kết quả thực tế]`.
      + **Cột Q (Note R2):** Ghi chú bổ sung nếu có.
      + **Bảo tồn công thức:** Giữ nguyên 100% công thức tại dòng 1-7 và sheet tổng hợp.
-3. **Cập nhật File Markdown Báo Cáo Cục Bộ (`bugs/`):**
-   - Tạo hoặc cập nhật file: `bugs/[Mã_màn_hoặc_Ticket]/[Mã_màn_hoặc_Ticket]_bugs.md` theo mẫu chuẩn tại Mục 5.4.
-   - Cập nhật số giờ thực tế đã tiêu tốn cho phiên verify vào báo cáo tiến độ hàng ngày.
 
 ---
 
@@ -398,15 +405,16 @@ message: schema.INVALID_EMAIL // Thay vì dùng schema.EMAIL chuẩn
 
 ## 5. HÀNH ĐỘNG TIẾP THEO
 
-- Chuyển trạng thái ticket trên Backlog sang: **`Resolved`** (nếu PASS) hoặc **`Reopen`** (nếu FAIL).
-- Comment báo cáo kết quả chi tiết kèm Evidence lên Backlog.
-- Log thời gian làm thực tế (**Actual Hours** = +...h).
-- Cập nhật Khối Round 2 (Cột M:Q) trên Google Sheet Testcase tương ứng.
+- Báo cáo kết quả chi tiết kèm bằng chứng tại conversation.
+- Đề xuất trạng thái ticket trên Backlog: **`Resolved`** / **`Closed`** (nếu PASS) hoặc **`Reopen`** (nếu FAIL) để người dùng chủ động duyệt chuyển trạng thái.
+- Đề xuất mẫu comment kèm Evidence để người dùng sao chép lên Backlog.
+- Tính toán thời gian làm thực tế (**Actual Hours** = +...h).
+- Cập nhật Khối Round 2 (Cột M:Q) trên Google Sheet Testcase tương ứng (nếu có).
 ```
 
 ---
 
-### 5.5. Mẫu Comment Cập Nhật Ticket Backlog Khi Verify Bug
+### 5.5. Mẫu Comment Đề Xuất Cho Người Dùng Copy Lên Ticket Backlog Khi Verify Bug
 
 #### Mẫu Comment khi PASS (Bug Resolved):
 ```markdown
