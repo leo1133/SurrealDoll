@@ -100,3 +100,37 @@ Theo quy chuẩn [06_bug_reporting_rule.md](../../Universal_Rules/06_bug_reporti
       ]
     }
     ```
+
+
+---
+
+## 3. KẾT QUẢ XÁC MINH LỖI ROUND 2 (VERIFY DEV - 18/11/2026)
+
+### [SURREALDOLLS-14776] [AS100] Không hiển thị % tỷ lệ cấp GOLD
+
+- **Ticket tham chiếu:** [SURREALDOLLS-14776](https://issoh.backlog.com/view/SURREALDOLLS-14776)
+- **Môi trường:** **DEV** (`https://admin-dev.surrealdolls.com/sales/analysis-dashboard`)
+- **Kết quả kỳ vọng:** Cột `報酬率（ランク）` hiển thị đầy đủ ký hiệu `%` kèm Rank (`70% (Rookie 3)`).
+- **Kết quả thực tế Round 2:** Đã khắc phục hoàn toàn trên DEV. Cột `報酬率（ランク）` hiển thị chính xác text `70% (Rookie 3)`.
+- **Kết luận:** <span style="color:green; font-weight:bold;">VERIFIED PASS (RESOLVED)</span>
+- **Bằng chứng đính kèm:**
+  - File toàn cảnh có viền nổi bật: [evidence_AS100_SURREALDOLLS-14776_DEV_PASS_reward_rate_percent.png](../../evidence/AS100/evidence_AS100_SURREALDOLLS-14776_DEV_PASS_reward_rate_percent.png)
+  - File cận cảnh: [evidence_AS100_SURREALDOLLS-14776_DEV_PASS_reward_rate_percent_zoom.png](../../evidence/AS100/evidence_AS100_SURREALDOLLS-14776_DEV_PASS_reward_rate_percent_zoom.png)
+  - DOM: `<td data-slot="table-cell" ...><span ...>70% (Rookie 3)</span></td>`
+
+---
+
+## 4. KẾT QUẢ XÁC MINH LỖI ROUND 2 (VERIFY STG - 19/11/2026)
+
+### [SURREALDOLLS-13433] [AS100] Dòng Header và cấu trúc cột của file CSV xuất ra không khớp với bảng Table AS100
+
+- **Ticket tham chiếu:** [SURREALDOLLS-13433](https://issoh.backlog.com/view/SURREALDOLLS-13433)
+- **Môi trường:** **STG** (`https://admin-stg.surrealdolls.com/sales/analysis-dashboard`)
+- **Kết quả kỳ vọng:** File CSV xuất ra chứa đầy đủ 21 cột tiếng Nhật khớp 100% về tên cột và thứ tự với bảng Table AS100.
+- **Kết quả thực tế Round 2:** Đã khắc phục hoàn toàn trên STG. Header file CSV gồm đúng 21 cột tiếng Nhật, bổ sung đủ 11 cột còn thiếu, định dạng và dữ liệu khớp 1-1 với Table AS100.
+- **Kết luận:** <span style="color:green; font-weight:bold;">VERIFIED PASS (RESOLVED)</span>
+- **Bằng chứng đính kèm:**
+  - File toàn cảnh có viền nổi bật: [evidence_AS100_SURREALDOLLS-13433_STG_PASS_csv_export_overview.png](../../evidence/AS100/evidence_AS100_SURREALDOLLS-13433_STG_PASS_csv_export_overview.png)
+  - File cận cảnh: [evidence_AS100_SURREALDOLLS-13433_STG_PASS_csv_export_zoom.png](../../evidence/AS100/evidence_AS100_SURREALDOLLS-13433_STG_PASS_csv_export_zoom.png)
+  - File CSV tải về thực tế: [evidence_AS100_SURREALDOLLS-13433_STG_PASS_20261101-20261130.csv](../../evidence/AS100/evidence_AS100_SURREALDOLLS-13433_STG_PASS_20261101-20261130.csv)
+  - Header: `開始日時,終了日時,利用者,消費前の前受金 （円）,消費前の所持P （P）,ライバー,報酬率（ランク）,事務所,カテゴリー,配信状態,サービス,元ソース,支払方法,振込日,GP/P,カラオケ配信以外売上 （円）,カラオケ配信売上 （円）,ファミリア売上 （円）,GOLD （G）,報酬支払 （円）,ストア手数料 （円）`
