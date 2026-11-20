@@ -1,6 +1,6 @@
 # UNIVERSAL TESTING RULES (KHUNG QUY CHUẨN KIỂM THỬ ĐA DỰ ÁN BẰNG AI)
 
-Thư mục này chứa trọn vẹn bộ **8 Quy chuẩn Kiểm thử Phần mềm (8 Trụ Cột)** được thiết kế độc lập dự án (Project-Agnostic), phân định rành mạch giữa **Kiểm thử Đặc tả**, **Kiểm thử Giao diện (UI)**, **Kiểm thử Backend API**, **Kiểm thử Thủ công (Manual)**, **Kiểm thử Tự động (Automation)**, **Quản lý Báo cáo Lỗi & Bằng chứng**, **Kiểm thử Cơ sở Dữ liệu (Database)**, và **Ước lượng Tác vụ Kiểm thử (Task Estimation)**, dùng chung cho mọi dự án (Web, SaaS, E-Commerce, ERP, Mobile Web):
+Thư mục này chứa trọn vẹn bộ **9 Quy chuẩn Kiểm thử Phần mềm & Vận Hành Git (9 Trụ Cột)** được thiết kế độc lập dự án (Project-Agnostic), phân định rành mạch giữa **Kiểm thử Đặc tả**, **Kiểm thử Giao diện (UI)**, **Kiểm thử Backend API**, **Kiểm thử Thủ công (Manual)**, **Kiểm thử Tự động (Automation)**, **Quản lý Báo cáo Lỗi & Bằng chứng**, **Kiểm thử Cơ sở Dữ liệu (Database)**, **Ước lượng Tác vụ Kiểm thử (Task Estimation)**, và **Đẩy Dữ Liệu Git & Quản Trị Pull Request (Git Workflow & PR)**, dùng chung cho mọi dự án (Web, SaaS, E-Commerce, ERP, Mobile Web):
 
 ---
 
@@ -10,7 +10,7 @@ Thư mục này chứa trọn vẹn bộ **8 Quy chuẩn Kiểm thử Phần m�
 
 ```
 [Thư mục Dự án]/
-├── 📁 Universal_Rules/ -> Quy chuẩn 8 trụ cột kiểm thử phần mềm (Specs, UI, API, Manual, Auto, Bug, Database, Estimate)
+├── 📁 Universal_Rules/ -> Quy chuẩn 9 trụ cột kiểm thử & vận hành git (Specs, UI, API, Manual, Auto, Bug, Database, Estimate, Git PR)
 ├── 📁 Q&A/            -> [Tên màn hình]_Q&A.md        (Rule 01: Câu hỏi làm rõ spec & giả định)
 ├── 📁 testcase_ui/    -> [Tên màn hình]_testcase.md   (Rule 02 & 04: Kịch bản & Kết quả UI manual)
 ├── 📁 testcase_api/   -> [Tên màn hình]_api.md        (Rule 03: Kịch bản kiểm thử backend API)
@@ -37,7 +37,7 @@ Thư mục này chứa trọn vẹn bộ **8 Quy chuẩn Kiểm thử Phần m�
 
 ---
 
-## II. DANH MỤC CÁC FILE QUY CHUẨN 8 TRỤ CỘT (`Universal_Rules/`)
+## II. DANH MỤC CÁC FILE QUY CHUẨN 9 TRỤ CỘT (`Universal_Rules/`)
 
 | File Quy Chuẩn | Phạm Vi & Vai Trò | Thư Mục Đầu Ra Tương Ứng |
 | :--- | :--- | :--- |
@@ -49,6 +49,7 @@ Thư mục này chứa trọn vẹn bộ **8 Quy chuẩn Kiểm thử Phần m�
 | [06_bug_reporting_rule.md](Universal_Rules/06_bug_reporting_rule.md) | **Trụ cột 6 (Bug & Evidence):** Quản Lý Báo Cáo Lỗi & Bằng Chứng (Atomic Screenshot, Bug Template, Fail Table, DB Query Log) | Lưu vào `bugs/[Mã_màn]/[Mã_màn]_bugs.md` & `evidence/[Mã_màn]/` |
 | [07_database_testing_rule.md](Universal_Rules/07_database_testing_rule.md) | **Trụ cột 7 (Database Testing):** Kiểm Thử Cơ Sở Dữ Liệu & Đối Soát Tính Toàn Vẹn Dữ Liệu (Xác thực 3 chiều UI ↔ API ↔ DB, Read-Only Safety, Data Seeding & Teardown, Audit Trail, Zero-Hardcoding) | `logs/db/` hoặc đính kèm vào `testcase_ui/` & `bugs/` |
 | [08_task_estimation_rule.md](Universal_Rules/08_task_estimation_rule.md) | **Trụ cột 8 (Estimation):** Ước Lượng Tác Vụ Kiểm Thử Thực Tế (Định mức Bug UI/Val/Logic, New Feature Task Design & Exec, Verify Bug Subtasks) | `estimates/[Mã_hoặc_Ticket]_estimate.md` hoặc báo cáo trực tiếp |
+| [09_git_workflow_rule.md](Universal_Rules/09_git_workflow_rule.md) | **Trụ cột 9 (Git & PR):** Đẩy Dữ Liệu Git & Quản Trị Nhánh (Phân định 2 lệnh `push data` mở PR và `clear data` dọn local, sync main) | Remote branch, GitHub PR Link & `main` local |
 
 ---
 
@@ -77,6 +78,8 @@ Chỉ cần ra lệnh bằng các **cú pháp ngắn gọn**, Agent sẽ tự đ
 | **7. Xác thực & Retest Bug (Verify Bug)** | • `verify bug [MÃ/TICKET]`<br>• `kiểm tra lại bug [MÃ/TICKET]`<br>• `retest bug [TICKET]`<br>• `xác nhận bug [TICKET]` | [Rule 06](Universal_Rules/06_bug_reporting_rule.md)<br>& [Rule 04](Universal_Rules/04_manual_test_execution_rule.md)<br>& [Rule 08](Universal_Rules/08_task_estimation_rule.md)<br>& [Rule 07](Universal_Rules/07_database_testing_rule.md) | 1. Ticket Backlog / Issue details<br>2. `bugs/[MÃ]/[MÃ]_bugs.md`<br>3. `testcase_ui/[MÃ]_testcase.md`<br>4. [TEST_CONFIG.md](TEST_CONFIG.md) (Môi trường DEV/STG, SSM DB Tunnel)<br>5. `evidence/[Mã_màn]/` | Cập nhật Backlog Ticket + Sheet Test Case Khối Round 2 (Cột M:Q) + `bugs/[Mã_màn_hoặc_Ticket]/[Mã_màn_hoặc_Ticket]_bugs.md` & `evidence/[Mã_màn]/`<br>*(Bắt buộc: Mở đúng DEV/STG, chụp ảnh evidence Pass/Fail, cập nhật 3 chiều và log Actual Delta)* |
 | **8. Kiểm tra CSDL & Đối soát** | • `check db`<br>• `đối soát db`<br>• `query db [MÃ]` | [Rule 07](Universal_Rules/07_database_testing_rule.md) | 1. [TEST_CONFIG.md](TEST_CONFIG.md) (Thông tin kết nối CSDL & SSM Tunnel)<br>2. Spec ERD / Data Dictionary / Mapping spec<br>3. `testcase_ui/[MÃ]_testcase.md` & `testcase_api/[MÃ]_api.md` | `logs/db/` hoặc đính kèm kết quả đối soát vào `testcase_ui/` / `bugs/` |
 | **9. Ước lượng & Kế hoạch 8h** | • `estimate [MÃ/TICKET]`<br>• `ước lượng [MÃ/TICKET]`<br>• `check task`<br>• `kiểm tra task`<br>• `kế hoạch hôm nay` | [Rule 08](Universal_Rules/08_task_estimation_rule.md) | 1. Backlog Board / Ticket qua [TEST_CONFIG.md](TEST_CONFIG.md)<br>2. Danh sách subtasks / bugs<br>3. `test_specs/[MÃ].json` (nếu là task màn hình mới) | `estimates/[Mã_hoặc_Ticket]_estimate.md` hoặc báo cáo trực tiếp<br>*(Lệnh `check task` lọc Need Verify Dev/STG, In Progress, Open due hôm nay/mai -> Lên Est đủ 8h/ngày, ưu tiên Verify. Nếu quá 8h, thông báo xin PM lùi plan)* |
+| **10. Đẩy Dữ Liệu Git & Mở PR** | • `push data`<br>• `push git`<br>• `đẩy git`<br>• `update git`<br>• `đẩy dữ liệu`<br>• `tạo pr` | [Rule 09](Universal_Rules/09_git_workflow_rule.md) | 1. Workspace git status/diff<br>2. Nhánh `main` local<br>3. Danh sách file cần commit | Remote branch (`origin/<branch>`) + Link Pull Request (Giữ nguyên nhánh làm việc trên local) |
+| **11. Dọn Nhánh Local & Sync Main** | • `clear data`<br>• `dọn git`<br>• `xóa nhánh`<br>• `sync main`<br>• `clean git` | [Rule 09](Universal_Rules/09_git_workflow_rule.md) | 1. Nhánh local hiện tại<br>2. Nhánh `main` local & remote | Nhánh `main` local sạch sẽ, đã xóa nhánh local tạm và pull đầy đủ dữ liệu mới nhất từ remote `origin/main` |
 
 ### Cơ chế Suy luận Ngữ cảnh (Context Fallback)
 Khi câu lệnh của người dùng chỉ ghi ngắn gọn không kèm mã màn hình (ví dụ: `gen testcase`, `run test`, `log bug`):
