@@ -1,0 +1,79 @@
+[
+  {
+    "caseId": "no_domain",
+    "desc": "Check định dạng email thiếu domain (test@)",
+    "input": "test@",
+    "expected": "有効なメールアドレスを入力してください。",
+    "expectedCode": "CMMSG30",
+    "actual": "有効なメールアドレスを入力してください。",
+    "actualHtml": "<p data-slot=\"form-message\" id=\"_r_7_-form-item-message\" class=\"text-danger text-xs\">有効なメールアドレスを入力してください。</p>",
+    "isPass": true,
+    "screenshot": "evidence_BB300_SURREALDOLLS-14125_DEV_PASS_no_domain.png"
+  },
+  {
+    "caseId": "no_at",
+    "desc": "Check định dạng email thiếu ký tự @ (invalidemail.com)",
+    "input": "invalidemail.com",
+    "expected": "有効なメールアドレスを入力してください。",
+    "expectedCode": "CMMSG30",
+    "actual": "有効なメールアドレスを入力してください。",
+    "actualHtml": "<p data-slot=\"form-message\" id=\"_r_7_-form-item-message\" class=\"text-danger text-xs\">有効なメールアドレスを入力してください。</p>",
+    "isPass": true,
+    "screenshot": "evidence_BB300_SURREALDOLLS-14125_DEV_PASS_no_at.png"
+  },
+  {
+    "caseId": "invalid_symbols",
+    "desc": "Check định dạng email chứa ký tự đặc biệt không hợp lệ (test!#$@domain.com)",
+    "input": "test!#$@domain.com",
+    "expected": "有効なメールアドレスを入力してください。",
+    "expectedCode": "CMMSG30",
+    "actual": "有効なメールアドレスを入力してください。",
+    "actualHtml": "<p data-slot=\"form-message\" id=\"_r_7_-form-item-message\" class=\"text-danger text-xs\">有効なメールアドレスを入力してください。</p>",
+    "isPass": true,
+    "screenshot": "evidence_BB300_SURREALDOLLS-14125_DEV_PASS_invalid_symbols.png"
+  },
+  {
+    "caseId": "leading_dot",
+    "desc": "Check định dạng email bắt đầu bằng dấu chấm (.abc@test.com)",
+    "input": ".abc@test.com",
+    "expected": "有効なメールアドレスを入力してください。",
+    "expectedCode": "CMMSG30",
+    "actual": "有効なメールアドレスを入力してください。",
+    "actualHtml": "<p data-slot=\"form-message\" id=\"_r_7_-form-item-message\" class=\"text-danger text-xs\">有効なメールアドレスを入力してください。</p>",
+    "isPass": true,
+    "screenshot": "evidence_BB300_SURREALDOLLS-14125_DEV_PASS_leading_dot.png"
+  },
+  {
+    "caseId": "consecutive_dots",
+    "desc": "Check định dạng email chứa dấu chấm liên tiếp (ab..c@test.com)",
+    "input": "ab..c@test.com",
+    "expected": "有効なメールアドレスを入力してください。",
+    "expectedCode": "CMMSG30",
+    "actual": "有効なメールアドレスを入力してください。",
+    "actualHtml": "<p data-slot=\"form-message\" id=\"_r_7_-form-item-message\" class=\"text-danger text-xs\">有効なメールアドレスを入力してください。</p>",
+    "isPass": true,
+    "screenshot": "evidence_BB300_SURREALDOLLS-14125_DEV_PASS_consecutive_dots.png"
+  },
+  {
+    "caseId": "blank_email",
+    "desc": "Check bỏ trống email (blank)",
+    "input": "",
+    "expected": "メールアドレスは空欄にできません。",
+    "expectedCode": "CMMSG29",
+    "actual": "メールアドレスは空欄にできません。",
+    "actualHtml": "<p data-slot=\"form-message\" id=\"_r_7_-form-item-message\" class=\"text-danger text-xs\">メールアドレスは空欄にできません。</p>",
+    "isPass": true,
+    "screenshot": "evidence_BB300_SURREALDOLLS-14125_DEV_PASS_blank_email.png"
+  },
+  {
+    "caseId": "valid_format",
+    "desc": "Check định dạng email hợp lệ (adm42841_valid@test.com)",
+    "input": "adm42841_valid@test.com",
+    "expected": "Không hiển thị lỗi định dạng",
+    "expectedCode": "200/VALID",
+    "actual": "Không hiển thị lỗi định dạng (Hợp lệ)",
+    "actualHtml": "",
+    "isPass": true,
+    "screenshot": "evidence_BB300_SURREALDOLLS-14125_DEV_PASS_valid_format.png"
+  }
+]

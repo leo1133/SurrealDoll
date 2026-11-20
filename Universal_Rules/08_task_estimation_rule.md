@@ -72,20 +72,26 @@ Với các task phát triển mới (New Feature / Story), khối lượng công
 
 ---
 
-## 3. QUY TẮC ESTIMATE CHO TYPE = VERIFY BUG (SUBTASKING)
+## 3. QUY TẮC ESTIMATE CHO TYPE = VERIFY BUG & LỆNH VERIFY BUG (SUBTASKING)
 
-Khi nhận task có `type = verify bug`, việc ước lượng được tính trực tiếp từ **danh sách số lượng subtasks** (các bug cụ thể cần kiểm tra lại):
+Khi nhận task có `type = verify bug`, subtasks cần verify, hoặc khi người dùng ra lệnh `verify bug [MÃ/TICKET]`, `kiểm tra lại bug [MÃ/TICKET]`, `retest bug [TICKET]`:
+- Tester / AI Agent áp dụng quy trình xác thực chuẩn tại **[06_bug_reporting_rule.md (Mục 5)](06_bug_reporting_rule.md)** và ước lượng thời gian theo số lượng bug và độ khó kỹ thuật:
 
 ### 3.1. Công thức tính tổng thời gian
 $$\text{Total Estimate} = \sum \left( N_{\text{UI}} \times 5\text{p} + N_{\text{Validate}} \times 7\text{p} + N_{\text{Logic}} \times 20\text{p} \right) + (N_{\text{Tổng}} \times 2\text{p}_{\text{update ticket}})$$
 
 Trong đó:
-- $N_{\text{UI}}$: Số lượng subtask lỗi UI ($\times$ 5 phút/subtask).
-- $N_{\text{Validate}}$: Số lượng subtask lỗi Validate ($\times$ 7 phút/subtask).
-- $N_{\text{Logic}}$: Số lượng subtask lỗi Logic ($\times$ 15 – 30 phút, trung bình lấy 20 phút/subtask).
-- $N_{\text{Tổng}} \times 2\text{p}$: Thời gian cập nhật trạng thái từng ticket, ghi chú kết quả và đính kèm ảnh bằng chứng (Atomic Screenshot theo [Rule 06](06_bug_reporting_rule.md)).
+- $N_{\text{UI}}$: Số lượng bug/subtask lỗi UI ($\times$ 5 phút/bug).
+- $N_{\text{Validate}}$: Số lượng bug/subtask lỗi Validate ($\times$ 7 phút/bug).
+- $N_{\text{Logic}}$: Số lượng bug/subtask lỗi Logic ($\times$ 15 – 30 phút, trung bình lấy 20 phút/bug).
+- $N_{\text{Tổng}} \times 2\text{p}$: Thời gian tổng hợp kết quả chi tiết, gắn ảnh bằng chứng (Atomic Screenshot theo [Rule 06](06_bug_reporting_rule.md)), soạn báo cáo conversation và tính toán Actual Hours.
 
-### 3.2. Ví dụ minh họa thực tế
+### 3.2. Ước lượng cho từng bug đơn lẻ (Single Bug Verification):
+- **Bug UI:** $5\text{p} + 2\text{p} = \mathbf{7\text{ phút}} \approx \mathbf{0.12\text{h}}$
+- **Bug Validate:** $7\text{p} + 2\text{p} = \mathbf{9\text{ phút}} \approx \mathbf{0.15\text{h}}$
+- **Bug Logic / CSDL:** $20\text{p} + 2\text{p} = \mathbf{22\text{ phút}} \approx \mathbf{0.37\text{h}}$ (hoặc tối đa $30\text{p} + 2\text{p} = 32\text{p} \approx 0.5\text{h}$ cho luồng CSDL/API phức tạp).
+
+### 3.3. Ví dụ minh họa thực tế khi verify nhiều subtasks
 Giả sử nhận 1 task `verify bug` chứa **6 subtasks** gồm: 3 bug UI, 2 bug Validate, 1 bug Logic:
 - 3 bug UI: $3 \times 5\text{p} = 15\text{ phút}$
 - 2 bug Validate: $2 \times 7\text{p} = 14\text{ phút}$
@@ -93,7 +99,7 @@ Giả sử nhận 1 task `verify bug` chứa **6 subtasks** gồm: 3 bug UI, 2 b
 - Cập nhật 6 ticket + đính kèm evidence: $6 \times 2\text{p} = 12\text{ phút}$
 - **$\rightarrow$ Tổng thời gian ước lượng:** $15 + 14 + 20 + 12 = \mathbf{61\text{ phút}} \approx \mathbf{1.0\text{ giờ}}$.
 
-### 3.3. Quy Chuẩn Khi Nhận Lệnh "Check List Bug" (Per-Bug Estimation Protocol)
+### 3.4. Quy Chuẩn Khi Nhận Lệnh "Check List Bug" (Per-Bug Estimation Protocol)
 
 Khi người dùng đưa ra các câu lệnh như `check list bug [MÃ]`, `check bug [MÃ]`, `danh sách bug [MÃ]`, hoặc yêu cầu rà soát danh sách lỗi:
 1. **Bắt buộc lên Estimate chi tiết cho TỪNG BUG:** Agent **TUYỆT ĐỐI KHÔNG** chỉ liệt kê danh sách lỗi thuần túy, mà **BẮT BUỘC** phải phân tích và gán mức thời gian kiểm thử dự kiến (Est) độc lập cho **từng bug một** dựa trên độ khó kỹ thuật:

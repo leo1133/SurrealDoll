@@ -1,0 +1,94 @@
+[
+  {
+    "type": "RESPONSE",
+    "status": 200,
+    "method": "GET",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "body": "{\"id\":25,\"name\":\"agency_stg01\",\"agency_code\":\"123\",\"image_name\":\"Hình ảnh PNG.png\",\"image_path\":\"agency_data/123/logo/Hình ảnh PNG_20261113053921555436.png\",\"contact_name\":\"tokyooo\",\"contact_phone\":\"86788876699\",\"contact_email\":\"ngaphgg+1@gmail.com\",\"pending_email\":null}",
+    "time": "2026-11-19T08:11:33.083Z"
+  },
+  {
+    "type": "REQUEST",
+    "method": "PATCH",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "payload": "{\"name\":\"agency_stg01\",\"contact_name\":\"tokyooo\",\"contact_phone\":\"86788876699\",\"contact_email\":\"ngaphgg+2@gmail.com\"}",
+    "time": "2026-11-19T08:11:36.013Z"
+  },
+  {
+    "type": "RESPONSE",
+    "status": 200,
+    "method": "PATCH",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "body": "{\"detail\":\"正常に更新されました。\"}",
+    "time": "2026-11-19T08:11:36.141Z"
+  },
+  {
+    "type": "RESPONSE",
+    "status": 200,
+    "method": "GET",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "body": "{\"id\":25,\"name\":\"agency_stg01\",\"agency_code\":\"123\",\"image_name\":\"Hình ảnh PNG.png\",\"image_path\":\"agency_data/123/logo/Hình ảnh PNG_20261113053921555436.png\",\"contact_name\":\"tokyooo\",\"contact_phone\":\"86788876699\",\"contact_email\":\"ngaphgg+1@gmail.com\",\"pending_email\":\"ngaphgg+2@gmail.com\"}",
+    "time": "2026-11-19T08:11:36.244Z"
+  },
+  {
+    "type": "REQUEST",
+    "method": "PATCH",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "payload": "{\"name\":\"agency_stg01\",\"contact_name\":\"tokyooo\",\"contact_phone\":\"86788876699\",\"contact_email\":\"ngaphgg+1@gmail.com\"}",
+    "time": "2026-11-19T08:11:38.593Z"
+  },
+  {
+    "type": "RESPONSE",
+    "status": 200,
+    "method": "PATCH",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "body": "{\"detail\":\"正常に更新されました。\"}",
+    "time": "2026-11-19T08:11:38.734Z"
+  },
+  {
+    "type": "RESPONSE",
+    "status": 200,
+    "method": "GET",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "body": "{\"id\":25,\"name\":\"agency_stg01\",\"agency_code\":\"123\",\"image_name\":\"Hình ảnh PNG.png\",\"image_path\":\"agency_data/123/logo/Hình ảnh PNG_20261113053921555436.png\",\"contact_name\":\"tokyooo\",\"contact_phone\":\"86788876699\",\"contact_email\":\"ngaphgg+1@gmail.com\",\"pending_email\":null}",
+    "time": "2026-11-19T08:11:38.835Z"
+  },
+  {
+    "type": "REQUEST",
+    "method": "PATCH",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "payload": "{\"name\":\"agency_stg01\",\"contact_name\":\"tokyooo\",\"contact_phone\":\"86788876699\",\"contact_email\":\"admin@admin.com\"}",
+    "time": "2026-11-19T08:11:41.143Z"
+  },
+  {
+    "type": "RESPONSE",
+    "status": 422,
+    "method": "PATCH",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "body": "{\"detail\":\"このメールアドレスは登録済みです。\"}",
+    "time": "2026-11-19T08:11:41.257Z"
+  },
+  {
+    "type": "REQUEST",
+    "method": "PATCH",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "payload": "{\"name\":\"agency_stg01\",\"contact_name\":\"tokyooo\",\"contact_phone\":\"86788876699\",\"contact_email\":\"ngaphgg+1@gmail.com\"}",
+    "time": "2026-11-19T08:11:43.759Z"
+  },
+  {
+    "type": "RESPONSE",
+    "status": 200,
+    "method": "PATCH",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "body": "{\"detail\":\"正常に更新されました。\"}",
+    "time": "2026-11-19T08:11:43.861Z"
+  },
+  {
+    "type": "RESPONSE",
+    "status": 200,
+    "method": "GET",
+    "url": "https://api-admin-stg.surrealdolls.com/api/v1/my-agency/",
+    "body": "{\"id\":25,\"name\":\"agency_stg01\",\"agency_code\":\"123\",\"image_name\":\"Hình ảnh PNG.png\",\"image_path\":\"agency_data/123/logo/Hình ảnh PNG_20261113053921555436.png\",\"contact_name\":\"tokyooo\",\"contact_phone\":\"86788876699\",\"contact_email\":\"ngaphgg+1@gmail.com\",\"pending_email\":null}",
+    "time": "2026-11-19T08:11:43.943Z"
+  }
+]
