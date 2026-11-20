@@ -1,0 +1,249 @@
+{
+  "scanned_at": "2026-11-19T21:46:56+07:00",
+  "project_key": "SURREALDOLLS",
+  "project_id": 607872,
+  "assignee": "Mume_ガー（テスター）",
+  "assignee_id": 2424647,
+  "email": "ngadtp@mumesoft.vn",
+  "summary": {
+    "total_assigned_tickets": 19,
+    "in_progress": 4,
+    "open": 15,
+    "need_verify_dev_and_resolved": 6,
+    "need_verify_stg_and_resolved": 4
+  },
+  "in_progress_tickets": [
+    {
+      "key": "SURREALDOLLS-14788",
+      "summary": "[Verify] - [K20241] CR アカウント解除のセキュリティ強化 - Gỡ liên kết SĐT/SNS phải xác thực lại - Test STG iOS/Android",
+      "issue_type": "Verify Bug",
+      "status": "In Progress",
+      "priority": "High",
+      "due_date": "2026-11-20",
+      "milestone": "2511 (T4) - Release",
+      "subtasks_completed": "2/8",
+      "estimated_hours": 2.0,
+      "environment": "STG"
+    },
+    {
+      "key": "SURREALDOLLS-14133",
+      "summary": "[verify] BB100 + BB101 + BB200 + BB300 (1h)",
+      "issue_type": "Verify Bug",
+      "status": "In Progress",
+      "priority": "Normal",
+      "due_date": "2026-11-19",
+      "milestone": "2511 (T4) - Release",
+      "subtasks_completed": "7/12",
+      "estimated_hours": 2.0,
+      "environment": "DEV"
+    },
+    {
+      "key": "SURREALDOLLS-13364",
+      "summary": "[Verify bug] AS100 - Test",
+      "issue_type": "Verify Bug",
+      "status": "In Progress",
+      "priority": "Normal",
+      "due_date": "2026-11-19",
+      "milestone": "2511 (T4) - Release",
+      "subtasks_completed": "21/27",
+      "estimated_hours": 2.0,
+      "environment": "DEV"
+    },
+    {
+      "key": "SURREALDOLLS-13926",
+      "summary": "[Verify] Test lại luồng gacha phía app+admin trên STG (2h)",
+      "issue_type": "Verify Bug",
+      "status": "In Progress",
+      "priority": "Normal",
+      "due_date": "2026-11-24",
+      "milestone": "2511 (T4) - Release",
+      "subtasks_completed": "1/8",
+      "estimated_hours": 2.0,
+      "environment": "STG"
+    }
+  ],
+  "urgent_and_upcoming_open_tickets": [
+    {
+      "key": "SURREALDOLLS-14806",
+      "summary": "Test lại phần connect SNS (màn đăng nhập và màn liên kết tài khoản)",
+      "issue_type": "タスク (HOTFIX)",
+      "status": "Open",
+      "priority": "Normal",
+      "due_date": "2026-11-20",
+      "milestone": "2511 (T4) - Release",
+      "environment": "STG (App iOS/Android)"
+    },
+    {
+      "key": "SURREALDOLLS-14787",
+      "summary": "[M2061][Test] - Emote: modal chọn 5 emote",
+      "issue_type": "タスク",
+      "status": "Open",
+      "priority": "Normal",
+      "due_date": "2026-11-19",
+      "milestone": "2511 (T4) - Release",
+      "environment": "DEV / STG (App)"
+    },
+    {
+      "key": "SURREALDOLLS-15051",
+      "summary": "[Verify][K202] Login LINE - アカウント設定 dòng Line hiển thị \"line.com\" thay vì thông tin tài khoản LINE - Verify trên DEV",
+      "issue_type": "Verify Bug",
+      "status": "Open",
+      "priority": "Normal",
+      "due_date": "2026-11-23",
+      "milestone": "2511",
+      "estimated_hours": 0.5,
+      "environment": "DEV"
+    },
+    {
+      "key": "SURREALDOLLS-14912",
+      "summary": "[GMO Sec-39/40][OPS] - Report ClamAV tuần 23/11 - Nga",
+      "issue_type": "タスク",
+      "status": "Open",
+      "priority": "Normal",
+      "due_date": "2026-11-23",
+      "estimated_hours": 0.25,
+      "environment": "OPS"
+    },
+    {
+      "key": "SURREALDOLLS-15052",
+      "summary": "[Testcase] AP213 + AP330 + AP405 - CR - Thêm tính năng tracking setting",
+      "issue_type": "タスク",
+      "status": "Open",
+      "priority": "Normal",
+      "due_date": "2026-11-25",
+      "milestone": "2511",
+      "environment": "Web/App"
+    },
+    {
+      "key": "SURREALDOLLS-15053",
+      "summary": "[Test] AP213 + AP330 + AP405 - CR - Thêm tính năng tracking setting",
+      "issue_type": "タスク",
+      "status": "Open",
+      "priority": "Normal",
+      "due_date": "2026-11-25",
+      "milestone": "2511",
+      "environment": "Web/App"
+    },
+    {
+      "key": "SURREALDOLLS-14804",
+      "summary": "[Livestream][TEST] - Triển khai chống quay/chụp màn hình (録画・スクショ防止) phía viewer iOS/Android",
+      "issue_type": "タスク",
+      "status": "Open",
+      "priority": "Normal",
+      "due_date": "2026-11-26",
+      "milestone": "0212 (T4) - Release",
+      "environment": "App iOS/Android"
+    },
+    {
+      "key": "SURREALDOLLS-14805",
+      "summary": "[Livestream][Test] - Chống quay/chụp màn hình (録画・スクショ防止) phía streamer khi phát karaoke iOS/Android",
+      "issue_type": "タスク",
+      "status": "Open",
+      "priority": "Normal",
+      "due_date": "2026-11-26",
+      "milestone": "0212 (T4) - Release",
+      "environment": "App iOS/Android"
+    }
+  ],
+  "need_verify_and_resolved_bugs": [
+    {
+      "key": "SURREALDOLLS-14131",
+      "summary": "[BUG] - [BB101] - Bấm nút キャンセル khi form có dữ liệu thay đổi dở dang không hiển thị Popup xác nhận CMMSG28 (0.75h)",
+      "status": "Need Verify (Dev)",
+      "environment": "DEV",
+      "parent_key": "SURREALDOLLS-14133",
+      "difficulty": "Validate",
+      "estimated_minutes": 9,
+      "due_date": "2026-11-19"
+    },
+    {
+      "key": "SURREALDOLLS-14128",
+      "summary": "[BUG] - [BB101] - Hệ thống cho phép lưu 事務所名 trùng với tên admin thuộc cùng Agency (1h)",
+      "status": "Need Verify (Dev)",
+      "environment": "DEV",
+      "parent_key": "SURREALDOLLS-14133",
+      "difficulty": "Validate",
+      "estimated_minutes": 12,
+      "due_date": "2026-11-18"
+    },
+    {
+      "key": "SURREALDOLLS-14132",
+      "summary": "[BUG] - [BB101] - Chưa triển khai luồng gửi email xác thực PEM4 và trạng thái chờ xác thực 認証待ち khi đổi email (4.5h)",
+      "status": "Resolved",
+      "environment": "DEV",
+      "parent_key": "SURREALDOLLS-14133",
+      "difficulty": "Logic",
+      "estimated_minutes": 25,
+      "due_date": "2026-11-17"
+    },
+    {
+      "key": "SURREALDOLLS-14224",
+      "summary": "[BUG] - [AS100] - Không hiển thị agency mà user đang tham gia",
+      "status": "Need Verify (Dev)",
+      "environment": "DEV",
+      "parent_key": "SURREALDOLLS-13364",
+      "difficulty": "Logic",
+      "estimated_minutes": 20,
+      "due_date": "2026-11-19"
+    },
+    {
+      "key": "SURREALDOLLS-13998",
+      "summary": "[BUG] - [AS100] - Khi tìm kiếm theo ngày hôm qua thì đang không hiển thị data trên overview",
+      "status": "Need Verify (Dev)",
+      "environment": "DEV",
+      "parent_key": "SURREALDOLLS-13364",
+      "difficulty": "Logic",
+      "estimated_minutes": 20,
+      "due_date": "2026-11-19"
+    },
+    {
+      "key": "SURREALDOLLS-13433",
+      "summary": "[BUG] - [AS100] - Dòng Header và cấu trúc cột của file CSV xuất ra không khớp với bảng Table AS100",
+      "status": "Resolved",
+      "environment": "DEV",
+      "parent_key": "SURREALDOLLS-13364",
+      "difficulty": "Validate",
+      "estimated_minutes": 10,
+      "due_date": "2026-11-18"
+    },
+    {
+      "key": "SURREALDOLLS-15039",
+      "summary": "[BUG] - Không nhập được data cho trường お知らせ内容",
+      "status": "Need Verify (STG)",
+      "environment": "STG",
+      "difficulty": "Validate",
+      "estimated_minutes": 15,
+      "due_date": "2026-11-19"
+    },
+    {
+      "key": "SURREALDOLLS-14795",
+      "summary": "[BUG] - [IOS/Android] - Lỗi thông báo khi liên kết SĐT đã tồn tại",
+      "status": "Resolved",
+      "environment": "STG",
+      "parent_key": "SURREALDOLLS-14788",
+      "difficulty": "Validate",
+      "estimated_minutes": 15,
+      "due_date": "2026-11-23"
+    },
+    {
+      "key": "SURREALDOLLS-14797",
+      "summary": "[BUG] - [Android] - Hủy liên kết Line đang show thông báo trắng",
+      "status": "Resolved",
+      "environment": "STG",
+      "parent_key": "SURREALDOLLS-14788",
+      "difficulty": "UI/Validate",
+      "estimated_minutes": 15,
+      "due_date": "2026-11-23"
+    },
+    {
+      "key": "SURREALDOLLS-14807",
+      "summary": "[BUG] - [Android] - Khi gỡ liên kết SNS đang không mở màn đăng nhập",
+      "status": "Resolved",
+      "environment": "STG",
+      "parent_key": "SURREALDOLLS-14788",
+      "difficulty": "Logic",
+      "estimated_minutes": 20,
+      "due_date": "2026-11-23"
+    }
+  ]
+}

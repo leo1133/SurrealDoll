@@ -159,6 +159,23 @@ Khi hoàn thành ước lượng task tổng thể, Agent xuất kết quả the
 
 Khi người dùng ra lệnh `check task`, `kiểm tra task`, `kế hoạch hôm nay`, `daily task`, `check backlog` hoặc các câu lệnh tương đương:
 
+### 5.0. Giao Thức Tăng Tốc & Bộ Đệm Dữ Liệu Thông Minh (Smart Caching & Direct Query Protocol)
+
+> [!TIP]
+> **Mục tiêu tối ưu hóa:** Triệt tiêu hoàn toàn độ trễ mở trình duyệt lặp đi lặp lại (giảm từ 9 phút xuống dưới 5 giây) mà **không cần quyền Admin/PM để tạo API Key**.
+
+1. **Nguyên tắc Ưu tiên Bộ đệm Cục bộ (Cache-First Principle):**
+   - Trước khi mở trình duyệt, Agent **BẮT BUỘC** kiểm tra file snapshot: `estimates/backlog_snapshot_latest.json`.
+   - Nếu snapshot đã tồn tại, có trường `scanned_at` trong ngày hiện tại (`YYYY-MM-DD`) và cách thời điểm hiện tại $< 3\text{ giờ}$, đồng thời người dùng **KHÔNG** yêu cầu "quét mới / refresh / force check":
+     $$\rightarrow \text{Agent lập tức sử dụng dữ liệu từ snapshot để tính toán và trả kết quả trong 3 – 5 giây!}$$
+2. **Cơ chế Quét Trực Tiếp Tốc Độ Cao (Direct URL Query - Khi cần quét mới):**
+   - Khi chưa có snapshot trong ngày hoặc người dùng yêu cầu `quét mới` / `refresh backlog`:
+     - **Tuyệt đối không mở Kanban Board** để click thủ công từng filter (gây chậm trễ và tắc nghẽn UI).
+     - **Bắt buộc trỏ thẳng URL Find Issues dạng Table:**
+       - Quét Assignee: `https://issoh.backlog.com/find/SURREALDOLLS?projectId=607872&assigneeId=2424647&simpleSearch=true`
+       - Quét Need Verify: `https://issoh.backlog.com/find/SURREALDOLLS?projectId=607872&statusId=370041&statusId=372631&simpleSearch=true`
+     - Trích xuất toàn bộ bảng trong 1–2 bước gọn nhẹ, sau đó tự động lưu đè vào `estimates/backlog_snapshot_latest.json`.
+
 ### 5.1. Phạm Vi Quét Bắt Buộc (Strict 3-Tier Scan)
 Agent bắt buộc truy cập Backlog (theo cấu hình [TEST_CONFIG.md](../TEST_CONFIG.md)), lọc theo Assignee mặc định (`Mume_ガー（テスター）`) và chỉ quét **đúng 3 nhóm trạng thái**:
 1. **Nhóm 1 (Verify Dev & STG):** Toàn bộ các bug/task có trạng thái:
