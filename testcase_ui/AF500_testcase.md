@@ -1,10 +1,8 @@
 # BẢNG ĐẶC TẢ KIỂM THỬ GIAO DIỆN THỦ CÔNG (MANUAL UI TEST SUITE)
-## Màn hình: AF500 — Quà cao cấp (High-Value Gift Configuration)
-### Phân hệ: Master Admin Web / Quản lý Quà tặng (`AF` Module)
-### Áp dụng: Quy chuẩn Trụ cột 2 (`Universal_Rules/02_manual_ui_test_case_rule.md`) & Thư viện `UI_controls/`
-
-> [!NOTE]
-> `AF500` chưa có link Figma trong `FEATURE_SPEC_MAP.md`. Bộ testcase dưới đây áp dụng cấu trúc chuẩn Admin CMS + liên kết chéo `I601` (High-Value Gift Animation Mode) và gắn cờ `[Pending Q&A #7]` cho các điểm cần đối chiếu lại với Spec/Figma chi tiết khi có.
+## Màn hình: AF500 — GIFT Animation Type (演出種類 — Luồng tích hợp trên AF200, AF300, AF100 & I600/I601)
+### Phân hệ: Master Admin Web / 商品管理 (`AF` Module)
+### Nguồn Spec: Google Sheet `AF500` (gid=`1458098150`) + `AF100` + `AF200` + `AF300`
+### Áp dụng: `Universal_Rules/02_manual_ui_test_case_rule.md` & `UI_controls/`
 
 ---
 
@@ -13,10 +11,10 @@
 | Thuộc tính | Giá trị | Thuộc tính | Giá trị | Round 1 Metric | Kết quả | Round 2 Metric | Kết quả |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Module Code** | `AF500` | **Environment** | `Dev-Admin` / `STG-Admin` | **Pass** | 0 | **Pass** | 0 |
-| **Total Testcases** | **23** | **% Executed** | 0% | **Fail** | 0 | **Fail** | 0 |
-| **Plan to Execute** | **23** | **Creator** | `QA` | **Impact** | 0 | **Impact** | 0 |
-| **Spec Source** | `FEATURE_SPEC_MAP` | **Liên kết chéo** | `I601` (App Animation), `AF100` | **Not Run** | 23 | **Not Run** | 0 |
-| | | | | **Total** | 23 | **Total** | 0 |
+| **Total Testcases** | **28** | **% Executed** | 0% | **Fail** | 0 | **Fail** | 0 |
+| **Plan to Execute** | **28** | **Creator** | `QA` | **Impact** | 0 | **Impact** | 0 |
+| **Spec Source** | Google Sheet `AF500` | **Liên kết chéo** | `AF100`, `AF200`, `AF300`, `I600`, `I601` | **Not Run** | 28 | **Not Run** | 0 |
+| | | | | **Total** | 28 | **Total** | 0 |
 
 ---
 
@@ -24,34 +22,37 @@
 
 | ID | Title | Big item | Steps | Pre-condition | Expected | Priority | Automation Feasibility |
 | :---: | :--- | :--- | :--- | :--- | :--- | :---: | :--- |
-| | **I. COMMON & NAVIGATION** | | | | | | |
-| `[AF500-1]` | [0] Kiểm tra truy cập màn hình | Điều hướng từ Sidebar | 1. Đăng nhập Admin 2. Click menu 'ギフト管理 > 高額ギフト設定' (Quà cao cấp) | User là Master Admin | 1. Điều hướng sang AF500, menu con active highlight | High | Auto-UI |
-| `[AF500-2]` | [0] Kiểm tra truy cập màn hình | Inbound Deep-link URL | 1. Truy cập trực tiếp URL màn AF500 | User là Master Admin | 1. Màn hình AF500 tải thành công cấu hình hiện tại từ DB | High | Auto-UI |
-| `[AF500-3]` | [0] Kiểm tra truy cập màn hình | Phân quyền RBAC | 1. Đăng nhập tài khoản không có quyền Gift Manage 2. Truy cập URL AF500 | Tài khoản không có quyền | 1. Chặn truy cập, hiển thị CMMSG5: `この操作を行う権限がありません。` | High | Auto-API |
-| `[AF500-4]` | [0] Kiểm tra truy cập màn hình | F5 Reload trang | 1. Đang ở AF500 2. Nhấn F5 | - | 1. Trang tải lại đúng dữ liệu cấu hình đã lưu | Medium | Auto-UI |
-| `[AF500-5]` | [1] Breadcrumbs | Check hiển thị & điều hướng | 1. Quan sát Breadcrumb trên AF500 | - | 1. Hiển thị đúng chuỗi Breadcrumb theo CMR35 | Low | Auto-UI |
-| | **II. MAIN SCREEN CONTROLS** | | | | | | |
-| `[AF500-6]` | [2] Ngưỡng giá trị Coin (Threshold) | Pre-fill giá trị ngưỡng hiện tại | 1. Mở AF500 2. Quan sát ô nhập ngưỡng Coin | Đã có cấu hình ngưỡng | 1. Hiển thị đúng giá trị ngưỡng hiện tại từ DB | High | Auto-UI |
-| `[AF500-7]` | [2] Ngưỡng giá trị Coin (Threshold) | Nhập ngưỡng hợp lệ & Lưu | 1. Nhập ngưỡng = `500` 2. Click Lưu | - | 1. Báo CMMSG17: `正常に保存されました。` 2. DB lưu ngưỡng = 500 `[Pending Q&A #7]` | High | Auto-UI |
-| `[AF500-8]` | [2] Ngưỡng giá trị Coin (Threshold) | Nhập ngưỡng = 0 | 1. Nhập `0` 2. Click Lưu | - | 1. Báo lỗi validation (ngưỡng phải > 0) | High | Auto-Data |
-| `[AF500-9]` | [2] Ngưỡng giá trị Coin (Threshold) | Nhập số âm / thập phân / chữ | 1. Nhập `-100`, `10.5`, `abc` | - | 1. UI block (CMR04) hoặc báo CMMSG54: `半角数字のみ入力してください。` | High | Auto-Data |
-| `[AF500-10]` | [2] Ngưỡng giá trị Coin (Threshold) | Bỏ trống ô ngưỡng (bắt buộc) | 1. Xóa trắng ô ngưỡng 2. Click Lưu | - | 1. Báo lỗi CMMSG29: `{Threshold}は空欄にできません。` | High | Auto-UI |
-| `[AF500-11]` | [2] Ngưỡng giá trị Coin (Threshold) | Nhập khoảng trắng / số 0 đầu (`0500`) | 1. Nhập `0500` 2. Click Lưu | - | 1. Lưu thành công với giá trị số `500` | Low | Auto-Data |
-| `[AF500-12]` | [3] Danh sách / Toggle Quà cao cấp | Bật High-Value = ON cho 1 quà | 1. Chọn 1 quà -> gạt Toggle High-Value sang ON 2. Click Lưu (nếu có) | Có quà trong AF100 | 1. DB cập nhật cờ `is_premium = true` (hoặc tương đương) | High | Auto-UI |
-| `[AF500-13]` | [3] Danh sách / Toggle Quà cao cấp | Tắt High-Value = OFF | 1. Gạt Toggle High-Value sang OFF 2. Click Lưu | - | 1. DB cập nhật `is_premium = false` | High | Auto-UI |
-| `[AF500-14]` | [3] Danh sách / Toggle Quà cao cấp | Rollback khi API lỗi | 1. Giả lập API lỗi 500 2. Gạt Toggle | - | 1. Hiển thị CMMSG1 và tự động rollback Toggle về trạng thái ban đầu | Medium | Auto-UI |
-| `[AF500-15]` | [4] Cấu hình hiệu ứng Animation | Chọn / Upload hiệu ứng đặc biệt | 1. Chọn loại animation hoặc upload asset hiệu ứng (nếu Spec có) 2. Lưu | - | 1. Lưu thành công, file đúng định dạng theo CMR10 `[Pending Q&A #7]` | Medium | Manual-Only (Visual) |
-| `[AF500-16]` | [5] Button Lưu (Save) | Debounce chống double-click (CMR15) | 1. Sửa ngưỡng 2. Double-click nút Lưu liên tiếp | - | 1. Chỉ gọi API 1 lần, hiển thị Loading CMMSG27 | Medium | Auto-UI |
-| `[AF500-17]` | [6] Button Hủy / Quay lại (CMR07) | Quay lại khi đã thay đổi chưa lưu | 1. Sửa giá trị ngưỡng 2. Click Hủy / Quay lại | - | 1. Hiển thị popup xác nhận CMMSG46 (`[キャンセル]` ở lại, `[OK]` hủy thay đổi) | High | Auto-UI |
-| `[AF500-18]` | [7] Error Handling | Mất mạng / Lỗi 500 / Hết phiên | 1. Ngắt mạng hoặc giả lập 500 / hết hạn token 2. Click Lưu | - | 1. Hiển thị CMMSG8 (Mạng), CMMSG1 (500), CMMSG10 (Hết phiên) | High | Auto-API |
-| | **III. SUB-LAYOUTS / CROSS-PLATFORM APP (I601)** | | | | | | |
-| `[AF500-19]` | [8] Đồng bộ App I601 (E2E) | Gửi quà đúng bằng ngưỡng (`= 500`) | 1. Đặt ngưỡng = 500 2. Trên App Viewer gửi quà 500 coin vào phòng Live | Phòng Live đang chạy, Viewer đủ coin | 1. Chế độ High-Value Gift Animation (`I601`) kích hoạt trên màn hình cả Viewer và Streamer | High | Manual-Only (Visual) |
-| `[AF500-20]` | [8] Đồng bộ App I601 (E2E) | Gửi quà dưới ngưỡng (`= 499`) | 1. Trên App Viewer gửi quà 499 coin | Phòng Live đang chạy | 1. Chỉ hiển thị hiệu ứng quà thường, KHÔNG kích hoạt chế độ `I601` | High | Manual-Only (Visual) |
-| `[AF500-21]` | [8] Đồng bộ App I601 (E2E) | Gửi quà vượt ngưỡng (`> 500`) | 1. Trên App Viewer gửi quà 1,000 coin | Phòng Live đang chạy | 1. Kích hoạt chế độ `I601` mượt mà, trừ đúng coin và cộng đúng GOLD | High | Manual-Only (Visual) |
-| `[AF500-22]` | [8] Đồng bộ App I601 (E2E) | Nhiều Viewer gửi quà cao cấp đồng thời | 1. 3 Viewer gửi quà cao cấp liên tiếp trong 2 giây | Phòng Live đang chạy | 1. Animation xếp hàng (queue) phát lần lượt đầy đủ, không lag/crash App | High | Manual-Only (UX) |
-| `[AF500-23]` | [9] Layout & RBAC | Responsive & Role Read-only | 1. Kiểm tra trên độ phân giải 1024px và với tài khoản chỉ xem | - | 1. Không vỡ layout; role chỉ xem bị khóa nút Lưu/Toggle | Low | Auto-UI |
-
-*(Lưu ý: Khi có Spec/Figma chi tiết của `AF500`, bổ sung thêm các control đặc thù nếu có)*
+| | **I. RADIO `演出種類` TRÊN AF200 / AF300** | | | | | | |
+| `[AF500-1]` | [1] Radio `演出種類` | Hiển thị mặc định `通常演出` | 1. Mở AF200 (Tạo mới gift) | Đã đăng nhập Admin | 1. Hiển thị 3 Radio: `通常演出` (checked mặc định), `シャッター演出`, `継続演出` | High | Auto-UI |
+| `[AF500-2]` | [1][2] `通常演出` (Default) | Giá nhập tự do + Category enabled + Gift Content enabled | 1. Giữ Radio = `通常演出` 2. Nhập giá `350` 3. Chọn Category 4. Upload `ギフトコンテンツ` | - | 1. Cho phép nhập giá tự do, chọn Category và upload `ギフトコンテンツ` bình thường | High | Auto-UI |
+| `[AF500-3]` | [1][2] `シャッター演出` (Shutter) | Giá chỉ chọn `5,000` hoặc `10,000` | 1. Chọn Radio `シャッター演出` 2. Quan sát mục Giá | - | 1. Không cho nhập tự do; chỉ hiển thị lựa chọn giá `5,000` và `10,000` | High | Auto-UI |
+| `[AF500-4]` | [1][2] `シャッター演出` (Shutter) | Category KHÔNG cho chọn (Disabled) | 1. Chọn Radio `シャッター演出` 2. Quan sát & thử click `ギフトカテゴリ` | - | 1. Trường `ギフトカテゴリ` (và nút `+`) bị Disabled / không cho chọn | High | Auto-UI |
+| `[AF500-5]` | [1][2] `シャッター演出` (Shutter) | `ギフトコンテンツ` bị Disable (hiệu ứng cố định) | 1. Chọn Radio `シャッター演出` 2. Quan sát vùng upload `ギフトコンテンツ` | - | 1. Vùng upload `ギフトコンテンツ` bị Disabled (không cần/không cho upload vì dùng hiệu ứng cố định) | High | Auto-UI |
+| `[AF500-6]` | [1][2] `継続演出` (Continuous) | Giá chỉ chọn `1000pt`, `3000pt`, `5,000pt`, `10,000pt` | 1. Chọn Radio `継続演出` 2. Quan sát mục Giá | - | 1. Chỉ hiển thị 4 mức giá: `1000pt`, `3000pt`, `5,000pt`, `10,000pt` | High | Auto-UI |
+| `[AF500-7]` | [1][2] `継続演出` (Continuous) | Category bị Disable | 1. Chọn Radio `継続演出` 2. Quan sát trường `ギフトカテゴリ` | - | 1. Trường `ギフトカテゴリ` (và nút `+`) bị Disabled | High | Auto-UI |
+| `[AF500-8]` | [1][2] `継続演出` (Continuous) | `ギフトコンテンツ` bị Disable | 1. Chọn Radio `継続演出` 2. Quan sát vùng upload `ギフトコンテンツ` | - | 1. Vùng upload `ギフトコンテンツ` bị Disabled | High | Auto-UI |
+| `[AF500-9]` | [1][2] Chuyển đổi giữa 3 Radio | Chuyển `通常演出` -> `シャッター演出` -> `通常演出` | 1. Ở `通常演出` nhập giá `250` + chọn Category + upload Content 2. Chuyển sang `シャッター演出` 3. Chuyển lại `通常演出` | - | 1. Khi về `通常演出`, các trường Giá/Category/Content mở lại hoạt động bình thường `[Q&A AF500 #1]` | High | Auto-UI |
+| `[AF500-10]` | [2] Tạo thành công | Tạo gift `シャッター演出` giá `5,000` | 1. Chọn `シャッター演出`, nhập tên + icon, chọn giá `5,000` 2. Click `登録` | - | 1. Tạo thành công (`CMMSG12`), không báo lỗi thiếu Category/Content; DB lưu `animation_type=shutter` | High | Auto-UI |
+| `[AF500-11]` | [2] Tạo thành công | Tạo gift `継続演出` giá `3,000pt` | 1. Chọn `継続演出`, nhập tên + icon, chọn giá `3,000pt` 2. Click `登録` | - | 1. Tạo thành công (`CMMSG12`), DB lưu `animation_type=continuous` | High | Auto-UI |
+| `[AF500-12]` | [2] Sửa trên AF300 | Mở AF300 của gift `シャッター演出` | 1. Mở chi tiết gift Shutter trên AF300 | Đã có gift Shutter | 1. Pre-fill đúng `シャッター演出`, giá `5,000`, Category & Content bị disable | High | Auto-UI |
+| `[AF500-13]` | [2] Sửa trên AF300 | Mở AF300 của gift `継続演出` | 1. Mở chi tiết gift Continuous trên AF300 | Đã có gift Continuous | 1. Pre-fill đúng `継続演出`, giá tương ứng, Category & Content bị disable | High | Auto-UI |
+| | **II. FILTER & CỘT `演出種類` TRÊN AF100** | | | | | | |
+| `[AF500-14]` | [4] Pulldown Filter `演出種類` | Mặc định `全て演出種類` & danh sách 4 options | 1. Mở AF100 2. Click mở pulldown `演出種類` | - | 1. Hiển thị đúng 4 options: `全て演出種類`, `通常演出`, `シャッター演出`, `継続演出` | High | Auto-UI |
+| `[AF500-15]` | [4] Pulldown Filter `演出種類` | Lọc theo `通常演出` | 1. Chọn `通常演出` -> bấm `検索` | Có dữ liệu | 1. Bảng chỉ trả về gift `通常演出` | High | Auto-UI |
+| `[AF500-16]` | [4] Pulldown Filter `演出種類` | Lọc theo `シャッター演出` | 1. Chọn `シャッター演出` -> bấm `検索` | Có dữ liệu | 1. Bảng chỉ trả về gift `シャッター演出` | High | Auto-UI |
+| `[AF500-17]` | [4] Pulldown Filter `演出種類` | Lọc theo `継続演出` | 1. Chọn `継続演出` -> bấm `検索` | Có dữ liệu | 1. Bảng chỉ trả về gift `継続演出` | High | Auto-UI |
+| `[AF500-18]` | [4] Pulldown Filter `演出種類` | Kết hợp với Keyword và Status | 1. Nhập Keyword + chọn `シャッター演出` + `公開` -> `検索` | - | 1. Lọc AND chính xác đồng thời các điều kiện | Medium | Auto-UI |
+| `[AF500-19]` | [4] Pulldown Filter `演出種類` | Nút `クリア` reset `演出種類` | 1. Đang lọc `シャッター演出` 2. Click nút `クリア` | - | 1. Reset pulldown `演出種類` về `全て演出種類` và reload danh sách | Medium | Auto-UI |
+| `[AF500-20]` | [5] Cột `演出種類` | Hiển thị đúng nhãn trên bảng AF100 | 1. Quan sát cột `演出種類` của 3 loại gift trên bảng AF100 | Có đủ 3 loại gift | 1. Hiển thị chính xác text `通常演出`, `シャッター演出`, `継続演出` | High | Auto-UI |
+| | **III. HIỂN THỊ & HIỆU ỨNG TRÊN APP (I600 / I601)** | | | | | | |
+| `[AF500-21]` | [Cross-Sync] App `I600` | Gift `シャッター演出` hiển thị đúng trên App `I600` | 1. Mở danh sách quà trong phòng Live (`I600`) | Có phòng Live | 1. Hiển thị đúng icon, tên, giá (`5,000` hoặc `10,000`) | High | Manual-Only (Visual) |
+| `[AF500-22]` | [Cross-Sync] App `I600` | Gift `継続演出` hiển thị đúng trên App `I600` | 1. Mở danh sách quà trong phòng Live (`I600`) | Có phòng Live | 1. Hiển thị đúng icon, tên, giá (`1000..10000pt`) | High | Manual-Only (Visual) |
+| `[AF500-23]` | [Cross-Sync] App `I601` | Gửi gift `シャッター演出` trong phòng Live | 1. Viewer gửi gift `シャッター演出` | Phòng Live đang chạy | 1. Phát đúng hiệu ứng Shutter cố định trên màn hình cả Viewer và Streamer | High | Manual-Only (Visual) |
+| `[AF500-24]` | [Cross-Sync] App `I601` | Gửi gift `継続演出` trong phòng Live | 1. Viewer gửi gift `継続演出` | Phòng Live đang chạy | 1. Phát đúng hiệu ứng Continuous cố định trên màn hình cả Viewer và Streamer | High | Manual-Only (Visual) |
+| `[AF500-25]` | [Cross-Sync] App `I601` | Gửi nhiều gift hiệu ứng cao cấp liên tiếp | 1. Nhiều Viewer gửi liên tiếp Shutter / Continuous | Phòng Live đang chạy | 1. Hiệu ứng xếp hàng (queue) phát lần lượt, không lag/crash App | High | Manual-Only (UX) |
+| `[AF500-26]` | [-] Error Handling | Mất kết nối mạng khi tạo/lọc (`CMMSG8`) | 1. Ngắt mạng (Offline) 2. Thực hiện tạo/lọc gift | - | 1. Hiển thị đúng thông báo lỗi mạng `CMMSG8` | Medium | Auto-API |
+| `[AF500-27]` | [-] Error Handling | Lỗi Server 500 khi tạo/lọc (`CMMSG1`) | 1. Giả lập API trả HTTP 500 | - | 1. Hiển thị đúng thông báo lỗi hệ thống `CMMSG1` | Medium | Auto-API |
+| `[AF500-28]` | [-] Error Handling | Hết phiên đăng nhập khi tạo/lọc (`CMMSG10`) | 1. Token hết hạn (401) 2. Thực hiện tạo/lọc gift | - | 1. Hiển thị `CMMSG10` và redirect về Login | Medium | Auto-API |
 
 ---
 
@@ -59,8 +60,7 @@
 
 | Nhóm | Số lượng | Tỷ lệ |
 |---| :---: | :---: |
-| `Auto-UI` | 13 | 56.5% |
-| `Auto-API` | 2 | 8.7% |
-| `Auto-Data` | 3 | 13.0% |
-| `Manual-Only` (Visual / UX) | 5 | 21.7% |
-| **Tổng cộng** | **23** | **~78.3% Auto / ~21.7% Manual** ✅ |
+| `Auto-UI` | 20 | 71.4% |
+| `Auto-API` | 3 | 10.7% |
+| `Manual-Only` (Visual / UX) | 5 | 17.9% |
+| **Tổng cộng** | **28** | **82.1% Auto / 17.9% Manual** ✅ |

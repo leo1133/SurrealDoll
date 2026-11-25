@@ -1,7 +1,7 @@
 # BẢNG KỊCH BẢN KIỂM THỬ BACKEND API (API TEST SUITE)
-## Màn hình: AF300 — Gift Manage: Gift Update / Delete (Chi tiết, Cập nhật & Xóa Quà tặng)
-### Áp dụng: Quy chuẩn Trụ cột 3 (`Universal_Rules/03_api_test_case_rule.md`) & Bộ 419 Viewpoints (`API_controls/API_Viewpoint.md`)
-### Phân hệ: Web Master Admin / Quản lý Quà tặng (`AF` Module)
+## Màn hình: AF300 — Gift Manage: Gift Update / Delete (ギフト更新・削除)
+### Nguồn Spec: Google Sheet `AF300` (gid=`213255523`) + `AF500` + Postman `Live2d_BE/gift`
+### Áp dụng: `Universal_Rules/03_api_test_case_rule.md` & `API_controls/API_Viewpoint.md`
 
 ---
 
@@ -9,80 +9,64 @@
 
 | Thuộc tính Contract | Chi tiết Đặc tả Kỹ thuật |
 | :--- | :--- |
-| **Chức năng nghiệp vụ** | 1. Lấy chi tiết quà (`GET /api/v1/admin/gifts/:id`)<br>2. Cập nhật quà (`PUT/PATCH /api/v1/admin/gifts/:id`)<br>3. Xóa quà (`DELETE /api/v1/admin/gifts/:id`) |
+| **Chức năng nghiệp vụ** | 1. Lấy chi tiết gift (`GET /gift/{gift_id}/`)<br>2. Cập nhật gift (`PATCH /gift/{gift_id}/`)<br>3. Xóa gift (`DELETE /gift/{gift_id}/`)<br>4. Lấy & tạo category inline (`GET / POST /gift/category/`) |
 | **Base URL (Dev / STG)** | `https://api-admin-dev.surrealdolls.com` / `https://api-admin-stg.surrealdolls.com` |
-| **Headers bắt buộc** | `Authorization: Bearer <master_admin_token>`<br>`Content-Type: application/json` (PUT/PATCH)<br>`Accept: application/json` |
-| **Phân quyền RBAC** | Master Admin có quyền xem/sửa/xóa. Read-only / Agency / Streamer bị từ chối `403 Forbidden`. |
-
-### Cấu trúc Tham số Request:
-| Tên trường (Field) | Vị trí | Kiểu dữ liệu | Bắt buộc | Ràng buộc kỹ thuật & Nghiệp vụ | Giả định áp dụng |
-| :--- | :---: | :---: | :---: | :--- | :---: |
-| `id` | Path | `Integer` | Required | ID quà tặng (`>= 1`), chưa bị soft-delete. | `A6`, `A11` |
-| `name` | JSON Body | `String` | Required (PUT) | Tên quà tặng. Trim space đầu/cuối. | `A1`, `A2`, `A6` |
-| `coin_price` | JSON Body | `Integer` | Required (PUT) | Giá coin (`>= 1`). | `A3` |
-| `category_id` | JSON Body | `Integer` | Required (PUT) | Khóa ngoại trỏ tới `gift_categories.id` tồn tại. | `A3` |
-| `sort_order` | JSON Body | `Integer` | Optional | Thứ tự hiển thị (`>= 0`). | `A3` |
-| `status` | JSON Body | `Enum` | Optional | `active` hoặc `inactive`. | `A5` |
+| **Headers bắt buộc** | `Authorization: Bearer <master_admin_token>`, `Content-Type: multipart/form-data` / `application/json`, `Accept: application/json` |
 
 ---
 
-## 2. MA TRẬN 419 VIEWPOINTS ĐÃ PHỦ THEO `API_controls/API_Viewpoint.md`
-
-- **Header & Authorization / RBAC:** `HDR-001`, `ACC-006`, `CT-003`..`CT-008`, `AUTH-001`..`AUTH-009`, `PERM-001`, `PERM-002`, `PERM-007`, `PERM-008`
-- **Path Parameter (`:id`) cho GET / PUT / DELETE:** `PATH-001`..`PATH-015`
-- **Body JSON Structure:** `BODY-002`..`BODY-009`
-- **CRUD - Update (`PUT / PATCH`):** `UPD-001`..`UPD-014`
-- **CRUD - Delete (`DELETE`):** `DEL-001`..`DEL-008`
-- **Field Validation & Security:** `STR-005`, `STR-009`, `INT-006`..`INT-012`, `ENUM-004`, `SEC-004`, `SEC-007`, `SEC-008`
-- **Response Validation & DB Persistence:** `RESP-001`, `RESP-010`, `RESP-016`
-
----
-
-## 3. BẢNG CHI TIẾT TEST CASES BACKEND API (14 CỘT CHUẨN)
+## 2. BẢNG CHI TIẾT TEST CASES BACKEND API (14 CỘT CHUẨN)
 
 | ID | VP ID | API Name / Endpoint | Group / Viewpoint Group | Test Case / Scenario | Pre-condition | Request Data / Payload | Expected HTTP Status | Expected Response Body & DB State | Priority | Test Type | Assumption | R1 | R2 | Note / Business Rule |
 | :---: | :---: | :--- | :--- | :--- | :--- | :--- | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| | | | **1. GET /api/v1/admin/gifts/:id — CHI TIẾT QUÀ** | | | | | | | | | | | |
-| `[AF300-API-01]` | `AUTH-001` | `GET /api/v1/admin/gifts/:id` | Header - Authorization | Thiếu Authorization | - | No `Authorization` header | `401` | `{ "code": "UNAUTHORIZED" }` | High | Negative | `A9` | | | |
-| `[AF300-API-02]` | `PERM-002` | `GET /api/v1/admin/gifts/:id` | Authorization & permission | Agency / User gọi GET detail | Agency token | `GET /gifts/1` | `403` | `403 Forbidden` (`CMMSG5`) | High | Negative | `A10` | | | |
-| `[AF300-API-03]` | `PATH-001` | `GET /api/v1/admin/gifts/:id` | Path parameter | ID hợp lệ, bản ghi tồn tại | Quà ID=1 tồn tại | `GET /gifts/1` | `200` | Trả đủ fields khớp DB 100% (`RESP-010`) | High | Positive | - | | | Rule 07 |
-| `[AF300-API-04]` | `PATH-002` | `GET /api/v1/admin/gifts/:id` | Path parameter | ID không tồn tại | - | `GET /gifts/999999` | `404` | `{ "code": "NOT_FOUND" }` | High | Negative | `A11` | | | |
-| `[AF300-API-05]` | `PATH-003` | `GET /api/v1/admin/gifts/:id` | Path parameter | `id = 0` | - | `GET /gifts/0` | `400 / 404` | Không trả dữ liệu | High | Boundary | - | | | |
-| `[AF300-API-06]` | `PATH-004` | `GET /api/v1/admin/gifts/:id` | Path parameter | `id = -1` (âm) | - | `GET /gifts/-1` | `400 / 404` | Không lỗi 500 | High | Boundary | `A6` | | | |
-| `[AF300-API-07]` | `PATH-005` | `GET /api/v1/admin/gifts/:id` | Path parameter | `id = abc` (chữ) | - | `GET /gifts/abc` | `400` | `{ "code": "INVALID_PARAM" }` | High | Negative | `A6` | | | |
-| `[AF300-API-08]` | `PATH-006` | `GET /api/v1/admin/gifts/:id` | Path parameter | `id = 1.5` (thập phân) | - | `GET /gifts/1.5` | `400` | `{ "code": "INVALID_PARAM" }` | Medium | Negative | `A6` | | | |
-| `[AF300-API-09]` | `PATH-011` | `GET /api/v1/admin/gifts/:id` | Path parameter | SQL Injection trong path (`/gifts/1%20OR%201=1`) | - | `GET /gifts/1%20OR%201=1` | `400 / 404` | Không thực thi SQL | High | Security | - | | | |
-| `[AF300-API-10]` | `PATH-012` | `GET /api/v1/admin/gifts/:id` | Path parameter | Quà đã bị soft-delete | Quà đã xóa mềm | `GET /gifts/<deleted_id>` | `404` | `{ "code": "NOT_FOUND" }` | High | Negative | - | | | |
-| | | | **2. PUT / PATCH /api/v1/admin/gifts/:id — CẬP NHẬT QUÀ** | | | | | | | | | | | |
-| `[AF300-API-11]` | `AUTH-001` | `PUT /api/v1/admin/gifts/:id` | Header - Authorization | Thiếu Authorization | - | Valid body, no `Authorization` | `401` | `{ "code": "UNAUTHORIZED" }` | High | Negative | `A9` | | | |
-| `[AF300-API-12]` | `PERM-002` | `PUT /api/v1/admin/gifts/:id` | Authorization & permission | Role không có quyền sửa (Monitor/Agency) | Monitor token | Valid body | `403` | `403 Forbidden`, DB không đổi | High | Negative | `A10` | | | |
-| `[AF300-API-13]` | `CT-003` | `PUT /api/v1/admin/gifts/:id` | Header - Content-Type | Thiếu `Content-Type` | Admin token | Valid JSON, no `Content-Type` | `415 / 400` | `415 Unsupported Media Type` | High | Negative | `A7` | | | |
-| `[AF300-API-14]` | `CT-005` | `PUT /api/v1/admin/gifts/:id` | Header - Content-Type | `Content-Type: text/plain` | Admin token | `Content-Type: text/plain` | `415` | `415 Unsupported Media Type` | High | Negative | `A7` | | | |
-| `[AF300-API-15]` | `BODY-003` | `PUT /api/v1/admin/gifts/:id` | Body - JSON structure | JSON thiếu ngoặc đóng | Admin token | `'{"name":"New"'` | `400` | `400 Bad Request` | High | Negative | `A13` | | | |
-| `[AF300-API-16]` | `BODY-004` | `PUT /api/v1/admin/gifts/:id` | Body - JSON structure | JSON có dấu phẩy thừa cuối | Admin token | `'{"name":"New",}'` | `400` | `400 Bad Request` | High | Negative | `A13` | | | |
-| `[AF300-API-17]` | `UPD-001` | `PUT /api/v1/admin/gifts/:id` | CRUD - Update | PUT cập nhật toàn bộ trường hợp lệ | Quà ID=1 | `{ "name": "New Star", "coin_price": 250, "category_id": 2, "sort_order": 3, "status": "active" }` | `200` | Response cập nhật đủ fields; DB `updated_at` đổi mới, giá trị khớp 100% | High | Positive | - | | | Rule 07 |
-| `[AF300-API-18]` | `UPD-002` | `PUT /api/v1/admin/gifts/:id` | CRUD - Update | PUT thiếu trường bắt buộc (`name`) | Quà ID=1 | `{ "coin_price": 250, "category_id": 1 }` | `400 / 422` | Báo lỗi thiếu `name`, DB giữ nguyên | High | Negative | `A2` | | | |
-| `[AF300-API-19]` | `UPD-003` | `PUT /api/v1/admin/gifts/:id` | CRUD - Update | PUT ID không tồn tại | - | `PUT /gifts/999999` + valid body | `404` | `{ "code": "NOT_FOUND" }` | High | Negative | `A11` | | | |
-| `[AF300-API-20]` | `UPD-004` | `PUT /api/v1/admin/gifts/:id` | CRUD - Update | `id` trong body khác `id` trên URL | Quà ID=1 & ID=2 | `PUT /gifts/1`, Body: `{ "id": 2, "name": "X", ... }` | `200 / 400` | URL ID thắng hoặc báo 400; bản ghi ID=2 tuyệt đối không bị sửa | Medium | Security | - | | | |
-| `[AF300-API-21]` | `UPD-006` | `PUT /api/v1/admin/gifts/:id` | CRUD - Update | Gửi trường read-only (`created_at`) trong PUT | Quà ID=1 | `{ ..., "created_at": "1999-01-01" }` | `200` | `created_at` trong DB không bị ghi đè | Medium | Security | - | | | |
-| `[AF300-API-22]` | `UPD-007` | `PUT /api/v1/admin/gifts/:id` | CRUD - Update | PUT idempotent (gửi cùng payload 3 lần) | Quà ID=1 | 3 PUT giống nhau | `200` | Cả 3 lần đều `200`, trạng thái cuối cùng nhất quán | Medium | Positive | - | | | |
-| `[AF300-API-23]` | `UPD-008` | `PATCH /api/v1/admin/gifts/:id` | CRUD - Update | PATCH partial update (chỉ đổi `coin_price`) | Quà ID=1 | `{ "coin_price": 500 }` | `200` | Chỉ `coin_price` đổi thành 500, các trường khác giữ nguyên | High | Positive | - | | | |
-| `[AF300-API-24]` | `UPD-009` | `PATCH /api/v1/admin/gifts/:id` | CRUD - Update | PATCH với body rỗng `{}` | Quà ID=1 | `{}` | `400` | `400 Bad Request` | Medium | Negative | `A11` | | | |
-| `[AF300-API-25]` | `UPD-010` | `PATCH /api/v1/admin/gifts/:id` | CRUD - Update | PATCH giá trị sai (`coin_price = -50`) | Quà ID=1 | `{ "coin_price": -50 }` | `400 / 422` | Lỗi validation, DB giữ nguyên | High | Negative | - | | | |
-| `[AF300-API-26]` | `UPD-011` | `PATCH /api/v1/admin/gifts/:id` | CRUD - Update | PATCH kèm field lạ (`unknown_field`) | Quà ID=1 | `{ "coin_price": 300, "unknown_xyz": 1 }` | `200` | `unknown_xyz` bị ignore (`A10`) | Low | Negative | `A10` | | | |
-| `[AF300-API-27]` | `UPD-012` | `PATCH /api/v1/admin/gifts/:id` | CRUD - Update | PATCH ID không tồn tại | - | `PATCH /gifts/999999`, `{ "coin_price": 300 }` | `404` | `{ "code": "NOT_FOUND" }` | High | Negative | `A11` | | | |
-| `[AF300-API-28]` | `UPD-013` | `PATCH /api/v1/admin/gifts/:id` | CRUD - Update | PATCH set trường bắt buộc = `null` | Quà ID=1 | `{ "name": null }` | `400 / 422` | Không cho set null vào required field | Medium | Negative | `A2` | | | |
-| `[AF300-API-29]` | `UPD-014` | `PUT /api/v1/admin/gifts/:id` | CRUD - Update | Concurrent update (2 admin sửa cùng 1 quà) | Quà ID=1 | 2 PUT đồng thời | `200 / 409` | Không hỏng dữ liệu DB | Low | Boundary | - | | | |
-| `[AF300-API-30]` | `CRE-005` | `PUT /api/v1/admin/gifts/:id` | Business Logic | Update `category_id` không tồn tại | Quà ID=1 | `{ ..., "category_id": 999999 }` | `400 / 404` | Lỗi khóa ngoại, không lưu | High | Negative | - | | | |
-| `[AF300-API-31]` | `SEC-007` | `PUT /api/v1/admin/gifts/:id` | Security | Stored XSS trong `name` khi update | Quà ID=1 | `{ ..., "name": "<img src=x onerror=alert(1)>" }` | `200 / 400` | Lưu escaped hoặc từ chối | High | Security | `A8` | | | |
-| | | | **3. DELETE /api/v1/admin/gifts/:id — XÓA QUÀ** | | | | | | | | | | | |
-| `[AF300-API-32]` | `AUTH-001` | `DELETE /api/v1/admin/gifts/:id` | Header - Authorization | Thiếu Authorization | - | No `Authorization` | `401` | `{ "code": "UNAUTHORIZED" }` | High | Negative | `A9` | | | |
-| `[AF300-API-33]` | `PERM-007` | `DELETE /api/v1/admin/gifts/:id` | Authorization & permission | User Read-only / Agency gọi DELETE | Monitor/Agency token | `DELETE /gifts/1` | `403` | `403 Forbidden`, quà vẫn tồn tại trong DB | High | Negative | `A10` | | | |
-| `[AF300-API-34]` | `DEL-001` | `DELETE /api/v1/admin/gifts/:id` | CRUD - Delete | Xóa thành công quà hợp lệ | Quà ID=1 tồn tại | `DELETE /gifts/1` | `200 / 204` | DB: bản ghi soft-delete (`deleted_at IS NOT NULL`) | High | Positive | - | | | Rule 07 |
-| `[AF300-API-35]` | `DEL-002` | `DELETE /api/v1/admin/gifts/:id` | CRUD - Delete | Gọi GET sau khi xóa | Quà ID=1 vừa xóa | `GET /gifts/1` | `404` | `{ "code": "NOT_FOUND" }` | High | Positive | - | | | |
-| `[AF300-API-36]` | `DEL-003` | `DELETE /api/v1/admin/gifts/:id` | CRUD - Delete | Xóa lần 2 cùng ID đã xóa (`A12`) | Quà ID=1 đã xóa | `DELETE /gifts/1` | `404` | `{ "code": "NOT_FOUND" }` (`A12`) | Medium | Negative | `A12` | | | |
-| `[AF300-API-37]` | `DEL-004` | `DELETE /api/v1/admin/gifts/:id` | CRUD - Delete | Xóa ID không tồn tại | - | `DELETE /gifts/999999` | `404` | `{ "code": "NOT_FOUND" }` | High | Negative | `A11` | | | |
-| `[AF300-API-38]` | `DEL-005` | `DELETE /api/v1/admin/gifts/:id` | CRUD - Delete | Xóa ID sai định dạng (`abc`) | - | `DELETE /gifts/abc` | `400` | `{ "code": "INVALID_PARAM" }` | High | Negative | `A6` | | | |
-| `[AF300-API-39]` | `DEL-006` | `DELETE /api/v1/admin/gifts/:id` | CRUD - Delete | Xóa quà đang được tham chiếu (Wishlist `M1011` / `gift_logs`) | Quà đang trong Wishlist | `DELETE /gifts/<wishlist_gift_id>` | `409 / 200` | Không tạo orphan data; báo lỗi ràng buộc hoặc tự gỡ khỏi Wishlist `[Pending Q&A #4]` | Medium | Negative | - | | | |
-| `[AF300-API-40]` | `DEL-007` | `DELETE /api/v1/admin/gifts/` | CRUD - Delete | Gọi DELETE trực tiếp trên collection | Admin token | `DELETE /api/v1/admin/gifts/` | `405` | `405 Method Not Allowed`, không xóa dữ liệu | High | Security | - | | | |
-| `[AF300-API-41]` | `DEL-008` | `DELETE /api/v1/admin/gifts/:id` | CRUD - Delete | Kiểm tra danh sách AF100 sau khi xóa | Quà ID=1 vừa xóa | `GET /api/v1/admin/gifts` | `200` | Quà đã xóa không xuất hiện trong list, `total` giảm đi 1 | Medium | Positive | - | | | |
+| | | | **1. GET /gift/{gift_id}/ — CHI TIẾT GIFT** | | | | | | | | | | | |
+| `[AF300-API-01]` | `AUTH-001` | `GET /gift/{gift_id}/` | Header - Authorization | Thiếu Authorization | - | No `Authorization` | `401` | `401 Unauthorized` | High | Negative | `A9` | | | |
+| `[AF300-API-02]` | `AUTH-007` | `GET /gift/{gift_id}/` | Header - Authorization | Token sai/hết hạn | - | `Bearer invalid` | `401` | `401 Unauthorized` | High | Negative | `A9` | | | |
+| `[AF300-API-03]` | `PERM-002` | `GET /gift/{gift_id}/` | Authorization & permission | Role không có quyền (Agency/User) | Agency token | `GET /gift/1/` | `403` | `403 Forbidden` | High | Negative | `A10` | | | |
+| `[AF300-API-04]` | `PATH-001` | `GET /gift/{gift_id}/` | Path parameter | ID hợp lệ, đối chiếu 100% DB | Gift ID=1 | `GET /gift/1/` | `200` | Khớp DB: `id, name, icon, image, status, sort_order, price, category_id, animation_type` | High | Positive | - | | | Rule 07 |
+| `[AF300-API-05]` | `PATH-002` | `GET /gift/{gift_id}/` | Path parameter | ID không tồn tại (`999999`) | Admin token | `GET /gift/999999/` | `404` | `404 Not Found` | High | Negative | `A11` | | | |
+| `[AF300-API-06]` | `PATH-004` | `GET /gift/{gift_id}/` | Path parameter | ID âm (`-1`) | Admin token | `GET /gift/-1/` | `400` | Không lỗi 500 | High | Boundary | `A6` | | | |
+| `[AF300-API-07]` | `PATH-005` | `GET /gift/{gift_id}/` | Path parameter | ID là chữ (`abc`) | Admin token | `GET /gift/abc/` | `400` | `400 Bad Request` | High | Negative | `A6` | | | |
+| `[AF300-API-08]` | `PATH-011` | `GET /gift/{gift_id}/` | Path parameter | SQLi trong Path (`1%20OR%201=1`) | Admin token | `GET /gift/1%20OR%201=1/` | `400` | Không thực thi SQL | High | Security | - | | | |
+| `[AF300-API-09]` | `PATH-012` | `GET /gift/{gift_id}/` | Path parameter | Gift đã bị soft-delete | Gift đã xóa | `GET /gift/<deleted_id>/` | `404` | `404 Not Found` | High | Negative | - | | | |
+| `[AF300-API-10]` | `MTD-005` | `POST /gift/{gift_id}/` | HTTP method & status | Gửi `POST` lên endpoint chi tiết | Admin token | `POST /gift/1/` | `405` | `405 Method Not Allowed` | High | Negative | - | | | |
+| | | | **2. PATCH /gift/{gift_id}/ — CẬP NHẬT GIFT** | | | | | | | | | | | |
+| `[AF300-API-11]` | `AUTH-001` | `PATCH /gift/{gift_id}/` | Header - Authorization | Thiếu Authorization | - | No token | `401` | `401 Unauthorized` | High | Negative | `A9` | | | |
+| `[AF300-API-12]` | `PERM-002` | `PATCH /gift/{gift_id}/` | Authorization & permission | Role không có quyền sửa | Monitor/Agency | Valid payload | `403` | `403 Forbidden` | High | Negative | `A10` | | | |
+| `[AF300-API-13]` | `CT-003` | `PATCH /gift/{gift_id}/` | Header - Content-Type | Thiếu `Content-Type` header | Admin token | No `Content-Type` | `415` | `415 Unsupported Media Type` | High | Negative | `A7` | | | |
+| `[AF300-API-14]` | `CT-005` | `PATCH /gift/{gift_id}/` | Header - Content-Type | Sai `Content-Type: text/plain` | Admin token | `text/plain` | `415` | `415 Unsupported Media Type` | High | Negative | `A7` | | | |
+| `[AF300-API-15]` | `BODY-003` | `PATCH /gift/{gift_id}/` | Body structure | JSON thiếu ngoặc đóng | Admin token | `'{"name":"X"'` | `400` | `400 Bad Request` | High | Negative | `A13` | | | |
+| `[AF300-API-16]` | `BODY-004` | `PATCH /gift/{gift_id}/` | Body structure | JSON trailing comma | Admin token | `'{"name":"X",}'` | `400` | `400 Bad Request` | High | Negative | `A13` | | | |
+| `[AF300-API-17]` | `UPD-009` | `PATCH /gift/{gift_id}/` | CRUD - Update | PATCH body rỗng `{}` | Admin token | `{}` | `400` | `400 Bad Request` | Medium | Negative | `A11` | | | |
+| `[AF300-API-18]` | `UPD-008` | `PATCH /gift/{gift_id}/` | CRUD - Partial Update | Chỉ đổi `name` & `price`, giữ nguyên `icon`/`image` cũ | Gift ID=1 | `{ "name": "NewName", "price": 500 }` | `200` | `name`/`price` đổi, `icon`/`image` cũ giữ nguyên | High | Positive | - | | | Rule 07 |
+| `[AF300-API-19]` | `UPD-001` | `PATCH /gift/{gift_id}/` | CRUD - Remove Category | Set `category_id = null` chuyển về nhóm `未設定` | Gift có category | `{ "category_id": null }` | `200` | DB `category_id = NULL` (`未設定`) | High | Positive | - | | | Spec AF300 |
+| `[AF300-API-20]` | `BIZ-01` | `PATCH /gift/{gift_id}/` | AF500 (`shutter`) | Cập nhật sang `shutter` với giá `5000` | Gift ID=1 | `{ "animation_type": "shutter", "price": 5000 }` | `200` | Cập nhật thành công `animation_type=shutter` | High | Positive | - | | | AF500 |
+| `[AF300-API-21]` | `BIZ-02` | `PATCH /gift/{gift_id}/` | AF500 (`shutter`) | Cập nhật sang `shutter` với giá không hợp lệ (`250`) | Gift ID=1 | `{ "animation_type": "shutter", "price": 250 }` | `400` | Từ chối giá ngoài `[5000, 10000]` | High | Negative | - | | | AF500 |
+| `[AF300-API-22]` | `BIZ-03` | `PATCH /gift/{gift_id}/` | AF500 (`continuous`) | Cập nhật sang `continuous` với giá `3000` | Gift ID=1 | `{ "animation_type": "continuous", "price": 3000 }` | `200` | Cập nhật thành công `animation_type=continuous` | High | Positive | - | | | AF500 |
+| `[AF300-API-23]` | `BIZ-04` | `PATCH /gift/{gift_id}/` | AF500 (`continuous`) | Cập nhật sang `continuous` với giá không hợp lệ (`2000`) | Gift ID=1 | `{ "animation_type": "continuous", "price": 2000 }` | `400` | Từ chối giá ngoài `[1000, 3000, 5000, 10000]` | High | Negative | - | | | AF500 |
+| `[AF300-API-24]` | `STR-008` | `PATCH /gift/{gift_id}/` | String (`name` max 10) | `name` đúng 10 ký tự UTF-8 | Gift ID=1 | `name` = 10 chars | `200` | Thành công | High | Boundary | `A6` | | | Spec AF300 |
+| `[AF300-API-25]` | `STR-009` | `PATCH /gift/{gift_id}/` | String (`name` max+1 = 11) | `name` vượt 10 ký tự (11 ký tự) | Gift ID=1 | `name` = 11 chars | `400` | Lỗi vượt 10 ký tự | High | Boundary | `A6` | | | Spec AF300 |
+| `[AF300-API-26]` | `UPD-013` | `PATCH /gift/{gift_id}/` | String (`name = null`) | Set `name = null` | Gift ID=1 | `{ "name": null }` | `400` | Không cho set null vào required field | High | Negative | `A2` | | | |
+| `[AF300-API-27]` | `STR-001` | `PATCH /gift/{gift_id}/` | String (`name = ""`) | Set `name = ""` (rỗng) | Gift ID=1 | `{ "name": "" }` | `400` | Không cho set rỗng vào required field | High | Negative | `A2` | | | |
+| `[AF300-API-28]` | `INT-007` | `PATCH /gift/{gift_id}/` | Integer (`price`) | `price = -50` (số âm) | Gift ID=1 | `{ "price": -50 }` | `400` | Lỗi validation `price >= 1` | High | Boundary | `A3` | | | |
+| `[AF300-API-29]` | `INT-008` | `PATCH /gift/{gift_id}/` | Integer (`price`) | `price = 12.5` (thập phân) | Gift ID=1 | `{ "price": 12.5 }` | `400` | Lỗi validation số nguyên | High | Negative | `A3` | | | |
+| `[AF300-API-30]` | `INT-009` | `PATCH /gift/{gift_id}/` | Integer (`price`) | `price = "abc"` (chữ) | Gift ID=1 | `{ "price": "abc" }` | `400` | Lỗi kiểu dữ liệu | High | Negative | `A3` | | | |
+| `[AF300-API-31]` | `INT-007` | `PATCH /gift/{gift_id}/` | Integer (`sort_order`) | `sort_order = -1` (số âm) | Gift ID=1 | `{ "sort_order": -1 }` | `400` | Lỗi validation số nguyên dương | Medium | Boundary | `A3` | | | |
+| `[AF300-API-32]` | `ENUM-004` | `PATCH /gift/{gift_id}/` | Enum (`status`) | Đổi `status` ngoài enum (`"UNKNOWN"`) | Gift ID=1 | `{ "status": "UNKNOWN" }` | `400` | Lỗi enum invalid | High | Negative | `A5` | | | |
+| `[AF300-API-33]` | `FILE-001` | `PATCH /gift/{gift_id}/` | File upload (`icon`) | Thay `icon` hợp lệ `.png` (`<= 5MB`) | Gift ID=1 | `icon=new_icon.png` | `200` | Lưu S3 thành công, cập nhật URL icon mới | High | Positive | - | | | |
+| `[AF300-API-34]` | `FILE-011` | `PATCH /gift/{gift_id}/` | File upload (`icon`) | Thay `icon` vượt quá `5MB` | Gift ID=1 | `icon > 5MB` | `413` | Từ chối (`CMMSG45`) | High | Boundary | `A8` | | | |
+| `[AF300-API-35]` | `FILE-001` | `PATCH /gift/{gift_id}/` | File upload (`image`) | Thay `image` hợp lệ `.gif` / `.lottie` (`<= 5MB`) | Gift ID=1 | `image=new_anim.gif` | `200` | Lưu S3 thành công, cập nhật URL content mới | High | Positive | - | | | |
+| `[AF300-API-36]` | `FILE-003` | `PATCH /gift/{gift_id}/` | File upload (`image`) | Thay `image` sai định dạng (`.mp4`) | Gift ID=1 | `image=video.mp4` | `415` | Từ chối (`CMMSG43`) | High | Negative | `A8` | | | |
+| `[AF300-API-37]` | `FILE-011` | `PATCH /gift/{gift_id}/` | File upload (`image`) | Thay `image` vượt quá `5MB` | Gift ID=1 | `image > 5MB` | `413` | Từ chối (`CMMSG45`) | High | Boundary | `A8` | | | |
+| `[AF300-API-38]` | `UPD-003` | `PATCH /gift/{gift_id}/` | CRUD - Update | ID không tồn tại (`999999`) | Admin token | `PATCH /gift/999999/` | `404` | `404 Not Found` | High | Negative | `A11` | | | |
+| `[AF300-API-39]` | `UPD-004` | `PATCH /gift/{gift_id}/` | CRUD - Update Security | `id` trong body khác `id` trên URL (`body.id=2` trên `/gift/1/`) | Gift ID=1 & ID=2 | `{ "id": 2, "name": "X" }` | `400` | URL ID thắng hoặc báo 400; ID=2 không bị sửa | Medium | Security | - | | | |
+| `[AF300-API-40]` | `SEC-007` | `PATCH /gift/{gift_id}/` | Security | Stored XSS trong `name` (`<img src=x onerror=alert(1)>`) | Gift ID=1 | XSS payload | `400` | Escape an toàn hoặc từ chối | High | Security | `A8` | | | |
+| | | | **3. DELETE /gift/{gift_id}/ — XÓA GIFT** | | | | | | | | | | | |
+| `[AF300-API-41]` | `AUTH-001` | `DELETE /gift/{gift_id}/` | Header - Authorization | Thiếu Authorization token | - | No token | `401` | `401 Unauthorized` | High | Negative | `A9` | | | |
+| `[AF300-API-42]` | `PERM-007` | `DELETE /gift/{gift_id}/` | Authorization & permission | Role không có quyền xóa (Monitor/Agency) | Monitor/Agency | `DELETE /gift/1/` | `403` | `403 Forbidden` | High | Negative | `A10` | | | |
+| `[AF300-API-43]` | `DEL-001` | `DELETE /gift/{gift_id}/` | CRUD - Delete & Soft Delete | Xóa thành công -> `GET /gift/{id}/` trả 404 -> `GET /gift/` không còn | Gift tồn tại | `DELETE /gift/{id}/` | `200` | Soft-delete trong DB; App `I600` ẩn gift | High | Positive | - | | | Rule 07 |
+| `[AF300-API-44]` | `DEL-002` | `DELETE /gift/{gift_id}/` | Business Logic | Xóa gift từng có user mua vẫn giữ lịch sử mua | Gift từng được mua | `DELETE /gift/{id}/` | `200` | Lịch sử mua gift trong DB vẫn nguyên vẹn | High | Positive | - | | | Spec AF300 |
+| `[AF300-API-45]` | `DEL-003` | `DELETE /gift/{gift_id}/` | CRUD - Delete Idempotency | Xóa lần 2 cùng ID đã xóa | Gift vừa xóa | `DELETE /gift/{id}/` | `404` | `404 Not Found` | Medium | Negative | `A12` | | | |
+| `[AF300-API-46]` | `DEL-004` | `DELETE /gift/{gift_id}/` | CRUD - Delete | Xóa ID không tồn tại (`999999`) | Admin token | `DELETE /gift/999999/` | `404` | `404 Not Found` | High | Negative | `A11` | | | |
+| `[AF300-API-47]` | `DEL-005` | `DELETE /gift/{gift_id}/` | CRUD - Delete | Xóa ID sai định dạng (`abc`) | Admin token | `DELETE /gift/abc/` | `400` | `400 Bad Request` | High | Negative | `A6` | | | |
+| `[AF300-API-48]` | `DEL-007` | `DELETE /gift/` | CRUD - Delete Security | Gọi DELETE trực tiếp trên collection `/gift/` | Admin token | `DELETE /gift/` | `405` | `405 Method Not Allowed`, không xóa DB | High | Security | - | | | |
