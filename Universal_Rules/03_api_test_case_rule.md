@@ -85,20 +85,27 @@ Khi tài liệu đặc tả API chưa nêu chi tiết, AI áp dụng các giả 
 
 ---
 
-## 4. CẤU TRÚC BẢNG TEST CASE API CHUẨN DỰ ÁN (GOOGLE SHEETS / EXCEL)
+## 4. CẤU TRÚC TÀI LIỆU & BẢNG TEST CASE API CHUẨN DỰ ÁN
 
-- **Cột A (ID):** Công thức tự động sinh mã `[{{MODULE_PREFIX}}-API-1]`.
-- **Cột B (API Name / Endpoint):** `[METHOD] /api/v1/endpoint` (Merge theo khối API).
-- **Cột C (Group / Viewpoint Group):** Nhóm kiểm thử (VD: `Query Validation`, `Payload Validation`, `Business Logic`).
-- **Cột D (Test Case / Scenario):** Tóm tắt kịch bản kiểm thử.
-- **Cột E (Pre-condition):** Token đăng nhập, dữ liệu DB có sẵn.
-- **Cột F (Request Data / Payload):** Query params, Headers, JSON Request body cụ thể.
-- **Cột G (Expected HTTP Status):** Mã trạng thái mong đợi (`200`, `201`, `400`, `401`, `403`, `404`, `422`).
-- **Cột H (Expected Response Body & DB State):** Response JSON mong đợi + Trạng thái DB thay đổi theo [Rule 07](07_database_testing_rule.md).
-- **Cột I (Priority):** `High` | `Medium` | `Low`.
-- **Cột J (Round 1):** Kết quả thực thi round 1 (`Pass`, `Fail`, để trống = `Not Run`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.**
-- **Cột K (Round 2):** Kết quả thực thi round 2 (**để trống khi thiết kế**).
-- **Cột L (Note / Q&A Flag):** Ghi chú câu hỏi Q&A hoặc giả định áp dụng (`[Pending Q&A #2]`).
+Mỗi file test case API (cho **duy nhất 1 màn hình**) bắt buộc gồm đầy đủ **3 phần**:
+1. **Phần 1 — Bóc tách Thông tin Contract API:** Endpoint, Method, Base URL, Swagger/Postman link, Headers bắt buộc, Phân quyền RBAC, và bảng chi tiết Request Schema/Params (`Field`, `Vị trí`, `Kiểu dữ liệu`, `Bắt buộc`, `Ràng buộc`, `Giả định`).
+2. **Phần 2 — Ma trận Viewpoints đã phủ theo `API_controls/API_Viewpoint.md`:** Liệt kê đầy đủ các mã `VP ID` áp dụng cho từng nhóm (`Header`, `Authorization & RBAC`, `HTTP Method`, `Body JSON / Form-data`, `Query / Path / Field Validation`, `Pagination / Sorting`, `Business Logic L1-L5`, `Response Validation`, `Security`, `Non-functional`).
+3. **Phần 3 — Bảng chi tiết Test Cases (Markdown / Google Sheets):**
+
+- **Cột ID:** Công thức tự động sinh mã `[{{MODULE_PREFIX}}-API-1]`.
+- **Cột VP ID (Bắt buộc):** Mã Viewpoint tương ứng từ `API_controls/API_Viewpoint.md` (VD: `HDR-001`, `AUTH-001`, `STR-001`, `BODY-003`) hoặc `BIZ-01` cho kịch bản logic nghiệp vụ đặc thù.
+- **Cột API Name / Endpoint:** `[METHOD] /api/v1/endpoint` (Merge theo khối API trên Sheets).
+- **Cột Group / Viewpoint Group:** Nhóm kiểm thử (VD: `Header - Authorization`, `Body - JSON structure`, `Payload Validation`, `Business Logic`).
+- **Cột Test Case / Scenario:** Tóm tắt kịch bản kiểm thử.
+- **Cột Pre-condition:** Token đăng nhập, dữ liệu DB có sẵn.
+- **Cột Request Data / Payload:** Query params, Headers, JSON Request body cụ thể.
+- **Cột Expected HTTP Status:** Mã trạng thái mong đợi (`200`, `201`, `400`, `401`, `403`, `404`, `415`, `422`).
+- **Cột Expected Response Body & DB State:** Response JSON mong đợi + Trạng thái DB thay đổi theo [Rule 07](07_database_testing_rule.md).
+- **Cột Priority:** `High` | `Medium` | `Low`.
+- **Cột Test Type:** `Positive` | `Negative` | `Boundary` | `Security` | `Performance`.
+- **Cột Assumption:** Mã giả định áp dụng (`A1`–`A14`).
+- **Cột Round 1 / Round 2:** Kết quả thực thi (`Pass`, `Fail`, để trống = `Not Run`). **BẮT BUỘC ĐỂ TRỐNG KHI THIẾT KẾ.**
+- **Cột Note / Business Rule:** Ghi chú câu hỏi Q&A hoặc quy tắc nghiệp vụ (`[Pending Q&A #2]`).
 
 ---
 
@@ -106,12 +113,14 @@ Khi tài liệu đặc tả API chưa nêu chi tiết, AI áp dụng các giả 
 - **Thư mục lưu trữ bắt buộc:** `testcase_api/`
 - **Định dạng tên file chuẩn:** `testcase_api/[Tên màn hình]_api.md` *(hoặc `testcase_api/{{MODULE_PREFIX}}_api.md`)*
   - Ví dụ thực tế: `testcase_api/AQ200_api.md`, `testcase_api/AQ201_api.md`, `testcase_api/AE800_api.md`.
-- **Nghiêm cấm:** Tuyệt đối không lưu file test case API tự do ở thư mục gốc (Root directory).
+- **Nghiêm cấm:** Tuyệt đối không lưu file test case API tự do ở thư mục gốc (Root directory), và không gộp nhiều màn hình vào chung một file.
 
 ---
 
 ## 6. BỘ TIÊU CHÍ NGHIỆM THU ĐẦU RA CHO API (3-GATE AUDIT)
 
-1. [ ] Đã bao phủ toàn bộ danh mục In-Scope APIs được bóc tách từ Trụ cột 1.
-2. [ ] Đã kiểm tra đầy đủ 5 nhóm logic cốt lõi (Toàn vẹn DB, Khóa ngoại, Thuật toán, Idempotency, Micro-validation).
-3. [ ] Cột kết quả thực thi (Round 1, Round 2) để trống 100% khi bàn giao thiết kế.
+1. [ ] Đã tách riêng **1 màn hình = 1 file** (`testcase_api/{{MODULE_PREFIX}}_api.md`) và bao phủ toàn bộ danh mục In-Scope APIs được bóc tách từ Trụ cột 1.
+2. [ ] Đã có đủ **Phần 1 (Contract Analysis)**, **Phần 2 (Ma trận Viewpoints)** và **Phần 3 (Bảng Test Cases)** có gắn `VP ID` & `Test Type` cho từng dòng.
+3. [ ] Đã phủ đủ các nhóm từ `API_controls/API_Viewpoint.md` (`Header`, `Authorization/RBAC`, `HTTP Method`, `Body/Query/Path`, `Field Validation`, `Response`, `Security`) cho **từng endpoint in-scope** (không chỉ viết mẫu ở 1 endpoint rồi bỏ qua các endpoint còn lại).
+4. [ ] Đã kiểm tra đầy đủ 5 nhóm logic cốt lõi (Toàn vẹn DB, Khóa ngoại, Thuật toán, Idempotency, Micro-validation).
+5. [ ] Cột kết quả thực thi (Round 1, Round 2) để trống 100% khi bàn giao thiết kế.
