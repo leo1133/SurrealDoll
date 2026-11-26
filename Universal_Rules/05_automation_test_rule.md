@@ -13,6 +13,27 @@
 
 ---
 
+## 0. LUỒNG THỰC THI FLOW 6: GEN AUTOMATION SCRIPT
+
+> [!IMPORTANT]
+> **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
+> - **Rule Tiêu chuẩn (Rule 05):** Định nghĩa kiến trúc chuẩn POM, Data-Driven Testing (DDT), cam kết độ phủ bắt buộc $\ge 80\%$, và cấm sinh code làm mẫu (Anti-Scaffolding).
+> - **Công cụ Thực thi (Guardrail Script):** `scripts/auto_code_generator.py [MÃ]` là script chốt chặn tự động sinh Page Object, Test Data Matrix, Playwright Spec và đối soát độ phủ qua Quality Gate.
+
+*Cú pháp gợi ý:* `gen automation script [MÃ]`, `gen script auto [MÃ]`, `viết code auto [MÃ]`.
+*Công cụ tự động:* `scripts/auto_code_generator.py [MÃ]`
+
+```mermaid
+flowchart TD
+    Start6(["Lệnh: 'gen script auto [MÃ]'"]) --> Tool6["Kích hoạt: scripts/auto_code_generator.py [MÃ]"]
+    Tool6 --> In6["1. Nạp Đồng Thời CẢ 2 Kịch Bản<br>• testcase_ui/[MÃ]_testcase.md (Auto-UI/Auto-Data)<br>• testcase_api/[MÃ]_api.md (Auto-API)<br>• test_specs/[MÃ].json"]
+    In6 --> Arch6["2. Phân Tách Kiến Trúc Module Chuẩn (Rule 05)<br>• pages/[MÃ]Page.ts (POM Locators & Actions)<br>• data/[MÃ]_data.ts (DDT Data Matrix)"]
+    Arch6 --> CovGate6["3. Cổng Kiểm Soát Độ Phủ Bắt Buộc (Coverage Gate >= 80%)<br>• Playwright specs tự động chạy lặp qua 100% testcase Auto<br>• CẤM sinh code khung sườn làm mẫu"]
+    CovGate6 --> Out6["4. Bàn Giao & Lưu Trữ Mã Nguồn<br>👉 automation/[MÃ]/ (pages, data, tests) & README.md"]
+```
+
+---
+
 ## SƠ ĐỒ VÒNG ĐỜI PHÁT TRIỂN & THỰC THI (AUTOMATION LIFECYCLE FLOW)
 
 Mọi kịch bản kiểm thử tự động được thiết kế, sinh mã và vận hành tuần tự qua 9 giai đoạn khép kín:

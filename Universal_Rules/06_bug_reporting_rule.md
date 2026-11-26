@@ -7,6 +7,38 @@
 
 ---
 
+## 0. LUỒNG THỰC THI CHUẨN HÓA (MANDATORY BUG FLOWS)
+
+> [!IMPORTANT]
+> **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
+> - **Rule Tiêu chuẩn (Rule 06):** Định nghĩa chuẩn Bug Report, quy tắc chụp ảnh Highlight 3px, định tuyến bắt buộc DEV/STG, và lệnh cấm tự ý đổi trạng thái Backlog.
+> - **Công cụ Thực thi (Guardrail Script):** `scripts/bug_verifier.py [TICKET]` là script chốt chặn định tuyến đúng môi trường, tái hiện lỗi, đối soát ảnh và xuất báo cáo `bugs/[TICKET]/[TICKET]_bugs.md`.
+
+### 0.1. Flow 3: Đọc & Phân Tích Bug từ Backlog
+*Cú pháp gợi ý:* `phân tích bug [TICKET]`, `đọc bug [TICKET]`, `check bug [TICKET]`.
+*Công cụ tự động:* `scripts/bug_verifier.py [TICKET]`
+
+```mermaid
+flowchart TD
+    Start3(["Lệnh: 'phân tích bug [TICKET]'"]) --> In3["1. Nạp Dữ Liệu Ticket Bug<br>• Tiêu đề, các bước tái hiện (Steps), Actual vs Expected, ảnh lỗi gốc<br>• FEATURE_SPEC_MAP.md (Định vị đúng module & màn hình)<br>• test_specs/[MÃ].json (Đối chiếu mã thông báo MSG/CMMSG chuẩn)"]
+    In3 --> Cause3["2. Phân Tích Nguyên Nhân Gốc (Root Cause Analysis)<br>• Lỗi Front-end (DOM/Validation/CSS/Binding)<br>• Lỗi Backend API (Status code, Payload, Logic tính toán)<br>• Lỗi CSDL (Dữ liệu bẩn, Migration, Khóa ngoại)"]
+    Cause3 --> Scen3["3. Xây Dựng Ma Trận Kịch Bản Retest<br>• Ca kiểm thử tái hiện trực tiếp bug<br>• Các ca kiểm thử hồi quy (Regression) trên tính năng lân cận"]
+    Scen3 --> Out3["4. Báo Cáo Tại Conversation<br>👉 Báo cáo Root Cause + Retest Matrix trực tiếp"]
+```
+
+### 0.2. Flow 8: Xác Thực & Retest Bug Trực Tiếp (Verify Bug)
+*Cú pháp gợi ý:* `verify bug [MÃ/TICKET]`, `kiểm tra lại bug [MÃ/TICKET]`, `retest bug [TICKET]`.
+
+```mermaid
+flowchart TD
+    Start8(["Lệnh: 'verify bug [TICKET]'"]) --> Route8["1. Định Tuyến Môi Trường Tuyệt Đối<br>• Need Verify (Dev) -> BẮT BUỘC mở DEV<br>• Need Verify (STG) -> BẮT BUỘC mở STG<br>(NGHIÊM CẤM test chéo môi trường, cấm suy đoán từ PR)"]
+    Route8 --> Live8["2. Thao Tác Live Browser / API Live<br>• Tái hiện trực tiếp từng bước trên giao diện/API<br>• Đối soát CSDL qua SSM Tunnel nếu bug liên quan đến Data"]
+    Live8 --> Snap8["3. Chụp Atomic Evidence Kèm Highlight 3px<br>• Pass: Viền xanh #16a34a bao quanh vùng đã fix + Badge<br>• Fail: Viền đỏ #ef4444 bao quanh vùng lỗi + Badge [REOPEN]"]
+    Snap8 --> Safe8["4. Nguyên Tắc An Toàn Backlog (Zero-Auto Status Change)<br>• TUYỆT ĐỐI CẤM TỰ Ý CHUYỂN STATUS TRÊN BACKLOG<br>• Cập nhật file markdown bugs/[Ticket]_bugs.md & evidence/<br>• Cập nhật Sheet Khối Round 2 (Cột M:Q) nếu có yêu cầu<br>• Xuất báo cáo toàn diện & mẫu comment Backlog tại Chat"]
+```
+
+---
+
 ## 1. NGUYÊN TẮC CỐT LÕI KHI ĐÁNH GIÁ & BÁO CÁO LỖI (CORE PRINCIPLES)
 
 ```mermaid
