@@ -64,7 +64,12 @@
 - [ ] **[AVATAR-01]** Truy cập màn hình Setup Avatar từ Profile/Settings -> Tải danh mục model mà tài khoản sở hữu hoặc model mặc định.
 - [ ] **[AVATAR-02]** Xem trước (Preview) Model: Hiển thị model mượt mà ở khung hình trung tâm, texture hiển thị sắc nét, không bị vỡ hình hay lệch trục tọa độ.
 - [ ] **[AVATAR-03]** Thao tác cử chỉ trên Model: Thử nghiệm xoay góc nhìn, phóng to (Zoom in), thu nhỏ (Zoom out), điều chỉnh vị trí đứng của avatar.
-- [ ] **[AVATAR-04]** Kiểm tra Facial Tracking (khi cấp quyền Camera): Mắt chớp theo cử động người dùng, miệng mấp máy theo giọng nói từ mic.
+- [ ] **[AVATAR-04]** Kiểm tra Facial & Body Tracking (khi cấp quyền Camera): Mắt chớp theo cử động người dùng, miệng mấp máy theo giọng nói từ mic. **Đặc biệt: Phản hồi chính xác theo bộ tham số tracking do Admin thiết lập tại AP213, AP330, AP405 qua API `/user-model-setting/model/{id}/parameters/`**.
+- [ ] **[AVATAR-04.1]** **[CR SURREALDOLLS-13919]** Kiểm tra màn hình Model Adjustment Screen (Tùy biến Tracking phía Streamer):
+  - Tap button [Model Adjustment] tại streaming view / màn hình chuẩn bị live $\rightarrow$ Hiển thị màn hình trượt điều chỉnh vị trí và độ nhạy tracking.
+  - Tinh chỉnh các tham số (vị trí X/Y, góc quay, độ nhạy chớp mắt) $\rightarrow$ Bấm [Lưu] $\rightarrow$ Gọi API `POST /user-model-setting/save/three_d_model` thành công.
+  - Bấm [デフォルトに戻す / Reset] $\rightarrow$ Gọi API `POST /user-model-setting/reset/three_d_model` $\rightarrow$ Khôi phục toàn bộ model về cấu hình mặc định gốc từ Admin.
+  - *Tham chiếu kịch bản chi tiết:* [AP213_AP330_AP405_testcase.md](AP213_AP330_AP405_testcase.md) & [../testcase_api/AP213_AP330_AP405_api.md](../testcase_api/AP213_AP330_AP405_api.md).
 - [ ] **[AVATAR-05]** Bấm "Lưu/Áp dụng Model" -> Cập nhật thành công vào thông tin nhân vật của streamer.
 
 ### 2.2. Cấu hình Background (Hình nền phòng)

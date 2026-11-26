@@ -471,6 +471,20 @@
 - **Kết quả mong đợi:** Hệ thống quản lý đầy đủ các layer bộ phận của avatar, phục vụ cơ chế tùy biến nhân vật trên App.
 - **Độ ưu tiên:** `High` | **Trạng thái:** `Untested` | **Ghi chú/Màn hình:** `AP100-AP400`
 
+### 67.1. **[ADM-AP-03]** - Cài Đặt Tham Số Tracking Model (CR: `AP213` + `AP330` + `AP405`)
+- **Điều kiện tiên quyết:** Tại màn hình chi tiết từng bộ phận AP200 / AP300 / AP400, chọn tab [トラッキング設定]
+- **Các bước thực hiện:**
+  1. **AP213 (Face Tracking):** Cấu hình độ nhạy Eye Blink, Eye Tracking, khẩu hình miệng theo âm thanh (Mouth Audio Threshold), góc quay đầu tối đa (Head Angle X/Y/Z).
+  2. **AP330 (Body Tracking):** Cấu hình biên độ nghiêng thân Body Angle Z, nhịp thở (Breathing cycle/depth), bật chống xuyên thấu trang phục (Clothing collision).
+  3. **AP405 (Accessory Tracking):** Chọn layer mục tiêu gắn phụ kiện (Follow Target: Head/Body/Arm), cài đặt độ trễ vật lý (Physics Delay), đàn hồi (Elasticity) và trọng lực (Gravity).
+  4. Thao tác lưu `[保存]` (kiểm tra Toast `CMMSG13: 保存しました。`), khôi phục mặc định `[デフォルトに戻す]`, và hủy bỏ thay đổi dở dang `[キャンセル]`.
+- **Kết quả mong đợi:** Toàn bộ tham số được lưu chính xác vào DB Master JSONB; đồng bộ sang API User Mobile `/user-model-setting/model/{id}/parameters/`.
+- **Độ ưu tiên:** `Critical` | **Trạng thái:** `Chờ thực thi R1` | **Ghi chú/Màn hình:** `AP213, AP330, AP405`
+- **Kịch bản chi tiết:**
+  - 📋 **UI Testcase (70 TCs):** [AP213_AP330_AP405_testcase.md](AP213_AP330_AP405_testcase.md)
+  - 🔌 **API Testcase (25 TCs):** [../testcase_api/AP213_AP330_AP405_api.md](../testcase_api/AP213_AP330_AP405_api.md)
+  - 🎯 **Task Backlog:** [SURREALDOLLS-15052](https://issoh.backlog.com/view/SURREALDOLLS-15052) (Testcase) & [SURREALDOLLS-15053](https://issoh.backlog.com/view/SURREALDOLLS-15053) (Test)
+
 
 ## Quản lý Gacha & Tỷ lệ May rủi
 

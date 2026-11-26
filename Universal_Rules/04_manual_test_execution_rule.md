@@ -7,23 +7,34 @@
 
 ---
 
-## 1. QUY TRÌNH THỰC THI KIỂM THỬ THỦ CÔNG TỔNG THỂ
+## 1. QUY TRÌNH THỰC THI KIỂM THỬ THỦ CÔNG TỔNG THỂ (DETERMINISTIC 5-GATE FLOW)
+
+> [!IMPORTANT]
+> **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
+> - **Rule Tiêu chuẩn (Rule 04):** Định nghĩa 5 Cổng Kiểm Duyệt bắt buộc (Gate 1 đến Gate 5), nguyên tắc cấm đi tắt (Zero-Shortcut), Highlight 3px và bảo tồn ô công thức Dòng 1-7.
+> - **Công cụ Thực thi (Guardrail Scripts):** 
+>   * `scripts/test_runner.py`: Single Entrypoint điều phối thực thi theo màn hình, cụm hoặc task.
+>   * `scripts/atomic_capture_helper.js`: Tự động mở rộng accordion, assert kích thước DOM > 0, highlight 3px và chụp ảnh 1-to-1.
+>   * `scripts/sync_to_sheet.py`: Tự động đối soát 4 trạm Quality Gate (Zero-Duplicate SHA256, Size >10KB, Lock Mobile App) và map đúng dòng.
+
+> [!CAUTION]
+> **LUỒNG THỰC THI BẮT BUỘC KHÔNG THỂ BỎ QUA CHO AI AGENT (MANDATORY 5 GATES):**
+> Mọi hành vi thực thi kiểm thử thủ công và ghi nhận kết quả BẮT BUỘC tuân thủ tuần tự 5 Cổng Kiểm Duyệt dưới đây thông qua bộ công cụ `scripts/test_runner.py`. Nghiêm cấm mọi hành vi đi tắt đón đầu, dùng chung ảnh, hoặc ghi trực tiếp lên Sheet mà không qua kiểm duyệt.
 
 ```mermaid
 flowchart TD
-    Prep["1. Chuẩn Bị Môi Trường & Dữ Liệu<br>• URL: Dev / Staging / UAT<br>• Ma trận Phân quyền User Role<br>• Dữ liệu kiểm thử (Test Data Seeding)"]
-    
-    Prep --> Exec["2. Thao Tác Kiểm Thử Thủ Công<br>• Trình duyệt ẩn danh (Incognito) / Xóa Cache<br>• Kiểm tra Responsive & Zoom 100%, 125%<br>• Thao tác chính xác từng bước trong cột Steps"]
-    
-    Exec --> Verify{"Đối Chiếu Thực Tế vs Kỳ Vọng"}
-    
-    Verify -- "Khớp 100%" --> Pass["PASS: Ghi nhận cột H (Round 1) = Pass"]
-    Verify -- "Lệch / Lỗi / Crash" --> Fail["FAIL: Ghi nhận cột H = Fail<br>-> Chụp ảnh màn hình lỗi<br>-> Log Bug theo Rule 06"]
-    Verify -- "Chưa triển khai / Bị chặn" --> Block["BLOCKED / IMPACT: Ghi nhận lý do cột K"]
-    
-    Fail --> Retest["3. Quy Trình Retest (Round 2)<br>• Dev báo fixed -> Kiểm tra lại ca Fail<br>• Kiểm tra hồi quy các tính năng liên quan<br>• Cập nhật kết quả cột M (Round 2)"]
-    
-    Retest --> Signoff["4. Nghiệm Thu Hoàn Thành (Sign-Off)<br>• 100% ca kiểm thử được chạy (0 ca Not Run)<br>• 0 lỗi Blocker / Critical tồn đọng"]
+    Start(["Nhận lệnh kiểm thử: 'run test [MÃ]'"]) --> Gate1["GATE 1: SPEC & MAPPING DISCOVERY<br>• Đọc TEST_CONFIG.md (Định tuyến đúng URL & Credential DEV/STG)<br>• Đọc Sheet A1:A300 -> Lập từ điển { TC_ID -> Row_Number }<br>• Phát hiện & Khóa cứng danh sách Blacklist (Mobile App/External)"]
+
+    Gate1 --> Gate2["GATE 2: PRE-INTERACTION & STATE ASSERTION<br>• Mở trình duyệt Live đúng URL ENV<br>• Kích hoạt trạng thái hiển thị: Expand All Accordions, Switch Tab<br>• Assert DOM: rect.width > 0 && rect.height > 0 && display != 'none'<br>(Nếu bị ẩn -> Bắt buộc mở rộng, cấm chụp nhầm Header)"]
+
+    Gate2 --> Gate3["GATE 3: ATOMIC EXECUTION & VISUAL HIGHLIGHTING<br>• Nhập giá trị test thực tế (dispatch input/change event)<br>• Inject khung viền xanh #16a34a 3px + Badge [PASS] [TC_ID]<br>• Scroll Center -> Chụp ảnh độc lập 1-to-1 qua scripts/atomic_capture_helper.js"]
+
+    Gate3 --> Gate4["GATE 4: QUALITY GATE & ANTI-SHORTCUT VERIFICATION<br>• Chạy scripts/sync_to_sheet.py --dry-run đối soát:<br>  1. Count Check: Số ảnh sinh ra == Số TC Web cần test<br>  2. Zero-Duplicate Check: 0 testcase dùng chung đường dẫn<br>  3. SHA256 Collision Check: 0 file ảnh có nội dung trùng lặp<br>  4. Integrity Check: 100% file tồn tại và size > 10KB"]
+
+    Gate4 -- "Phát hiện Vi phạm" --> Abort(["ABORT & RE-EXECUTE: Chặn không cho ghi Sheet"])
+    Gate4 -- "Đạt 100% Tiêu chí" --> Gate5["GATE 5: SAFE SYNC TO SHEET & REPORT<br>• Ghi H:L theo mapping chuẩn của Gate 1 (Chống lệch dòng)<br>• Giữ trống 100% các ô thuộc danh sách Blacklist (Mobile App)<br>• Đọc đối soát lại sau khi ghi & Xuất báo cáo 1-to-1 trong Chat"]
+
+    Gate5 --> Done(["HOÀN THÀNH TÁC VỤ"])
 ```
 
 ---

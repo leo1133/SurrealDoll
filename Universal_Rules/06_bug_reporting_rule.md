@@ -7,6 +7,38 @@
 
 ---
 
+## 0. LUỒNG THỰC THI CHUẨN HÓA (MANDATORY BUG FLOWS)
+
+> [!IMPORTANT]
+> **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
+> - **Rule Tiêu chuẩn (Rule 06):** Định nghĩa chuẩn Bug Report, quy tắc chụp ảnh Highlight 3px, định tuyến bắt buộc DEV/STG, và lệnh cấm tự ý đổi trạng thái Backlog.
+> - **Công cụ Thực thi (Guardrail Script):** `scripts/bug_verifier.py [TICKET]` là script chốt chặn định tuyến đúng môi trường, tái hiện lỗi, đối soát ảnh và xuất báo cáo `bugs/[TICKET]/[TICKET]_bugs.md`.
+
+### 0.1. Flow 3: Đọc & Phân Tích Bug từ Backlog
+*Cú pháp gợi ý:* `phân tích bug [TICKET]`, `đọc bug [TICKET]`, `check bug [TICKET]`.
+*Công cụ tự động:* `scripts/bug_verifier.py [TICKET]`
+
+```mermaid
+flowchart TD
+    Start3(["Lệnh: 'phân tích bug [TICKET]'"]) --> In3["1. Nạp Dữ Liệu Ticket Bug<br>• Tiêu đề, các bước tái hiện (Steps), Actual vs Expected, ảnh lỗi gốc<br>• FEATURE_SPEC_MAP.md (Định vị đúng module & màn hình)<br>• test_specs/[MÃ].json (Đối chiếu mã thông báo MSG/CMMSG chuẩn)"]
+    In3 --> Cause3["2. Phân Tích Nguyên Nhân Gốc (Root Cause Analysis)<br>• Lỗi Front-end (DOM/Validation/CSS/Binding)<br>• Lỗi Backend API (Status code, Payload, Logic tính toán)<br>• Lỗi CSDL (Dữ liệu bẩn, Migration, Khóa ngoại)"]
+    Cause3 --> Scen3["3. Xây Dựng Ma Trận Kịch Bản Retest<br>• Ca kiểm thử tái hiện trực tiếp bug<br>• Các ca kiểm thử hồi quy (Regression) trên tính năng lân cận"]
+    Scen3 --> Out3["4. Báo Cáo Tại Conversation<br>👉 Báo cáo Root Cause + Retest Matrix trực tiếp"]
+```
+
+### 0.2. Flow 8: Xác Thực & Retest Bug Trực Tiếp (Verify Bug)
+*Cú pháp gợi ý:* `verify bug [MÃ/TICKET]`, `kiểm tra lại bug [MÃ/TICKET]`, `retest bug [TICKET]`.
+
+```mermaid
+flowchart TD
+    Start8(["Lệnh: 'verify bug [TICKET]'"]) --> Route8["1. Định Tuyến Môi Trường Tuyệt Đối<br>• Need Verify (Dev) -> BẮT BUỘC mở DEV<br>• Need Verify (STG) -> BẮT BUỘC mở STG<br>(NGHIÊM CẤM test chéo môi trường, cấm suy đoán từ PR)"]
+    Route8 --> Live8["2. Thao Tác Live Browser / API Live<br>• Tái hiện trực tiếp từng bước trên giao diện/API<br>• Đối soát CSDL qua SSM Tunnel nếu bug liên quan đến Data"]
+    Live8 --> Snap8["3. Chụp Atomic Evidence Kèm Highlight 3px<br>• Pass: Viền xanh #16a34a bao quanh vùng đã fix + Badge<br>• Fail: Viền đỏ #ef4444 bao quanh vùng lỗi + Badge [REOPEN]"]
+    Snap8 --> Safe8["4. Nguyên Tắc An Toàn Backlog (Zero-Auto Status Change)<br>• TUYỆT ĐỐI CẤM TỰ Ý CHUYỂN STATUS TRÊN BACKLOG<br>• Cập nhật file markdown bugs/[Ticket]_bugs.md & evidence/<br>• Cập nhật Sheet Khối Round 2 (Cột M:Q) nếu có yêu cầu<br>• Xuất báo cáo toàn diện & mẫu comment Backlog tại Chat"]
+```
+
+---
+
 ## 1. NGUYÊN TẮC CỐT LÕI KHI ĐÁNH GIÁ & BÁO CÁO LỖI (CORE PRINCIPLES)
 
 ```mermaid
@@ -131,8 +163,12 @@ Khi log từng bug lên hệ thống quản lý lỗi (Jira / GitHub Issues / Ma
 - **Môi trường (Environment):** URL: `{{TARGET_URL}}` | Trình duyệt: Chromium / Firefox | Role: `{{USER_ROLE}}`
 - **Các bước tái hiện (Steps to Reproduce):**
   1. Truy cập URL: `{{TARGET_URL}}`
-  2. Thao tác: `{{TEST_STEPS_WITH_ACTUAL_INPUT}}`
-  3. Quan sát: `{{OBSERVED_BEHAVIOR}}`
+  2. Đăng nhập tài khoản: `[username / role]`
+  3. Điều hướng đến màn hình: `[Tên menu → submenu / path cụ thể]`
+  4. [Hành động 1 — nguyên tử, 1 thao tác/bước]: Nhập `"{{GIÁ_TRỊ_CỤ_THỂ}}"` vào ô `[Tên field]`
+  5. [Hành động trigger lỗi]: Nhấn nút `[Tên nút]` / Thực hiện `{{THAO_TÁC}}`
+  6. Quan sát: `{{OBSERVED_BEHAVIOR}}`
+  > ⚠️ Bắt buộc: Mỗi bước chỉ 1 hành động. Dữ liệu nhập phải là giá trị cụ thể (không dùng "nhập dữ liệu không hợp lệ" chung chung).
 - **Kết quả kỳ vọng (Expected Result):** `{{EXPECTED_BEHAVIOR_PER_SPEC}}`
 - **Kết quả thực tế (Actual Result):** `{{ACTUAL_BEHAVIOR_OBSERVED}}`
 - **Bằng chứng đính kèm (Evidence):**
@@ -197,6 +233,70 @@ Mọi báo cáo lỗi và file bằng chứng bắt buộc phải được phân
 
 Khi có yêu cầu xác thực lỗi đã sửa (Verify Bug) từ câu lệnh người dùng hoặc khi nhận ticket chuyển trạng thái từ Developer, Tester và AI Agent **BẮT BUỘC** tuân thủ quy trình chuẩn hóa 6 bước dưới đây:
 
+> [!IMPORTANT]
+> **ĐIỀU KIỆN TIÊN QUYẾT BẮT BUỘC (MANDATORY PRE-CONDITION):**
+> Trước khi bắt đầu bất kỳ bước nào trong quy trình 6 bước, Agent **BẮT BUỘC** phải trình bày rõ ràng **Bảng Steps to Reproduce chi tiết** của bug cần verify. Không có bảng này → không được phép tiến hành kiểm tra thực tế.
+
+---
+
+### 5.0. Bắt Buộc Tổng Hợp & Trình Bày Steps to Reproduce Chi Tiết (Mandatory Steps-Before-Verify)
+
+> [!IMPORTANT]
+> **QUY TẮC VÀNG:** Khi nhận bất kỳ lệnh nào liên quan đến `check bug`, `verify bug`, `retest bug`, `log bug`, `báo cáo lỗi`, Agent **BẮT BUỘC** phải xuất ra ngay một bảng **Steps to Reproduce chi tiết** dưới dạng Markdown **TRƯỚC KHI** tiến hành bất kỳ thao tác nào trên browser/API/DB. Người xem phải đọc bảng này và biết chính xác cần làm gì để tái hiện lỗi.
+
+#### 5.0.1. Cấu Trúc Bảng Steps to Reproduce Bắt Buộc
+
+Với mỗi bug cần check/verify, Agent **bắt buộc** trình bày theo đúng mẫu sau (không được rút gọn, không được viết chung chung):
+
+```markdown
+### 🔁 STEPS TO REPRODUCE — [MÃ TICKET / BUG ID] | [Tên bug ngắn gọn]
+
+| # | Hành động (Action) | Dữ liệu đầu vào (Input Data) | Trạng thái tiền điều kiện |
+|:--|:---|:---|:---|
+| 1 | Mở trình duyệt, truy cập URL | `https://admin-dev.surrealdolls.com/sign-in/` | — |
+| 2 | Đăng nhập bằng tài khoản | Username: `[user]` / Password: `[pass]` | Tài khoản phải có role [admin/agency] |
+| 3 | Điều hướng đến màn hình | Vào menu: `[Tên menu → Tên submenu]` → URL: `/path/to/screen` | Màn hình load đầy đủ, không có lỗi 403/404 |
+| 4 | [Thao tác cụ thể trên UI] | [Giá trị nhập vào ô input / button nhấn / file upload…] | [Dữ liệu mẫu cần có sẵn nếu có] |
+| 5 | [Thao tác trigger lỗi] | [Dữ liệu boundary / invalid / edge-case cụ thể] | — |
+| 6 | Quan sát kết quả | — | — |
+
+**Expected Result (kỳ vọng theo Spec):** [Mô tả rõ hành vi hệ thống kỳ vọng]
+**Actual Result (thực tế cũ — trước khi sửa):** [Mô tả hành vi lỗi đã xảy ra]
+**Môi trường cần verify:** DEV / STG
+**Tài khoản sử dụng:** Admin (`[url]`) / Agency (`[url]`)
+```
+
+#### 5.0.2. Quy Tắc Chất Lượng Steps to Reproduce (Quality Gates)
+
+Agent **BẮT BUỘC** đảm bảo các tiêu chí sau cho từng bước trong bảng:
+
+| Tiêu chí | Mô tả bắt buộc |
+|:---|:---|
+| **Tính nguyên tử (Atomic)** | Mỗi bước chỉ mô tả **1 hành động duy nhất**. Nghiêm cấm viết "Vào màn hình và nhập dữ liệu và bấm Save" trong 1 dòng. |
+| **Dữ liệu cụ thể (Concrete Input)** | Phải ghi rõ **giá trị thực tế** sẽ nhập vào từng ô input (ví dụ: `"Test@123"`, `256 ký tự "a"*256`, `file: test_invalid.pdf`). Nghiêm cấm viết `"nhập dữ liệu không hợp lệ"` chung chung. |
+| **URL chính xác (Exact URL)** | Bước đầu tiên hoặc bước điều hướng bắt buộc ghi URL đầy đủ của màn hình cần kiểm tra. |
+| **Tiền điều kiện rõ ràng (Precondition)** | Nếu bước cần dữ liệu mẫu hoặc trạng thái hệ thống đặc biệt (ví dụ: "Phải có ít nhất 1 bản ghi trong bảng X"), phải ghi rõ ở cột "Trạng thái tiền điều kiện". |
+| **Bước trigger lỗi rõ ràng (Trigger Step)** | Bước cuối cùng trước khi quan sát phải chỉ rõ hành động cụ thể dẫn đến lỗi (ví dụ: `"Nhấn nút [Save]"`, `"Scroll xuống, nhấn [Load More]"`). |
+| **Không suy đoán (No Assumption)** | Các bước phải dựa trên nội dung bug report gốc / testcase gốc. Nếu bug report cũ thiếu thông tin, Agent phải **tự suy luận từ Spec và ghi chú rõ `[Suy luận từ Spec]`** để Tester biết. |
+
+#### 5.0.3. Nguồn Thông Tin Để Tổng Hợp Steps (Auto-Discovery Priority)
+
+Agent tự động đọc theo thứ tự ưu tiên sau để tổng hợp bảng steps:
+
+1. **`bugs/[MÃ_MÀN_hoặc_TICKET]/[MÃ]_bugs.md`** → Trích xuất Steps to Reproduce gốc đã ghi nhận.
+2. **`testcase_ui/[MÃ_MÀN]_testcase.md`** → Đối chiếu TC liên quan để bổ sung bước chi tiết còn thiếu.
+3. **`test_specs/[MÃ_MÀN]_online.json` hoặc `test_specs/[MÃ_MÀN].json`** → Lấy luồng nghiệp vụ, ràng buộc dữ liệu, và mã thông báo lỗi (MSG/CMMSG) chuẩn.
+4. **Ticket Backlog** (nếu có tool tích hợp hoặc người dùng paste nội dung vào conversation) → Trích xuất nội dung mô tả lỗi gốc.
+
+#### 5.0.4. Xử Lý Trường Hợp Thiếu Thông Tin (Incomplete Bug Report Handling)
+
+Khi bug report gốc không có Steps to Reproduce hoặc thiếu dữ liệu cụ thể:
+- Agent **KHÔNG ĐƯỢC** dừng lại hỏi người dùng từng mục nhỏ.
+- Agent **BẮT BUỘC** tự suy luận từ Spec và điền bảng steps đầy đủ, đánh dấu các bước không chắc chắn bằng `[Suy luận từ Spec]`.
+- Sau khi trình bày bảng, Agent hỏi **1 câu duy nhất**: *"Bảng Steps to Reproduce trên có đúng với bug bạn cần verify không? Nếu cần điều chỉnh bước nào, hãy sửa trước khi tôi thực thi kiểm tra thực tế."*
+
+---
+
 ### 5.1. Các Tình Huống Kích Hoạt Yêu Cầu Verify Bug (Trigger Events & Commands)
 Yêu cầu Verify Bug được kích hoạt tự động khi:
 1. **Người dùng ra lệnh bằng các cú pháp:**
@@ -213,7 +313,8 @@ Yêu cầu Verify Bug được kích hoạt tự động khi:
 
 ```mermaid
 flowchart TD
-    Trigger["Nhận Lệnh / Ticket Verify Bug<br>(Cú pháp: verify bug [MÃ/TICKET] hoặc trạng thái Need Verify)"] --> Step1["1. Phân Tích Thông Tin Bug & Bóc Tách Expected vs Actual cũ"]
+    Trigger["Nhận Lệnh / Ticket Verify Bug<br>(Cú pháp: verify bug [MÃ/TICKET] hoặc trạng thái Need Verify)"] --> Step0["0. BẮT BUỘC: XUẤT BẢNG STEPS TO REPRODUCE CHI TIẾT<br>• Trình bày ngay bảng Steps dạng Markdown trước khi thực thi<br>• Mỗi bước: hành động + dữ liệu cụ thể + tiền điều kiện<br>• Nguồn: bugs/ → testcase_ui/ → test_specs/ → Ticket Backlog<br>• Nếu thiếu info: suy luận từ Spec và hỏi xác nhận 1 lần"]
+    Step0 --> Step1["1. Phân Tích Thông Tin Bug & Bóc Tách Expected vs Actual cũ"]
     
     Step1 --> Step2["2. Định Tuyến Môi Trường TUYỆT ĐỐI:<br>• Need Verify Dev -> Môi trường DEV (DB 15432)<br>• Need Verify STG -> Môi trường STG (DB 15433)<br>• Chọn đúng Cổng: Admin / Agency"]
     
@@ -431,7 +532,13 @@ message: schema.INVALID_EMAIL // Thay vì dùng schema.EMAIL chuẩn
 ```markdown
 Đã tiến hành xác minh lại lỗi trên môi trường **[DEV / STG]** (URL: `{{TARGET_URL}}`):
 - **Kết quả:** Bug **VẪN CÒN TỒN TẠI** (Chưa được khắc phục hoàn toàn).
-  + Các bước tái hiện: [Các bước thao tác]
+  + **Các bước tái hiện chi tiết (Steps to Reproduce):**
+    1. Truy cập URL: `{{TARGET_URL}}`
+    2. Đăng nhập tài khoản: `[username/role]`
+    3. Điều hướng đến màn hình: `[Tên menu → submenu / path]`
+    4. [Hành động cụ thể]: Nhập `[giá trị cụ thể]` vào ô `[tên field]`
+    5. [Hành động trigger lỗi]: Nhấn `[Tên nút]` / Thực hiện `[thao tác]`
+    6. Quan sát kết quả
   + Kết quả kỳ vọng (Expected): [Nội dung theo spec/SRS]
   + Kết quả thực tế (Actual): [Lỗi thực tế còn vướng phải]
   + DOM / API Log: [Trích xuất mã lỗi nếu có]

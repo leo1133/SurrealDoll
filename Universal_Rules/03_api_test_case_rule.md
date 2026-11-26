@@ -7,6 +7,27 @@
 
 ---
 
+## 0. LUỒNG THỰC THI FLOW 5: GEN TESTCASE BACKEND API
+
+> [!IMPORTANT]
+> **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
+> - **Rule Tiêu chuẩn (Rule 03):** Định nghĩa 5 trọng tâm logic backend, 419 viewpoints API (`API_controls/API_Viewpoint.md`), cấu trúc ma trận testcase API.
+> - **Công cụ Thực thi (Guardrail Script):** `scripts/testcase_generator.py [MÃ] --type api` là script chốt chặn tự động sinh các ca kiểm thử theo chuẩn Rule 03 và xuất file `testcase_api/[MÃ]_api.md`.
+
+*Cú pháp gợi ý:* `gen testcase API [MÃ]`, `viết testcase API [MÃ]`, `tạo kịch bản API [MÃ]`.
+*Công cụ tự động:* `scripts/testcase_generator.py [MÃ] --type api`
+
+```mermaid
+flowchart TD
+    Start5(["Lệnh: 'gen testcase API [MÃ]'"]) --> Tool5["Kích hoạt: scripts/testcase_generator.py [MÃ] --type api"]
+    Tool5 --> In5["1. Auto-Discovery Nguồn Đầu Vào<br>• test_specs/[MÃ].json<br>• API_controls/API_Viewpoint.md (419 viewpoints)<br>• TEST_CONFIG.md & Q&A/[MÃ]_Q&A.md"]
+    In5 --> Logic5["2. Áp Dụng 5 Trọng Tâm Logic Backend (Rule 03)<br>• Toàn vẹn & Biến động CSDL<br>• Quan hệ khóa ngoại & Parent-Child<br>• Công thức tính toán & Thuật toán nghiệp vụ<br>• Idempotency & Chống spam click"]
+    Logic5 --> Cover5["3. Thiết Kế Ma Trận Ca Kiểm Thử<br>• Status Codes: 200, 400, 401, 403, 404, 422, 500<br>• SQL Injection, XSS, Boundary"]
+    Cover5 --> Out5["4. Xuất File Kịch Bản API Chuẩn Hóa<br>👉 testcase_api/[Mã_màn]_api.md"]
+```
+
+---
+
 ## 1. NGUYÊN TẮC TRỌNG TÂM KIỂM THỬ LOGIC BACKEND (BACKEND BUSINESS LOGIC FOCUS)
 
 Bên cạnh việc quét các trường input/params đơn lẻ theo contract (Key, Type, Min/Max), **bắt buộc phải thiết kế bộ ca kiểm thử chuyên sâu cho 5 nhóm logic cốt lõi**:
