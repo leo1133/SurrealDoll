@@ -37,14 +37,23 @@ Thư mục này chứa trọn vẹn bộ **9 Quy chuẩn Kiểm thử Phần m�
 
 ---
 
-## II. DANH MỤC CÁC FILE QUY CHUẨN 9 TRỤ CỘT (`Universal_Rules/`)
+## II. DANH MỤC CÁC FILE QUY CHUẨN 9 TRỤ CỘT & BỘ CÔNG CỤ THỰC THI
 
-| File Quy Chuẩn | Phạm Vi & Vai Trò | Thư Mục Đầu Ra Tương Ứng |
-| :--- | :--- | :--- |
-| [01_core_spec_analysis_rule.md](Universal_Rules/01_core_spec_analysis_rule.md) | **Trụ cột 1:** Phân tích Spec 2-Pass, đối chiếu Figma 1:1 & Lập Q&A (Option A/B) | Lưu vào `Q&A/[Tên màn hình]_Q&A.md` |
-| [02_manual_ui_test_case_rule.md](Universal_Rules/02_manual_ui_test_case_rule.md) | **Trụ cột 2 (Manual Design):** Thiết kế Test Case Giao diện (Đối chiếu bộ ba sheet `CommonSpec`, `Common MSG`, `MSG`; Checklist Common Controls & CMR bắt buộc; Header 1 TC/cột; 8 viewpoints KPI; Nạp thông điệp nguyên văn) | Lưu vào `testcase_ui/[Tên màn hình]_testcase.md` |
-| [03_api_test_case_rule.md](Universal_Rules/03_api_test_case_rule.md) | **Trụ cột 3 (API Design):** Thiết kế Test Case Backend API (419 viewpoints, toàn vẹn DB, A1-A14) | Lưu vào `testcase_api/[Tên màn hình]_api.md` |
-| [04_manual_test_execution_rule.md](Universal_Rules/04_manual_test_execution_rule.md) | **Trụ cột 4 (Manual Execution):** Thực Thi Kiểm Thử Thủ Công (Role matrix, Round 1/2 trên Sheet, Đối soát CSDL, Retest & Sign-off) | Cập nhật vào `testcase_ui/` & Google Sheets |
+Hệ thống được thiết kế theo nguyên tắc phân định rõ ràng giữa **Quy chuẩn (Universal_Rules/)** và **Công cụ thực thi tự động (scripts/)**:
+
+| Trụ Cột & Phạm Vi | Rule Tiêu Chuẩn (`Universal_Rules/`) | Công Cụ Thực Thi Chốt Chặn (`scripts/`) | Thư Mục Đầu Ra |
+| :--- | :--- | :--- | :--- |
+| **1. Đọc & Phân tích Spec** | [01_core_spec_analysis_rule.md](Universal_Rules/01_core_spec_analysis_rule.md) | `scripts/spec_analyzer.py [MÃ]` | `Q&A/[Mã_màn]_Q&A.md` |
+| **2. Phân tích Task Backlog** | [01_core_spec_analysis_rule.md](Universal_Rules/01_core_spec_analysis_rule.md) & [08](Universal_Rules/08_task_estimation_rule.md) | `scripts/spec_analyzer.py [TASK]` | Conversation / `Q&A/` |
+| **3. Phân tích Bug Backlog** | [06_bug_reporting_rule.md](Universal_Rules/06_bug_reporting_rule.md) & [08](Universal_Rules/08_task_estimation_rule.md) | `scripts/bug_verifier.py [TICKET]` | Conversation / `bugs/` |
+| **4. Gen Testcase UI** | [02_manual_ui_test_case_rule.md](Universal_Rules/02_manual_ui_test_case_rule.md) | `scripts/testcase_generator.py [MÃ] --type ui` | `testcase_ui/[Mã_màn]_testcase.md` |
+| **5. Gen Testcase Backend API** | [03_api_test_case_rule.md](Universal_Rules/03_api_test_case_rule.md) | `scripts/testcase_generator.py [MÃ] --type api` | `testcase_api/[Mã_màn]_api.md` |
+| **6. Gen Automation Script** | [05_automation_test_rule.md](Universal_Rules/05_automation_test_rule.md) & [07](Universal_Rules/07_database_testing_rule.md) | `scripts/auto_code_generator.py [MÃ]` | `automation/[MÃ]/` (pages, data, tests) |
+| **7. Run Test Manual (5 Gates)** | [04_manual_test_execution_rule.md](Universal_Rules/04_manual_test_execution_rule.md) | `scripts/test_runner.py --target [MÃ/CỤM/TASK]`<br>*(kèm `atomic_capture_helper.js` & `sync_to_sheet.py`)* | Sheet 17 cột & `evidence/[MÃ]/` |
+| **8. Verify Bug (Xác thực Lỗi)** | [06_bug_reporting_rule.md](Universal_Rules/06_bug_reporting_rule.md) & [04](Universal_Rules/04_manual_test_execution_rule.md) | `scripts/bug_verifier.py [TICKET] --screen [MÃ]` | `bugs/[TICKET]/[TICKET]_bugs.md` & `evidence/` |
+| **9. Database Testing** | [07_database_testing_rule.md](Universal_Rules/07_database_testing_rule.md) | Read-only SQL queries / SSM Tunnel | `logs/db/` |
+| **10. Ước Lượng & Actual** | [08_task_estimation_rule.md](Universal_Rules/08_task_estimation_rule.md) | Backlog API cache | `estimates/` |
+| **11. Git Workflow & PR** | [09_git_workflow_rule.md](Universal_Rules/09_git_workflow_rule.md) | Git CLI workflow (`push data` & `clear data`) | Pull Request & Remote Branch |Kiểm Thử Thủ Công (Role matrix, Round 1/2 trên Sheet, Đối soát CSDL, Retest & Sign-off) | Cập nhật vào `testcase_ui/` & Google Sheets |
 | [05_automation_test_rule.md](Universal_Rules/05_automation_test_rule.md) | **Trụ cột 5 (Automation):** Kiểm Thử Tự Động Hóa (Sinh code Playwright POM, Triple-Layer E2E, Resilient Locators, Smart Waiting) | Lưu vào `automation/[Tên màn hình]_readme.md` |
 | [06_bug_reporting_rule.md](Universal_Rules/06_bug_reporting_rule.md) | **Trụ cột 6 (Bug & Evidence):** Quản Lý Báo Cáo Lỗi & Bằng Chứng (Atomic Screenshot, Bug Template, Fail Table, DB Query Log) | Lưu vào `bugs/[Mã_màn]/[Mã_màn]_bugs.md` & `evidence/[Mã_màn]/` |
 | [07_database_testing_rule.md](Universal_Rules/07_database_testing_rule.md) | **Trụ cột 7 (Database Testing):** Kiểm Thử Cơ Sở Dữ Liệu & Đối Soát Tính Toàn Vẹn Dữ Liệu (Xác thực 3 chiều UI ↔ API ↔ DB, Read-Only Safety, Data Seeding & Teardown, Audit Trail, Zero-Hardcoding) | `logs/db/` hoặc đính kèm vào `testcase_ui/` & `bugs/` |

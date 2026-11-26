@@ -10,6 +10,27 @@
 
 ---
 
+## 0. LUỒNG THỰC THI FLOW 4: GEN TESTCASE UI
+
+> [!IMPORTANT]
+> **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
+> - **Rule Tiêu chuẩn (Rule 02):** Định nghĩa cấu trúc 3 Section tuần tự, chuẩn bảng 13 cột, phân loại bắt buộc `Automation Feasibility`, và tỷ lệ vàng ~80% Auto / ~20% Manual.
+> - **Công cụ Thực thi (Guardrail Script):** `scripts/testcase_generator.py [MÃ] --type ui` là script chốt chặn tự động nạp `UI_controls/`, tính toán tỷ lệ, sinh kịch bản và xuất file `testcase_ui/[MÃ]_testcase.md`.
+
+*Cú pháp gợi ý:* `gen testcase UI [MÃ]`, `gen testcase [MÃ]`, `tạo kịch bản UI [MÃ]`.
+*Công cụ tự động:* `scripts/testcase_generator.py [MÃ] --type ui`
+
+```mermaid
+flowchart TD
+    Start4(["Lệnh: 'gen testcase UI [MÃ]'"]) --> Tool4["Kích hoạt: scripts/testcase_generator.py [MÃ] --type ui"]
+    Tool4 --> In4["1. Auto-Discovery Nguồn Đầu Vào<br>• test_specs/[MÃ]_online.json hoặc [MÃ].json<br>• Q&A/[MÃ]_Q&A.md (Logic nghiệp vụ đã chốt)<br>• UI_controls/ (Quét control mapping: input, button, table...)<br>• TEST_CONFIG.md"]
+    In4 --> Pipe4["2. Phân Bổ Section 3 Tầng Tuần Tự (Rule 02)<br>• Section 1: Điều hướng, Deep-link & Lifecycle<br>• Section 2: Main Controls, Filters, Table & Pagination<br>• Section 3: Modals, Popups, Validation & Non-functional"]
+    Pipe4 --> Tag4["3. Phân Loại Automation Feasibility Bắt Buộc<br>• Khóa cứng tỷ lệ vàng: ~80% Auto và ~20% Manual<br>• Ghi rõ lý do với Manual-Only: (Visual, DB, UX)"]
+    Tag4 --> Out4["4. Xuất File Kịch Bản Chuẩn Hóa<br>👉 testcase_ui/[Mã_màn]_testcase.md"]
+```
+
+---
+
 ## 1. KIẾN TRÚC PHÂN BỔ SECTION TUẦN TỰ (STRICT MULTI-SECTION PIPELINE)
 
 Mọi bộ test suite giao diện bắt buộc phải được tổ chức thành 3 Section tuần tự:

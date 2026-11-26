@@ -8,6 +8,39 @@
 
 ---
 
+## 0. LUỒNG THỰC THI CHUẨN HÓA (MANDATORY EXECUTION FLOWS)
+
+> [!IMPORTANT]
+> **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
+> - **Rule Tiêu chuẩn (Rule 01):** Định nghĩa quy chuẩn 2-Pass Scanning, ma trận phân quyền đa vai trò RBAC và bảng Q&A Backlog.
+> - **Công cụ Thực thi (Guardrail Script):** `scripts/spec_analyzer.py` là script chốt chặn tự động nạp dữ liệu, bóc tách và xuất file `Q&A/[MÃ]_Q&A.md`.
+
+### 0.1. Flow 1: Đọc & Phân Tích Spec (Màn hình / Cụm chức năng)
+*Cú pháp gợi ý:* `phân tích spec [MÃ/CỤM]`, `làm rõ spec [MÃ]`, `tạo Q&A [MÃ]`.
+*Công cụ tự động:* `scripts/spec_analyzer.py [MÃ]`
+
+```mermaid
+flowchart TD
+    Start1(["Lệnh: 'phân tích spec [MÃ]'"]) --> Tool1["Kích hoạt: scripts/spec_analyzer.py [MÃ]"]
+    Tool1 --> In1["1. Auto-Discovery Nguồn Đầu Vào<br>• test_specs/[MÃ]_online.json hoặc [MÃ].json<br>• FEATURE_SPEC_MAP.md (Cụm & Liên kết chéo)<br>• TEST_CONFIG.md (Google Sheet Spec, CommonSpec, MSG)<br>• Figma / UI Mockup links"]
+    In1 --> An1["2. Phân Tích Nghiệp Vụ 2-Pass Scanning (Rule 01)<br>• Pass 1: UI Controls có [No.]<br>• Pass 2: Non-UI Rules & Logic ngầm định<br>• Ma trận phân quyền RBAC & Mã thông báo lỗi MSG"]
+    An1 --> QA1["3. Bóc Tách Điểm Mờ & Xung Đột Logic (Q&A Backlog)"]
+    QA1 --> Out1["4. Xuất File Báo Cáo Chuẩn Hóa<br>👉 Q&A/[Mã_màn_hoặc_Cụm]_Q&A.md"]
+```
+
+### 0.2. Flow 2: Đọc & Phân Tích Task từ Backlog (CR / Feature / Change Request)
+*Cú pháp gợi ý:* `phân tích task [TICKET]`, `đọc task [TICKET]`, `làm rõ task [TICKET]`.
+
+```mermaid
+flowchart TD
+    Start2(["Lệnh: 'phân tích task [TICKET]'"]) --> In2["1. Nạp Dữ Liệu Ticket<br>• Mô tả task, link Spec CR, PR/Commit liên quan<br>• FEATURE_SPEC_MAP.md (Tra cứu màn hình cha & module)<br>• test_specs/[MÃ].json (Spec hiện tại của màn hình)"]
+    In2 --> Imp2["2. Phân Tích Phạm Vi Tác Động (Impact Analysis)<br>• Màn hình bị sửa đổi trực tiếp (Direct Scope)<br>• Màn hình/Module bị ảnh hưởng gián tiếp (Regression Scope)<br>• Tác động CSDL (Schema migration, Data compatibility)"]
+    Imp2 --> AC2["3. Thiết Lập Tiêu Chí Nghiệm Thu (Acceptance Criteria)<br>• Bảng kiểm tra AC độc lập từng tiêu chí<br>• Ma trận rủi ro & Kịch bản kiểm thử trọng yếu"]
+    AC2 --> Out2["4. Báo Cáo Tại Conversation<br>👉 Trình bày bảng Impact Matrix + AC Checklist trực tiếp"]
+```
+
+---
+
 ## I. NGUYÊN TẮC QUÉT ĐẶC TẢ 2 BƯỚC BẮT BUỘC (2-PASS SCANNING PROTOCOL)
 
 Để triệt tiêu hoàn toàn lỗi bỏ sót logic ẩn hoặc tự suy diễn (hallucination), AI bắt buộc phải thực hiện quét Spec theo 2 lượt tuần tự:
