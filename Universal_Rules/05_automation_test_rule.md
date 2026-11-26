@@ -15,7 +15,7 @@
 
 ## SƠ ĐỒ VÒNG ĐỜI PHÁT TRIỂN & THỰC THI (AUTOMATION LIFECYCLE FLOW)
 
-Mọi kịch bản kiểm thử tự động được thiết kế, sinh mã và vận hành tuần tự qua 8 giai đoạn khép kín:
+Mọi kịch bản kiểm thử tự động được thiết kế, sinh mã và vận hành tuần tự qua 9 giai đoạn khép kín:
 
 ```mermaid
 flowchart TD
@@ -25,7 +25,8 @@ flowchart TD
     G4 --> G5["Giai Đoạn 5: Xây Dựng Kịch Bản Đa Tầng (Multi-Layer Testing)<br>(UI POM + API 6 Khối + E2E 3 Chiều + Traceability @tc)"]
     G5 --> G6["Giai Đoạn 6: Điều Phối Thực Thi & Khử Flaky (Flaky Test Triage)<br>(Clean Context, Monitored Retry, CI/CD Pipeline)"]
     G6 --> G7["Giai Đoạn 7: Bàn Giao, Tracking & Báo Lỗi (Documentation & Handover)<br>(Module Readme, Mapping Manual, Link Trụ Cột 6)"]
-    G7 --> G8["Giai Đoạn 8: Cổng Kiểm Duyệt Chất Lượng Của AI (Pre-Flight Gatekeeper)<br>(Bảng rà soát 7 tiêu chí bắt buộc trước khi bàn giao)"]
+    G7 --> G8["Giai Đoạn 8: Cổng Kiểm Duyệt Chất Lượng Của AI (Pre-Flight Gatekeeper)<br>(Bảng rà soát 13 tiêu chí bắt buộc trước khi bàn giao)"]
+    G8 --> G9["Giai Đoạn 9: Quy Chuẩn Điều Phối Git, Nhánh, Commit & PR<br>(Git Workflow, Conventional Commits, PR Template)"]
 ```
 
 ---
@@ -464,3 +465,118 @@ Trước khi bàn giao mã nguồn, AI bắt buộc tự chạy quét codebase t
 3. `goto\(["'].*[?&=]` trong `tests/`: Bắt lỗi query param URL bị gán cứng.
 4. `(page|sharedPage)\.locator\(` trong `tests/`: Bắt lỗi viết locator trực tiếp trong test spec.
 *(Nếu phát hiện bất kỳ dòng nào khớp regex trên, nhiệm vụ bị đánh dấu Chưa Đạt và bắt buộc phải refactor sạch sẽ trước khi báo cáo hoàn thành).*
+
+---
+
+## GIAI ĐOẠN 9: QUY CHUẨN ĐIỀU PHỐI GIT, NHÁNH, COMMIT & PULL REQUEST (GIT WORKFLOW CONVENTIONS)
+
+Quy chuẩn hóa toàn bộ quy trình làm việc với hệ thống quản lý phiên bản (Git), đảm bảo tính toàn vẹn của nhánh chính (`main`), tối ưu hóa khả năng truy vết lịch sử kiểm thử và tương thích tuyệt đối với quy trình CI/CD tự động.
+
+> [!IMPORTANT]
+> **Tương thích Trụ cột 9:** Giai đoạn này kế thừa và chi tiết hóa giao thức Git từ [09_git_workflow_rule.md](file:///Users/ngaphuong/projects/SurrealDoll/Universal_Rules/09_git_workflow_rule.md), áp dụng chuyên biệt cho mã nguồn kiểm thử tự động, cấu hình CI và hạ tầng test.
+
+### 9.1. Quy chuẩn Đặt tên Nhánh (Branch Naming Convention)
+
+#### Cú pháp chuẩn:
+```text
+<type>/<scope>-<short-description>
+# hoặc nếu gắn với Ticket / Issue Tracker:
+<type>/<ticket-id>-<short-description>
+```
+
+#### Bảng tiền tố nhánh (`type`) chuẩn hóa:
+| Tiền tố (`type`) | Ý nghĩa & Phạm vi áp dụng | Ví dụ thực tế |
+| :--- | :--- | :--- |
+| **`feat/`** | Thêm test suite mới, tạo module kiểm thử mới, viết utility dùng chung | `feat/ad301-agency-crud`<br/>`feat/crud-lifecycle-manager` |
+| **`fix/`** | Sửa kịch bản kiểm thử bị fail, sửa selector bị gãy, sửa logic xóa nhầm dữ liệu, sửa auth | `fix/ad301-ephemeral-agency-delete`<br/>`fix/dev-auth-password` |
+| **`refactor/`** | Tái cấu trúc mã nguồn test, loại bỏ hardcode, tối ưu POM/helper mà không làm đổi logic kiểm thử | `refactor/data-discovery-zero-hardcode`<br/>`refactor/base-test-fixtures` |
+| **`perf/`** | Tối ưu hóa thời gian thực thi test suite, song song hóa worker, cải thiện caching trình duyệt/API | `perf/smart-pr-testing-workflow`<br/>`perf/cache-playwright-browsers` |
+| **`ci/`** | Thay đổi cấu hình CI/CD (GitHub Actions `.github/workflows/`, Jenkinsfile, Dockerfile) | `ci/jenkins-parameterized-all-tests`<br/>`ci/sync-dev-secrets-workflow` |
+| **`test/`** | Bổ sung thêm test viewpoints, mở rộng ma trận kiểm thử dữ liệu mà không đổi code kiến trúc | `test/ae100-gacha-matrix-update`<br/>`test/ad302-streamer-edge-cases` |
+| **`docs/`** | Cập nhật tài liệu automation readme, checklist, tài liệu quy chuẩn kiểm thử | `docs/ci-cd-pipeline-documentation`<br/>`docs/crud-lifecycle-guidelines` |
+| **`chore/`** | Nâng cấp package phụ thuộc (`npm update`), tinh chỉnh eslint, cấu hình `.gitignore` | `chore/upgrade-playwright-v1-49`<br/>`chore/cleanup-temp-traces` |
+
+#### Quy tắc bắt buộc khi đặt tên nhánh:
+1. **Chữ thường hoàn toàn (kebab-case):** Dùng `feat/ad301-crud`, nghiêm cấm chữ hoa PascalCase (`feat/AD301_Crud`) hoặc camelCase (`feat/ad301Crud`).
+2. **Ký tự phân cách:** Sử dụng dấu gạch nối ngang (`-`). Tuyệt đối không dùng khoảng trắng, dấu gạch dưới `_`, hoặc ký tự đặc biệt.
+3. **Độ dài tối ưu:** Ngắn gọn, súc tích (3–6 từ), nêu bật hành động và đối tượng kiểm thử.
+4. **Quy tắc Zero Direct Push to Main:** Nghiêm cấm push mã nguồn trực tiếp vào nhánh `main`/`master`. Mọi thay đổi đều phải đi qua nhánh riêng và mở Pull Request.
+
+---
+
+### 9.2. Quy chuẩn Đặt tên Commit (Conventional Commits v1.0.0)
+
+Mọi commit bắt buộc tuân theo chuẩn **Conventional Commits v1.0.0** nhằm phục vụ tự động hóa changelog, semantic versioning và khả năng truy vết lịch sử codebase.
+
+#### Cú pháp chuẩn:
+```text
+<type>(<scope>): <subject>
+
+[optional body: giải thích chi tiết Tại sao (Why) và Cái gì (What)]
+
+[optional footer: liên kết Issue ID, Breaking Changes (e.g., Refs #123)]
+```
+
+#### Quy tắc định dạng thành phần:
+1. **`type` (Bắt buộc):** Đồng nhất với các phân loại chuẩn (`feat`, `fix`, `refactor`, `perf`, `ci`, `test`, `docs`, `chore`).
+2. **`scope` (Bắt buộc):** Xác định rõ module, màn hình hoặc tầng kiến trúc chịu ảnh hưởng:
+   - *Theo mã màn hình:* `ad301`, `ad100`, `aa000`, `ad200`, `ad302`, `ae100`, `aq100`...
+   - *Theo tầng kiến trúc test:* `utils`, `fixtures`, `discovery`, `config`, `auth`, `ci`.
+3. **`subject` (Bắt buộc):**
+   - Sử dụng thể mệnh lệnh ở thì hiện tại (imperative mood: e.g. `add`, `fix`, `implement`, `update`, `refactor` thay vì `added`, `fixes`, `implementing`).
+   - Bắt đầu bằng chữ thường, **không** có dấu chấm kết câu (`.`).
+   - Giới hạn độ dài: Tối đa **72 ký tự**.
+
+#### Ví dụ commit message chuẩn trong dự án:
+```bash
+# Thêm tính năng kiểm thử mới / Utility mới
+feat(ad301): implement full CRUD lifecycle on ephemeral agency across test suite
+feat(utils): create CrudLifecycleManager common utility for disposable resources
+
+# Sửa lỗi kiểm thử / Vá lỗi môi trường
+fix(ad301): isolate destructive DELETE tests to prevent persistent data loss
+fix(ci): synchronize dev admin password fallback across workflow, baseTest and test-data
+
+# Tái cấu trúc / Triệt tiêu hardcode
+refactor(discovery): eliminate hardcoded IDs, methods, and status codes
+
+# Tối ưu hóa CI/CD
+ci(workflow): enable smart PR test detection for core infrastructure changes
+```
+
+---
+
+### 9.3. Quy chuẩn Mô tả & Kiểm duyệt Pull Request (PR Template)
+
+Khi đẩy code lên remote repository (GitHub/GitLab), Pull Request phải có tiêu đề và nội dung mô tả cấu trúc theo biểu mẫu chuẩn:
+
+#### Tiêu đề PR (PR Title):
+```text
+[<Scope>] <Type>: <Tóm tắt ngắn gọn mục tiêu PR>
+# Ví dụ:
+[AD301] feat: implement full CRUD lifecycle with CrudLifecycleManager
+[CI/Auth] fix: synchronize dev admin credentials and fallback
+```
+
+#### Biểu mẫu Nội dung PR (PR Description Markdown Template):
+```markdown
+## 🎯 Mục tiêu (Objective)
+- Giải quyết vấn đề gì? (e.g. Bảo vệ Database khỏi việc bị xóa nhầm dữ liệu gốc khi chạy test suite AD301).
+- Đưa ra giải pháp gì? (e.g. Tích hợp CrudLifecycleManager tự động tạo và thu hồi agency tạm thời).
+
+## 🛠️ Chi tiết thay đổi (Changes)
+- `src/utils/crudLifecycleManager.js`: Tiện ích điều phối vòng đời dữ liệu khép kín (Create -> View -> Edit -> Delete -> Auto-cleanup).
+- `tests/api/ad301.api.spec.js`: Cấu hình tuần tự (`mode: 'serial'`) trên thực thể tạm thời độc lập.
+- `src/fixtures/baseTest.js`: Tránh xóa session cache khi gặp lỗi 401/403 ở các ca negative tests.
+
+## ✅ Kết quả kiểm thử (Verification Evidence)
+- [x] Môi trường Staging: 91/91 passed (thời gian chạy: 43.7s)
+- [x] Môi trường Dev: 50/50 passed (thời gian chạy: 48.5s)
+- [x] CI/CD Pipeline (GitHub Actions): Green / Success (Run #45549188706)
+
+## 📋 Checklist rà soát chất lượng
+- [x] Tuân thủ 100% Nguyên tắc Zero-Hardcode (Trụ cột 5 - Giai đoạn 1).
+- [x] Đã quét sạch regex bộ lọc anti-hardcode (Giai đoạn 8.1).
+- [x] Không push trực tiếp lên nhánh `main`.
+- [x] Tự động thu hồi/dọn dẹp dữ liệu rác sau khi kết thúc test (không để lại orphan records trong DB).
+```
