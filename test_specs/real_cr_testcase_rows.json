@@ -1,0 +1,953 @@
+{
+  "AP213": [
+    {
+      "row": 346,
+      "tc_id": "[AP213-152]",
+      "title": "[CR-Update] Check truy cập từ AP200 vào AP213",
+      "step": "1. Đăng nhập Admin",
+      "exp": ""
+    },
+    {
+      "row": 350,
+      "tc_id": "[AP213-153]",
+      "title": "[CR-Update] Inbound Deep-link AP213 với ID hợp lệ",
+      "step": "1. Dán trực tiếp URL AP213 với model_id tồn tại",
+      "exp": ""
+    },
+    {
+      "row": 352,
+      "tc_id": "[AP213-154]",
+      "title": "[CR-Update] Inbound Deep-link với ID không tồn tại",
+      "step": "1. Dán URL AP213 với model_id không tồn tại (VD: 999999)",
+      "exp": ""
+    },
+    {
+      "row": 354,
+      "tc_id": "[AP213-155]",
+      "title": "[CR-Update] Screen Lifecycle F5 Reload",
+      "step": "1. Đang ở màn hình AP213",
+      "exp": ""
+    },
+    {
+      "row": 356,
+      "tc_id": "[AP213-156]",
+      "title": "[CR-Update] Phân quyền RBAC Master Admin vs Agency",
+      "step": "1. Đăng nhập tài khoản Agency Admin",
+      "exp": ""
+    },
+    {
+      "row": 358,
+      "tc_id": "[AP213-157]",
+      "title": "[CR-Update] Check hiển thị và click breadcrumb",
+      "step": "1. Quan sát Breadcrumb trên đầu trang AP213",
+      "exp": ""
+    },
+    {
+      "row": 361,
+      "tc_id": "[AP213-158]",
+      "title": "[CR-Update] Check danh mục tham số tracking khuôn mặt",
+      "step": "1. Mở màn hình AP213",
+      "exp": ""
+    },
+    {
+      "row": 363,
+      "tc_id": "[AP213-159]",
+      "title": "[CR-Update] Check cấu trúc cột trong bảng tham số",
+      "step": "1. Quan sát bảng tham số tracking",
+      "exp": "1. Hiển thị đủ các cột: Parameter Key, Parameter Name, Current Value, Min, Max, Step, Default Value, Actions"
+    },
+    {
+      "row": 364,
+      "tc_id": "[AP213-160]",
+      "title": "[CR-Update] Check hiển thị khung xem trước Model",
+      "step": "1. Quan sát khung Canvas WebGL/Canvas2D xem trước ở nửa bên phải màn hình",
+      "exp": "1. Model render sắc nét đúng texture khuôn mặt; phản hồi xoay góc nhìn khi kéo chuột"
+    },
+    {
+      "row": 365,
+      "tc_id": "[AP213-161]",
+      "title": "[CR-Update] Check phản hồi khi thay đổi Slider tham số",
+      "step": "1. Kéo thanh trượt Head Angle X từ 0 sang 25 trên màn hình",
+      "exp": "1. Đầu model trên khung Preview xoay sang phải 25 độ ngay lập tức theo thời gian thực"
+    },
+    {
+      "row": 366,
+      "tc_id": "[AP213-162]",
+      "title": "[CR-Update] Eye Blink Sensitivity - Nhập giá trị hợp lệ trong dải Min-Max",
+      "step": "1. Tại trường Eye Blink Sensitivity, nhập giá trị 1.25 (Min: 0.0, Max: 3.0)",
+      "exp": ""
+    },
+    {
+      "row": 368,
+      "tc_id": "[AP213-163]",
+      "title": "[CR-Update] Eye Blink Sensitivity - Nhập giá trị cận biên Min (0.0)",
+      "step": "1. Nhập giá trị 0.0 vào Eye Blink Sensitivity",
+      "exp": ""
+    },
+    {
+      "row": 370,
+      "tc_id": "[AP213-164]",
+      "title": "[CR-Update] Eye Blink Sensitivity - Nhập giá trị cận biên Max (3.0)",
+      "step": "1. Nhập giá trị 3.0 vào Eye Blink Sensitivity",
+      "exp": ""
+    },
+    {
+      "row": 372,
+      "tc_id": "[AP213-165]",
+      "title": "[CR-Update] Eye Blink Sensitivity - Nhập giá trị vượt cận biên trên (3.1)",
+      "step": "1. Nhập giá trị 3.1 vào Eye Blink Sensitivity",
+      "exp": "1. Hệ thống báo lỗi validation dưới ô input: 0.0から3.0の範囲で入力してください hoặc tự động clamp về 3.0"
+    },
+    {
+      "row": 373,
+      "tc_id": "[AP213-166]",
+      "title": "[CR-Update] Eye Blink Sensitivity - Nhập giá trị âm nhỏ hơn Min (-0.1)",
+      "step": "1. Nhập -0.1 vào Eye Blink Sensitivity",
+      "exp": "1. Báo lỗi validation: 0.0以上の数値を入力してください"
+    },
+    {
+      "row": 374,
+      "tc_id": "[AP213-167]",
+      "title": "[CR-Update] Eye Blink Sensitivity - Nhập ký tự chữ hoặc ký tự đặc biệt",
+      "step": "1. Nhập chuỗi abc@# vào ô input",
+      "exp": "1. Ô input chặn không cho nhập chữ hoặc báo lỗi 数値のみ入力可能です"
+    },
+    {
+      "row": 375,
+      "tc_id": "[AP213-168]",
+      "title": "[CR-Update] Mouth Tracking Threshold - Cấu hình ngưỡng âm thanh Mic mấp máy môi",
+      "step": "1. Tại trường Mouth Open Audio Threshold, nhập 0.15 (dải 0.0 - 1.0)",
+      "exp": ""
+    },
+    {
+      "row": 377,
+      "tc_id": "[AP213-169]",
+      "title": "[CR-Update] Mouth Tracking Smoothing - Cấu hình hệ số làm mượt môi (Damping)",
+      "step": "1. Tại trường Mouth Smoothing, nhập 0.8 (dải 0.1 - 1.0)",
+      "exp": "1. Nhận giá trị 0.8, đảm bảo chuyển động mở miệng chuyển tiếp mượt mà không bị giật rung"
+    },
+    {
+      "row": 378,
+      "tc_id": "[AP213-170]",
+      "title": "[CR-Update] Head Rotation Angles - Cấu hình góc quay đầu Roll/Pitch/Yaw",
+      "step": "1. Tại Head Angle X/Y/Z, nhập góc tối đa 30.0 (dải -90.0 đến 90.0)",
+      "exp": ""
+    },
+    {
+      "row": 380,
+      "tc_id": "[AP213-171]",
+      "title": "[CR-Update] Head Rotation Angles - Nhập góc vượt quá 90 độ (95.0)",
+      "step": "1. Nhập 95.0 vào Head Angle Max",
+      "exp": "1. Báo lỗi validation: -90.0から90.0の範囲で入力してください"
+    },
+    {
+      "row": 381,
+      "tc_id": "[AP213-172]",
+      "title": "[CR-Update] Thử gửi tham số tracking âm cho Step",
+      "step": "1. Nhập step size âm (VD: -0.01)",
+      "exp": "1. Hệ thống chặn lỗi validation: ステップは正の数値を入力してください"
+    },
+    {
+      "row": 382,
+      "tc_id": "[AP213-173]",
+      "title": "[CR-Update] Thử dán chuỗi cực dài (> 255 ký tự số) vào ô tham số",
+      "step": "1. Copy chuỗi 300 chữ số và paste vào ô tham số",
+      "exp": "1. Ô input tự động cắt theo maxLength hoặc chặn submit báo lỗi độ dài"
+    },
+    {
+      "row": 383,
+      "tc_id": "[AP213-174]",
+      "title": "[CR-Update] Thử chèn mã XSS <script> vào ô tham số",
+      "step": "1. Nhập <script>alert('xss')</script> vào ô input",
+      "exp": "1. Bị chặn nhập hoặc sanitize an toàn, tuyệt đối không bị thực thi script"
+    },
+    {
+      "row": 384,
+      "tc_id": "[AP213-175]",
+      "title": "[CR-Update] Bật / Tắt tính năng Eyeball Tracking",
+      "step": "1. Gạt Toggle [視線トラッキング / Eyeball Tracking] từ ON sang OFF",
+      "exp": "1. Toggle chuyển sang OFF; tham số eyeball tracking bị làm mờ (disabled); lưu thành công"
+    },
+    {
+      "row": 385,
+      "tc_id": "[AP213-176]",
+      "title": "[CR-Update] Bật / Tắt tính năng Micro-Expression",
+      "step": "1. Gạt Toggle [微細表情トラッキング / Micro-Expression]",
+      "exp": "1. Toggle chuyển sang ON; các tham số biểu cảm vi mô được kích hoạt"
+    },
+    {
+      "row": 386,
+      "tc_id": "[AP213-177]",
+      "title": "[CR-Update] Nút 保存 ở trạng thái disabled khi chưa đổi data",
+      "step": "1. Vừa mở trang, chưa sửa bất kỳ giá trị nào",
+      "exp": ""
+    },
+    {
+      "row": 388,
+      "tc_id": "[AP213-178]",
+      "title": "[CR-Update] Nút 保存 chuyển sang enabled khi có thay đổi",
+      "step": "1. Thay đổi 1 giá trị tham số bất kỳ",
+      "exp": ""
+    },
+    {
+      "row": 390,
+      "tc_id": "[AP213-179]",
+      "title": "[CR-Update] Chống double-click (Debounce CMR15)",
+      "step": "1. Nhấp đúp chuột liên tục vào nút [保存]",
+      "exp": "1. Nút tạm thời bị khóa trong khi request đang gửi, chỉ gửi đúng 1 request lên server"
+    },
+    {
+      "row": 391,
+      "tc_id": "[AP213-180]",
+      "title": "[CR-Update] Hiển thị hiệu ứng Loading khi lưu",
+      "step": "1. Bấm nút [保存] khi mạng chập chờn",
+      "exp": "1. Hiển thị spinner loading trên nút hoặc skeleton màn hình theo CMMSG27"
+    },
+    {
+      "row": 392,
+      "tc_id": "[AP213-181]",
+      "title": "[CR-Update] Lưu thành công và hiển thị Toast CMMSG13",
+      "step": "1. Sửa tham số hợp lệ",
+      "exp": ""
+    },
+    {
+      "row": 396,
+      "tc_id": "[AP213-182]",
+      "title": "[CR-Update] Lưu thất bại do lỗi 500 server",
+      "step": "1. Giả lập server trả về 500 khi bấm Save",
+      "exp": "1. Hiển thị thông báo lỗi CMMSG1: 予期しないサーバーエラーが発生しました。 kèm nút thử lại"
+    },
+    {
+      "row": 397,
+      "tc_id": "[AP213-183]",
+      "title": "[CR-Update] Mất kết nối mạng khi bấm Save",
+      "step": "1. Ngắt kết nối mạng Internet",
+      "exp": ""
+    },
+    {
+      "row": 399,
+      "tc_id": "[AP213-184]",
+      "title": "[CR-Update] Bấm nút [デフォルトに戻す]",
+      "step": "1. Sau khi chỉnh sửa tham số",
+      "exp": ""
+    },
+    {
+      "row": 401,
+      "tc_id": "[AP213-185]",
+      "title": "[CR-Update] Xác nhận đồng ý Reset trong modal",
+      "step": "1. Tại modal xác nhận, bấm [はい / 同意]",
+      "exp": "1. Toàn bộ ô input tự động khôi phục về giá trị Default Value ban đầu của hệ thống"
+    },
+    {
+      "row": 402,
+      "tc_id": "[AP213-186]",
+      "title": "[CR-Update] Hủy bỏ thao tác Reset trong modal",
+      "step": "1. Tại modal xác nhận, bấm [いいえ / キャンセル]",
+      "exp": "1. Modal đóng lại, giữ nguyên các tham số vừa sửa dở dang trên form"
+    },
+    {
+      "row": 403,
+      "tc_id": "[AP213-187]",
+      "title": "[CR-Update] Bấm [キャンセル] khi có dữ liệu sửa dở",
+      "step": "1. Sửa 1 tham số dở dang",
+      "exp": ""
+    },
+    {
+      "row": 405,
+      "tc_id": "[AP213-188]",
+      "title": "[CR-Update] Xác nhận hủy bỏ thay đổi",
+      "step": "1. Tại popup, bấm [破棄する / はい]",
+      "exp": "1. Hủy toàn bộ thay đổi, đóng form và quay về màn hình trước đó"
+    },
+    {
+      "row": 406,
+      "tc_id": "[AP213-189]",
+      "title": "[CR-Update] Check đóng modal bằng phím ESC",
+      "step": "1. Mở popup xác nhận",
+      "exp": ""
+    },
+    {
+      "row": 408,
+      "tc_id": "[AP213-190]",
+      "title": "[CR-Update] Check click Backdrop đóng modal",
+      "step": "1. Mở modal xác nhận",
+      "exp": ""
+    },
+    {
+      "row": 410,
+      "tc_id": "[AP213-191]",
+      "title": "[CR-Update] Đối soát DB sau khi lưu AP213",
+      "step": "1. Lưu tham số tracking trên Admin AP213",
+      "exp": ""
+    },
+    {
+      "row": 412,
+      "tc_id": "[AP213-192]",
+      "title": "[CR-Update] Đối soát API Mobile nhận đúng tham số Admin",
+      "step": "1. Gọi GET /user-model-setting/model/{id}/parameters/ từ App Mobile",
+      "exp": "1. Response trả về đúng 100% các giá trị Min, Max, Sensitivity vừa cấu hình tại Admin"
+    },
+    {
+      "row": 413,
+      "tc_id": "[AP213-193]",
+      "title": "[CR-Update] Test liên thông phản hồi Camera App Mobile",
+      "step": "1. Tăng Eye Blink Sensitivity lên Max trên Admin",
+      "exp": ""
+    },
+    {
+      "row": 416,
+      "tc_id": "[AP213-194]",
+      "title": "[CR-Update] Test tính năng Model Adjustment phía App",
+      "step": "1. Mở App Mobile vào màn hình chuẩn bị live",
+      "exp": ""
+    },
+    {
+      "row": 421,
+      "tc_id": "[AP213-195]",
+      "title": "[CR-Update] Test nút Reset trên App Mobile",
+      "step": "1. Tại App Mobile, bấm [Reset về mặc định]",
+      "exp": ""
+    },
+    {
+      "row": 424,
+      "tc_id": "[AP213-196]",
+      "title": "[CR-Update] Xóa model cha (Soft Delete) đối soát bảng tracking",
+      "step": "1. Admin xóa Model 3D tại AP000",
+      "exp": ""
+    },
+    {
+      "row": 426,
+      "tc_id": "[AP213-197]",
+      "title": "[CR-Update] Kiểm tra nhãn tiếng Nhật chuẩn trên AP213",
+      "step": "1. Quan sát toàn bộ nhãn tiêu đề, chú thích và tooltip",
+      "exp": "1. Hiển thị chuẩn tiếng Nhật (トラッキング設定, 感度, 最小値, 最大値, デフォルトに戻す), không lỗi font tofu"
+    },
+    {
+      "row": 427,
+      "tc_id": "[AP213-198]",
+      "title": "[CR-Update] Kiểm tra Responsive giao diện trên màn hình nhỏ (1366x768)",
+      "step": "1. Thu nhỏ cửa sổ trình duyệt về 1366x768",
+      "exp": ""
+    },
+    {
+      "row": 429,
+      "tc_id": "[AP213-199]",
+      "title": "[CR-Update] Tải trang AP213 với model có > 50 tham số",
+      "step": "1. Mở màn hình AP213 của model Live2D phức tạp",
+      "exp": ""
+    },
+    {
+      "row": 431,
+      "tc_id": "[AP213-200]",
+      "title": "[CR-Update] Ghi nhận nhật ký cập nhật tham số tracking",
+      "step": "1. Admin A sửa và lưu tham số tại AP213",
+      "exp": ""
+    },
+    {
+      "row": 433,
+      "tc_id": "[AP213-201]",
+      "title": "[CR-Update] 2 Admin cùng sửa tham số tracking 1 model",
+      "step": "1. Admin 1 và Admin 2 cùng mở AP213",
+      "exp": ""
+    }
+  ],
+  "AP330": [
+    {
+      "row": 281,
+      "tc_id": "[AP330-141]",
+      "title": "[CR-Update] Check truy cập từ AP300 vào AP330",
+      "step": "1. Đăng nhập Admin",
+      "exp": ""
+    },
+    {
+      "row": 285,
+      "tc_id": "[AP330-142]",
+      "title": "[CR-Update] Inbound Deep-link AP330 với ID hợp lệ",
+      "step": "1. Dán trực tiếp URL AP330 với costume_id tồn tại",
+      "exp": ""
+    },
+    {
+      "row": 287,
+      "tc_id": "[AP330-143]",
+      "title": "[CR-Update] Inbound Deep-link AP330 với ID không tồn tại",
+      "step": "1. Dán URL AP330 với costume_id không tồn tại",
+      "exp": ""
+    },
+    {
+      "row": 289,
+      "tc_id": "[AP330-144]",
+      "title": "[CR-Update] Screen Lifecycle F5 Reload",
+      "step": "1. Đang ở màn hình AP330",
+      "exp": ""
+    },
+    {
+      "row": 291,
+      "tc_id": "[AP330-145]",
+      "title": "[CR-Update] Phân quyền RBAC Master Admin vs Agency",
+      "step": "1. Đăng nhập tài khoản Agency Admin",
+      "exp": ""
+    },
+    {
+      "row": 293,
+      "tc_id": "[AP330-146]",
+      "title": "[CR-Update] Check hiển thị và click breadcrumb",
+      "step": "1. Quan sát Breadcrumb trên đầu trang AP330",
+      "exp": ""
+    },
+    {
+      "row": 296,
+      "tc_id": "[AP330-147]",
+      "title": "[CR-Update] Check danh mục tham số tracking cơ thể",
+      "step": "1. Mở màn hình AP330",
+      "exp": ""
+    },
+    {
+      "row": 298,
+      "tc_id": "[AP330-148]",
+      "title": "[CR-Update] Check cấu trúc cột trong bảng tham số AP330",
+      "step": "1. Quan sát bảng tham số tracking",
+      "exp": "1. Hiển thị đủ các cột: Parameter Key, Parameter Name, Current Value, Min, Max, Step, Default Value, Actions"
+    },
+    {
+      "row": 299,
+      "tc_id": "[AP330-149]",
+      "title": "[CR-Update] Check hiển thị khung xem trước chuyển động thân",
+      "step": "1. Quan sát khung Canvas WebGL xem trước ở nửa bên phải màn hình",
+      "exp": "1. Model render sắc nét đúng texture trang phục; phản hồi xoay góc nhìn khi kéo chuột"
+    },
+    {
+      "row": 300,
+      "tc_id": "[AP330-150]",
+      "title": "[CR-Update] Check preview chuyển động thân khi kéo slider",
+      "step": "1. Kéo thanh trượt Body Angle Z sang -15 độ trên khung Preview",
+      "exp": "1. Thân model nghiêng mượt mà sang trái 15 độ, quần áo bám sát chuyển động cơ thể"
+    },
+    {
+      "row": 301,
+      "tc_id": "[AP330-151]",
+      "title": "[CR-Update] Body Tilt Range - Cấu hình biên độ nghiêng người Body Angle Z",
+      "step": "1. Nhập Min -15.0, Max 15.0 (dải cho phép: -45.0 đến 45.0)",
+      "exp": ""
+    },
+    {
+      "row": 303,
+      "tc_id": "[AP330-152]",
+      "title": "[CR-Update] Body Tilt Range - Nhập Min lớn hơn Max (Min: 20, Max: 10)",
+      "step": "1. Nhập Min 20.0, Max 10.0",
+      "exp": "1. Hệ thống báo lỗi logic: 最小値は最大値以下で設定してください"
+    },
+    {
+      "row": 304,
+      "tc_id": "[AP330-153]",
+      "title": "[CR-Update] Breathing Motion Rate - Cấu hình chu kỳ nhịp thở tự nhiên",
+      "step": "1. Tại trường Breathing Cycle (giây), nhập 3.5 (dải 1.0 - 10.0)",
+      "exp": ""
+    },
+    {
+      "row": 306,
+      "tc_id": "[AP330-154]",
+      "title": "[CR-Update] Breathing Motion Depth - Cấu hình biên độ phồng ngực",
+      "step": "1. Tại trường Breathing Depth, nhập 0.05 (dải 0.0 - 0.2)",
+      "exp": "1. Lưu thành công, độ phồng ngực vừa phải, không làm vỡ texture quần áo"
+    },
+    {
+      "row": 307,
+      "tc_id": "[AP330-155]",
+      "title": "[CR-Update] Costume Rigging Collision - Check bật chống xuyên thấu trang phục",
+      "step": "1. Bật Toggle [衣装貫通防止 / Clothing Collision Avoidance]",
+      "exp": ""
+    },
+    {
+      "row": 309,
+      "tc_id": "[AP330-156]",
+      "title": "[CR-Update] Thử gửi tham số tracking âm cho Step",
+      "step": "1. Nhập step size âm (VD: -0.01)",
+      "exp": "1. Hệ thống chặn lỗi validation: ステップは正の数値を入力してください"
+    },
+    {
+      "row": 310,
+      "tc_id": "[AP330-157]",
+      "title": "[CR-Update] Thử dán chuỗi cực dài (> 255 ký tự số) vào ô tham số",
+      "step": "1. Copy chuỗi 300 chữ số và paste vào ô tham số",
+      "exp": "1. Ô input tự động cắt theo maxLength hoặc chặn submit báo lỗi độ dài"
+    },
+    {
+      "row": 311,
+      "tc_id": "[AP330-158]",
+      "title": "[CR-Update] Thử chèn mã XSS <script> vào ô tham số",
+      "step": "1. Nhập <script>alert('xss')</script> vào ô input",
+      "exp": "1. Bị chặn nhập hoặc sanitize an toàn, tuyệt đối không bị thực thi script"
+    },
+    {
+      "row": 312,
+      "tc_id": "[AP330-159]",
+      "title": "[CR-Update] Áp dụng cấu hình cho toàn bộ Sub-models cùng lúc",
+      "step": "1. Tick chọn [すべてのサブモデルに適用]",
+      "exp": ""
+    },
+    {
+      "row": 314,
+      "tc_id": "[AP330-160]",
+      "title": "[CR-Update] Nút 保存 ở trạng thái disabled khi chưa đổi data",
+      "step": "1. Vừa mở trang, chưa sửa bất kỳ giá trị nào",
+      "exp": ""
+    },
+    {
+      "row": 316,
+      "tc_id": "[AP330-161]",
+      "title": "[CR-Update] Nút 保存 chuyển sang enabled khi có thay đổi",
+      "step": "1. Thay đổi 1 giá trị tham số bất kỳ",
+      "exp": ""
+    },
+    {
+      "row": 318,
+      "tc_id": "[AP330-162]",
+      "title": "[CR-Update] Chống double-click (Debounce CMR15)",
+      "step": "1. Nhấp đúp chuột liên tục vào nút [保存]",
+      "exp": "1. Nút tạm thời bị khóa trong khi request đang gửi, chỉ gửi đúng 1 request lên server"
+    },
+    {
+      "row": 319,
+      "tc_id": "[AP330-163]",
+      "title": "[CR-Update] Hiển thị hiệu ứng Loading khi lưu",
+      "step": "1. Bấm nút [保存] khi mạng chập chờn",
+      "exp": "1. Hiển thị spinner loading trên nút hoặc skeleton màn hình theo CMMSG27"
+    },
+    {
+      "row": 320,
+      "tc_id": "[AP330-164]",
+      "title": "[CR-Update] Lưu thành công và hiển thị Toast CMMSG13",
+      "step": "1. Sửa tham số hợp lệ",
+      "exp": ""
+    },
+    {
+      "row": 324,
+      "tc_id": "[AP330-165]",
+      "title": "[CR-Update] Lưu thất bại do lỗi 500 server",
+      "step": "1. Giả lập server trả về 500 khi bấm Save",
+      "exp": "1. Hiển thị thông báo lỗi CMMSG1: 予期しないサーバーエラーが発生しました。 kèm nút thử lại"
+    },
+    {
+      "row": 325,
+      "tc_id": "[AP330-166]",
+      "title": "[CR-Update] Mất kết nối mạng khi bấm Save",
+      "step": "1. Ngắt kết nối mạng Internet",
+      "exp": ""
+    },
+    {
+      "row": 327,
+      "tc_id": "[AP330-167]",
+      "title": "[CR-Update] Bấm nút [デフォルトに戻す]",
+      "step": "1. Sau khi chỉnh sửa tham số",
+      "exp": ""
+    },
+    {
+      "row": 329,
+      "tc_id": "[AP330-168]",
+      "title": "[CR-Update] Xác nhận đồng ý Reset trong modal",
+      "step": "1. Tại modal xác nhận, bấm [はい / 同意]",
+      "exp": "1. Toàn bộ ô input tự động khôi phục về giá trị Default Value ban đầu của hệ thống"
+    },
+    {
+      "row": 330,
+      "tc_id": "[AP330-169]",
+      "title": "[CR-Update] Hủy bỏ thao tác Reset trong modal",
+      "step": "1. Tại modal xác nhận, bấm [いいえ / キャンセル]",
+      "exp": "1. Modal đóng lại, giữ nguyên các tham số vừa sửa dở dang trên form"
+    },
+    {
+      "row": 331,
+      "tc_id": "[AP330-170]",
+      "title": "[CR-Update] Bấm [キャンセル] khi có dữ liệu sửa dở",
+      "step": "1. Sửa 1 tham số dở dang",
+      "exp": ""
+    },
+    {
+      "row": 333,
+      "tc_id": "[AP330-171]",
+      "title": "[CR-Update] Xác nhận hủy bỏ thay đổi",
+      "step": "1. Tại popup, bấm [破棄する / はい]",
+      "exp": "1. Hủy toàn bộ thay đổi, đóng form và quay về màn hình trước đó"
+    },
+    {
+      "row": 334,
+      "tc_id": "[AP330-172]",
+      "title": "[CR-Update] Check đóng modal bằng phím ESC",
+      "step": "1. Mở popup xác nhận",
+      "exp": ""
+    },
+    {
+      "row": 336,
+      "tc_id": "[AP330-173]",
+      "title": "[CR-Update] Check click Backdrop đóng modal",
+      "step": "1. Mở modal xác nhận",
+      "exp": ""
+    },
+    {
+      "row": 338,
+      "tc_id": "[AP330-174]",
+      "title": "[CR-Update] Đối soát DB sau khi lưu AP330",
+      "step": "1. Lưu tham số tracking trên Admin AP330",
+      "exp": ""
+    },
+    {
+      "row": 340,
+      "tc_id": "[AP330-175]",
+      "title": "[CR-Update] Đối soát API Mobile nhận đúng tham số Admin",
+      "step": "1. Gọi GET /user-model-setting/model/{id}/parameters/ từ App Mobile",
+      "exp": "1. Response trả về đúng 100% các giá trị Min, Max, Tilt vừa cấu hình tại Admin"
+    },
+    {
+      "row": 341,
+      "tc_id": "[AP330-176]",
+      "title": "[CR-Update] Test liên thông chuyển động thân trên Mobile livestream",
+      "step": "1. Tinh chỉnh Body Angle Z trên Admin AP330",
+      "exp": ""
+    },
+    {
+      "row": 344,
+      "tc_id": "[AP330-177]",
+      "title": "[CR-Update] Test nút Reset trên App Mobile",
+      "step": "1. Tại App Mobile, bấm [Reset về mặc định]",
+      "exp": ""
+    },
+    {
+      "row": 346,
+      "tc_id": "[AP330-178]",
+      "title": "[CR-Update] Xóa sub-model costume (Soft Delete) đối soát bảng tracking",
+      "step": "1. Admin xóa Sub-model trang phục tại AP300",
+      "exp": ""
+    },
+    {
+      "row": 348,
+      "tc_id": "[AP330-179]",
+      "title": "[CR-Update] Kiểm tra nhãn tiếng Nhật chuẩn trên AP330",
+      "step": "1. Quan sát toàn bộ nhãn tiêu đề, chú thích và tooltip",
+      "exp": "1. Hiển thị chuẩn tiếng Nhật (トラッキング設定, 衣装貫通防止, 最小値, 最大値), không lỗi font"
+    },
+    {
+      "row": 349,
+      "tc_id": "[AP330-180]",
+      "title": "[CR-Update] Kiểm tra Responsive giao diện trên màn hình nhỏ (1366x768)",
+      "step": "1. Thu nhỏ cửa sổ trình duyệt về 1366x768",
+      "exp": ""
+    },
+    {
+      "row": 351,
+      "tc_id": "[AP330-181]",
+      "title": "[CR-Update] Ghi nhận nhật ký cập nhật tham số tracking",
+      "step": "1. Admin A sửa và lưu tham số tại AP330",
+      "exp": ""
+    },
+    {
+      "row": 353,
+      "tc_id": "[AP330-182]",
+      "title": "[CR-Update] 2 Admin cùng sửa tham số tracking 1 model costume",
+      "step": "1. Admin 1 và Admin 2 cùng mở AP330",
+      "exp": ""
+    }
+  ],
+  "AP405": [
+    {
+      "row": 263,
+      "tc_id": "[AP405-138]",
+      "title": "[CR-Update] Check truy cập từ AP400 vào AP405",
+      "step": "1. Đăng nhập Admin",
+      "exp": ""
+    },
+    {
+      "row": 267,
+      "tc_id": "[AP405-139]",
+      "title": "[CR-Update] Inbound Deep-link AP405 với ID hợp lệ",
+      "step": "1. Dán trực tiếp URL AP405 với accessory_id tồn tại",
+      "exp": ""
+    },
+    {
+      "row": 269,
+      "tc_id": "[AP405-140]",
+      "title": "[CR-Update] Inbound Deep-link AP405 với ID không tồn tại",
+      "step": "1. Dán URL AP405 với accessory_id không tồn tại",
+      "exp": ""
+    },
+    {
+      "row": 271,
+      "tc_id": "[AP405-141]",
+      "title": "[CR-Update] Screen Lifecycle F5 Reload",
+      "step": "1. Đang ở màn hình AP405",
+      "exp": ""
+    },
+    {
+      "row": 273,
+      "tc_id": "[AP405-142]",
+      "title": "[CR-Update] Phân quyền RBAC Master Admin vs Agency",
+      "step": "1. Đăng nhập tài khoản Agency Admin",
+      "exp": ""
+    },
+    {
+      "row": 275,
+      "tc_id": "[AP405-143]",
+      "title": "[CR-Update] Check hiển thị và click breadcrumb",
+      "step": "1. Quan sát Breadcrumb trên đầu trang AP405",
+      "exp": ""
+    },
+    {
+      "row": 278,
+      "tc_id": "[AP405-144]",
+      "title": "[CR-Update] Check danh mục tham số tracking phụ kiện",
+      "step": "1. Mở màn hình AP405",
+      "exp": ""
+    },
+    {
+      "row": 280,
+      "tc_id": "[AP405-145]",
+      "title": "[CR-Update] Check cấu trúc cột trong bảng tham số AP405",
+      "step": "1. Quan sát bảng tham số tracking",
+      "exp": "1. Hiển thị đủ các cột: Parameter Key, Parameter Name, Current Value, Min, Max, Step, Default Value, Actions"
+    },
+    {
+      "row": 281,
+      "tc_id": "[AP405-146]",
+      "title": "[CR-Update] Chọn layer mục tiêu gắn phụ kiện",
+      "step": "1. Click mở Dropdown [追従先 / Follow Target]",
+      "exp": ""
+    },
+    {
+      "row": 283,
+      "tc_id": "[AP405-147]",
+      "title": "[CR-Update] Chọn option 'Head' cho phụ kiện Nón/Kính",
+      "step": "1. Chọn 'Head'",
+      "exp": ""
+    },
+    {
+      "row": 285,
+      "tc_id": "[AP405-148]",
+      "title": "[CR-Update] Chọn option 'Body' cho phụ kiện Ba lô/Áo choàng",
+      "step": "1. Chọn 'Body'",
+      "exp": ""
+    },
+    {
+      "row": 287,
+      "tc_id": "[AP405-149]",
+      "title": "[CR-Update] Physics Delay - Cấu hình độ trễ lắc lư phụ kiện",
+      "step": "1. Tại trường Physics Delay, nhập 0.12 (dải 0.0 - 0.5s)",
+      "exp": ""
+    },
+    {
+      "row": 289,
+      "tc_id": "[AP405-150]",
+      "title": "[CR-Update] Elasticity - Cấu hình độ nảy của phụ kiện tai thú/nơ",
+      "step": "1. Tại Elasticity, nhập 0.65 (dải 0.0 - 1.0)",
+      "exp": ""
+    },
+    {
+      "row": 291,
+      "tc_id": "[AP405-151]",
+      "title": "[CR-Update] Gravity Effect - Cấu hình trọng lực rủ xuống của dây/vải",
+      "step": "1. Tại Gravity Force, nhập 9.8 (dải 0.0 - 20.0)",
+      "exp": "1. Nhận giá trị 9.8, dây nón rủ xuống tự nhiên theo phương thẳng đứng"
+    },
+    {
+      "row": 292,
+      "tc_id": "[AP405-152]",
+      "title": "[CR-Update] Check nút Sao chép cấu hình từ Phụ kiện khác",
+      "step": "1. Bấm nút [他のアクセサリーから設定コピー]",
+      "exp": ""
+    },
+    {
+      "row": 295,
+      "tc_id": "[AP405-153]",
+      "title": "[CR-Update] Thử gửi tham số tracking âm cho Step",
+      "step": "1. Nhập step size âm (VD: -0.01)",
+      "exp": "1. Hệ thống chặn lỗi validation: ステップは正の数値を入力してください"
+    },
+    {
+      "row": 296,
+      "tc_id": "[AP405-154]",
+      "title": "[CR-Update] Thử dán chuỗi cực dài (> 255 ký tự số) vào ô tham số",
+      "step": "1. Copy chuỗi 300 chữ số và paste vào ô tham số",
+      "exp": "1. Ô input tự động cắt theo maxLength hoặc chặn submit báo lỗi độ dài"
+    },
+    {
+      "row": 297,
+      "tc_id": "[AP405-155]",
+      "title": "[CR-Update] Thử chèn mã XSS <script> vào ô tham số",
+      "step": "1. Nhập <script>alert('xss')</script> vào ô input",
+      "exp": "1. Bị chặn nhập hoặc sanitize an toàn, tuyệt đối không bị thực thi script"
+    },
+    {
+      "row": 298,
+      "tc_id": "[AP405-156]",
+      "title": "[CR-Update] Check hiển thị khung xem trước phụ kiện theo thời gian thực",
+      "step": "1. Quan sát khung Preview hiển thị phụ kiện gắn trên model 3D/Live2D",
+      "exp": "1. Phụ kiện render sắc nét đúng chất liệu và vị trí neo (anchor point)"
+    },
+    {
+      "row": 299,
+      "tc_id": "[AP405-157]",
+      "title": "[CR-Update] Check preview phụ kiện lắc lư khi cử động đầu/thân",
+      "step": "1. Kéo thanh trượt cử động đầu/thân trên preview",
+      "exp": "1. Phụ kiện dao động mượt mà bám theo chuyển động của bộ phận neo"
+    },
+    {
+      "row": 300,
+      "tc_id": "[AP405-158]",
+      "title": "[CR-Update] Nút 保存 ở trạng thái disabled khi chưa đổi data",
+      "step": "1. Vừa mở trang, chưa sửa bất kỳ giá trị nào",
+      "exp": ""
+    },
+    {
+      "row": 302,
+      "tc_id": "[AP405-159]",
+      "title": "[CR-Update] Nút 保存 chuyển sang enabled khi có thay đổi",
+      "step": "1. Thay đổi 1 giá trị tham số bất kỳ",
+      "exp": ""
+    },
+    {
+      "row": 304,
+      "tc_id": "[AP405-160]",
+      "title": "[CR-Update] Chống double-click (Debounce CMR15)",
+      "step": "1. Nhấp đúp chuột liên tục vào nút [保存]",
+      "exp": "1. Nút tạm thời bị khóa trong khi request đang gửi, chỉ gửi đúng 1 request lên server"
+    },
+    {
+      "row": 305,
+      "tc_id": "[AP405-161]",
+      "title": "[CR-Update] Hiển thị hiệu ứng Loading khi lưu",
+      "step": "1. Bấm nút [保存] khi mạng chập chờn",
+      "exp": "1. Hiển thị spinner loading trên nút hoặc skeleton màn hình theo CMMSG27"
+    },
+    {
+      "row": 306,
+      "tc_id": "[AP405-162]",
+      "title": "[CR-Update] Lưu thành công và hiển thị Toast CMMSG13",
+      "step": "1. Sửa tham số hợp lệ",
+      "exp": ""
+    },
+    {
+      "row": 310,
+      "tc_id": "[AP405-163]",
+      "title": "[CR-Update] Lưu thất bại do lỗi 500 server",
+      "step": "1. Giả lập server trả về 500 khi bấm Save",
+      "exp": "1. Hiển thị thông báo lỗi CMMSG1: 予期しないサーバーエラーが発生しました。 kèm nút thử lại"
+    },
+    {
+      "row": 311,
+      "tc_id": "[AP405-164]",
+      "title": "[CR-Update] Mất kết nối mạng khi bấm Save",
+      "step": "1. Ngắt kết nối mạng Internet",
+      "exp": ""
+    },
+    {
+      "row": 313,
+      "tc_id": "[AP405-165]",
+      "title": "[CR-Update] Bấm nút [デフォルトに戻す]",
+      "step": "1. Sau khi chỉnh sửa tham số",
+      "exp": ""
+    },
+    {
+      "row": 315,
+      "tc_id": "[AP405-166]",
+      "title": "[CR-Update] Xác nhận đồng ý Reset trong modal",
+      "step": "1. Tại modal xác nhận, bấm [はい / 同意]",
+      "exp": "1. Toàn bộ ô input tự động khôi phục về giá trị Default Value ban đầu của hệ thống"
+    },
+    {
+      "row": 316,
+      "tc_id": "[AP405-167]",
+      "title": "[CR-Update] Hủy bỏ thao tác Reset trong modal",
+      "step": "1. Tại modal xác nhận, bấm [いいえ / キャンセル]",
+      "exp": "1. Modal đóng lại, giữ nguyên các tham số vừa sửa dở dang trên form"
+    },
+    {
+      "row": 317,
+      "tc_id": "[AP405-168]",
+      "title": "[CR-Update] Bấm [キャンセル] khi có dữ liệu sửa dở",
+      "step": "1. Sửa 1 tham số dở dang",
+      "exp": ""
+    },
+    {
+      "row": 319,
+      "tc_id": "[AP405-169]",
+      "title": "[CR-Update] Xác nhận hủy bỏ thay đổi",
+      "step": "1. Tại popup, bấm [破棄する / はい]",
+      "exp": "1. Hủy toàn bộ thay đổi, đóng form và quay về màn hình trước đó"
+    },
+    {
+      "row": 320,
+      "tc_id": "[AP405-170]",
+      "title": "[CR-Update] Check đóng modal bằng phím ESC",
+      "step": "1. Mở popup xác nhận",
+      "exp": ""
+    },
+    {
+      "row": 322,
+      "tc_id": "[AP405-171]",
+      "title": "[CR-Update] Check click Backdrop đóng modal",
+      "step": "1. Mở modal xác nhận",
+      "exp": ""
+    },
+    {
+      "row": 324,
+      "tc_id": "[AP405-172]",
+      "title": "[CR-Update] Đối soát DB sau khi lưu AP405",
+      "step": "1. Lưu tham số tracking trên Admin AP405",
+      "exp": ""
+    },
+    {
+      "row": 326,
+      "tc_id": "[AP405-173]",
+      "title": "[CR-Update] Đối soát API Mobile nhận đúng tham số Admin",
+      "step": "1. Gọi GET /user-model-setting/model/{id}/parameters/ từ App Mobile",
+      "exp": "1. Response trả về đúng 100% các giá trị Follow, Delay, Elasticity vừa cấu hình tại Admin"
+    },
+    {
+      "row": 327,
+      "tc_id": "[AP405-174]",
+      "title": "[CR-Update] Test liên thông phụ kiện lắc lư trên Mobile livestream",
+      "step": "1. Tinh chỉnh Physics Delay & Elasticity trên Admin AP405",
+      "exp": ""
+    },
+    {
+      "row": 330,
+      "tc_id": "[AP405-175]",
+      "title": "[CR-Update] Test nút Reset trên App Mobile",
+      "step": "1. Tại App Mobile, bấm [Reset về mặc định]",
+      "exp": ""
+    },
+    {
+      "row": 332,
+      "tc_id": "[AP405-176]",
+      "title": "[CR-Update] Xóa sub-model accessory (Soft Delete) đối soát bảng tracking",
+      "step": "1. Admin xóa Sub-model phụ kiện tại AP400",
+      "exp": ""
+    },
+    {
+      "row": 334,
+      "tc_id": "[AP405-177]",
+      "title": "[CR-Update] Kiểm tra nhãn tiếng Nhật chuẩn trên AP405",
+      "step": "1. Quan sát toàn bộ nhãn tiêu đề, chú thích và tooltip",
+      "exp": "1. Hiển thị chuẩn tiếng Nhật (トラッキング設定, 追従先, 他のアクセサリーから設定コピー), không lỗi font"
+    },
+    {
+      "row": 335,
+      "tc_id": "[AP405-178]",
+      "title": "[CR-Update] Kiểm tra Responsive giao diện trên màn hình nhỏ (1366x768)",
+      "step": "1. Thu nhỏ cửa sổ trình duyệt về 1366x768",
+      "exp": ""
+    },
+    {
+      "row": 337,
+      "tc_id": "[AP405-179]",
+      "title": "[CR-Update] Ghi nhận nhật ký cập nhật tham số tracking",
+      "step": "1. Admin A sửa và lưu tham số tại AP405",
+      "exp": ""
+    },
+    {
+      "row": 339,
+      "tc_id": "[AP405-180]",
+      "title": "[CR-Update] 2 Admin cùng sửa tham số tracking 1 accessory",
+      "step": "1. Admin 1 và Admin 2 cùng mở AP405",
+      "exp": ""
+    }
+  ]
+}

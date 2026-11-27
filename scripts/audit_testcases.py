@@ -11,7 +11,7 @@ import re
 import sys
 from pathlib import Path
 
-TC_ROW_RE = re.compile(r"^\|\s*`?\[([A-Z0-9_-]+)\]`?\s*\|")
+TC_ROW_RE = re.compile(r"^\|\s*`?\[([A-Za-z0-9_\s-]+)\]`?\s*\|")
 RANGE_BUNDLING_RE = re.compile(
     r"(?:[A-Z]+-\d{2,3}\.\.(?:[A-Z]+-)?\d{2,3}|Viewpoint\s+\d+-\d+)", re.IGNORECASE
 )
@@ -24,7 +24,9 @@ VALID_AUTO_TAGS = ("Auto-UI", "Auto-API", "Auto-Data", "Manual-Only")
 
 
 def parse_cells(line: str) -> list[str]:
-    parts = [c.strip() for c in line.strip().strip("|").split("|")]
+    # Tách cột theo | nhưng không tách dấu \| được escape
+    raw_cells = re.split(r"(?<!\\)\|", line.strip().strip("|"))
+    parts = [c.replace(r"\|", "|").strip() for c in raw_cells]
     return parts
 
 
@@ -103,8 +105,12 @@ def audit_file(path: Path) -> list[str]:
             if r1 or r2:
                 errors.append(f"Line {line_no} [{tc_id}]: R1/R2 must be empty on design handover")
 
-    # 3. Check Automation Feasibility golden ratio (70-85% Auto / 15-30% Manual)
+    # 3. Check Automation Feasibility golden ratio (70-85% Auto / 15-30% Manual) & Minimum Depth
     if is_ui and tc_rows:
+        if len(tc_rows) < 15:
+            errors.append(
+                f"[Anti-Scaffolding Violation]: Số lượng ca kiểm thử ({len(tc_rows)} TCs) quá ít, vi phạm Ranh giới đỏ số 7 (tối thiểu >= 15 TCs cho 1 màn hình/tính năng)."
+            )
         auto_pct = (auto_count / len(tc_rows)) * 100
         if auto_pct < 65 or auto_pct > 90:
             errors.append(

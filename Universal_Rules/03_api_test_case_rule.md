@@ -11,8 +11,8 @@
 
 > [!IMPORTANT]
 > **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
-> - **Rule Tiêu chuẩn (Rule 03):** Định nghĩa 5 trọng tâm logic backend, 419 viewpoints API (`API_controls/API_Viewpoint.md`), cấu trúc ma trận testcase API.
-> - **Công cụ Thực thi (Guardrail Script):** `scripts/testcase_generator.py [MÃ] --type api` là script chốt chặn tự động sinh các ca kiểm thử theo chuẩn Rule 03 và xuất file `testcase_api/[MÃ]_api.md`.
+> - **Rule Tiêu chuẩn (Rule 03):** Định nghĩa 5 trọng tâm logic backend, 419 viewpoints API (`API_controls/API_Viewpoint.md`), cấu trúc ma trận testcase API 14 cột chuẩn kèm VP ID và Test Type.
+> - **Công cụ Thực thi (Guardrail Script):** `scripts/testcase_generator.py [MÃ] --type api` là script chốt chặn tự động sinh các ca kiểm thử theo chuẩn Rule 03 và xuất file `testcase_api/[MÃ]_api.md` (kèm đồng bộ Google Sheet khi có yêu cầu).
 
 *Cú pháp gợi ý:* `gen testcase API [MÃ]`, `viết testcase API [MÃ]`, `tạo kịch bản API [MÃ]`.
 *Công cụ tự động:* `scripts/testcase_generator.py [MÃ] --type api`

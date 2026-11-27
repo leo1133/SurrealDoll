@@ -7,6 +7,21 @@
 
 ---
 
+## 0. LUỒNG THỰC THI FLOW 7: RUN TEST MANUAL
+
+> [!IMPORTANT]
+> **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
+> - **Rule Tiêu chuẩn (Rule 04):** Định nghĩa 5 Cổng Kiểm Duyệt bắt buộc (Gate 1 đến Gate 5), nguyên tắc cấm đi tắt (Zero-Shortcut), Highlight 3px và bảo tồn ô công thức Dòng 1-7.
+> - **Công cụ Thực thi (Guardrail Scripts):** 
+>   * `scripts/test_runner.py`: Single Entrypoint điều phối thực thi theo màn hình, cụm hoặc task (`python3 scripts/test_runner.py --target [MÃ/CỤM/TASK] --env [DEV/STG]`).
+>   * `scripts/atomic_capture_helper.js`: Tự động mở rộng accordion, assert kích thước DOM > 0, highlight 3px và chụp ảnh 1-to-1.
+>   * `scripts/sync_to_sheet.py`: Tự động đối soát 4 trạm Quality Gate (Zero-Duplicate SHA256, Size >10KB, Lock Mobile App) và map đúng dòng.
+
+*Cú pháp gợi ý:* `run test [MÃ/TASK]`, `test manual [MÃ/TASK]`, `retest round 2 [MÃ]`.
+*Công cụ tự động:* `scripts/test_runner.py --target [MÃ/CỤM/TASK]`
+
+---
+
 ## 1. QUY TRÌNH THỰC THI KIỂM THỬ THỦ CÔNG TỔNG THỂ (DETERMINISTIC 5-GATE FLOW)
 
 > [!IMPORTANT]

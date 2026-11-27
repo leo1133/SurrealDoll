@@ -8,6 +8,17 @@
 
 ---
 
+## 0. LUỒNG THỰC THI CHUẨN HÓA (ESTIMATION & ACTUAL WORKFLOW)
+
+> [!IMPORTANT]
+> **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
+> - **Rule Tiêu chuẩn (Rule 08):** Định nghĩa công thức tính định mức (UI ~5p, Val 5-7p, Logic 15-30p), ma trận 2 giai đoạn cho Feature mới, phân bổ quỹ 8h/ngày và đo lường Actual Time.
+> - **Nguồn dữ liệu & Công cụ:** Nạp tự động từ snapshot Backlog `estimates/backlog_snapshot_latest.json` hoặc Activity Feed Backlog.
+
+*Cú pháp gợi ý:* `estimate [MÃ/TICKET]`, `check task`, `tính actual`, `kế hoạch ngày`.
+
+---
+
 ## SƠ ĐỒ ĐIỀU HƯỚNG ƯỚC LƯỢNG (ESTIMATION ROUTER)
 
 ```mermaid

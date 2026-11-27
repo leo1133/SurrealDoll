@@ -14,8 +14,10 @@
 
 > [!IMPORTANT]
 > **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
-> - **Rule Tiêu chuẩn (Rule 02):** Định nghĩa cấu trúc 3 Section tuần tự, chuẩn bảng 13 cột, phân loại bắt buộc `Automation Feasibility`, và tỷ lệ vàng ~80% Auto / ~20% Manual.
-> - **Công cụ Thực thi (Guardrail Script):** `scripts/testcase_generator.py [MÃ] --type ui` là script chốt chặn tự động nạp `UI_controls/`, tính toán tỷ lệ, sinh kịch bản và xuất file `testcase_ui/[MÃ]_testcase.md`.
+> - **Rule Tiêu chuẩn (Rule 02):** Định nghĩa cấu trúc 3 Section tuần tự, chuẩn bảng 13 cột, phân loại bắt buộc `Automation Feasibility`, tỷ lệ vàng ~80% Auto / ~20% Manual, quy chuẩn merge Title theo nhóm trên Google Sheet và bảo tồn công thức Dòng 1-7.
+> - **Công cụ Thực thi (Guardrail Script):** `scripts/testcase_generator.py [MÃ] --type ui` là script chốt chặn tự động nạp `UI_controls/`, tính toán tỷ lệ, sinh đồng thời cả 2 đầu ra (2-in-1):
+>   1. File Markdown `testcase_ui/[MÃ]_testcase.md` phục vụ chuẩn hóa script Automation Test (POM, DDT).
+>   2. Tab `[MÃ]` trên Google Sheet phục vụ Manual Test (Đầy đủ Header Dashboard 7 dòng, ID công thức động, Auto-Merge cột Title theo nhóm control và merge hàng `UI & Functional`).
 
 *Cú pháp gợi ý:* `gen testcase UI [MÃ]`, `gen testcase [MÃ]`, `tạo kịch bản UI [MÃ]`.
 *Công cụ tự động:* `scripts/testcase_generator.py [MÃ] --type ui`
@@ -26,7 +28,7 @@ flowchart TD
     Tool4 --> In4["1. Auto-Discovery Nguồn Đầu Vào<br>• test_specs/[MÃ]_online.json hoặc [MÃ].json<br>• Q&A/[MÃ]_Q&A.md (Logic nghiệp vụ đã chốt)<br>• UI_controls/ (Quét control mapping: input, button, table...)<br>• TEST_CONFIG.md"]
     In4 --> Pipe4["2. Phân Bổ Section 3 Tầng Tuần Tự (Rule 02)<br>• Section 1: Điều hướng, Deep-link & Lifecycle<br>• Section 2: Main Controls, Filters, Table & Pagination<br>• Section 3: Modals, Popups, Validation & Non-functional"]
     Pipe4 --> Tag4["3. Phân Loại Automation Feasibility Bắt Buộc<br>• Khóa cứng tỷ lệ vàng: ~80% Auto và ~20% Manual<br>• Ghi rõ lý do với Manual-Only: (Visual, DB, UX)"]
-    Tag4 --> Out4["4. Xuất File Kịch Bản Chuẩn Hóa<br>👉 testcase_ui/[Mã_màn]_testcase.md"]
+    Tag4 --> Out4["4. Xuất Đồng Thời 2 Đầu Ra Chuẩn Hóa (2-in-1)<br>👉 1. File Markdown: testcase_ui/[Mã_màn]_testcase.md<br>👉 2. Google Sheet: Tab [MÃ] (Header 7 dòng, Formula ID, Auto-Merge Title)"]
 ```
 
 ---
@@ -321,12 +323,12 @@ Bố cục 7 dòng đầu trên Google Sheets được thiết kế cố định
 
 ```
 Row 1: [Module Code: B1]
-Row 2: Total created (B2) | % Executed (D2) | [Round 1 Header: H2:L2] | [Round 2 Header: M2:Q2]
-Row 3: Plan to exec (B3)  |                  | Pass | Fail | Impact | Not Run | Total (H3:L3 & M3:Q3)
+Row 2: Total created (B2) | % Executed (D2) | [Round 1 Header: I2:M2] | [Round 2 Header: N2:R2]
+Row 3: Plan to exec (B3)  |                  | Pass | Fail | Impact | Not Run | Total (I3:M3 & N3:R3)
 Row 4: (Dòng đệm phân cách)
-Row 5: [Merged Header 2 tầng: A5:G6 merge dọc, H5:L5 Round 1 merge ngang, M5:Q5 Round 2 merge ngang]
+Row 5: [Merged Header 2 tầng: A5:G6 merge dọc, I5:M5 Round 1 merge ngang, N5:R5 Round 2 merge ngang]
 Row 6: [Sub-headers Round 1 & Round 2: Result | Bug ID | Status | Comment | Note]
-Row 7: [Phân loại kiểm thử: UI & Functional (Merge B7:Q7 hoặc B7:L7, cột A để trống)]
+Row 7: [Phân loại kiểm thử: UI & Functional (Merge B7:R7 hoặc B7:M7, cột A để trống)]
 Row 8+: [Dữ liệu test cases bắt đầu từ Row 8]
 ```
 
@@ -343,20 +345,20 @@ Row 8+: [Dữ liệu test cases bắt đầu từ Row 8]
      ```
    - **% Tiến độ đã chạy (D2):** *(Định dạng ô: Percentage `%`)*
      ```excel
-     =IF(L3 > 0, L3/B2, 0)
+     =IF(M3 > 0, M3/B2, 0)
      ```
-3. **Khối Thống kê Kết quả Round 1 (H3:L3):**
-   - `Pass (H3)`: `=COUNTIF(H8:H, "Pass")`
-   - `Fail (I3)`: `=COUNTIF(H8:H, "Fail")`
-   - `Impact (J3)`: `=COUNTIF(H8:H, "Impact")`
-   - `Not Run (K3)`: `=COUNTIFS(A8:A, "<>", H8:H, "Not run")`
-   - `Total (L3)`: `=SUM(H3:K3)`
-4. **Khối Thống kê Kết quả Round 2 (M3:Q3):**
-   - `Pass (M3)`: `=COUNTIF(M8:M, "Pass")`
-   - `Fail (N3)`: `=COUNTIF(M8:M, "Fail")`
-   - `Impact (O3)`: `=COUNTIF(M8:M, "Impact")`
-   - `Not Run (P3)`: `=COUNTIFS(A8:A, "<>", M8:M, "Not run")`
-   - `Total (Q3)`: `=SUM(M3:P3)`
+3. **Khối Thống kê Kết quả Round 1 (I3:M3):**
+   - `Pass (I3)`: `=COUNTIF(I8:I, "Pass")`
+   - `Fail (J3)`: `=COUNTIF(I8:I, "Fail")`
+   - `Impact (K3)`: `=COUNTIF(I8:I, "Impact")`
+   - `Not Run (L3)`: `=COUNTIFS(A8:A, "<>", I8:I, "Not run")`
+   - `Total (M3)`: `=SUM(I3:L3)`
+4. **Khối Thống kê Kết quả Round 2 (N3:R3):**
+   - `Pass (N3)`: `=COUNTIF(N8:N, "Pass")`
+   - `Fail (O3)`: `=COUNTIF(N8:N, "Fail")`
+   - `Impact (P3)`: `=COUNTIF(N8:N, "Impact")`
+   - `Not Run (Q3)`: `=COUNTIFS(A8:A, "<>", N8:N, "Not run")`
+   - `Total (R3)`: `=SUM(N3:Q3)`
 5. **Công thức sinh mã ID tự động tại ô A8 (kéo xuống):**
    ```excel
    =IF(OR(D8<>"",F8<>""),"["&TEXT($B$1,"##")&"-"&TEXT(ROW()-7-COUNTBLANK($F$8:F8),"##")&"]","")
