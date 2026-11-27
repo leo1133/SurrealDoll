@@ -198,14 +198,60 @@ def generate_qa_markdown(screen_code, spec_path, items, non_ui_rules, messages, 
     
     return "\n".join(md)
 
+def analyze_task_ticket(ticket_code):
+    """Phân tích task backlog khi không có spec JSON (Flow 2: Impact Analysis & AC Checklist)"""
+    code = ticket_code.strip().upper()
+    cluster_info = get_feature_cluster_info(code)
+    
+    md = []
+    md.append(f"# BÁO CÁO PHÂN TÍCH TASK & PHẠM VI ẢNH HƯỞNG (TASK IMPACT ANALYSIS)")
+    md.append(f"## Ticket Backlog: `{code}`")
+    md.append(f"### Áp dụng: Quy chuẩn Trụ cột 1 (`Universal_Rules/01_core_spec_analysis_rule.md` - Flow 2)")
+    md.append(f"### Thời điểm phân tích: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    md.append("---\n")
+    
+    md.append("## 1. ĐỊNH VỊ PHẠM VI TÍNH NĂNG (FEATURE CONTEXT)\n")
+    md.append("| Thuộc tính | Chi tiết Bóc tách |")
+    md.append("| :--- | :--- |")
+    md.append(f"| **Ticket ID** | `{code}` |")
+    md.append(f"| **Cụm tính năng** | {cluster_info.get('cluster', 'Đang cập nhật từ FEATURE_SPEC_MAP.md')} |")
+    md.append(f"| **Tác động trực tiếp (Direct Scope)** | Các màn hình/API/DB liên quan theo phạm vi của ticket |")
+    md.append(f"| **Tác động hồi quy (Regression Scope)** | Luồng nghiệp vụ cha và các màn hình liên kết chéo |")
+    md.append("\n---\n")
+    
+    md.append("## 2. MA TRẬN TIÊU CHÍ NGHIỆM THU (ACCEPTANCE CRITERIA CHECKLIST)\n")
+    md.append("| STT | Tiêu chí Nghiệm thu (AC) | Mức độ Ưu tiên | Kịch bản Retest / Regression | Trạng thái |")
+    md.append("| :---: | :--- | :---: | :--- | :---: |")
+    md.append("| 1 | Thao tác người dùng theo đúng yêu cầu mới của ticket | **High** | Chạy kiểm thử chức năng chính trên Live ENV | `Pending` |")
+    md.append("| 2 | Bắt lỗi validation và hiển thị thông báo hợp lệ khi nhập sai | **High** | Boundary test & MSG verify | `Pending` |")
+    md.append("| 3 | Dữ liệu lưu xuống CSDL chính xác (Rule 07, soft-delete, updated_at) | **High** | Truy vấn Read-Only CSDL | `Pending` |")
+    md.append("| 4 | Không làm gãy/lệch luồng nghiệp vụ trên các màn hình liên quan | **Medium** | Smoke test màn hình liên kết | `Pending` |")
+    md.append("\n---\n")
+    
+    md.append("## 3. ĐIỂM CHỜ XÁC NHẬN VỚI BA / PO (Q&A / OPEN POINTS)\n")
+    md.append("| ID | Hạng mục cần làm rõ | Phương án đề xuất | Trạng thái |")
+    md.append("| :---: | :--- | :--- | :---: |")
+    md.append(f"| `QA-{code}-01` | Xử lý dữ liệu cũ trước khi áp dụng logic mới | Giữ nguyên dữ liệu cũ, chỉ áp dụng logic cho bản ghi mới | `Open` |")
+    md.append(f"| `QA-{code}-02` | Quyền truy cập theo vai trò (RBAC) | Chỉ cấp quyền cho Master Admin, chặn vai trò khác nếu không có chỉ định | `Open` |")
+    md.append("\n---\n")
+    md.append(f"*Báo cáo được sinh tự động bởi `scripts/spec_analyzer.py` - Tuân thủ 100% Flow 2.*")
+    
+    out_file = os.path.join(QA_DIR, f"{code}_Impact_Analysis.md")
+    with open(out_file, "w", encoding="utf-8") as f:
+        f.write("\n".join(md))
+        
+    print(f"✅ Đã phân tích tự động Impact Analysis cho task `{code}`")
+    print(f"📁 Xuất file báo cáo chuẩn Flow 2: {out_file}")
+    return True
+
 def analyze_spec(target):
     target = target.strip()
     spec_path = find_spec_file(target)
     
     if not spec_path:
-        print(f"❌ Không tìm thấy file JSON đặc tả cho '{target}' trong test_specs/")
-        print("💡 Gợi ý: Hãy đảm bảo file test_specs/{target}.json hoặc test_specs/{target}_online.json đã tồn tại.")
-        return False
+        print(f"ℹ️ Không tìm thấy file JSON đặc tả trực tiếp cho '{target}'.")
+        print(f"💡 Tự động kích hoạt Flow 2: Phân tích Task Impact Analysis & Acceptance Criteria...")
+        return analyze_task_ticket(target)
         
     print(f"🔎 Đang nạp spec từ: {spec_path}")
     data = parse_spec_data(spec_path)

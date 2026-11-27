@@ -9,6 +9,19 @@
 
 ---
 
+## 0. LUỒNG THỰC THI CHUẨN HÓA (TWO-PHASE GIT PROTOCOL)
+
+> [!IMPORTANT]
+> **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
+> - **Rule Tiêu chuẩn (Rule 09):** Định nghĩa ranh giới đỏ tuyệt đối giữa 2 phase: Phase 1 `push data` (Tạo branch -> Push remote -> Mở PR -> Giữ nguyên branch local) và Phase 2 `clear data` (Chỉ chạy sau khi PR merge -> Checkout main -> Xóa branch local -> Pull main).
+> - **Công cụ Thực thi:** Bộ lệnh Git CLI chuẩn hóa (`git checkout -b`, `git commit`, `git push`, `gh pr create`).
+
+*Cú pháp gợi ý:*
+- Lệnh 1: `push data`, `push git`, `tạo pr`.
+- Lệnh 2: `clear data`, `clean git`, `xóa branch`.
+
+---
+
 ## SƠ ĐỒ ĐIỀU PHỐI GIT PHÂN ĐỊNH (TWO-PHASE WORKFLOW)
 
 ```mermaid

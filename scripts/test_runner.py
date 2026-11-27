@@ -77,6 +77,10 @@ def resolve_target_scope(target_str):
 
     return scope_type, screens
 
+from config_loader import load_global_config
+
+GLOBAL_CFG = load_global_config()
+
 def execute_screen_5_gates(screen, env_name, dry_run=False):
     print(f"\n============================================================")
     print(f"🚀 THỰC THI 5 GATES CHO MÀN HÌNH: [{screen}] TRÊN [{env_name}]")
@@ -85,10 +89,10 @@ def execute_screen_5_gates(screen, env_name, dry_run=False):
     # Gate 1: Check Spec & Row Discovery
     print(f"📍 [GATE 1/5] Khám phá Spec & Lập Row Mapping cho [{screen}]...")
     env = os.environ.copy()
-    env['HOME'] = '/home/nga'
-    env['AGY_ACCOUNT'] = 'ngadtp@mumesoft.vn'
+    env['HOME'] = GLOBAL_CFG["home_dir"]
+    env['AGY_ACCOUNT'] = GLOBAL_CFG["agy_account"]
     
-    cmd_disc = ['gsheets', 'readonly', 'read', '1ZaL8llNgH6sCxpG-daLEi21IxXFpub-BbrRJRdUNMOg', f'{screen}!A1:A300', '--json']
+    cmd_disc = ['gsheets', 'readonly', 'read', GLOBAL_CFG["admin_spreadsheet_id"], f'{screen}!A1:A300', '--json']
     res1 = subprocess.run(cmd_disc, env=env, capture_output=True, text=True)
     if res1.returncode != 0:
         print(f"⚠️ Cảnh báo Gate 1: Không đọc được tab '{screen}' trên Google Sheet ({res1.stderr.strip()})")
@@ -104,7 +108,8 @@ def execute_screen_5_gates(screen, env_name, dry_run=False):
     print(f"📍 [GATE 4 & 5/5] Kiểm duyệt Quality Gate & Đồng bộ Sheet cho [{screen}]...")
     exec_file = f"test_specs/test_sync_{screen.lower()}.json"
     if os.path.exists(exec_file):
-        sync_cmd = ["python3", "/home/nga/Documents/SurrealDoll/scripts/sync_to_sheet.py", "--sheet", screen, "--input", exec_file]
+        sync_script = os.path.join(GLOBAL_CFG["root_dir"], "scripts", "sync_to_sheet.py")
+        sync_cmd = ["python3", sync_script, "--sheet", screen, "--input", exec_file]
         if dry_run:
             sync_cmd.append("--dry-run")
         res_sync = subprocess.run(sync_cmd, text=True)

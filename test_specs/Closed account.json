@@ -1,0 +1,51 @@
+{
+  "screen_code": "K2022",
+  "screen_name": "Delete ACCOUNT ADMIN (Close Account Admin)",
+  "cluster": "Hồ sơ User, eKYC & Xóa tài khoản",
+  "category": "[K2022] - Close Account",
+  "ticket": "SURREALDOLLS-15114",
+  "description": "Quản trị vòng đời tài khoản: Xử lý hiển thị text nhãn 退会済み (đã hủy tài khoản) và trạng thái tài khoản trên 22 màn hình/vị trí Admin, kèm cơ chế disable button gỡ ban tức thì tại AG300 và AY300.",
+  "spec_source": "Google Spreadsheet 1pxox5GcjOXwKadMnzOa765ptG2huPJSxCiWsrH0_h7Y - Tab 'K2022-Close Acc' (A58:G84)",
+  "rules": {
+    "data_handling": "Toàn bộ data chỉ bị xóa mềm (soft delete). Không xóa/ẩn user khỏi các màn hình Admin ngay cả khi đã qua 30 ngày (trừ List Ban hoặc trường hợp cụ thể).",
+    "grace_period_under_30_days": {
+      "default": "Mặc định không xử lý gì, giữ nguyên hiển thị user bình thường, không gắn nhãn 退会済み, không đổi status tài khoản.",
+      "immediate_exceptions": [
+        "AG300 (List Ban): Button gỡ ban đối với user đã hủy tài khoản bị disable ngay lập tức, không cần chờ 30 ngày.",
+        "AY300 (Livestream message BAN LIST): Button gỡ ban đối với user đã hủy tài khoản bị disable ngay lập tức, không cần chờ 30 ngày."
+      ],
+      "restoration": "Trong vòng 30 ngày, user đăng nhập lại trên App hoặc Web -> Tài khoản được khôi phục về bình thường, button gỡ ban trên AG300/AY300 tự động enable trở lại."
+    },
+    "expired_grace_period_after_30_days": {
+      "general": "Hiển thị text 退会済み (đã hủy tài khoản) bên cạnh tên user trên tất cả các màn hình admin có thông tin user.",
+      "status_update": "Cập nhật status tài khoản (ステータス) thành 'đã hủy tài khoản' (退会済み) tại AE100, AE200, AD302.",
+      "revenue_screens": "Tại AD303 và AS100: Hiển thị 退会済み cho cả user thực hiện giao dịch (payer) và liver nhận giao dịch (receiver).",
+      "stream_ended": "Tại AG500 (List + View Stream ENDED): Hiển thị 退会済み bên cạnh tên liver/streamer, không áp dụng cho viewer.",
+      "ban_screens": "Nút gỡ ban tại AG300 và AY300 tiếp tục bị disable."
+    }
+  },
+  "impacted_screens": [
+    {"group": "User Manage", "id": "AE100", "name": "User List", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user và update status tài khoản thành 'đã huỷ tài khoản'"},
+    {"group": "User Manage", "id": "AE200", "name": "User Details", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user và update status tài khoản thành 'đã huỷ tài khoản'"},
+    {"group": "Agency Manage", "id": "AD302", "name": "Agency Manage - Agency Streamer List", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user và update status tài khoản thành 'đã huỷ tài khoản'"},
+    {"group": "Agency Manage", "id": "AD303", "name": "Sales - Agency Revenue Analysis", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user (áp dụng với cả user giao dịch và liver nhận)"},
+    {"group": "Stream Manage", "id": "AG300", "name": "List Ban", "timing": "Tức thì & Sau 30 ngày", "action": "Button gỡ ban bị disable ngay lập tức. Sau 30 ngày hiển thị text 退会済み cạnh tên user"},
+    {"group": "Stream Manage", "id": "AG400", "name": "List Force Stop", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Stream Manage", "id": "AG500", "name": "List + View Stream (ENDED)", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user (không áp dụng cho viewer)"},
+    {"group": "Message Manage", "id": "AH400", "name": "Message Admin", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Message Manage", "id": "AX100", "name": "Message Manage - Search", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Message Manage", "id": "AX200", "name": "Message Manage - Message Detail", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Message Manage", "id": "AX300", "name": "Message Manage - Message Info", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Message Manage", "id": "AY100", "name": "Livestream message - Search", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Message Manage", "id": "AY200", "name": "Livestream message - Detail", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Message Manage", "id": "AY300", "name": "Livestream message - BAN LIST", "timing": "Tức thì & Sau 30 ngày", "action": "Button gỡ ban bị disable ngay lập tức. Sau 30 ngày hiển thị text 退会済み cạnh tên user"},
+    {"group": "Report Manage", "id": "BG100", "name": "Report List", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Report Manage", "id": "BG200", "name": "Report Detail", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Post Manage", "id": "AM100", "name": "Post List", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Post Manage", "id": "AM101", "name": "{user_name}'s Post List", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Post Manage", "id": "AM200", "name": "Post Details", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Sales", "id": "AS100", "name": "Sales - User Revenue Analysis", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user (áp dụng với cả user giao dịch và liver nhận)"},
+    {"group": "Sales", "id": "AS101", "name": "Change Store Percentage", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"},
+    {"group": "Sales", "id": "AS200", "name": "Sales - Payout Request", "timing": "Sau 30 ngày", "action": "Hiển thị text 退会済み bên cạnh tên user"}
+  ]
+}

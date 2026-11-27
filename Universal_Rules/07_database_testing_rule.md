@@ -11,6 +11,17 @@
 
 ---
 
+## 0. LUỒNG THỰC THI CHUẨN HÓA (DATABASE TESTING FLOW)
+
+> [!IMPORTANT]
+> **PHÂN ĐỊNH RẠCH RÒI GIỮA RULE TIÊU CHUẨN & CÔNG CỤ THỰC THI:**
+> - **Rule Tiêu chuẩn (Rule 07):** Định nghĩa nguyên tắc xác thực 3 chiều (UI <-> API <-> DB), Read-Only an toàn, bảo vệ dữ liệu, kiểm tra soft-delete và audit trail.
+> - **Công cụ Thực thi (Guardrail Tooling):** Truy vấn kiểm tra qua MCP Server CSDL (`surreal-db-dev`, `surreal-db-stg`) hoặc CLI Client cấu hình Read-Only qua SSM Tunnel cổng `15432` (Dev) / `15433` (Staging). Được tự động tích hợp bên trong `scripts/test_runner.py` và `scripts/auto_code_generator.py`.
+
+*Cú pháp & Ngữ cảnh:* Tự động kích hoạt khi kiểm thử luồng dữ liệu, verify bug liên quan CSDL, hoặc sinh mã automation E2E 3 chiều.
+
+---
+
 ## SƠ ĐỒ VÒNG ĐỜI KIỂM THỬ CƠ SỞ DỮ LIỆU (DATABASE TESTING LIFECYCLE)
 
 Mọi quy trình kiểm thử CSDL và đối soát dữ liệu được tổ chức theo chu trình 5 giai đoạn khép kín:

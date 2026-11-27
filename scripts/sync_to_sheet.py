@@ -14,8 +14,14 @@ import json
 import hashlib
 import subprocess
 import argparse
+from datetime import datetime
 
-SPREADSHEET_ID = "1ZaL8llNgH6sCxpG-daLEi21IxXFpub-BbrRJRdUNMOg"
+# Nạp động cấu hình từ TEST_CONFIG.md
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+from config_loader import load_global_config
+
+GLOBAL_CFG = load_global_config()
+SPREADSHEET_ID = GLOBAL_CFG["admin_spreadsheet_id"]
 
 def calculate_file_hash(filepath):
     hasher = hashlib.sha256()
@@ -85,8 +91,8 @@ def run_quality_gate(sheet_name, execution_data, skip_patterns=None):
 
 def sync_to_sheet(sheet_name, execution_data, dry_run=False):
     env = os.environ.copy()
-    env['HOME'] = '/home/nga'
-    env['AGY_ACCOUNT'] = 'ngadtp@mumesoft.vn'
+    env['HOME'] = GLOBAL_CFG["home_dir"]
+    env['AGY_ACCOUNT'] = GLOBAL_CFG["agy_account"]
 
     print(f"\n📡 Querying Google Sheet '{sheet_name}' for exact row mapping...")
     cmd = ['gsheets', 'readonly', 'read', SPREADSHEET_ID, f'{sheet_name}!A1:A300', '--json']
@@ -97,21 +103,21 @@ def sync_to_sheet(sheet_name, execution_data, dry_run=False):
 
     sheet_rows = json.loads(res.stdout)
     mapping = {}
-    cr_start = False
     for idx, row in enumerate(sheet_rows, start=1):
-        first_col = row[0].strip() if len(row) > 0 else ''
-        if 'CR SURREALDOLLS' in first_col:
-            cr_start = True
+        if not row or len(row) == 0:
             continue
-        if cr_start and first_col.startswith('['):
+        first_col = str(row[0]).strip()
+        # Nhận diện mọi dòng bắt đầu bằng mã testcase [MÃ-X]
+        if first_col.startswith('[') and ('-' in first_col or ']' in first_col):
             clean_id = first_col.replace('[', '').replace(']', '').strip()
             mapping[clean_id] = idx
             mapping[first_col] = idx
 
-    print(f"Found {len(mapping)} testcase row mappings in CR zone.")
+    print(f"Found {len(mapping)} testcase row mappings on Sheet '{sheet_name}'.")
 
     # Build row writes
     updates_by_row = {}
+    current_date = datetime.now().strftime("%d.%m.%Y")
     for item in execution_data:
         tc_id = item.get('tc_id', '').strip()
         clean_id = tc_id.replace('[', '').replace(']', '').strip()
@@ -121,8 +127,8 @@ def sync_to_sheet(sheet_name, execution_data, dry_run=False):
             continue
 
         result = item.get('result', '')
-        tester = 'NgaDTP' if result else ''
-        date_str = '26.11.2026' if result else ''
+        tester = GLOBAL_CFG["creator"] if result else ''
+        date_str = current_date if result else ''
         ev_path = item.get('evidence_path', '') if result else ''
         updates_by_row[row_num] = [result, '', tester, date_str, ev_path]
 

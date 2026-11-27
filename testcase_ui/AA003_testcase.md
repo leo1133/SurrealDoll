@@ -1,111 +1,98 @@
-# BẢNG TEST CASE VÀ KẾT QUẢ KIỂM THỬ THỦ CÔNG - MÀN HÌNH AA003 (PASSWORD CHANGE MODAL)
-## Màn hình: AA003 - パスワード変更 (Modal Đổi Mật Khẩu Khi Đang Đăng Nhập - Admin Master)
-### Thuộc Task: [SURREALDOLLS-14231](https://issoh.backlog.com/view/SURREALDOLLS-14231) (DEV) & [SURREALDOLLS-14848](https://issoh.backlog.com/view/SURREALDOLLS-14848) (STG) | BE: SURREALDOLLS-12839 | Rule: CMR43, CMR68
-### Google Sheet Target: [Admin Master Test Case - Tab AA003 (gid=350559572)](https://docs.google.com/spreadsheets/d/1ZaL8llNgH6sCxpG-daLEi21IxXFpub-BbrRJRdUNMOg/edit?gid=350559572#gid=350559572)
-### Báo cáo Bug chi tiết: [AA003_bugs.md](../bugs/AA003/AA003_bugs.md) & [SURREALDOLLS-14848_bugs.md](../bugs/SURREALDOLLS-14848/SURREALDOLLS-14848_bugs.md)
+# BẢNG ĐẶC TẢ KIỂM THỬ GIAO DIỆN THỦ CÔNG (MANUAL UI TEST SUITE)
+## Màn hình: `AA003`
+### Áp dụng: Quy chuẩn Trụ cột 2 (`Universal_Rules/02_manual_ui_test_case_rule.md`) & UI_controls Library
 
 ---
 
-## 1. BẢNG THỐNG KÊ KẾT QUẢ THỰC THI (ROUND 1 SUMMARY)
+## BẢNG ĐIỀU KHIỂN TIẾN ĐỘ & THỐNG KÊ (DASHBOARD HEADER)
 
-| Chỉ số | Số lượng / Tỷ lệ | Trạng thái |
-| :--- | :---: | :---: |
-| **Tổng số Test Cases thiết kế (Total Created)** | **74** | 100% |
-| **Số Test Cases đã thực thi (Executed)** | **74** | **100.0%** |
-| **Số Test Cases ĐẠT (Pass)** | **70** | **94.6%** |
-| **Số Test Cases KHÔNG ĐẠT (Fail)** | **4** | **5.4%** |
-| **Tổng số lỗi phát hiện (Bugs Logged)** | **2 bugs lớn** (1 Major, 1 Minor) | Đã xuất bằng chứng DOM & ảnh chụp |
-
----
-
-## 2. DANH SÁCH CHI TIẾT 4 CA KIỂM THỬ THẤT BẠI (FAIL)
-
-| Mã TC | Hạng mục kiểm tra | Thao tác thực hiện | Kết quả kỳ vọng (Expected) | Kết quả thực tế (Actual) | Bug ID liên quan | File bằng chứng (Evidence) |
-| :---: | :--- | :--- | :--- | :--- | :---: | :--- |
-| `[AA003-8]` | Nút tài khoản cuối Side menu | Đăng nhập Admin $\rightarrow$ Quan sát nút tài khoản ở chân side menu | Hiển thị avatar tròn, Tên, Email và **icon tam giác ▲** ở mép phải nút | Nút tài khoản chỉ hiển thị Avatar, Tên và Email; **hoàn toàn thiếu icon tam giác ▲** | `BUG-AA003-1` | `../evidence/AA003/evidence_AA003_TC08_missing_triangle_icon.png` |
-| `[AA003-14]` | Header Menu tài khoản | Click mở menu tài khoản ở cuối side menu $\rightarrow$ Quan sát header menu | Hiển thị đầy đủ: Tên, Email, và **Tag role 「マスター」** | Header menu chỉ hiển thị Tên và Email; **thiếu Tag role 「マスター」** | `BUG-AA003-2` | `../evidence/AA003/evidence_AA003_TC14_missing_role_tag.png` |
-| `[AA003-15]` | Tag Role 管理者 | Đăng nhập tài khoản role 管理者 $\rightarrow$ Mở menu tài khoản | Hiển thị tag role 「管理者」 | Header menu thiếu container/logic render tag role | `BUG-AA003-2` | `../evidence/AA003/evidence_AA003_TC14_missing_role_tag.png` |
-| `[AA003-16]` | Tag Role 監視員 | Đăng nhập tài khoản role 監視員 $\rightarrow$ Mở menu tài khoản | Hiển thị tag role 「監視員」 | Header menu thiếu container/logic render tag role | `BUG-AA003-2` | `../evidence/AA003/evidence_AA003_TC14_missing_role_tag.png` |
+| Thuộc tính | Giá trị | Thuộc tính | Giá trị | Round 1 Metric | Kết quả | Round 2 Metric | Kết quả |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Module Code** | `AA003` | **Environment** | `Dev-Admin / STG-Admin` | **Pass** | 0 | **Pass** | 0 |
+| **Total Testcases** | **74** | **% Executed** | 0.0% | **Fail** | 0 | **Fail** | 0 |
+| **Plan to Execute** | **74** | **Creator** | `NgaDTP` | **Impact** | 0 | **Impact** | 0 |
+| **Spec Source** | `test_specs/AA003.json` | **Target Sheet** | `Surreal Test cases_Admin` | **Not Run** | 74 | **Not Run** | 0 |
+| **Automation Ratio** | **53 Auto (71.6%) / 21 Manual (28.4%)** | **Trạng thái** | `Draft Ready for Execution` | **Total** | 74 | **Total** | 0 |
 
 ---
 
-## 3. DANH MỤC TOÀN BỘ 74 TEST CASES & KẾT QUẢ ĐÃ GHI NHẬN LÊN GOOGLE SHEET
+## CHI TIẾT BẢNG TEST CASES & KẾT QUẢ THỰC THI ROUND 1
 
-*(Đã ghi nhận trực tiếp kết quả vào Cột H (Round 1) tại Google Sheet tab `AA003`)*
+| ID | Title | Big item | Steps | Pre-condition | Expected | Priority | Automation Feasibility | Round 1 (Result) | Bug ID | Status | Comment / Actual | Evidence |
+| :---: | :--- | :--- | :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- | :--- |
+| `[AA003-1]` | [0] Kiểm tra truy cập màn hình | Check mở modal từ khu tài khoản cuối side menu | 1. Mở bất kỳ màn hình nào có side menu (VD: ユーザー一覧, 管理者一覧)<br>2. Bấm vào khu tài khoản ở cuối side menu<br>3. Bấm 「パスワード変更」 | User là Admin (マスター / 管理者 / 監視員) đang đăng nhập | 1. Đóng menu tài khoản<br>2. Hiển thị modal パスワード変更 giữa màn hình<br>3. Có lớp nền mờ (Backdrop) che phủ phía sau | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-2]` | [0] Kiểm tra truy cập màn hình | Check trạng thái khởi tạo modal | 1. Mở modal パスワード変更<br>2. Quan sát 3 ô input và vị trí con trỏ chuột |  | 1. 3 ô input (現在のパスワード, 新しいパスワード, 新しいパスワード確認) đều trống<br>2. Ký tự ở trạng thái ẩn mặc định<br>3. Con trỏ tự động focus vào ô [現在のパスワード] | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-3]` | [0] Kiểm tra truy cập màn hình | Check đóng modal | 1. Nhập dữ liệu vào các ô trong modal<br>2. Click icon nút × ở góc trên bên phải modal |  | 1. Modal lập tức đóng lại, không hiển thị popup hỏi xác nhận<br>2. Giữ nguyên màn hình đang mở<br>3. Toàn bộ dữ liệu vừa nhập bị xóa sạch | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-4]` | [0] Kiểm tra truy cập màn hình | Check đóng modal | 1. Nhập dữ liệu vào các ô trong modal<br>2. Click nút キャンセル ở chân modal |  | 1. Modal lập tức đóng lại, không hỏi xác nhận<br>2. Giữ nguyên màn hình đang mở, xóa sạch dữ liệu vừa nhập | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-5]` | [0] Kiểm tra truy cập màn hình | Check đóng modal | 1. Nhập dữ liệu vào các ô trong modal<br>2. Nhấn phím Esc trên bàn phím |  | 1. Modal lập tức đóng lại, không hỏi xác nhận<br>2. Toàn bộ dữ liệu vừa nhập bị xóa sạch | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-6]` | [0] Kiểm tra truy cập màn hình | Check đóng modal | 1. Nhập dữ liệu vào các ô trong modal<br>2. Click chuột vào vùng nền tối mờ (Backdrop) bên ngoài modal |  | 1. Modal lập tức đóng lại an toàn<br>2. Toàn bộ dữ liệu vừa nhập bị xóa sạch | **Medium** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-7]` | [0] Kiểm tra truy cập màn hình | Check mở lại modal sau khi vừa đóng | 1. Nhập dữ liệu dở dang và đóng modal<br>2. Thực hiện mở lại modal パスワード変更 |  | 1. Cả 3 ô input đều rỗng, không lưu lại dữ liệu đã nhập trước đó<br>2. Các thông báo lỗi (nếu có trước đó) đều biến mất | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-8]` | [1] Khu tài khoản cuối side menu | Check hiển thị | 1. Quan sát khu vực cuối side menu |  | 1. Hiển thị ô tròn chứa chữ cái đầu của 名前<br>2. Hiển thị 名前 và メールアドレス của tài khoản đang đăng nhập<br>3. Hiển thị icon tam giác ▲ ở mép phải | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-9]` | [1] Khu tài khoản cuối side menu | Check vị trí cố định khi cuộn side menu | 1. Thu nhỏ chiều cao cửa sổ trình duyệt để side menu xuất hiện thanh cuộn<br>2. Cuộn thanh cuộn của side menu lên / xuống |  | 1. Khu tài khoản luôn cố định nằm ở đáy side menu, không bị cuộn trôi hay che khuất | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-10]` | [1] Khu tài khoản cuối side menu | Check xử lý văn bản quá dài | 1. Đăng nhập bằng tài khoản có 名前 hoặc email dài (≥ 40 ký tự)<br>2. Quan sát khu tài khoản cuối side menu |  | 1. Văn bản quá dài được tự động rút gọn bằng dấu ba chấm … gọn gàng, không tràn vỡ layout | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-11]` | [1] Khu tài khoản cuối side menu | Check hover chuột | 1. Di chuyển chuột vào khu tài khoản cuối side menu |  | 1. Con trỏ chuột chuyển dạng bàn tay (pointer)<br>2. Background khu tài khoản đổi màu nhẹ theo style hover | **Medium** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-12]` | [1] Khu tài khoản cuối side menu | Check click mở / đóng menu tài khoản | 1. Click vào khu tài khoản<br>2. Click lại vào khu tài khoản |  | 1. Click lần 1: Mở menu popup tài khoản ngay phía trên<br>2. Click lần 2: Đóng menu popup tài khoản | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-13]` | [1] Khu tài khoản cuối side menu | Check đóng menu khi click ra ngoài hoặc bấm Esc | 1. Mở menu tài khoản<br>2. Click chuột ra vùng nội dung bên ngoài menu (hoặc nhấn phím Esc) |  | 1. Menu tài khoản tự động đóng lại | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-14]` | [2] Menu tài khoản | Check hiển thị header menu | 1. Click mở menu tài khoản | Tài khoản role マスター | 1. Đầu menu hiển thị đầy đủ: 名前, メールアドレス<br>2. Hiển thị tag role 「マスター」 | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-15]` | [2] Menu tài khoản | Check hiển thị tag role | 1. Đăng nhập tài khoản có role 管理者<br>2. Click mở menu tài khoản | Tài khoản role 管理者 | 1. Hiển thị tag role 「管理者」 đúng màu sắc thiết kế | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-16]` | [2] Menu tài khoản | Check hiển thị tag role | 1. Đăng nhập tài khoản có role 監視員<br>2. Click mở menu tài khoản | Tài khoản role 監視員 | 1. Hiển thị tag role 「監視員」 đúng màu sắc thiết kế | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-17]` | [2.1] Nút パスワード変更 | Check hiển thị | 1. Quan sát item パスワード変更 trong menu tài khoản |  | 1. Hiển thị icon chiếc chìa khóa kèm text 「パスワード変更」<br>2. Con trỏ chuột dạng pointer khi hover | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-18]` | [2.1] Nút パスワード変更 | Check click mở modal | 1. Click chọn 「パスワード変更」 |  | 1. Menu tài khoản đóng lại<br>2. Mở modal パスワード変更 với 3 ô nhập trống, focus ô 現在のパスワード | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-19]` | [2.2] Nút ログアウト | Check hiển thị | 1. Quan sát item ログアウト trong menu tài khoản |  | 1. Hiển thị chữ 「ログアウト」 màu đỏ cảnh báo<br>2. Con trỏ chuột dạng pointer khi hover | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-20]` | [2.2] Nút ログアウト | Check click đăng xuất | 1. Click chọn 「ログアウト」 |  | 1. Hệ thống thực hiện đăng xuất tài khoản<br>2. Xóa session token<br>3. Chuyển hướng về màn login AA000 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-21]` | [3] Modal パスワード変更 | Check hiển thị tiêu đề và dòng ghi chú 30 ngày | 1. Quan sát phần đầu của modal パスワード変更 |  | 1. Tiêu đề hiển thị: 「パスワード変更」<br>2. Phía dưới hiển thị dòng ghi chú thời hạn: 「変更後のパスワードの有効期限は、変更した日から30日間です。」 | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-22]` | [4] Textbox 現在のパスワード | Check hiển thị label và placeholder | 1. Quan sát ô nhập 現在のパスワード |  | 1. Label hiển thị: 「現在のパスワード」<br>2. Placeholder hiển thị: 「現在のパスワードを入力」<br>3. Đuôi ô input có icon con mắt 👁 riêng | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-23]` | [4] Textbox 現在のパスワード | Check ẩn ký tự khi nhập | 1. Nhập ký tự vào ô 現在のパスワード |  | 1. Ký tự lập tức bị che khuất dưới dạng dấu chấm tròn ●●● | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-24]` | [4] Textbox 現在のパスワード | Check khi để trống ô nhập | 1. Để trống ô 現在のパスワード<br>2. Nhập 2 ô còn lại hợp lệ<br>3. Click button 変更する |  | 1. Viền ô chuyển màu đỏ<br>2. Dưới ô hiển thị lỗi CMMSG29: 「現在のパスワードは空欄にできません。」<br>3. Không gửi request API lên server | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-25]` | [4] Textbox 現在のパスワード | Check tự động xóa lỗi khi gõ lại | 1. Để ô có lỗi CMMSG29<br>2. Focus vào ô và gõ 1 ký tự bất kỳ |  | 1. Viền đỏ và thông báo lỗi CMMSG29 lập tức biến mất | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-26]` | [4] Textbox 現在のパスワード | Check chặn copy cut khi mật khẩu đang ẩn | 1. Nhập mật khẩu vào ô<br>2. Bôi đen mật khẩu dạng ●●● và nhấn Ctrl+C / Ctrl+X |  | 1. Hệ thống không cho phép copy hoặc cut mật khẩu ra clipboard | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-27]` | [4] Textbox 現在のパスワード | Check nhập sai mật khẩu hiện tại (BE) | 1. Nhập sai mật khẩu hiện tại<br>2. Nhập 2 ô mật khẩu mới hợp lệ<br>3. Click button 変更する |  | 1. BE trả mã lỗi riêng cho trường hợp sai mật khẩu hiện tại<br>2. Viền ô chuyển màu đỏ<br>3. Dưới ô hiển thị thông báo lỗi MSG24: 「パスワードが間違っています。」 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-28]` | [4] Textbox 現在のパスワード | Check ký tự đặc biệt và SQL injection | 1. Nhập chuỗi ký tự dạng SQL injection (VD: ' OR '1'='1)<br>2. Nhập 2 ô còn lại hợp lệ và click 変更する |  | 1. Hệ thống xử lý an toàn, báo lỗi MSG24 dưới ô<br>2. Không xảy ra lỗi 500 hay lỗ hổng injection | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-29]` | [5] Textbox 新しいパスワード | Check hiển thị label và placeholder | 1. Quan sát ô nhập 新しいパスワード |  | 1. Label hiển thị: 「新しいパスワード」<br>2. Placeholder hiển thị: 「新しいパスワードを入力」 | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-30]` | [5] Textbox 新しいパスワード | Check hiển thị dòng hướng dẫn rule mật khẩu | 1. Quan sát khu vực phía dưới ô 新しいパスワード |  | 1. Luôn hiển thị tĩnh dòng text hướng dẫn:<br>・8文字以上<br>・英大文字・英小文字・数字・記号をそれぞれ1文字以上<br>・過去2回以内に使用したパスワードは使用不可<br>2. Không bị biến mất khi focus hay khi có thông báo lỗi | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-31]` | [5] Textbox 新しいパスワード | Check ẩn ký tự khi nhập | 1. Nhập ký tự vào ô 新しいパスワード |  | 1. Ký tự hiển thị dưới dạng dấu chấm tròn ●●● | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-32]` | [5] Textbox 新しいパスワード | Check khi để trống ô nhập | 1. Nhập ô hiện tại hợp lệ<br>2. Để trống ô 新しいパスワード<br>3. Click button 変更する |  | 1. Viền ô chuyển màu đỏ<br>2. Dưới ô hiển thị lỗi CMMSG29: 「新しいパスワードは空欄にできません。」<br>3. Ưu tiên báo lỗi để trống trước lỗi rule CMR43 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-33]` | [5] Textbox 新しいパスワード | Check rule mật khẩu | 1. Nhập mật khẩu mới 7 ký tự đủ 4 nhóm: Aa1!aaa<br>2. Nhập ô xác nhận khớp và click 変更する |  | 1. Viền ô chuyển màu đỏ<br>2. Dưới ô hiển thị thông báo lỗi MSG13<br>3. Không gửi API lên server | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-34]` | [5] Textbox 新しいパスワード | Check rule mật khẩu | 1. Nhập mật khẩu mới 8 ký tự thiếu chữ hoa: aa1!aaaa<br>2. Nhập ô xác nhận khớp và click 変更する |  | 1. Viền đỏ, hiển thị thông báo lỗi MSG13 dưới ô<br>2. Không gửi API | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-35]` | [5] Textbox 新しいパスワード | Check rule mật khẩu | 1. Nhập mật khẩu mới 8 ký tự thiếu chữ thường: AA1!AAAA<br>2. Nhập ô xác nhận khớp và click 変更する |  | 1. Viền đỏ, hiển thị thông báo lỗi MSG13 dưới ô<br>2. Không gửi API | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-36]` | [5] Textbox 新しいパスワード | Check rule mật khẩu | 1. Nhập mật khẩu mới 8 ký tự thiếu số: Aa!aaaaa<br>2. Nhập ô xác nhận khớp và click 変更する |  | 1. Viền đỏ, hiển thị thông báo lỗi MSG13 dưới ô<br>2. Không gửi API | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-37]` | [5] Textbox 新しいパスワード | Check rule mật khẩu | 1. Nhập mật khẩu mới 8 ký tự thiếu ký hiệu: Aa12aaaa<br>2. Nhập ô xác nhận khớp và click 変更する |  | 1. Viền đỏ, hiển thị thông báo lỗi MSG13 dưới ô<br>2. Không gửi API | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-38]` | [5] Textbox 新しいパスワード | Check rule mật khẩu | 1. Nhập mật khẩu đúng 8 ký tự đủ hoa, thường, số, ký hiệu: Aa1!aaaa<br>2. Nhập ô xác nhận khớp và click 変更する |  | 1. Hệ thống chấp nhận mật khẩu hợp lệ, không báo lỗi định dạng MSG13 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-39]` | [5] Textbox 新しいパスワード | Check các loại ký hiệu hợp lệ theo CMR43 | 1. Nhập mật khẩu chứa các ký hiệu: ! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` { \| } ~<br>2. Kiểm tra tính hợp lệ |  | 1. Toàn bộ các ký hiệu trên đều được chấp nhận hợp lệ theo CMR43 | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-40]` | [5] Textbox 新しいパスワード | Check tự động xóa lỗi khi gõ lại | 1. Để ô có lỗi MSG13<br>2. Focus vào ô và gõ tiếp ký tự |  | 1. Viền đỏ và thông báo lỗi MSG13 lập tức biến mất | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-41]` | [5] Textbox 新しいパスワード | Check trùng mật khẩu cũ (CMR43) | 1. Nhập ô 新しいパスワード trùng với mật khẩu hiện tại (PW-H0)<br>2. Nhập xác nhận khớp và click 変更する |  | 1. BE trả về HTTP 400<br>2. Viền ô chuyển màu đỏ<br>3. Dưới ô hiển thị thông báo lỗi MSG261: 「過去2回以内に使用したパスワードは再利用できません。」 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-42]` | [5] Textbox 新しいパスワード | Check trùng mật khẩu cũ (CMR43) | 1. Nhập ô 新しいパスワード trùng với mật khẩu của lần đổi trước đó 1 lần (PW-H1)<br>2. Nhập xác nhận khớp và click 変更する |  | 1. BE trả về HTTP 400<br>2. Viền đỏ, hiển thị lỗi MSG261 dưới ô | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-43]` | [5] Textbox 新しいパスワード | Check trùng mật khẩu cũ (CMR43) | 1. Nhập ô 新しいパスワード trùng với mật khẩu của lần đổi trước đó 2 lần (PW-H2)<br>2. Nhập xác nhận khớp và click 変更する |  | 1. BE trả về HTTP 400<br>2. Viền đỏ, hiển thị lỗi MSG261 dưới ô | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-44]` | [5] Textbox 新しいパスワード | Check trùng mật khẩu cũ (CMR43) | 1. Nhập ô 新しいパスワード trùng với mật khẩu của lần đổi từ 3 lần trước (PW-H3)<br>2. Nhập xác nhận khớp và click 変更する |  | 1. Hệ thống chấp nhận hợp lệ (đã ra khỏi danh sách 3 mật khẩu gần nhất)<br>2. Đổi mật khẩu thành công, không báo MSG261 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-45]` | [5] Textbox 新しいパスワード | Check sửa mật khẩu mới sau khi bị báo MSG261 | 1. Sau khi bị báo lỗi MSG261, nhập lại mật khẩu mới khác hoàn toàn hợp lệ<br>2. Click button 変更する |  | 1. Đổi mật khẩu thành công, hiển thị Toast MSG33 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-46]` | [5] Textbox 新しいパスワード | Check lịch sử trượt mật khẩu (Sliding Window) | 1. Thực hiện đổi mật khẩu nhiều lần liên tiếp để mật khẩu cũ trượt qua mốc 3 lần gần nhất<br>2. Thử đặt lại mật khẩu đã ra khỏi lịch sử |  | 1. Hệ thống cho phép tái sử dụng mật khẩu đã trượt ra khỏi lịch sử 3 lần | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-47]` | [5] Textbox 新しいパスワード | Check lỗi rule trả về từ BE (HTTP 422) | 1. Giả lập hoặc bypass FE gửi mật khẩu mới sai rule lên server<br>2. Quan sát hiển thị FE |  | 1. BE trả về HTTP 422<br>2. FE cắt bỏ tiền tố 「Value error, 」 và hiển thị đúng thông báo lỗi MSG13 dưới ô | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-48]` | [6] Textbox 新しいパスワード確認 | Check hiển thị label và placeholder | 1. Quan sát ô nhập 新しいパスワード確認 |  | 1. Label hiển thị: 「新しいパスワード確認」<br>2. Placeholder hiển thị: 「新しいパスワードを再入力」 | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-49]` | [6] Textbox 新しいパスワード確認 | Check ẩn ký tự khi nhập | 1. Nhập ký tự vào ô 新しいパスワード確認 |  | 1. Ký tự hiển thị dưới dạng dấu chấm tròn ●●● | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-50]` | [6] Textbox 新しいパスワード確認 | Check khi để trống ô nhập | 1. Nhập ô hiện tại và ô mới hợp lệ<br>2. Để trống ô xác nhận và click 変更する |  | 1. Viền ô chuyển màu đỏ<br>2. Dưới ô hiển thị lỗi CMMSG29: 「新しいパスワード確認は空欄にできません。」 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-51]` | [6] Textbox 新しいパスワード確認 | Check xác nhận mật khẩu | 1. Nhập ô mới: Pass@1234<br>2. Nhập ô xác nhận: Diff@9999<br>3. Click button 変更する |  | 1. Viền ô chuyển màu đỏ<br>2. Dưới ô hiển thị lỗi MSG25: 「パスワードと確認用のパスワードが一致しません。」 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-52]` | [6] Textbox 新しいパスワード確認 | Check xác nhận mật khẩu | 1. Nhập ô mới: Pass@1234<br>2. Nhập ô xác nhận: pass@1234<br>3. Click button 変更する |  | 1. Viền đỏ, hiển thị lỗi MSG25 dưới ô xác nhận | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-53]` | [6] Textbox 新しいパスワード確認 | Check xác nhận mật khẩu | 1. Nhập ô mới: Pass@1234<br>2. Nhập ô xác nhận: Pass@1234<br>3. Click button 変更する |  | 1. Hai ô trùng khớp, hệ thống không báo lỗi MSG25 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-54]` | [6] Textbox 新しいパスワード確認 | Check tự động xóa lỗi khi gõ lại | 1. Để ô xác nhận có lỗi MSG25<br>2. Focus vào ô và gõ lại ký tự |  | 1. Viền đỏ và lỗi MSG25 lập tức biến mất | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-55]` | [7] Icon 👁 | Check hiển thị icon tại 3 ô | 1. Quan sát mép phải của cả 3 ô input trong modal |  | 1. Cả 3 ô đều có icon mắt riêng biệt<br>2. Mặc định là icon mắt gạch chéo (trạng thái ẩn mật khẩu) | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-56]` | [7] Icon 👁 | Check bật tắt hiển thị mật khẩu độc lập | 1. Nhập text vào cả 3 ô<br>2. Click icon mắt ở ô 現在のパスワード |  | 1. Ô 現在のパスワード chuyển sang hiện text rõ, icon chuyển thành con mắt mở<br>2. Hai ô còn lại VẪN GIỮ NGUYÊN trạng thái ẩn ●●● | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-57]` | [7] Icon 👁 | Check bật tắt hiển thị mật khẩu độc lập | 1. Click icon mắt ở ô 新しいパスワード |  | 1. Chỉ ô 新しいパスワード chuyển sang hiện text rõ<br>2. Hai ô còn lại giữ nguyên trạng thái | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-58]` | [7] Icon 👁 | Check bật tắt hiển thị mật khẩu độc lập | 1. Click icon mắt ở ô 新しいパスワード確認 |  | 1. Chỉ ô 新しいパスワード確認 chuyển sang hiện text rõ<br>2. Hai ô còn lại giữ nguyên trạng thái | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-59]` | [8] Button キャンセル | Check hiển thị button | 1. Quan sát button キャンセル ở góc dưới bên trái modal |  | 1. Button ở trạng thái Secondary/Outline, text 「キャンセル」<br>2. Con trỏ chuột dạng pointer khi hover | **Medium** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-60]` | [8] Button キャンセル | Check click hủy và đóng modal | 1. Nhập dữ liệu vào các ô<br>2. Click button キャンセル |  | 1. Modal đóng lại ngay lập tức<br>2. Không gửi API, giữ nguyên trang hiện tại, xóa sạch dữ liệu đã nhập | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-61]` | [9] Button 変更する | Check hiển thị button | 1. Quan sát button 変更する ở góc dưới bên phải modal |  | 1. Button ở trạng thái Primary, text 「変更する」<br>2. Con trỏ chuột dạng pointer khi hover | **High** | Manual-Only (Visual UI inspection & styling) | Not Run | - | Open | - | - |
+| `[AA003-62]` | [9] Button 変更する | Check báo lỗi đồng thời cả 3 ô khi để trống | 1. Để trống cả 3 ô input<br>2. Click button 変更する |  | 1. Viền đỏ đồng thời cả 3 ô<br>2. Dưới cả 3 ô cùng hiển thị lỗi CMMSG29<br>3. Không gửi API lên server | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-63]` | [9] Button 変更する | Check kích hoạt bằng phím Enter | 1. Nhập đầy đủ thông tin hợp lệ ở 3 ô<br>2. Đang focus tại bất kỳ ô nào, nhấn phím Enter |  | 1. Kích hoạt submit tương đương thao tác click button 変更する | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-64]` | [9] Button 変更する | Check chống double click (CMR15) | 1. Nhập thông tin hợp lệ ở 3 ô<br>2. Click liên tục nhiều lần thật nhanh vào button 変更する |  | 1. Button lập tức bị vô hiệu hóa (disabled) + đổi text thành 「変更中…」<br>2. Chỉ gửi duy nhất 1 request API lên server | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-65]` | [9] Button 変更する | Check đổi mật khẩu thành công | 1. Nhập đúng mật khẩu hiện tại<br>2. Nhập mật khẩu mới hợp lệ và xác nhận trùng khớp<br>3. Click button 変更する |  | 1. Đóng modal<br>2. Hiển thị Toast notification MSG33: 「パスワードが正常に変更されました。」<br>3. Ở lại màn hình đang mở | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-66]` | [9] Button 変更する | Check duy trì phiên đăng nhập hiện tại | 1. Đổi mật khẩu thành công tại modal<br>2. Tiếp tục click các menu và thao tác trên giao diện |  | 1. Phiên đăng nhập hiện tại VẪN ĐƯỢC GIỮ NGUYÊN (không bị logout)<br>2. Thao tác và gọi API bình thường | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-67]` | [9] Button 変更する | Check thu hồi token mọi phiên khác (CMR43) | 1. Đăng nhập cùng tài khoản Admin trên Trình duyệt A và Trình duyệt B<br>2. Tại Trình duyệt A: Đổi mật khẩu thành công<br>3. Tại Trình duyệt B: Thực hiện bất kỳ thao tác click menu hoặc gọi API | Tài khoản đăng nhập trên 2 trình duyệt | 1. Lần gọi API tiếp theo tại Trình duyệt B nhận HTTP 401 do token đã bị BE thu hồi<br>2. Hệ thống tự động chuyển hướng Trình duyệt B về màn login AA000 | **High** | Auto-API | Not Run | - | Open | - | - |
+| `[AA003-68]` | [9] Button 変更する | Check đăng nhập bằng mật khẩu mới sau khi đổi | 1. Đổi mật khẩu thành công<br>2. Đăng xuất tài khoản<br>3. Thử đăng nhập lại bằng mật khẩu cũ<br>4. Đăng nhập lại bằng mật khẩu mới vừa đổi |  | 1. Bước 3: Đăng nhập mật khẩu cũ bị từ chối, báo MSG10<br>2. Bước 4: Đăng nhập mật khẩu mới thành công | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-69]` | [9] Button 変更する | Check role tự đổi mật khẩu | 1. Đăng nhập tài khoản role 管理者<br>2. Thực hiện đổi mật khẩu tại modal | User role 管理者 | 1. Hệ thống cho phép đổi mật khẩu thành công<br>2. Hiển thị Toast thông báo MSG33: パスワードが正常に変更されました。 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-70]` | [9] Button 変更する | Check role tự đổi mật khẩu | 1. Đăng nhập tài khoản role 監視員<br>2. Thực hiện đổi mật khẩu tại modal | User role 監視員 | 1. Hệ thống cho phép đổi mật khẩu thành công<br>2. Hiển thị Toast thông báo MSG33: パスワードが正常に変更されました。 | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-71]` | [9] Button 変更する | Check thời hạn 30 ngày tính lại từ ngày đổi (CMR68) | 1. Thực hiện đổi mật khẩu thành công<br>2. Kiểm tra trường password_updated_at trong DB |  | 1. Cập nhật thời điểm đặt mật khẩu là thời điểm hiện tại<br>2. Thời hạn 30 ngày bắt đầu tính lại từ thời điểm này | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-72]` | [9] Button 変更する | Check lỗi mạng hoặc server 500 | 1. Ngắt kết nối mạng<br>2. Click button 変更する |  | 1. Hiển thị Toast thông báo lỗi CMMSG1: 予期しないサーバーエラーが発生しました。<br>2. Ở nguyên modal パスワード変更<br>3. Giữ nguyên toàn bộ dữ liệu đang nhập | **High** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-73]` | [9] Button 変更する | Check phiên đăng nhập hết hạn khi đang mở modal | 1. Click button 変更する khi session đã hết hạn | Phiên đăng nhập đã hết hạn | 1. Hệ thống tự động chuyển hướng về màn login AA000 | **Medium** | Auto-UI | Not Run | - | Open | - | - |
+| `[AA003-74]` | [9] Button 変更する | Check đổi mật khẩu đồng thời ở 2 tab | 1. Tại Tab 1: Thực hiện đổi mật khẩu thành công<br>2. Tại Tab 2: Click button 変更する với mật khẩu hiện tại cũ | Mở 2 tab trên cùng 1 trình duyệt | 1. Không cho phép đổi mật khẩu tại Tab 2<br>2. Hiển thị thông báo lỗi MSG24 dưới ô 現在のパスワード | **Medium** | Auto-UI | Not Run | - | Open | - | - |
 
-| Mã TC | Nhóm chức năng | Tên Test Case | Kết quả Round 1 | Ghi chú kỹ thuật |
-| :---: | :--- | :--- | :---: | :--- |
-| `[AA003-1]` | `[0] Truy cập màn hình` | Check mở modal từ khu tài khoản cuối side menu | **Pass** | Modal hiển thị giữa màn hình có backdrop |
-| `[AA003-2]` | `[0] Truy cập màn hình` | Check trạng thái khởi tạo modal | **Pass** | 3 ô trống, ẩn mật khẩu, focus ô 1 |
-| `[AA003-3]` | `[0] Truy cập màn hình` | Check đóng modal bằng nút [X] | **Pass** | Đóng ngay, không hỏi confirm |
-| `[AA003-4]` | `[0] Truy cập màn hình` | Check đóng modal bằng nút キャンセル | **Pass** | Đóng ngay, xóa sạch nội dung đã nhập |
-| `[AA003-5]` | `[0] Truy cập màn hình` | Check đóng modal bằng phím Esc | **Pass** | Đóng ngay khi nhấn phím Esc |
-| `[AA003-6]` | `[0] Truy cập màn hình` | Check đóng modal khi click Backdrop | **Pass** | Modal đóng lập tức khi click backdrop |
-| `[AA003-7]` | `[0] Truy cập màn hình` | Check mở lại modal sau khi vừa đóng | **Pass** | Cả 3 ô rỗng, xóa sạch lỗi cũ |
-| `[AA003-8]` | `[1] Khu tài khoản` | Check hiển thị nút tài khoản ở side menu | **Fail** | `BUG-AA003-1`: Thiếu icon tam giác ▲ ở mép phải |
-| `[AA003-9]` | `[1] Khu tài khoản` | Check vị trí cố định khi cuộn side menu | **Pass** | Cố định ở đáy side menu |
-| `[AA003-10]` | `[1] Khu tài khoản` | Check xử lý văn bản quá dài | **Pass** | Class truncate rút gọn bằng dấu 3 chấm … |
-| `[AA003-11]` | `[1] Khu tài khoản` | Check hover chuột | **Pass** | Con trỏ pointer, hover đổi màu nhẹ |
-| `[AA003-12]` | `[1] Khu tài khoản` | Check click mở / đóng menu tài khoản | **Pass** | Mở popup menu phía trên |
-| `[AA003-13]` | `[1] Khu tài khoản` | Check đóng menu khi click ngoài hoặc Esc | **Pass** | Menu đóng khi nhấn Esc |
-| `[AA003-14]` | `[2] Menu tài khoản` | Check hiển thị header menu role マスター | **Fail** | `BUG-AA003-2`: Thiếu Tag role 「マスター」 |
-| `[AA003-15]` | `[2] Menu tài khoản` | Check hiển thị tag role 管理者 | **Fail** | `BUG-AA003-2`: Thiếu container render tag role |
-| `[AA003-16]` | `[2] Menu tài khoản` | Check hiển thị tag role 監視員 | **Fail** | `BUG-AA003-2`: Thiếu container render tag role |
-| `[AA003-17]` | `[2.1] Nút パスワード変更` | Check hiển thị | **Pass** | Icon chìa khóa kèm text 「パスワード変更」 |
-| `[AA003-18]` | `[2.1] Nút パスワード変更` | Check click mở modal | **Pass** | Menu đóng, modal mở ra |
-| `[AA003-19]` | `[2.2] Nút ログアウト` | Check hiển thị | **Pass** | Text đỏ cảnh báo |
-| `[AA003-20]` | `[2.2] Nút ログアウト` | Check click đăng xuất | **Pass** | Đăng xuất chuyển về AA000 |
-| `[AA003-21]` | `[3] Modal パスワード変更` | Check hiển thị tiêu đề và ghi chú 30 ngày | **Pass** | Hiển thị đủ tiêu đề và ghi chú CMR68 |
-| `[AA003-22]` | `[4] Textbox 現在のパスワード` | Check hiển thị label và placeholder | **Pass** | Placeholder: 「現在のパスワードを入力」 |
-| `[AA003-23]` | `[4] Textbox 現在のパスワード` | Check ẩn ký tự khi nhập | **Pass** | Dạng ●●● |
-| `[AA003-24]` | `[4] Textbox 現在のパスワード` | Check khi để trống ô nhập | **Pass** | Báo lỗi CMMSG29 dưới ô + viền đỏ |
-| `[AA003-25]` | `[4] Textbox 現在のパスワード` | Check tự động xóa lỗi khi gõ lại | **Pass** | Lỗi biến mất ngay khi gõ ký tự |
-| `[AA003-26]` | `[4] Textbox 現在のパスワード` | Check chặn copy cut khi ẩn | **Pass** | Chặn copy/cut an toàn |
-| `[AA003-27]` | `[4] Textbox 現在のパスワード` | Check nhập sai mật khẩu hiện tại (BE) | **Pass** | BE trả lỗi MSG24: パスワードが間違っています。 |
-| `[AA003-28]` | `[4] Textbox 現在のパスワード` | Check ký tự đặc biệt & SQL injection | **Pass** | Xử lý an toàn, báo MSG24 không crash |
-| `[AA003-29]` | `[5] Textbox 新しいパスワード` | Check hiển thị label và placeholder | **Pass** | Placeholder: 「新しいパスワードを入力」 |
-| `[AA003-30]` | `[5] Textbox 新しいパスワード` | Check hiển thị dòng hướng dẫn rule tĩnh | **Pass** | Luôn hiển thị tĩnh đủ 3 dòng rule CMR43 |
-| `[AA003-31]` | `[5] Textbox 新しいパスワード` | Check ẩn ký tự khi nhập | **Pass** | Dạng ●●● |
-| `[AA003-32]` | `[5] Textbox 新しいパスワード` | Check khi để trống ô nhập | **Pass** | Báo CMMSG29: 新しいパスワードは空欄にできません。 |
-| `[AA003-33]` | `[5] Textbox 新しいパスワード` | Check rule: 7 ký tự đủ 4 nhóm | **Pass** | Báo lỗi MSG13 dưới ô |
-| `[AA003-34]` | `[5] Textbox 新しいパスワード` | Check rule: 8 ký tự thiếu hoa | **Pass** | Báo lỗi MSG13 |
-| `[AA003-35]` | `[5] Textbox 新しいパスワード` | Check rule: 8 ký tự thiếu thường | **Pass** | Báo lỗi MSG13 |
-| `[AA003-36]` | `[5] Textbox 新しいパスワード` | Check rule: 8 ký tự thiếu số | **Pass** | Báo lỗi MSG13 |
-| `[AA003-37]` | `[5] Textbox 新しいパスワード` | Check rule: 8 ký tự thiếu ký hiệu | **Pass** | Báo lỗi MSG13 |
-| `[AA003-38]` | `[5] Textbox 新しいパスワード` | Check rule: 8 ký tự đủ 4 nhóm | **Pass** | Hợp lệ, không báo MSG13 |
-| `[AA003-39]` | `[5] Textbox 新しいパスワード` | Check các loại ký hiệu theo CMR43 | **Pass** | Chấp nhận đầy đủ tập ký hiệu quy chuẩn |
-| `[AA003-40]` | `[5] Textbox 新しいパスワード` | Check tự động xóa lỗi MSG13 | **Pass** | Tự động xóa lỗi khi gõ đạt chuẩn |
-| `[AA003-41]` | `[5] Textbox 新しいパスワード` | Check trùng mật khẩu hiện tại (PW-H0) | **Pass** | BE trả HTTP 400 MSG261 dưới ô |
-| `[AA003-42]` | `[5] Textbox 新しいパスワード` | Check trùng mật khẩu lần đổi -1 | **Pass** | BE trả HTTP 400 MSG261 |
-| `[AA003-43]` | `[5] Textbox 新しいパスワード` | Check trùng mật khẩu lần đổi -2 | **Pass** | BE trả HTTP 400 MSG261 |
-| `[AA003-44]` | `[5] Textbox 新しいパスワード` | Check trùng mật khẩu lần đổi -3 | **Pass** | Hợp lệ (ngoài phạm vi 2 lần gần nhất) |
-| `[AA003-45]` | `[5] Textbox 新しいパスワード` | Check sửa mật khẩu sau khi báo MSG261 | **Pass** | Gửi API bình thường sau khi sửa |
-| `[AA003-46]` | `[5] Textbox 新しいパスワード` | Check sliding window lịch sử mật khẩu | **Pass** | Duy trì sliding window 2 mật khẩu gần nhất |
-| `[AA003-47]` | `[5] Textbox 新しいパスワード` | Check lỗi rule từ BE (HTTP 422) | **Pass** | BE validate độc lập, an toàn |
-| `[AA003-48]` | `[6] Textbox 新しいパスワード確認` | Check hiển thị label và placeholder | **Pass** | Placeholder: 「新しいパスワードを再入力」 |
-| `[AA003-49]` | `[6] Textbox 新しいパスワード確認` | Check ẩn ký tự khi nhập | **Pass** | Dạng ●●● |
-| `[AA003-50]` | `[6] Textbox 新しいパスワード確認` | Check khi để trống ô nhập | **Pass** | Báo CMMSG29: 新しいパスワード確認は空欄にできません。 |
-| `[AA003-51]` | `[6] Textbox 新しいパスワード確認` | Check xác nhận: khác nhau | **Pass** | Báo lỗi MSG25 dưới ô xác nhận |
-| `[AA003-52]` | `[6] Textbox 新しいパスワード確認` | Check xác nhận: khác chữ hoa/thường | **Pass** | Báo lỗi MSG25 |
-| `[AA003-53]` | `[6] Textbox 新しいパスワード確認` | Check xác nhận: khớp nhau 100% | **Pass** | Không báo lỗi MSG25 |
-| `[AA003-54]` | `[6] Textbox 新しいパスワード確認` | Check tự động xóa lỗi MSG25 | **Pass** | Xóa lỗi khi gõ sửa khớp |
-| `[AA003-55]` | `[7] Icon 👁` | Check hiển thị icon tại 3 ô | **Pass** | Cả 3 ô đều có icon mắt riêng |
-| `[AA003-56]` | `[7] Icon 👁` | Check bật tắt ẩn/hiện ô 1 | **Pass** | Bật tắt text rõ ô 1 độc lập |
-| `[AA003-57]` | `[7] Icon 👁` | Check bật tắt ẩn/hiện ô 2 | **Pass** | Bật tắt text rõ ô 2 độc lập |
-| `[AA003-58]` | `[7] Icon 👁` | Check bật tắt ẩn/hiện ô 3 | **Pass** | Bật tắt text rõ ô 3 độc lập |
-| `[AA003-59]` | `[8] Button キャンセル` | Check hiển thị button | **Pass** | Hiển thị góc dưới bên trái |
-| `[AA003-60]` | `[8] Button キャンセル` | Check click hủy và đóng modal | **Pass** | Xóa sạch nội dung, đóng an toàn |
-| `[AA003-61]` | `[9] Button 変更する` | Check hiển thị button | **Pass** | Hiển thị góc dưới bên phải Primary |
-| `[AA003-62]` | `[9] Button 変更する` | Check báo lỗi cả 3 ô khi để trống | **Pass** | Viền đỏ cả 3 ô đồng thời, hiện lỗi CMMSG29 |
-| `[AA003-63]` | `[9] Button 変更する` | Check kích hoạt bằng phím Enter | **Pass** | Phím Enter trigger submit form |
-| `[AA003-64]` | `[9] Button 変更する` | Check chống double click (CMR15) | **Pass** | Disable nút + hiển thị 変更中… |
-| `[AA003-65]` | `[9] Button 変更する` | Check đổi mật khẩu thành công | **Pass** | Modal đóng, hiện Toast MSG33 |
-| `[AA003-66]` | `[9] Button 変更する` | Check duy trì phiên hiện tại | **Pass** | Ở lại màn đang mở, giữ đăng nhập |
-| `[AA003-67]` | `[9] Button 変更する` | Check thu hồi token mọi phiên khác (CMR43) | **Pass** | Các phiên khác bị thu hồi session token |
-| `[AA003-68]` | `[9] Button 変更する` | Check đăng nhập lại bằng mật khẩu mới | **Pass** | Đăng nhập thành công bằng pass mới |
-| `[AA003-69]` | `[9] Button 変更する` | Check role 管理者 tự đổi mật khẩu | **Pass** | Role 管理者 đổi mật khẩu của chính mình |
-| `[AA003-70]` | `[9] Button 変更する` | Check role 監視員 tự đổi mật khẩu | **Pass** | Role 監視員 đổi mật khẩu của chính mình |
-| `[AA003-71]` | `[9] Button 変更する` | Check thời hạn 30 ngày tính lại (CMR68) | **Pass** | 30 ngày bắt đầu tính từ lúc đổi |
-| `[AA003-72]` | `[9] Button 変更する` | Check lỗi mạng hoặc server 500 | **Pass** | Báo CMMSG1, giữ nguyên modal |
-| `[AA003-73]` | `[9] Button 変更する` | Check session hết hạn khi mở modal | **Pass** | Chuyển hướng về AA000 |
-| `[AA003-74]` | `[9] Button 変更する` | Check đổi mật khẩu đồng thời 2 tab | **Pass** | Xử lý an toàn theo session token |
+*Được sinh tự động bởi `scripts/testcase_generator.py` - Tích hợp trực tiếp từ thư viện `UI_controls/`.*

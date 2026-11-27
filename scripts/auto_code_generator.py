@@ -33,29 +33,49 @@ TC_UI_DIR = os.path.join(ROOT_DIR, "testcase_ui")
 TC_API_DIR = os.path.join(ROOT_DIR, "testcase_api")
 AUTO_OUTPUT_DIR = os.path.join(ROOT_DIR, "automation")
 
-def extract_auto_cases_from_markdown(tc_file):
-    """Trích xuất danh sách testcases được đánh dấu Auto từ file testcase_ui markdown"""
-    if not os.path.exists(tc_file):
-        return []
-        
+def extract_auto_cases_from_markdown(tc_ui_file, tc_api_file=None):
+    """Trích xuất danh sách testcases được đánh dấu Auto từ cả 2 file testcase_ui và testcase_api markdown"""
     auto_cases = []
-    with open(tc_file, "r", encoding="utf-8") as f:
-        lines = f.readlines()
-        
-    for line in lines:
-        if line.strip().startswith("|") and "`[" in line:
-            parts = [p.strip() for p in line.split("|")]
-            # Table format: | ID | Title | Big item | Steps | Pre | Expected | Priority | Feasibility | ...
-            if len(parts) >= 9:
-                tc_id = parts[1].replace("`", "").strip()
-                title = parts[2].strip()
-                feasibility = parts[8].replace("`", "").strip()
-                if feasibility.startswith("Auto-"):
+    
+    # 1. Bóc tách từ UI Testcase
+    if os.path.exists(tc_ui_file):
+        with open(tc_ui_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+            
+        for line in lines:
+            if line.strip().startswith("|") and "`[" in line:
+                parts = [p.strip() for p in line.split("|")]
+                # Table format: | ID | Title | Big item | Steps | Pre | Expected | Priority | Feasibility | ...
+                if len(parts) >= 9:
+                    tc_id = parts[1].replace("`", "").strip()
+                    title = parts[2].strip()
+                    feasibility = parts[8].replace("`", "").strip()
+                    if feasibility.startswith("Auto-"):
+                        auto_cases.append({
+                            "id": tc_id,
+                            "title": title,
+                            "type": feasibility
+                        })
+
+    # 2. Bóc tách từ API Testcase (Rule 03 - 100% ca API được tự động hóa)
+    if tc_api_file and os.path.exists(tc_api_file):
+        with open(tc_api_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+        for line in lines:
+            if line.strip().startswith("|") and "`[" in line:
+                parts = [p.strip() for p in line.split("|")]
+                # API Table format: | ID | VP ID | API Name | Group | Scenario | Pre | Request | Expected Status | ...
+                if len(parts) >= 6:
+                    tc_id = parts[1].replace("`", "").strip()
+                    api_name = parts[3].replace("`", "").strip() if len(parts) > 3 else ""
+                    scenario = parts[5].strip() if len(parts) > 5 else ""
+                    title = f"{api_name} - {scenario}" if api_name else scenario
                     auto_cases.append({
                         "id": tc_id,
                         "title": title,
-                        "type": feasibility
+                        "type": "Auto-API"
                     })
+
     return auto_cases
 
 def generate_pom_page(screen_code):
@@ -156,25 +176,53 @@ test.describe('Automation Suite for Screen {code} (Coverage Guaranteed >= 80%)',
 """
 
 def run_auto_generation(target):
-    code = target.strip().upper()
-    tc_ui_path = os.path.join(TC_UI_DIR, f"{code}_testcase.md")
+    code = target.strip()
     
-    if not os.path.exists(tc_ui_path):
-        print(f"⚠️ Chưa có file kịch bản UI: {tc_ui_path}")
-        print("💡 Tự động chạy `scripts/testcase_generator.py` để sinh kịch bản trước...")
-        from testcase_generator import run_generator
-        run_generator(code, "all")
-        
-    auto_cases = extract_auto_cases_from_markdown(tc_ui_path)
+    # Quét linh hoạt tên file testcase UI
+    tc_ui_candidates = [
+        os.path.join(TC_UI_DIR, f"{code}_testcase.md"),
+        os.path.join(TC_UI_DIR, f"{code.upper()}_testcase.md"),
+        os.path.join(TC_UI_DIR, f"{code.lower()}_testcase.md"),
+        os.path.join(TC_UI_DIR, f"{code.replace(' ', '_')}_testcase.md"),
+        os.path.join(TC_UI_DIR, f"{code.replace('_', ' ')}_testcase.md")
+    ]
+    tc_ui_path = None
+    for c in tc_ui_candidates:
+        if os.path.exists(c):
+            tc_ui_path = c
+            break
+
+    # Quét linh hoạt tên file testcase API
+    tc_api_candidates = [
+        os.path.join(TC_API_DIR, f"{code}_api.md"),
+        os.path.join(TC_API_DIR, f"{code.upper()}_api.md"),
+        os.path.join(TC_API_DIR, f"{code.lower()}_api.md"),
+        os.path.join(TC_API_DIR, f"{code.replace(' ', '_')}_api.md"),
+        os.path.join(TC_API_DIR, f"{code.replace('_', ' ')}_api.md")
+    ]
+    tc_api_path = None
+    for c in tc_api_candidates:
+        if os.path.exists(c):
+            tc_api_path = c
+            break
+
+    if not tc_ui_path:
+        print(f"❌ [Hard Gate]: Không tìm thấy file kịch bản UI cho '{code}' trong testcase_ui/")
+        print("🛑 Tuyệt đối KHÔNG tự ý sinh dữ liệu tạm hoặc ghi đè lên Google Sheet!")
+        print("💡 Hãy chạy lệnh: `python3 scripts/testcase_generator.py [MÃ] --type ui` trước.")
+        return False
+
+    auto_cases = extract_auto_cases_from_markdown(tc_ui_path, tc_api_path)
     if not auto_cases:
         print(f"❌ Không tìm thấy testcase Auto nào trong file: {tc_ui_path}")
         return False
 
+    code_clean = os.path.basename(tc_ui_path).replace("_testcase.md", "")
     total_auto = len(auto_cases)
-    print(f"🔎 Đã bóc tách được {total_auto} ca Auto từ kịch bản `{code}`.")
+    print(f"🔎 Đã bóc tách được {total_auto} ca Auto từ kịch bản UI & API của `{code_clean}`.")
 
     # Target folders
-    screen_auto_dir = os.path.join(AUTO_OUTPUT_DIR, code)
+    screen_auto_dir = os.path.join(AUTO_OUTPUT_DIR, code_clean)
     pages_dir = os.path.join(screen_auto_dir, "pages")
     data_dir = os.path.join(screen_auto_dir, "data")
     tests_dir = os.path.join(screen_auto_dir, "tests")
